@@ -1,5 +1,5 @@
-import { API_URL, SSR, BASE_DIR } from "./config";
-import { trimEndBase as trimEnd } from "./utils/trim-end-base";
+import { API_URL, SSR, BASE_DIR, ENDPOINT_GRAPHQL } from "./config";
+import { trimEndBase } from "./utils/trim-end-base";
 
 type TMeta = Record<string, string>[];
 
@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     ...(BASE_DIR
       ? {
           baseURL: BASE_DIR,
-          buildAssetsDir: `${trimEnd(BASE_DIR, "/")}/_nuxt/`,
+          buildAssetsDir: `${trimEndBase(BASE_DIR, "/")}/_nuxt/`,
         }
       : {}),
 
@@ -80,7 +80,19 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     // https://vueuse.org/
     "@vueuse/nuxt",
+    // https://apollo.nuxtjs.org/getting-started/quick-start
+    "@nuxtjs/apollo",
   ],
+
+  build: {
+    // transpile: ["vuetify"],
+    // rollupOptions: {
+    //   external: [
+    //     /^@vue\/apollo-composable/,
+    //     // /^node:.*/,
+    //   ],
+    // },
+  },
 
   imports: {
     // @unimport
@@ -194,10 +206,10 @@ export default defineNuxtConfig({
       //   from: "lodash/takeRight",
       //   imports: [{ name: "default", as: "takeRight" }],
       // },
-      // {
-      //   from: "lodash/startCase",
-      //   imports: [{ name: "default", as: "startCase" }],
-      // },
+      {
+        from: "lodash/startCase",
+        imports: [{ name: "default", as: "startCase" }],
+      },
       // {
       //   from: "lodash/camelCase",
       //   imports: [{ name: "default", as: "camelCase" }],
@@ -218,10 +230,10 @@ export default defineNuxtConfig({
         from: "lodash/some",
         imports: [{ name: "default", as: "some" }],
       },
-      // {
-      //   from: "lodash/trimEnd",
-      //   imports: [{ name: "default", as: "trimEnd" }],
-      // },
+      {
+        from: "lodash/trimEnd",
+        imports: [{ name: "default", as: "trimEnd" }],
+      },
       {
         from: "lodash/noop",
         imports: [{ name: "default", as: "noop" }],
@@ -271,5 +283,24 @@ export default defineNuxtConfig({
     // config: {},
     // injectPosition: 0,
     viewer: false,
+  },
+  // https://apollo.nuxtjs.org/getting-started/configuration#configuration
+  // https://apollo.nuxtjs.org/getting-started/configuration#clients
+  apollo: {
+    autoImports: true,
+    authType: "Bearer",
+    authHeader: "Authorization",
+    tokenStorage: "cookie",
+    proxyCookies: true,
+    clients: {
+      default: {
+        httpEndpoint: ENDPOINT_GRAPHQL,
+        httpLinkOptions: {
+          // Enable sending cookies over cross-origin requests
+          credentials: "include",
+        },
+        tokenName: "@apollo/token:HoARGKAyE7VRBupLHJ",
+      },
+    },
   },
 });

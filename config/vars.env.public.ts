@@ -9,8 +9,9 @@ export const DEBUG$ = !PRODUCTION$ && LOGGING_;
 
 export const URL_APP_PUBLIC = PRODUCTION$
   ? // ? "https://frikom.nikolav.rs/"
-    "http://45.76.95.110/"
-  : // ? "https://qdeiymppite.web.app/"
+    "https://qdeiymppite.web.app/"
+  : // "http://45.76.95.110/"
+    // ? "https://qdeiymppite.web.app/"
     "http://localhost:3000/";
 
 export const URL_PASSWORD_RESET_FORM_LINK = `${trimEnd(

@@ -143,7 +143,7 @@ export default defineAppConfig({
       KEY_USEFETCH_AUTHDATA: "oDgSc6Xp4kU",
       authDataFields: ["id", "email"],
       initial: () => "",
-       UV11RUBQ1zgauthHeaders: (token: string, additional?: Record<string, any>) => ({
+      authHeaders: (token: string, additional?: Record<string, any>) => ({
         ...(token
           ? {
               Authorization: `Bearer ${token}`,

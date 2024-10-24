@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // ##imports
 import { Dump } from "@/components/dev";
+
 // ##config ##const
 definePageMeta({
   layout: "app-default",
@@ -10,7 +11,9 @@ definePageMeta({
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
+const auth = useStoreApiAuth();
 const { data } = useFirebaseCloudFirestoreCollection("demo");
+const { status: statusApollo } = useQueryApolloStatus();
 // ##computed
 // ##forms ##helpers ##handlers
 // ##watch
@@ -22,6 +25,18 @@ useHead({ title: "--index" });
 </script>
 <template>
   <section class="page--index">
+    <button
+      class="p-2 bg-stone-200 rounded shadow-md border border-stone-300"
+      @click="auth.login({ email: 'admin@nikolav.rs', password: '122' })"
+    >
+      login
+    </button>
+    <button
+      class="p-2 bg-stone-200 rounded shadow-md border border-stone-300"
+      @click="auth.logout"
+    >
+      logout
+    </button>
     <h1>@index</h1>
     <p class="text-blue-400">
       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet omnis
@@ -36,7 +51,7 @@ useHead({ title: "--index" });
       veritatis.
     </p>
   </section>
-  <Dump :data="{ data }" />
+  <Dump :data="{ statusApollo, data }" />
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

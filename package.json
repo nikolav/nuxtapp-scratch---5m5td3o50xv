@@ -15,6 +15,7 @@
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.5",
+    "@vue/apollo-composable": "^4.2.1",
     "@vueuse/components": "^11.1.0",
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
@@ -32,6 +33,7 @@
     "nuxt": "^3.13.2",
     "pinia": "^2.2.4",
     "print-js": "^1.6.0",
+    "socket.io-client": "^4.8.0",
     "ufo": "^1.5.4",
     "uuid": "^10.0.0",
     "validator": "^13.12.0",
@@ -42,6 +44,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@nuxtjs/apollo": "^5.0.0-alpha.14",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@types/axios": "^0.14.4",
     "@types/chartjs": "^0.0.31",
@@ -54,6 +57,7 @@
     "@types/md5": "^2.3.5",
     "@types/mime-types": "^2.1.4",
     "@types/minimist": "^1.2.5",
+    "@types/socket.io-client": "^3.0.0",
     "@types/uuid": "^10.0.0",
     "@types/validator": "^13.12.2",
     "@vueuse/core": "^11.1.0",
