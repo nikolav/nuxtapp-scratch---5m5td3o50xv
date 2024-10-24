@@ -1,4 +1,5 @@
-import { API_URL, SSR } from "./config";
+import { API_URL, SSR, BASE_DIR } from "./config";
+import { trimEndBase as trimEnd } from "./utils/trim-end-base";
 
 type TMeta = Record<string, string>[];
 
@@ -22,8 +23,13 @@ export default defineNuxtConfig({
   ssr: SSR,
 
   app: {
-    // baseURL: BASE_DIR,
-    // buildAssetsDir: `${trimEnd(BASE_DIR, "/")}/_nuxt/`,
+    ...(BASE_DIR
+      ? {
+          baseURL: BASE_DIR,
+          buildAssetsDir: `${trimEnd(BASE_DIR, "/")}/_nuxt/`,
+        }
+      : {}),
+
     //
     head: {
       charset: "utf-8",
