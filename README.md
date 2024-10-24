@@ -1,75 +1,32 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+    "@fancyapps/ui": "^5.0.36",
+    "@formkit/auto-animate": "^0.8.2",
+    "@mdi/font": "^7.4.47",
+    "@nuxt/content": "^2.13.4",
+    "@nuxt/image": "^1.7.0",
+    "@pinia/nuxt": "^0.5.5",
+    "@vue/apollo-composable": "^4.2.1",
+    "animate.css": "^4.1.1",
+    "axios": "^1.7.2",
+    "chart.js": "^4.4.3",
+    "chroma-js": "^2.4.2",
+    "dayjs": "^1.11.11",
+    "eventemitter3": "^5.0.1",
+    "file-saver": "^2.0.5",
+    "firebase": "^10.12.4",
+    "form-data": "^4.0.0",
+    "graphql-tag": "^2.12.6",
+    "md5": "^2.3.0",
+    "mime-types": "^2.1.35",
+    "minimist": "^1.2.8",
+    "print-js": "^1.6.0",
+    "socket.io-client": "^4.7.5",
+    "ufo": "^1.5.4",
+    "uuid": "^10.0.0",
+    "validator": "^13.12.0",
+    "vue-chartjs": "^5.3.1",
+    "vue-router": "^4.3.2",
+    "vue-social-sharing": "^4.0.0-alpha4",
+    "vue-spinner": "^1.0.4",
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue3-popper": "^1.5.0",
+    "vuefire": "^3.1.24",

@@ -8,7 +8,8 @@ export const THEME_ACCENT_SHIFT = 44;
 export const DEBUG$ = !PRODUCTION$ && LOGGING_;
 
 export const URL_APP_PUBLIC = PRODUCTION$
-  ? "https://frikom.nikolav.rs/"
+  ? // ? "https://frikom.nikolav.rs/"
+    "http://45.76.95.110/"
   : // ? "https://qdeiymppite.web.app/"
     "http://localhost:3000/";
 

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 // ##imports
+import { schemaHasTitleNonempty } from "@/schemas";
 // ##config ##const
 definePageMeta({
   layout: "app-default",
 });
 // ##utils
+const { x, y } = useMouse();
 const foo = useStoreFoo();
 const t = useUtilsTree();
 t.value.append(t.value.node({ value: "@n:1" }));
@@ -25,6 +27,8 @@ const ok = () => {
   counter.value += 1;
   foo.dump();
   console.log(t.value.lsa());
+  console.log({ "has:title": schemaHasTitleNonempty.parse({ title: "foo" }) });
+  console.log(`mouse ${x.value} ${y.value}`);
 };
 // @@eos
 </script>
