@@ -4,7 +4,6 @@
     "@nuxt/content": "^2.13.4",
     "@nuxt/image": "^1.7.0",
     "@vue/apollo-composable": "^4.2.1",
-    "firebase": "^10.12.4",
     "graphql-tag": "^2.12.6",
     "socket.io-client": "^4.7.5",
     --"vue-router": "^4.3.2",
@@ -12,7 +11,3 @@
     "vue-spinner": "^1.0.4",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-popper": "^1.5.0",
-    "vuefire": "^3.1.24",
-
-
-    "firebase": "^11.0.1",
