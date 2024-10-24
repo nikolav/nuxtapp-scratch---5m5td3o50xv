@@ -11,8 +11,9 @@ export const URL_APP_PUBLIC = PRODUCTION$
   ? // ? "https://frikom.nikolav.rs/"
     // "https://qdeiymppite.web.app/"
     // "https://nikolav.rs/"
-    "http://45.76.95.110/"
+    "http://dnofiq4anfaqwrzctj.xyz/"
   : // "http://45.76.95.110/"
+    // "http://45.76.95.110/"
     // ? "https://qdeiymppite.web.app/"
     "http://localhost:3000/";
 

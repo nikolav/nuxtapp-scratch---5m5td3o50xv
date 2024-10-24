@@ -11,11 +11,11 @@ const meta: TMeta = [
 // @@https --force
 // <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 //
-// if (API_URL.startsWith("https"))
-//   meta.push({
-//     "http-equiv": "Content-Security-Policy",
-//     content: "upgrade-insecure-requests",
-//   });
+if (API_URL.startsWith("https"))
+  meta.push({
+    "http-equiv": "Content-Security-Policy",
+    content: "upgrade-insecure-requests",
+  });
 //
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
