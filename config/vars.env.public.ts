@@ -1,4 +1,4 @@
-import { trimEndBase as trimEnd } from "../utils/trim-end-base";
+import { trimEndBase } from "../utils/trim-end-base";
 import { PRODUCTION$ } from "./vars.env";
 
 const LOGGING_: boolean = true;
@@ -9,17 +9,19 @@ export const DEBUG$ = !PRODUCTION$ && LOGGING_;
 
 export const URL_APP_PUBLIC = PRODUCTION$
   ? // ? "https://frikom.nikolav.rs/"
-    "https://qdeiymppite.web.app/"
+    // "https://qdeiymppite.web.app/"
+    // "https://nikolav.rs/"
+    "http://45.76.95.110/"
   : // "http://45.76.95.110/"
     // ? "https://qdeiymppite.web.app/"
     "http://localhost:3000/";
 
-export const URL_PASSWORD_RESET_FORM_LINK = `${trimEnd(
+export const URL_PASSWORD_RESET_FORM_LINK = `${trimEndBase(
   URL_APP_PUBLIC,
   "/"
 )}/auth-password-reset-form`;
 
-export const URL_VERIFY_EMAIL = `${trimEnd(
+export const URL_VERIFY_EMAIL = `${trimEndBase(
   URL_APP_PUBLIC,
   "/"
 )}/auth-verify-email`;
