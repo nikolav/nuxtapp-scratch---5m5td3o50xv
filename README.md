@@ -13,3 +13,6 @@
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-popper": "^1.5.0",
     "vuefire": "^3.1.24",
+
+
+    "firebase": "^11.0.1",

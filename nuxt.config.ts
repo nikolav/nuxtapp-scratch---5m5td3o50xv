@@ -106,14 +106,14 @@ export default defineNuxtConfig({
       //   from: "lodash/range",
       //   imports: [{ name: "default", as: "range" }],
       // },
-      // {
-      //   from: "lodash/pullAll",
-      //   imports: [{ name: "default", as: "pullAll" }],
-      // },
-      // {
-      //   from: "lodash/size",
-      //   imports: [{ name: "default", as: "len" }],
-      // },
+      {
+        from: "lodash/pullAll",
+        imports: [{ name: "default", as: "pullAll" }],
+      },
+      {
+        from: "lodash/size",
+        imports: [{ name: "default", as: "len" }],
+      },
       // {
       //   from: "lodash/differenceBy",
       //   imports: [{ name: "default", as: "differenceBy" }],
@@ -210,14 +210,22 @@ export default defineNuxtConfig({
       //   from: "lodash/snakeCase",
       //   imports: [{ name: "default", as: "snakeCase" }],
       // },
-      // {
-      //   from: "lodash/assign",
-      //   imports: [{ name: "default", as: "assign" }],
-      // },
+      {
+        from: "lodash/assign",
+        imports: [{ name: "default", as: "assign" }],
+      },
+      {
+        from: "lodash/some",
+        imports: [{ name: "default", as: "some" }],
+      },
       // {
       //   from: "lodash/trimEnd",
       //   imports: [{ name: "default", as: "trimEnd" }],
       // },
+      {
+        from: "lodash/noop",
+        imports: [{ name: "default", as: "noop" }],
+      },
       // // export { isEmail, isMobilePhone, isURL } from "validator";
       {
         from: "validator/lib/isEmail",
