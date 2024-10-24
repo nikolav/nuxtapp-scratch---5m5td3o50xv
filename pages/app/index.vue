@@ -5,6 +5,9 @@ definePageMeta({
   layout: "app-default",
 });
 // ##utils
+const foo = useStoreFoo();
+const t = useUtilsTree();
+t.value.append(t.value.node({ value: "@n:1" }));
 // ##icons
 // ##refs ##flags
 const counter = ref(0);
@@ -18,13 +21,18 @@ useHead({ title: "--about" });
 watchEffect(() => {
   console.log(get({ counter: counter.value }, "counter"));
 });
+const ok = () => {
+  counter.value += 1;
+  foo.dump();
+  console.log(t.value.lsa());
+};
 // @@eos
 </script>
 <template>
   <section class="page--about">
     <h1>@app</h1>
     <pre>Counter is: [{{ counter }}]</pre>
-    <button @click="counter++">ok</button>
+    <button @click="ok">ok</button>
   </section>
 </template>
 <style lang="scss" scoped></style>

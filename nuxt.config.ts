@@ -61,7 +61,12 @@ export default defineNuxtConfig({
     "~/assets/styles/main.scss",
   ],
 
-  modules: ["@nuxtjs/google-fonts", "@nuxtjs/tailwindcss"],
+  modules: [
+    "@nuxtjs/google-fonts",
+    "@nuxtjs/tailwindcss",
+    // https://pinia.vuejs.org/
+    "@pinia/nuxt",
+  ],
 
   imports: {
     // @unimport

@@ -12,8 +12,11 @@
   },
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia/nuxt": "^0.5.5",
     "lodash": "^4.17.21",
+    "nikolav-treets": "^1.2.43",
     "nuxt": "^3.13.2",
+    "pinia": "^2.2.4",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -21,5 +24,8 @@
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@types/lodash": "^4.17.12",
     "sass": "^1.80.4"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
