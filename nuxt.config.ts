@@ -68,6 +68,9 @@ export default defineNuxtConfig({
   css: [
     // global, main
     "~/assets/styles/main.scss",
+
+    // https://animate.style/
+    "animate.css",
   ],
 
   modules: [
@@ -216,10 +219,10 @@ export default defineNuxtConfig({
       //   imports: [{ name: "default", as: "trimEnd" }],
       // },
       // // export { isEmail, isMobilePhone, isURL } from "validator";
-      // {
-      //   from: "validator/lib/isEmail",
-      //   imports: [{ name: "default", as: "isEmail" }],
-      // },
+      {
+        from: "validator/lib/isEmail",
+        imports: [{ name: "default", as: "isEmail" }],
+      },
       // {
       //   from: "validator/lib/isMobilePhone",
       //   imports: [{ name: "default", as: "isMobilePhone" }],
@@ -228,10 +231,10 @@ export default defineNuxtConfig({
       //   from: "validator/lib/isURL",
       //   imports: [{ name: "default", as: "isURL" }],
       // },
-      // {
-      //   from: "nikolav-treets",
-      //   imports: [{ name: "tree", as: "tree" }],
-      // },
+      {
+        from: "uuid",
+        imports: [{ name: "v4", as: "uuid" }],
+      },
     ],
   },
 
