@@ -4,7 +4,7 @@ import { PRODUCTION$ } from "./vars.env";
 export const URL_APP_PUBLIC = PRODUCTION$
   ? // ? "https://frikom.nikolav.rs/"
     // "https://qdeiymppite.web.app/"
-    "http://209.250.236.241/"
+    "http://140.82.39.170/"
   : // "https://nikolav.rs/"
     // "http://dnofiq4anfaqwrzctj.xyz/"
     // "http://45.76.95.110/"
