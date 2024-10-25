@@ -1,3 +1,5 @@
+import vitePluginVuetify, { transformAssetUrls } from "vite-plugin-vuetify";
+
 import { API_URL, SSR, BASE_DIR, ENDPOINT_GRAPHQL } from "./config";
 import { trimEndBase } from "./utils/trim-end-base";
 
@@ -20,6 +22,58 @@ if (API_URL.startsWith("https"))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // # client-side rendering;
+  //  prerender    .true
+  //  no-prerender .false
+  // ssr: SSR,
+
+  routeRules: {
+    //   // Generated at build time for SEO purpose
+    //   // "/": { prerender: true },
+    // "/aktiva/proizvodi/**": { swr: true },
+    // "/aktiva/proizvodi/1": { prerender: true },
+    // "/aktiva/proizvodi/2": { prerender: true },
+    // "/aktiva/proizvodi/4": { prerender: true },
+    // "/aktiva/proizvodi/6": { prerender: true },
+    // "/aktiva/proizvodi/7": { prerender: true },
+    // "/aktiva/proizvodi/8": { prerender: true },
+    // "/aktiva/proizvodi/9": { prerender: true },
+    // "/aktiva/proizvodi/10": { prerender: true },
+    // "/aktiva/proizvodi/*": { prerender: true },
+    //   // Cached for 1 hour
+    //   // "/api/*": { cache: { maxAge: 60 * 60 } },
+    //   // Redirection to avoid 404
+    //   // "/old-page": {
+    //   //   redirect: { to: "/new-page", statusCode: 302 },
+    //   // },
+    // Set prerender to true to configure it to be prerendered
+    // "/rss.xml": { prerender: true },
+    // Set it to false to configure it to be skipped for prerendering
+    // "/this-DOES-NOT-get-prerendered": { prerender: false },
+    // Everything under /blog gets prerendered as long as it
+    // is linked to from another page
+    // "/blog/**": { prerender: true },
+    //   // ...
+  },
+
+  // #Selective Pre-rendering @nitro
+  // #https://nuxt.com/docs/getting-started/prerendering#selective-pre-rendering
+  // nitro: {
+  //   prerender: {
+  //     // routes: ['/user/1', '/user/2'],
+  //     // ignore: ["/dynamic"],
+  //   },
+  // },
+
+  runtimeConfig: {
+    // The private keys which are only available server-side
+    // apiSecret: '123',
+    // Keys within public are also exposed client-side
+    public: {
+      // fooBar: process.env.var
+    },
+  },
+
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
 
@@ -60,9 +114,9 @@ export default defineNuxtConfig({
       noscript: [{ children: "JavaScript is required" }],
     },
     // transition pages
-    pageTransition: { name: "BLUR", mode: "out-in" },
+    pageTransition: { name: "BLUR", mode: "in-out" },
     // transition layouts
-    layoutTransition: { name: "BLUR", mode: "out-in" },
+    layoutTransition: { name: "BLUR" },
   },
 
   css: [
@@ -71,21 +125,37 @@ export default defineNuxtConfig({
 
     // https://animate.style/
     "animate.css",
+
+    // vuetify
+    "@mdi/font/css/materialdesignicons.css",
+    "vuetify/lib/styles/main.sass",
   ],
 
   modules: [
     "@nuxtjs/google-fonts",
-    "@nuxtjs/tailwindcss",
-    // https://pinia.vuejs.org/
-    "@pinia/nuxt",
-    // https://vueuse.org/
-    "@vueuse/nuxt",
-    // https://apollo.nuxtjs.org/getting-started/quick-start
+    "@nuxtjs/tailwindcss", // https://pinia.vuejs.org/
+    "@pinia/nuxt", // https://vueuse.org/
+    "@vueuse/nuxt", // https://apollo.nuxtjs.org/getting-started/quick-start
     "@nuxtjs/apollo",
+    "@nuxt/icon",
+    async (_options, nuxt) => {
+      nuxt.hooks.hook("vite:extendConfig", (config) => {
+        // @ts-expect-error
+        config.plugins.push(
+          vitePluginVuetify({
+            autoImport: true,
+            styles: {
+              configFile: "assets/styles/vuetify/settings.scss",
+            },
+          })
+        );
+      });
+    },
+    "@nuxtjs/color-mode",
   ],
 
   build: {
-    // transpile: ["vuetify"],
+    transpile: ["vuetify"],
     // rollupOptions: {
     //   external: [
     //     /^@vue\/apollo-composable/,
@@ -93,6 +163,55 @@ export default defineNuxtConfig({
     //   ],
     // },
   },
+
+  // access style config in preprocessed files
+  //   sass, variables, partials, etc.
+  //  https://vuetifyjs.com/en/getting-started/installation/#using-nuxt-3
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "~/assets/styles/globals.scss" as *;',
+        },
+      },
+    },
+    define: {
+      "process.env.DEBUG": false,
+    },
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+  },
+
+  hooks: {
+    // "pages:extend"
+    // "render:html"
+    //   // # append dirs, extending default path
+    //   // "components:dirs": (dirs) => {
+    //   //   dirs.push({
+    //   //     path: "/path",
+    //   //     prefix: "App",
+    //   //   });
+    // async "prerender:routes"(ctx) {
+    //   const { pages } = await fetch("https://api.some-cms.com/pages").then(
+    //     (res) => res.json()
+    //   );
+    //   for (const page of pages) {
+    //     ctx.routes.add(`/${page.name}`);
+    //   }
+    // },
+  },
+
+  // include auto import dirs
+  //  OVERRIDING default path
+  // components: [
+  //   // {
+  //   //   path: "/path",
+  //   //   prefix: "App",
+  //   // },
+  // ],
 
   imports: {
     // @unimport
@@ -170,10 +289,10 @@ export default defineNuxtConfig({
       //   from: "lodash/clone",
       //   imports: [{ name: "default", as: "clone" }],
       // },
-      // {
-      //   from: "lodash/isString",
-      //   imports: [{ name: "default", as: "isString" }],
-      // },
+      {
+        from: "lodash/isString",
+        imports: [{ name: "default", as: "isString" }],
+      },
       // {
       //   from: "lodash/has",
       //   imports: [{ name: "default", as: "hasPath" }],
@@ -223,6 +342,10 @@ export default defineNuxtConfig({
       //   imports: [{ name: "default", as: "snakeCase" }],
       // },
       {
+        from: "lodash/uniqueId",
+        imports: [{ name: "default", as: "uniqueId" }],
+      },
+      {
         from: "lodash/assign",
         imports: [{ name: "default", as: "assign" }],
       },
@@ -238,19 +361,18 @@ export default defineNuxtConfig({
         from: "lodash/noop",
         imports: [{ name: "default", as: "noop" }],
       },
-      // // export { isEmail, isMobilePhone, isURL } from "validator";
       {
         from: "validator/lib/isEmail",
         imports: [{ name: "default", as: "isEmail" }],
       },
-      // {
-      //   from: "validator/lib/isMobilePhone",
-      //   imports: [{ name: "default", as: "isMobilePhone" }],
-      // },
-      // {
-      //   from: "validator/lib/isURL",
-      //   imports: [{ name: "default", as: "isURL" }],
-      // },
+      {
+        from: "validator/lib/isMobilePhone",
+        imports: [{ name: "default", as: "isMobilePhone" }],
+      },
+      {
+        from: "validator/lib/isURL",
+        imports: [{ name: "default", as: "isURL" }],
+      },
       {
         from: "uuid",
         imports: [{ name: "v4", as: "uuid" }],
@@ -273,6 +395,7 @@ export default defineNuxtConfig({
     useStylesheet: true,
     download: false,
   },
+
   tailwindcss: {
     cssPath: "~/assets/tailwind.css",
     configPath: "~/config/tailwind.config.ts",
@@ -284,6 +407,7 @@ export default defineNuxtConfig({
     // injectPosition: 0,
     viewer: false,
   },
+
   // https://apollo.nuxtjs.org/getting-started/configuration#configuration
   // https://apollo.nuxtjs.org/getting-started/configuration#clients
   apollo: {
@@ -302,5 +426,46 @@ export default defineNuxtConfig({
         tokenName: "@apollo/token:HoARGKAyE7VRBupLHJ",
       },
     },
+  },
+
+  // recommended to install the icon data locally with
+  // npm i -D @iconify-json/collection-name
+  icon: {
+    // serverBundle: {
+    //   collections: ["uil", "mdi"],
+    // },
+    // componentName: "NuxtIcon",
+    // #https://github.com/nuxt/icon?tab=readme-ov-file#custom-local-collections
+    // provider: SSR ? undefined : "server",
+    provider: "server",
+    customCollections: [
+      {
+        prefix: "local",
+        dir: "./assets/icons-local",
+      },
+    ],
+  },
+
+  colorMode: {
+    // preference: "system", // default value of $colorMode.preference
+    // fallback: "light", // fallback value if not system preference found
+    // hid: "nuxt-color-mode-script",
+    // globalName: "__NUXT_COLOR_MODE__",
+    // componentName: "ColorScheme",
+    // classPrefix: "",
+    classSuffix: "",
+    // storageKey: "nuxt-color-mode",
+  },
+
+  router: {
+    options: {
+      scrollBehaviorType: "smooth",
+    },
+  },
+
+  experimental: {
+    scanPageMeta: true,
+    // typedPages: true,
+    // inlineRouteRules: true,
   },
 });

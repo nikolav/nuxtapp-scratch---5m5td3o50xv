@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // ##imports
 import { Dump } from "@/components/dev";
+import { SpinnerAppProcessing } from "@/components/ui";
 // ##config ##const
 const {
   app: { LOGOUT_RELOAD_PATH },
@@ -69,23 +70,33 @@ useSeoMeta({
 const uid = computed(() => auth.uid);
 const token = computed(() => auth.token$ || "");
 const myDisplayName = computed(() => auth.displayName || "");
+const ref_appMain = ref();
 
 provide(key_UID, uid);
 provide(key_TOKEN, token);
 provide(key_USER_DISPLAY_NAME, myDisplayName);
+provide(key_REF_APPMAIN, ref_appMain);
+
+const authBgActive = useState(FLAG_SHOW_AUTH_BACKGROUND);
 
 // @@eos
 </script>
 <template>
-  <section class="root---app-vue">
+  <VApp
+    class="component--appMain"
+    ref="ref_appMain"
+    :theme="theme"
+    :class="[authBgActive ? 'v-app--authBgActive' : undefined]"
+  >
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
 
     <!-- @@status -->
     <NuxtLoadingIndicator color="red" />
+    <SpinnerAppProcessing :opacity="0.81" />
     <Dump :data="{ user: auth.user$ }" />
-  </section>
+  </VApp>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
@@ -105,5 +116,13 @@ provide(key_USER_DISPLAY_NAME, myDisplayName);
   position: absolute;
   z-index: -1;
   width: 100%;
+}
+
+.v-app--authBgActive {
+  /* background-image: url("~/assets/images/svg/frikom-logo--auth-login.svg") !important; */
+  background-image: url("~/assets/images/svg/frikom-logo--teren.svg") !important;
+  background-repeat: no-repeat !important;
+  background-size: 102% !important;
+  background-position: center 9% !important;
 }
 </style>

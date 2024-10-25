@@ -193,7 +193,7 @@ export default defineAppConfig({
     offsetTop: "1.22rem",
   },
   effect: {
-    default: "headShake",
+    _default: "headShake",
     duration: 890,
   },
   urls: {

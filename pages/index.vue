@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // ##imports
 import { Dump } from "@/components/dev";
+import { Effect } from "@/components/ui";
 
 // ##config ##const
 definePageMeta({
@@ -10,7 +11,9 @@ definePageMeta({
 // ##utils
 // ##icons
 // ##refs ##flags
+const effectID = useUniqueId();
 // ##data ##auth ##state
+const { data: dataNuxtApiStatus } = useNuxtApiStatus();
 const auth = useStoreApiAuth();
 const { data } = useFirebaseCloudFirestoreCollection("demo");
 const { status: statusApollo } = useQueryApolloStatus();
@@ -25,19 +28,15 @@ useHead({ title: "--index" });
 </script>
 <template>
   <section class="page--index">
-    <button
-      class="p-2 bg-stone-200 rounded shadow-md border border-stone-300"
-      @click="auth.login({ email: 'admin@nikolav.rs', password: '122' })"
-    >
+    <VBtn @click="auth.login({ email: 'admin@nikolav.rs', password: '122' })">
+      <Iconx name="$menu" />
       login
-    </button>
-    <button
-      class="p-2 bg-stone-200 rounded shadow-md border border-stone-300"
-      @click="auth.logout"
-    >
-      logout
-    </button>
-    <h1>@index</h1>
+    </VBtn>
+    <VBtn @click="auth.logout"> logout </VBtn>
+    <VBtn @click="effectID"> effect </VBtn>
+    <Effect v-model="effectID.ID">
+      <h1>@index</h1>
+    </Effect>
     <p class="text-blue-400">
       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet omnis
       fuga accusantium ipsum, odio molestiae at reprehenderit deleniti aperiam
@@ -50,8 +49,8 @@ useHead({ title: "--index" });
       dolore fugit veniam dolor perferendis magni error aliquid maxime. Error,
       veritatis.
     </p>
+    <Dump :data="{ dataNuxtApiStatus, statusApollo, data }" />
   </section>
-  <Dump :data="{ statusApollo, data }" />
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

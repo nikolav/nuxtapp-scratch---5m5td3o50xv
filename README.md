@@ -5,7 +5,6 @@
     "@nuxt/image": "^1.7.0",
     "@vue/apollo-composable": "^4.2.1",
     "graphql-tag": "^2.12.6",
-    "socket.io-client": "^4.7.5",
     --"vue-router": "^4.3.2",
     "vue-social-sharing": "^4.0.0-alpha4",
     "vue-spinner": "^1.0.4",

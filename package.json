@@ -10,9 +10,13 @@
     "postinstall": "nuxt prepare",
     "dev:b": "npm run postinstall && npm run build && nuxt dev ",
     "start": "node .output/server/index.mjs ",
-    "reinstall": "rm -rf ./node_modules package-lock.json yarn.lock && npm i "
+    "reinstall": "rm -rf ./node_modules package-lock.json yarn.lock && npm i ",
+    "tinker": "node ./tinker.mjs "
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@nuxt/icon": "^1.5.7",
+    "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.5",
     "@vue/apollo-composable": "^4.2.1",
@@ -26,6 +30,7 @@
     "file-saver": "^2.0.5",
     "firebase": "^10.14.1",
     "form-data": "^4.0.1",
+    "graphql-tag": "^2.12.6",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "mime-types": "^2.1.35",
@@ -40,12 +45,19 @@
     "vue": "latest",
     "vue-chartjs": "^5.3.1",
     "vue-router": "latest",
+    "vue-spinner": "^1.0.4",
     "vuefire": "^3.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@nuxt/devtools": "^1.6.0",
+    "@nuxt/types": "^2.18.1",
     "@nuxtjs/apollo": "^5.0.0-alpha.14",
     "@nuxtjs/tailwindcss": "^6.12.2",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/typography": "^0.5.15",
+    "@tsconfig/node20": "^20.1.4",
     "@types/axios": "^0.14.4",
     "@types/chartjs": "^0.0.31",
     "@types/chroma-js": "^2.4.4",
@@ -57,11 +69,18 @@
     "@types/md5": "^2.3.5",
     "@types/mime-types": "^2.1.4",
     "@types/minimist": "^1.2.5",
+    "@types/node": "^22.8.0",
     "@types/socket.io-client": "^3.0.0",
     "@types/uuid": "^10.0.0",
     "@types/validator": "^13.12.2",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
-    "sass": "^1.80.4"
+    "sass": "^1.80.4",
+    "sass-loader": "^16.0.2",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.8.0",
+    "typescript": "^5.6.3",
+    "vite-plugin-vuetify": "^2.0.4",
+    "vuetify": "^3.7.3"
   }
 }
