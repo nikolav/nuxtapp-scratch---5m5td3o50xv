@@ -4,8 +4,9 @@ import { PRODUCTION$ } from "./vars.env";
 export const URL_APP_PUBLIC = PRODUCTION$
   ? // ? "https://frikom.nikolav.rs/"
     // "https://qdeiymppite.web.app/"
-    "http://140.82.39.170/"
-  : // "https://nikolav.rs/"
+    "https://morning-ocean-24984-2ae2dd559da2.herokuapp.com/"
+  : // "http://140.82.39.170/"
+    // "https://nikolav.rs/"
     // "http://dnofiq4anfaqwrzctj.xyz/"
     // "http://45.76.95.110/"
     // "http://45.76.95.110/"

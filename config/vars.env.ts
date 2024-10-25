@@ -17,7 +17,7 @@ export const MODE_DEBUG = !PRODUCTION$;
 
 // no-policies access
 export const TOKEN_DEFAULT =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiQCI6IjIwMjQtMTAtMjQgMjI6MDQ6MTcuOTExODQ2KzAwOjAwIn0.h3RSq3KnfFiwhVZlFPvP0jPQ5go0FYFjYu95Y_SF1j0";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiQCI6IjIwMjQtMTAtMjUgMjI6NDM6NTMuNjU4NDIxKzAwOjAwIn0.Qp1tbqoAyWhmu6d-1LesQGV58OaBgnVVDSLjT8S5ArY";
 // #auth
 export const USERS_HAS_POLICY_ADMINS = [1];
 export const USER_ID_ADMIN = 1;
