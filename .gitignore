@@ -190,3 +190,6 @@ yarn-debug.log*
 yarn-error.log*
 
 cat-config.sh
+
+# Local Netlify folder
+.netlify

@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare",
     "dev:b": "npm run postinstall && npm run build && nuxt dev ",
     "start": "node .output/server/index.mjs ",
+    "start:heroku": "npm run build && npm start ",
     "reinstall": "rm -rf ./node_modules package-lock.json yarn.lock && npm i ",
     "tinker": "node ./tinker.mjs "
   },
