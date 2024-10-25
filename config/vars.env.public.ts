@@ -7,9 +7,6 @@ export const URL_APP_PUBLIC = PRODUCTION$
     "https://morning-ocean-24984-2ae2dd559da2.herokuapp.com/"
   : // "http://140.82.39.170/"
     // "https://nikolav.rs/"
-    // "http://dnofiq4anfaqwrzctj.xyz/"
-    // "http://45.76.95.110/"
-    // "http://45.76.95.110/"
     // ? "https://qdeiymppite.web.app/"
     "http://localhost:3000/";
 
