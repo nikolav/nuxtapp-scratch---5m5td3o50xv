@@ -1,3 +1,8 @@
+vars.env.ts
+.env
+.env.*
+
+
 __pycache__/
 __pypackages__/
 !.env.example
@@ -17,8 +22,6 @@ __pypackages__/
 .DS_Store
 .dynamodb/
 .eggs/
-.env
-.env.*
 .env.development.local
 .env.local
 .env.production.local
@@ -181,7 +184,6 @@ temp
 Thumbs.db
 Thumbs.db:encryptable
 var/
-vars.env.ts
 venv.bak/
 venv/
 web_modules/
