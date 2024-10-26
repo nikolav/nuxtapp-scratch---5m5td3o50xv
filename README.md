@@ -1,12 +1,4 @@
-    "@fancyapps/ui": "^5.0.36",
     -- "@formkit/auto-animate": "^0.8.2",
-    "@mdi/font": "^7.4.47",
     "@nuxt/content": "^2.13.4",
-    "@nuxt/image": "^1.7.0",
-    "@vue/apollo-composable": "^4.2.1",
-    "graphql-tag": "^2.12.6",
-    --"vue-router": "^4.3.2",
-    "vue-social-sharing": "^4.0.0-alpha4",
-    "vue-spinner": "^1.0.4",
     "vue-toastification": "^2.0.0-rc.5",
-    "vue3-popper": "^1.5.0",
+    
