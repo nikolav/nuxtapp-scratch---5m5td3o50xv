@@ -236,6 +236,15 @@ export default defineNuxtConfig({
           },
         ],
       },
+      {
+        from: "lodash/get",
+        imports: [
+          {
+            name: "default",
+            as: "getPath",
+          },
+        ],
+      },
       // {
       //   from: "lodash/identity",
       //   imports: [{ name: "default", as: "identity" }],
@@ -256,6 +265,14 @@ export default defineNuxtConfig({
         from: "lodash/isEmpty",
         imports: [{ name: "default", as: "isEmpty" }],
       },
+      {
+        from: "lodash/first",
+        imports: [{ name: "default", as: "first" }],
+      },
+      {
+        from: "lodash/every",
+        imports: [{ name: "default", as: "every" }],
+      },
       // {
       //   from: "lodash/differenceBy",
       //   imports: [{ name: "default", as: "differenceBy" }],
@@ -268,10 +285,14 @@ export default defineNuxtConfig({
       //   from: "lodash/sortBy",
       //   imports: [{ name: "default", as: "sortBy" }],
       // },
-      // {
-      //   from: "lodash/difference",
-      //   imports: [{ name: "default", as: "difference" }],
-      // },
+      {
+        from: "lodash/once",
+        imports: [{ name: "default", as: "once" }],
+      },
+      {
+        from: "lodash/difference",
+        imports: [{ name: "default", as: "difference" }],
+      },
       // {
       //   from: "lodash/sampleSize",
       //   imports: [{ name: "default", as: "sampleSize" }],
@@ -280,22 +301,22 @@ export default defineNuxtConfig({
         from: "lodash/findKey",
         imports: [{ name: "default", as: "findKey" }],
       },
-      // {
-      //   from: "lodash/unset",
-      //   imports: [{ name: "default", as: "unset" }],
-      // },
-      // {
-      //   from: "lodash/forEach",
-      //   imports: [{ name: "default", as: "forEach" }],
-      // },
-      // {
-      //   from: "lodash/each",
-      //   imports: [{ name: "default", as: "each" }],
-      // },
-      // {
-      //   from: "lodash/cloneDeep",
-      //   imports: [{ name: "default", as: "cloneDeep" }],
-      // },
+      {
+        from: "lodash/find",
+        imports: [{ name: "default", as: "find" }],
+      },
+      {
+        from: "lodash/unset",
+        imports: [{ name: "default", as: "unset" }],
+      },
+      {
+        from: "lodash/each",
+        imports: [{ name: "default", as: "each" }],
+      },
+      {
+        from: "lodash/cloneDeep",
+        imports: [{ name: "default", as: "cloneDeep" }],
+      },
       // {
       //   from: "lodash/clone",
       //   imports: [{ name: "default", as: "clone" }],
@@ -304,30 +325,34 @@ export default defineNuxtConfig({
         from: "lodash/isString",
         imports: [{ name: "default", as: "isString" }],
       },
-      // {
-      //   from: "lodash/has",
-      //   imports: [{ name: "default", as: "hasPath" }],
-      // },
+      {
+        from: "lodash/has",
+        imports: [{ name: "default", as: "has" }],
+      },
+      {
+        from: "lodash/has",
+        imports: [{ name: "default", as: "hasPath" }],
+      },
       // {
       //   from: "lodash/pick",
       //   imports: [{ name: "default", as: "pick" }],
       // },
-      // {
-      //   from: "lodash/omit",
-      //   imports: [{ name: "default", as: "omit" }],
-      // },
-      // {
-      //   from: "lodash/keys",
-      //   imports: [{ name: "default", as: "keys" }],
-      // },
+      {
+        from: "lodash/omit",
+        imports: [{ name: "default", as: "omit" }],
+      },
+      {
+        from: "lodash/keys",
+        imports: [{ name: "default", as: "keys" }],
+      },
       // {
       //   from: "lodash/isEqual",
       //   imports: [{ name: "default", as: "isEqual" }],
       // },
-      // {
-      //   from: "lodash/sample",
-      //   imports: [{ name: "default", as: "sample" }],
-      // },
+      {
+        from: "lodash/sample",
+        imports: [{ name: "default", as: "sample" }],
+      },
       // {
       //   from: "lodash/take",
       //   imports: [{ name: "default", as: "take" }],
@@ -385,12 +410,28 @@ export default defineNuxtConfig({
         imports: [{ name: "default", as: "trimEnd" }],
       },
       {
+        from: "lodash/trim",
+        imports: [{ name: "default", as: "trim" }],
+      },
+      {
         from: "lodash/noop",
         imports: [{ name: "default", as: "noop" }],
       },
       {
         from: "lodash/transform",
         imports: [{ name: "default", as: "transform" }],
+      },
+      {
+        from: "lodash/map",
+        imports: [{ name: "default", as: "map" }],
+      },
+      {
+        from: "lodash/filter",
+        imports: [{ name: "default", as: "filter" }],
+      },
+      {
+        from: "lodash/reduce",
+        imports: [{ name: "default", as: "reduce" }],
       },
       {
         from: "validator/lib/isEmail",
