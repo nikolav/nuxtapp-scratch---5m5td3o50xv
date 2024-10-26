@@ -2,6 +2,7 @@
 // ##imports
 import { Dump } from "@/components/dev";
 import { Effect } from "@/components/ui";
+import { VBtnOpenGallery, VBtnShareSocialNetworks } from "@/components/app";
 
 // ##config ##const
 definePageMeta({
@@ -49,6 +50,14 @@ useHead({ title: "--index" });
       dolore fugit veniam dolor perferendis magni error aliquid maxime. Error,
       veritatis.
     </p>
+    <VBtnOpenGallery
+      :slides="[
+        { src: '/apples.jpg' },
+        { src: '/bread.jpg' },
+        { src: '/eggs.jpg' },
+      ]"
+    />
+    <VBtnShareSocialNetworks :item="{ url: 'https://nikolav.rs' }" />
     <Dump :data="{ dataNuxtApiStatus, statusApollo, data }" />
   </section>
 </template>

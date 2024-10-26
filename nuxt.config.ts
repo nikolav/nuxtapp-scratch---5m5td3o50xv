@@ -129,6 +129,9 @@ export default defineNuxtConfig({
     // vuetify
     "@mdi/font/css/materialdesignicons.css",
     "vuetify/lib/styles/main.sass",
+
+    // lightbox
+    "@fancyapps/ui/dist/fancybox/fancybox.css",
   ],
 
   modules: [
@@ -244,6 +247,10 @@ export default defineNuxtConfig({
       {
         from: "lodash/size",
         imports: [{ name: "default", as: "len" }],
+      },
+      {
+        from: "lodash/isEmpty",
+        imports: [{ name: "default", as: "isEmpty" }],
       },
       // {
       //   from: "lodash/differenceBy",

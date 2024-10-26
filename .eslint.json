@@ -1,0 +1,5 @@
+{
+  "rules": {
+    "vue/no-v-for-template-key": "off"
+  }
+}
