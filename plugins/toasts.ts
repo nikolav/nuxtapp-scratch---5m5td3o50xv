@@ -1,7 +1,7 @@
 import Toast from "vue-toastification";
-// import { useToast } from "vue-toastification";
-import * as AllToasts from "vue-toastification";
-const { useToast } = AllToasts;
+import { useToast } from "vue-toastification";
+// import * as AllToasts from "vue-toastification";
+// const { useToast } = AllToasts;
 
 export default defineNuxtPlugin({
   name: "toasts",
