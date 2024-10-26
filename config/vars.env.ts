@@ -1,7 +1,7 @@
 import { trimEndBase } from "../utils/trim-end-base";
 
-export const PRODUCTION$: boolean = true;
-// export const PRODUCTION$: boolean = false;
+// export const PRODUCTION$: boolean = true;
+export const PRODUCTION$: boolean = false;
 
 // generate:static
 //   prerender --true

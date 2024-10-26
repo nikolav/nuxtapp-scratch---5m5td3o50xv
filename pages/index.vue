@@ -8,7 +8,6 @@ definePageMeta({
   // middleware: "",
 });
 // ##utils
-const { $toast } = useNuxtApp();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
