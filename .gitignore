@@ -1,6 +1,6 @@
-vars.env.ts
-.env
-.env.*
+# vars.env.ts
+# .env
+# .env.*
 
 
 __pycache__/
