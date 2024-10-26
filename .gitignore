@@ -1,8 +1,7 @@
 vars.env.ts
 .env
+
 .env.*
-
-
 __pycache__/
 __pypackages__/
 !.env.example
