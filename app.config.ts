@@ -1,5 +1,5 @@
 // 6Jqd32SG05
-// import { type PluginOptions } from "vue-toastification";
+import { type PluginOptions as ToastsPluginOptions } from "vue-toastification";
 
 import type { TStoreMain, TStoreFlags, IConfigDocs, IAppData } from "@/types";
 import {
@@ -332,14 +332,14 @@ export default defineAppConfig({
     },
   },
   config: {
-    // optionsVueToastificationPlugin: <PluginOptions>{
-    //   // options
-    //   hideProgressBar: true,
-    //   position: "top-center",
-    //   timeout: 6954,
-    //   // Access global components and plugins inside toasts
-    //   shareAppContext: true,
-    // },
+    optionsVueToastificationPlugin: <ToastsPluginOptions>{
+      // options
+      hideProgressBar: true,
+      position: "top-center",
+      timeout: 6954,
+      // Access global components and plugins inside toasts
+      shareAppContext: true,
+    },
   },
   db: {
     Assets: {

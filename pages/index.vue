@@ -8,6 +8,7 @@ definePageMeta({
   // middleware: "",
 });
 // ##utils
+const { $toast } = useNuxtApp();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
@@ -31,13 +32,9 @@ useHead({ title: "--index" });
       login
     </VBtn>
     <VBtn @click="auth.logout"> logout </VBtn>
+    <VBtn @click="$toast('ok')"> ok </VBtn>
     <Dump :data="{ dataNuxtApiStatus, statusApollo, data }" />
-    <NuxtImg
-      src="/apples.jpg"
-      width="555"
-      height="122"
-      fit="contain"
-    />
+    <NuxtImg src="/apples.jpg" width="555" height="122" fit="contain" />
   </section>
 </template>
 <style lang="scss" scoped></style>

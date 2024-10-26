@@ -132,6 +132,10 @@ export default defineNuxtConfig({
 
     // lightbox
     "@fancyapps/ui/dist/fancybox/fancybox.css",
+
+    // toasts
+    // "vue-toastification/dist/index.css",
+    "~/assets/styles/toasts.scss",
   ],
 
   modules: [
