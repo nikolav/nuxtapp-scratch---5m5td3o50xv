@@ -13,7 +13,8 @@
     "start": "node .output/server/index.mjs ",
     "start:heroku": "node .output/server/index.mjs ",
     "reinstall": "rm -rf ./node_modules package-lock.json yarn.lock && npm i ",
-    "tinker": "node ./tinker.mjs "
+    "tinker": "node ./tinker.mjs ",
+    "deploy:dev": "git push heroku deploy-dev:main --force "
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.36",
