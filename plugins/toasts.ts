@@ -1,5 +1,5 @@
 import Toast from "vue-toastification";
-import { useToast } from "vue-toastification";
+import { useToast } from "vue-toastification/src";
 // import * as AllToasts from "vue-toastification";
 // const { useToast } = AllToasts;
 
