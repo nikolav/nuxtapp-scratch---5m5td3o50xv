@@ -1,3 +1,3 @@
-export default eventHandler((evt) => ({
-  "nuxt-api:status": "ok --fb8dc63b-874f-55eb-9e5c-fef72d83a946",
+export default defineEventHandler(async (event) => ({
+  "status:nuxt-api": "ok:0ae918ec-0505-528a-a0fb-5deef4acc233",
 }));
