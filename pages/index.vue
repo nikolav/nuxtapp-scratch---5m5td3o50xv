@@ -2,7 +2,7 @@
 // ##imports
 import { Dump } from "@/components/dev";
 import { Effect } from "@/components/ui";
-import { VBtnOpenGallery, VBtnShareSocialNetworks } from "@/components/app";
+import Popper from "vue3-popper";
 
 // ##config ##const
 definePageMeta({
@@ -50,14 +50,51 @@ useHead({ title: "--index" });
       dolore fugit veniam dolor perferendis magni error aliquid maxime. Error,
       veritatis.
     </p>
-    <VBtnOpenGallery
-      :slides="[
-        { src: '/apples.jpg' },
-        { src: '/bread.jpg' },
-        { src: '/eggs.jpg' },
-      ]"
-    />
-    <VBtnShareSocialNetworks :item="{ url: 'https://nikolav.rs' }" />
+    <Popper :placement="`bottom-end`" disable-click-away>
+      <VBtn>popper</VBtn>
+      <template #content>
+        <VCard width="333" elevation="5">
+          <VCardText>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+              quia! Incidunt libero itaque quos error. Ullam esse, maxime,
+              tempore repudiandae nostrum exercitationem recusandae et, odit
+              optio laborum dicta ut modi.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+              quia! Incidunt libero itaque quos error. Ullam esse, maxime,
+              tempore repudiandae nostrum exercitationem recusandae et, odit
+              optio laborum dicta ut modi.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+              quia! Incidunt libero itaque quos error. Ullam esse, maxime,
+              tempore repudiandae nostrum exercitationem recusandae et, odit
+              optio laborum dicta ut modi.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+              quia! Incidunt libero itaque quos error. Ullam esse, maxime,
+              tempore repudiandae nostrum exercitationem recusandae et, odit
+              optio laborum dicta ut modi.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+              quia! Incidunt libero itaque quos error. Ullam esse, maxime,
+              tempore repudiandae nostrum exercitationem recusandae et, odit
+              optio laborum dicta ut modi.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+              quia! Incidunt libero itaque quos error. Ullam esse, maxime,
+              tempore repudiandae nostrum exercitationem recusandae et, odit
+              optio laborum dicta ut modi.
+            </p>
+          </VCardText>
+        </VCard>
+      </template>
+    </Popper>
     <Dump :data="{ dataNuxtApiStatus, statusApollo, data }" />
   </section>
 </template>
