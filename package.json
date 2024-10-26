@@ -19,6 +19,7 @@
     "@fancyapps/ui": "^5.0.36",
     "@mdi/font": "^7.4.47",
     "@nuxt/icon": "^1.5.7",
+    "@nuxt/image": "^1.8.1",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.5",
