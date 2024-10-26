@@ -20,6 +20,8 @@
       <NuxtLink :to="{ name: 'index' }">home</NuxtLink>
       •
       <NuxtLink :to="{ name: 'app' }">app</NuxtLink>
+      •
+      <NuxtLink :to="{ name: 'demo' }">demo</NuxtLink>
     </div>
     <hr />
     <h1>@layout --app-default</h1>
