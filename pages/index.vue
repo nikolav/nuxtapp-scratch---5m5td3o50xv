@@ -1,8 +1,6 @@
 <script setup lang="ts">
 // ##imports
 import { Dump } from "@/components/dev";
-import { Effect } from "@/components/ui";
-import { VBtnOpenGallery, VBtnShareSocialNetworks } from "@/components/app";
 
 // ##config ##const
 definePageMeta({
@@ -12,7 +10,6 @@ definePageMeta({
 // ##utils
 // ##icons
 // ##refs ##flags
-const effectID = useUniqueId();
 // ##data ##auth ##state
 const { data: dataNuxtApiStatus } = useNuxtApiStatus();
 const auth = useStoreApiAuth();
@@ -34,31 +31,8 @@ useHead({ title: "--index" });
       login
     </VBtn>
     <VBtn @click="auth.logout"> logout </VBtn>
-    <VBtn @click="effectID"> effect </VBtn>
-    <Effect v-model="effectID.ID">
-      <h1>@index</h1>
-    </Effect>
-    <p class="text-blue-400">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet omnis
-      fuga accusantium ipsum, odio molestiae at reprehenderit deleniti aperiam
-      dolore fugit veniam dolor perferendis magni error aliquid maxime. Error,
-      veritatis.
-    </p>
-    <p class="text-blue-400">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet omnis
-      fuga accusantium ipsum, odio molestiae at reprehenderit deleniti aperiam
-      dolore fugit veniam dolor perferendis magni error aliquid maxime. Error,
-      veritatis.
-    </p>
-    <VBtnOpenGallery
-      :slides="[
-        { src: '/apples.jpg' },
-        { src: '/bread.jpg' },
-        { src: '/eggs.jpg' },
-      ]"
-    />
-    <VBtnShareSocialNetworks :item="{ url: 'https://nikolav.rs' }" />
     <Dump :data="{ dataNuxtApiStatus, statusApollo, data }" />
+    <NuxtImg src="/apples.jpg" width="555" height="122" fit="contain" />
   </section>
 </template>
 <style lang="scss" scoped></style>

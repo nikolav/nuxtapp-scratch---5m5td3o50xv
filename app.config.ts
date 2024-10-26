@@ -1,5 +1,5 @@
 // 6Jqd32SG05
-// import { type PluginOptions } from "vue-toastification";
+// import { type PluginOptions as ToastsPluginOptions } from "vue-toastification";
 
 import type { TStoreMain, TStoreFlags, IConfigDocs, IAppData } from "@/types";
 import {
@@ -332,7 +332,7 @@ export default defineAppConfig({
     },
   },
   config: {
-    // optionsVueToastificationPlugin: <PluginOptions>{
+    // optionsVueToastificationPlugin: <ToastsPluginOptions>{
     //   // options
     //   hideProgressBar: true,
     //   position: "top-center",

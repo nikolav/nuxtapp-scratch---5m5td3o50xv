@@ -132,6 +132,10 @@ export default defineNuxtConfig({
 
     // lightbox
     "@fancyapps/ui/dist/fancybox/fancybox.css",
+
+    // toasts
+    // "vue-toastification/dist/index.css",
+    // "~/assets/styles/toasts.scss",
   ],
 
   modules: [
@@ -155,6 +159,7 @@ export default defineNuxtConfig({
       });
     },
     "@nuxtjs/color-mode",
+    "@nuxt/image",
   ],
 
   build: {
@@ -474,5 +479,30 @@ export default defineNuxtConfig({
     scanPageMeta: true,
     // typedPages: true,
     // inlineRouteRules: true,
+  },
+
+  // https://image.nuxt.com/get-started/configuration
+  image: {
+    // # can override at the component level
+    // quality: 80,
+    // # globally initialize an $img helper
+    // inject: true,
+    // format: ["webp"],
+    // #allow domains to be optimized
+    domains: [
+      // 🏠
+      // "frikom.nikolav.rs",
+    ],
+    //
+    // The screen sizes predefined by `@nuxt/image`:
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
   },
 });
