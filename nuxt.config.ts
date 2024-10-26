@@ -276,10 +276,10 @@ export default defineNuxtConfig({
       //   from: "lodash/sampleSize",
       //   imports: [{ name: "default", as: "sampleSize" }],
       // },
-      // {
-      //   from: "lodash/findKey",
-      //   imports: [{ name: "default", as: "findKey" }],
-      // },
+      {
+        from: "lodash/findKey",
+        imports: [{ name: "default", as: "findKey" }],
+      },
       // {
       //   from: "lodash/unset",
       //   imports: [{ name: "default", as: "unset" }],
@@ -340,18 +340,34 @@ export default defineNuxtConfig({
         from: "lodash/startCase",
         imports: [{ name: "default", as: "startCase" }],
       },
-      // {
-      //   from: "lodash/camelCase",
-      //   imports: [{ name: "default", as: "camelCase" }],
-      // },
-      // {
-      //   from: "lodash/kebabCase",
-      //   imports: [{ name: "default", as: "kebabCase" }],
-      // },
-      // {
-      //   from: "lodash/snakeCase",
-      //   imports: [{ name: "default", as: "snakeCase" }],
-      // },
+      {
+        from: "lodash/lowerCase",
+        imports: [{ name: "default", as: "lowerCase" }],
+      },
+      {
+        from: "lodash/upperCase",
+        imports: [{ name: "default", as: "upperCase" }],
+      },
+      {
+        from: "lodash/camelCase",
+        imports: [{ name: "default", as: "camelCase" }],
+      },
+      {
+        from: "lodash/kebabCase",
+        imports: [{ name: "default", as: "kebabCase" }],
+      },
+      {
+        from: "lodash/snakeCase",
+        imports: [{ name: "default", as: "snakeCase" }],
+      },
+      {
+        from: "lodash/set",
+        imports: [{ name: "default", as: "set" }],
+      },
+      {
+        from: "lodash/clamp",
+        imports: [{ name: "default", as: "clamp" }],
+      },
       {
         from: "lodash/uniqueId",
         imports: [{ name: "default", as: "uniqueId" }],
@@ -371,6 +387,10 @@ export default defineNuxtConfig({
       {
         from: "lodash/noop",
         imports: [{ name: "default", as: "noop" }],
+      },
+      {
+        from: "lodash/transform",
+        imports: [{ name: "default", as: "transform" }],
       },
       {
         from: "validator/lib/isEmail",
