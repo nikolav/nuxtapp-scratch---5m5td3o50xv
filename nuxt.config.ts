@@ -245,14 +245,14 @@ export default defineNuxtConfig({
           },
         ],
       },
-      // {
-      //   from: "lodash/identity",
-      //   imports: [{ name: "default", as: "identity" }],
-      // },
-      // {
-      //   from: "lodash/range",
-      //   imports: [{ name: "default", as: "range" }],
-      // },
+      {
+        from: "lodash/identity",
+        imports: [{ name: "default", as: "identity" }],
+      },
+      {
+        from: "lodash/range",
+        imports: [{ name: "default", as: "range" }],
+      },
       {
         from: "lodash/pullAll",
         imports: [{ name: "default", as: "pullAll" }],
@@ -273,18 +273,18 @@ export default defineNuxtConfig({
         from: "lodash/every",
         imports: [{ name: "default", as: "every" }],
       },
-      // {
-      //   from: "lodash/differenceBy",
-      //   imports: [{ name: "default", as: "differenceBy" }],
-      // },
-      // {
-      //   from: "lodash/union",
-      //   imports: [{ name: "default", as: "union" }],
-      // },
-      // {
-      //   from: "lodash/sortBy",
-      //   imports: [{ name: "default", as: "sortBy" }],
-      // },
+      {
+        from: "lodash/differenceBy",
+        imports: [{ name: "default", as: "differenceBy" }],
+      },
+      {
+        from: "lodash/union",
+        imports: [{ name: "default", as: "union" }],
+      },
+      {
+        from: "lodash/sortBy",
+        imports: [{ name: "default", as: "sortBy" }],
+      },
       {
         from: "lodash/once",
         imports: [{ name: "default", as: "once" }],
@@ -293,10 +293,10 @@ export default defineNuxtConfig({
         from: "lodash/difference",
         imports: [{ name: "default", as: "difference" }],
       },
-      // {
-      //   from: "lodash/sampleSize",
-      //   imports: [{ name: "default", as: "sampleSize" }],
-      // },
+      {
+        from: "lodash/sampleSize",
+        imports: [{ name: "default", as: "sampleSize" }],
+      },
       {
         from: "lodash/findKey",
         imports: [{ name: "default", as: "findKey" }],
@@ -333,10 +333,10 @@ export default defineNuxtConfig({
         from: "lodash/has",
         imports: [{ name: "default", as: "hasPath" }],
       },
-      // {
-      //   from: "lodash/pick",
-      //   imports: [{ name: "default", as: "pick" }],
-      // },
+      {
+        from: "lodash/pick",
+        imports: [{ name: "default", as: "pick" }],
+      },
       {
         from: "lodash/omit",
         imports: [{ name: "default", as: "omit" }],
@@ -353,14 +353,18 @@ export default defineNuxtConfig({
         from: "lodash/sample",
         imports: [{ name: "default", as: "sample" }],
       },
-      // {
-      //   from: "lodash/take",
-      //   imports: [{ name: "default", as: "take" }],
-      // },
-      // {
-      //   from: "lodash/takeRight",
-      //   imports: [{ name: "default", as: "takeRight" }],
-      // },
+      {
+        from: "lodash/take",
+        imports: [{ name: "default", as: "take" }],
+      },
+      {
+        from: "lodash/takeRight",
+        imports: [{ name: "default", as: "takeRight" }],
+      },
+      {
+        from: "lodash/debounce",
+        imports: [{ name: "default", as: "debounce" }],
+      },
       {
         from: "lodash/startCase",
         imports: [{ name: "default", as: "startCase" }],
