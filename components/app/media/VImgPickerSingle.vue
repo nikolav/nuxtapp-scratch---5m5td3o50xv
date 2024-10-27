@@ -2,6 +2,7 @@
 // ##imports
 import { Iconx } from "@/components/icons";
 import { DEFAULT_NO_IMAGE_AVAILABLE } from "@/config";
+import { ProvideRefInnerSizePercent } from "@/components/app";
 
 // ##config
 defineOptions({
@@ -38,6 +39,8 @@ const { onChange, open, reset } = useFileDialog({
 
 // ##icons
 // ##refs ##flags
+const ref_XpsHHohktxqr648xO = ref();
+const { width: W0, height: H0 } = useElementSize(ref_XpsHHohktxqr648xO);
 // ##data ##auth ##state
 // ##computed
 const displayImage = computed(
@@ -85,6 +88,7 @@ watch(
     >
       <slot name="action" :open="open">
         <VBtn
+          ref="ref_XpsHHohktxqr648xO"
           @click="open()"
           size="72%"
           color="surface"
@@ -94,7 +98,13 @@ watch(
           v-bind="propsBtn"
         >
           <slot name="icon" :icon="icon">
-            <Iconx size="72%" :icon="icon" v-bind="propsIcon" />
+            <ProvideRefInnerSizePercent
+              :percent="0.77"
+              :ref-lookup="ref_XpsHHohktxqr648xO"
+              v-slot="{ size }"
+            >
+              <Iconx :size="`${size}px`" :icon="icon" v-bind="propsIcon" />
+            </ProvideRefInnerSizePercent>
           </slot>
         </VBtn>
       </slot>

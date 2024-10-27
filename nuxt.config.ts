@@ -250,6 +250,10 @@ export default defineNuxtConfig({
         imports: [{ name: "default", as: "identity" }],
       },
       {
+        from: "lodash/isFunction",
+        imports: [{ name: "default", as: "isFunction" }],
+      },
+      {
         from: "lodash/range",
         imports: [{ name: "default", as: "range" }],
       },

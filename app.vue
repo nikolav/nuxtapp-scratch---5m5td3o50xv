@@ -2,6 +2,7 @@
 // ##imports
 import { type MessagePayload } from "firebase/messaging";
 import { SpinnerAppProcessing } from "@/components/ui";
+import { VNavigationDrawerChatActive } from "@/components/app";
 // ##config ##const
 const {
   app: { LOGOUT_RELOAD_PATH },
@@ -96,6 +97,9 @@ provide(key_REF_APPMAIN, ref_appMain);
     :theme="theme"
     :class="[authBgActive ? 'v-app--authBgActive' : undefined]"
   >
+    <!-- @@overlays -->
+    <VNavigationDrawerChatActive />
+
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

@@ -1,56 +1,37 @@
 <script setup lang="ts">
-// ##imports
-import { Bar } from "vue-chartjs";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
+import { Dump } from "@/components/dev";
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-);
-
-// ##config ##const
 definePageMeta({
   layout: "app-default",
+  middleware: "authorized",
 });
-// ##utils
-// ##icons
-// ##refs ##flags
-// ##data ##auth ##state
-const chartData = {
-  labels: ["January", "February", "March"],
-  datasets: [{ data: [40, 20, 12] }],
-};
-const chartOptions = {
-  responsive: true,
-};
 
-// ##computed
-// ##forms ##helpers ##handlers
-// ##watch
-// ##hooks:lifecycle
-// ##head
-useHead({ title: "--app" });
+const { status: FCMStatus, ping: FCMPing } = useMutationCloudMessagingPing();
+const { send: viberSend } = useViberChannels();
+const viberSendText = async () => {
+  const content = `foo@${idGen()}`;
+  console.log(`sending viber message: [${content}]`);
+  console.log(
+    await viberSend.text({
+      "nikolav:default": content,
+    })
+  );
+};
 
 // @@eos
 </script>
 <template>
-  <section class="page--app">
-    <h1>@app</h1>
-    <Bar :data="chartData" :options="chartOptions" />
+  <section class="page--dashboard">
+    <h1>app</h1>
+    <VBtn @click="FCMPing">FCM:ping</VBtn>
+    <VBtn @click="viberSendText">viberSendText</VBtn>
+    <Dump :data="{ FCMStatus }" />
   </section>
 </template>
-<style lang="scss" scoped></style>
-<style module></style>
+<style lang="scss" scoped>
+.page--dashboard h1 {
+  color: $LOCAL_BLUE;
+}
+</style>
 <style lang="scss"></style>
+<style module></style>

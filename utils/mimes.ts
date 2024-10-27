@@ -2,7 +2,7 @@ import { extensions } from "mime-types";
 // import transform from "lodash/transform";
 // import findKey from "lodash/findKey";
 
-import { matchAfterLastDot } from "./match-after-last-dot";
+import { matchAfterLastDot } from "./re";
 
 const extensionsImage = transform(
   extensions,

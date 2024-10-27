@@ -1,40 +1,24 @@
 <script setup lang="ts">
-// ##imports
-import { Dump } from "@/components/dev";
+import { useDisplay } from "vuetify";
+import { AuthLogin } from "@/components/app/auth";
+import { Redirect } from "@/components/utils";
 
-// ##config ##const
-definePageMeta({
-  layout: "app-default",
-  // middleware: "",
-});
-// ##utils
-// ##icons
-// ##refs ##flags
-// ##data ##auth ##state
-const { data: dataNuxtApiStatus } = useNuxtApiStatus();
+const { height: WH } = useDisplay();
+// @@ss
 const auth = useStoreApiAuth();
-const { data } = useFirebaseCloudFirestoreCollection("demo");
-const { status: statusApollo } = useQueryApolloStatus();
-// ##computed
-// ##forms ##helpers ##handlers
-// ##watch
-// ##hooks:lifecycle
-// ##head
-useHead({ title: "--index" });
-
 // @@eos
 </script>
 <template>
   <section class="page--index">
-    <VBtn @click="auth.login({ email: 'admin@nikolav.rs', password: '122' })">
-      <Iconx name="$menu" />
-      login
-    </VBtn>
-    <VBtn @click="auth.logout"> logout </VBtn>
-    <Dump :data="{ dataNuxtApiStatus, statusApollo, data }" />
-    <NuxtImg src="/apples.jpg" width="555" height="122" fit="contain" />
+    <Redirect v-if="auth.isAuthenticated$" :to="{ name: 'app' }" />
+    <VResponsive
+      v-else
+      max-width="598"
+      class="mx-auto -translate-y-[50%]"
+      :style="`margin-top: ${WH / 2}px;`"
+    >
+      <AuthLogin />
+    </VResponsive>
   </section>
 </template>
 <style lang="scss" scoped></style>
-<style module></style>
-<style lang="scss"></style>

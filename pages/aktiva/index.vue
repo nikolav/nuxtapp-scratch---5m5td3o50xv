@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Demo } from "@/components/dev";
 definePageMeta({
-  middleware: "access-debug",
+  layout: "app-default",
+  middleware: "authorized",
 });
 
 // @@eos
 </script>
 <template>
-  <section class="page--demo">
-    <Demo />
+  <section class="page--aktiva">
+    <h1>aktiva</h1>
   </section>
 </template>
 <style lang="scss" scoped></style>
