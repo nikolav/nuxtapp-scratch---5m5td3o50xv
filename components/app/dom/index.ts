@@ -1,1 +1,1 @@
-export { default as ProvideRefLookupSizePercent } from "./ProvideRefLookupSizePercent.vue";
+export { default as ProvideRefInnerSizePercent } from "./ProvideRefInnerSizePercent.vue";
