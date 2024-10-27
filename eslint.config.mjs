@@ -13,6 +13,8 @@ export default createConfigForNuxt({
       // "@typescript-eslint/ban-types": "off",
 
       "no-v-for-template-key": "off",
+      "no-multiple-template-root": "off",
+      "vue/no-multiple-template-root": "off",
     },
   });
 // ...you can chain more operations as needed
