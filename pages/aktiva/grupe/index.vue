@@ -40,10 +40,37 @@ useHead({ title: "Grupe" });
       :reload="reload"
       :card-props="{ disabled: processing }"
       :menu-props="{ 'max-height': 255 }"
+      :props-title="{ class: 'ps-3 *pt-1' }"
+      :props-selection="{ class: '-translate-y-[2px]' }"
       :per-page="6"
     >
+      <template #list-item-title="{ title }">
+        {{ title }}
+      </template>
+      <template #list-item-append="{ item }">
+        <VBtn
+          @click.stop
+          density="comfortable"
+          icon
+          v-if="get(item, 'users.length')"
+          size="small"
+          variant="text"
+          color="secondary-lighten-1"
+          class="opacity-75 text-body-2"
+        >
+          <VAvatar
+            color="secondary"
+            size="small"
+            density="compact"
+            :text="get(item, 'users.length')"
+          />
+          <!-- @@list user names -->
+        </VBtn>
+      </template>
       <template #menu="{ selection }">
-        <p>{{ selection?.length }}</p>
+        <VSheet elevation="3">
+          <p>{{ selection?.length }}</p>
+        </VSheet>
       </template>
     </VCardDataIterator>
     <VFabMain
