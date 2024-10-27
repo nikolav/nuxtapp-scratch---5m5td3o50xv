@@ -16,7 +16,7 @@
     "tinker": "node ./tinker.mjs ",
     "deploy:dev": "git push heroku deploy-dev:main --force ",
     "env:cp": "cp ./.env ./config/vars.env.ts .. && ls -al .. ",
-    "env:pull": "cp ../.env .; cp ../vars.env.ts ./config; "
+    "env:pull": "cp ../.env . && cp ../vars.env.ts ./config "
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.36",
