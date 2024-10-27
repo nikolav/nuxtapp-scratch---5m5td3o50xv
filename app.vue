@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import { Dump } from "@/components/dev";
+import { type MessagePayload } from "firebase/messaging";
 import { SpinnerAppProcessing } from "@/components/ui";
 // ##config ##const
 const {
@@ -15,13 +15,23 @@ const skipRedirectToAppOnAuthenticated = (routeName: any) =>
   some(ROUTE_NAMES_SKIP_REDIRECT_APP_ON_AUTHENTICATED, (re: RegExp) =>
     String(routeName).match(re)
   );
+const {
+  $theme: { theme },
+} = useNuxtApp();
 
 // ##icons
 // ##refs ##flags
+const authBgActive = useState(FLAG_SHOW_AUTH_BACKGROUND);
 // ##data ##auth ##state
 const auth = useStoreApiAuth();
 // ##computed
 // ##forms ##helpers ##handlers
+// messaging
+useFirebaseCloudMessaging({
+  onMessage: (payload: MessagePayload) => {
+    console.log({ "firebaseCloudMessaging:payload --debug": payload });
+  },
+});
 
 // ##watch
 // onAuthStatus
@@ -77,8 +87,6 @@ provide(key_TOKEN, token);
 provide(key_USER_DISPLAY_NAME, myDisplayName);
 provide(key_REF_APPMAIN, ref_appMain);
 
-const authBgActive = useState(FLAG_SHOW_AUTH_BACKGROUND);
-
 // @@eos
 </script>
 <template>
@@ -95,7 +103,6 @@ const authBgActive = useState(FLAG_SHOW_AUTH_BACKGROUND);
     <!-- @@status -->
     <NuxtLoadingIndicator color="red" />
     <SpinnerAppProcessing :opacity="0.81" />
-    <Dump :data="{ user: auth.user$ }" />
   </VApp>
 </template>
 <style lang="scss" scoped></style>
