@@ -12,16 +12,16 @@ import twContainer from "@tailwindcss/container-queries";
 // # https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js
 export default <Partial<Config>>{
   content: [
-    "../pages/**/*.vue",
-    "../components/**/*.{vue,js,ts}",
+    "../pages/**/*.{vue,js,ts,tsx}",
+    "../components/**/*.{vue,js,ts,tsx}",
     "../plugins/**/*.{js,ts}",
-    "../layouts/**/*.vue",
+    "../layouts/**/*.{vue,js,ts,tsx}",
     "../composables/**/*.{js,ts}",
     "../utils/**/*.{js,ts}",
-    "../app.{js,ts,vue}",
-    "../App.{js,ts,vue}",
-    "../error.{js,ts,vue}",
-    "../Error.{js,ts,vue}",
+    "../app.{vue,js,ts,tsx}",
+    "../App.{vue,js,ts,tsx}",
+    "../error.{vue,js,ts,tsx}",
+    "../Error.{vue,js,ts,tsx}",
     "../static/**/*.html",
     "../content/**/*.md",
     "../docs/**/*.html",
@@ -40,7 +40,7 @@ export default <Partial<Config>>{
   ],
   // discard classes
   blocklist: [],
-  darkMode: "class",
+  // darkMode: "class",
   theme: {
     extend: {
       // #https://tailwindcss.com/docs/customizing-colors
