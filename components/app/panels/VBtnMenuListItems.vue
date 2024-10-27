@@ -9,6 +9,7 @@ const props = defineProps<{
   propsAvatar?: any;
   propsList?: any;
   propsListItem?: any;
+  propsMenu?: any;
 }>();
 const {
   app: { DEFAULT_TRANSITION },
@@ -54,6 +55,8 @@ const size_ = computed(() => len(props.items));
       :close-on-content-click="false"
       :transition="DEFAULT_TRANSITION"
       min-width="122"
+      max-height="392"
+      v-bind="propsMenu"
     >
       <VList
         elevation="5"
