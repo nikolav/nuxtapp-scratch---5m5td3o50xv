@@ -12,16 +12,16 @@ import twContainer from "@tailwindcss/container-queries";
 // # https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js
 export default <Partial<Config>>{
   content: [
-    "../pages/**/*.vue",
-    "../components/**/*.{vue,js,ts}",
+    "../pages/**/*.{vue,js,ts,jsx,tsx}",
+    "../components/**/*.{vue,js,ts,jsx,tsx}",
     "../plugins/**/*.{js,ts}",
-    "../layouts/**/*.vue",
+    "../layouts/**/*.{vue,js,ts,jsx,tsx}",
     "../composables/**/*.{js,ts}",
     "../utils/**/*.{js,ts}",
-    "../app.{js,ts,vue}",
-    "../App.{js,ts,vue}",
-    "../error.{js,ts,vue}",
-    "../Error.{js,ts,vue}",
+    "../app.{vue,js,ts,jsx,tsx}",
+    "../App.{vue,js,ts,jsx,tsx}",
+    "../error.{vue,js,ts,jsx,tsx}",
+    "../Error.{vue,js,ts,jsx,tsx}",
     "../static/**/*.html",
     "../content/**/*.md",
     "../docs/**/*.html",
@@ -30,9 +30,9 @@ export default <Partial<Config>>{
     "../app.config.{js,ts}",
     // { raw: "<import content...>", extension: "html" },
   ],
-  // generate classes
+  // always generate classes
   safelist: [
-    // "safelisted",
+    // "safelisted-true",
     // {
     //   pattern: /bg-(red|green|blue)-(100|200|300)/,
     //   variants: ['lg', 'hover', 'focus', 'lg:hover'],
@@ -40,7 +40,7 @@ export default <Partial<Config>>{
   ],
   // discard classes
   blocklist: [],
-  darkMode: "class",
+  // darkMode: "class",
   theme: {
     extend: {
       // #https://tailwindcss.com/docs/customizing-colors
