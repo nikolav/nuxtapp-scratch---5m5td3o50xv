@@ -9,6 +9,7 @@ export * from "./feedback";
 export * from "./forms";
 export * from "./panels";
 export * from "./prompt";
+export * from "./dom";
 
 export { default as VChipPlus } from "./v-chip-plus.vue";
 export { default as VBtnFilterClear } from "./vbtn-filter-clear.vue";
