@@ -8,6 +8,8 @@ import twContainer from "@tailwindcss/container-queries";
 
 // import defaultTheme from "tailwindcss/defaultTheme";
 
+const primary = "#184c9f";
+
 // # full config
 // # https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js
 export default <Partial<Config>>{
@@ -50,6 +52,8 @@ export default <Partial<Config>>{
         // neutral: "colors.gray",
         current: "currentColor",
         transparent: "transparent",
+        //
+        primary,
       },
       screens: {
         // 'sm': '640px',
@@ -61,12 +65,17 @@ export default <Partial<Config>>{
         laptop: "1024px",
         desktop: "1280px",
         tall: { raw: "(min-height: 792px)" },
+        // vuetify breakpoints
+        v_sm: "340px",
+        v_md: "540px",
+        v_lg: "800px",
+        v_xl: "1280px",
       },
       // fontFamily: {
       //   sans: ["Poppins", "sans-serif"],
       // },
-      // spacing: {},
-      // borderRadius: {},
+      // spacing: { '128': '32rem' },
+      // borderRadius: { '4xl': '2rem' },
       containers: {
         "2xs": "16rem",
       },

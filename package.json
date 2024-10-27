@@ -5,15 +5,16 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:b": "npm run postinstall && npm run build && nuxt dev ",
+    "postinstall": "nuxt prepare",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "dev:b": "npm run postinstall && npm run build && nuxt dev ",
     "start": "node .output/server/index.mjs ",
     "start:heroku": "node .output/server/index.mjs ",
     "reinstall": "rm -rf ./node_modules package-lock.json yarn.lock && npm i ",
     "tinker": "node ./tinker.mjs ",
     "deploy:dev": "git push heroku deploy-dev:main --force ",
+    "deploy:static": "npm run generate && firebase deploy --only hosting ",
     "env:cp": "cp ./.env ./config/vars.env.ts .. && ls -al .. ",
     "env:pull": "cp ../.env . && cp ../vars.env.ts ./config "
   },

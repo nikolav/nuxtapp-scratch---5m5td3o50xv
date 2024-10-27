@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { Demo } from "@/components/dev";
-definePageMeta({
-  middleware: "access-debug",
-});
 
 // @@eos
 </script>

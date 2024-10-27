@@ -4,7 +4,7 @@ import chroma from "chroma-js";
 import { THEME_ACCENT_SHIFT } from "@/config";
 
 // const primary = "#3b6891";
-const primary = "#184c9f";
+export const primary = "#184c9f";
 // primary => accent1, accent2, complement
 
 const primary2 = "#2f1068";

@@ -1,6 +1,7 @@
 import { type ThemeDefinition } from "vuetify";
 
 const primary_ = "#CCFF90";
+export const primary = primary_;
 
 export const dark: ThemeDefinition = {
   dark: true,

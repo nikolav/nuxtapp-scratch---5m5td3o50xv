@@ -21,14 +21,10 @@ const props = withDefaults(
 
 // data, auth
 const auth = useStoreApiAuth();
-const profile = computed(() => get(auth.user$, "profile") || {});
 
 // config
 const {
   app: { DEFAULT_NO_IMAGE_AVAILABLE, TOOLTIPS_OPEN_DELAY },
-  firebase: {
-    storage: { PATH_PROFILE_AVATARS },
-  },
 } = useAppConfig();
 
 // refs
@@ -92,25 +88,24 @@ watch(
         @click="fileDialogOpen()"
         elevation="1"
         class="component--VBtnUpdateProfileImage d-flex items-center justify-center display-relative position-relative"
-        color="white"
         rounded="circle"
         :width="size"
         :height="size"
         icon
         v-bind="mergeProps($attrs, props_)"
+        color="on-primary"
       >
         <VAvatar
           :size="sizeAvatar"
-          :image="profile.avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+          :image="auth.profile?.avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
         />
         <VFadeTransition>
           <div v-if="!!isHovering" class="position-absolute">
             <slot :isHovering="isHovering">
-              <Icon
-                size="3.33rem"
-                name="material-symbols:photo-camera"
-                class="opacity-85"
-                color="white"
+              <Iconx
+                :size="`calc(${size * (1 - 0.44)}px)`"
+                icon="material-symbols:photo-camera"
+                class="opacity-85 text-surface"
               />
             </slot>
           </div>
