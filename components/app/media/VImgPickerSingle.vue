@@ -40,7 +40,6 @@ const { onChange, open, reset } = useFileDialog({
 // ##icons
 // ##refs ##flags
 const ref_XpsHHohktxqr648xO = ref();
-const { width: W0, height: H0 } = useElementSize(ref_XpsHHohktxqr648xO);
 // ##data ##auth ##state
 // ##computed
 const displayImage = computed(
@@ -90,17 +89,16 @@ watch(
         <VBtn
           ref="ref_XpsHHohktxqr648xO"
           @click="open()"
-          size="72%"
+          size="100%"
           color="surface"
           variant="plain"
-          icon
           class="position-absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]"
           v-bind="propsBtn"
         >
           <slot name="icon" :icon="icon">
             <ProvideRefInnerSizePercent
-              :percent="0.77"
               :ref-lookup="ref_XpsHHohktxqr648xO"
+              :percent="0.61"
               v-slot="{ size }"
             >
               <Iconx :size="`${size}px`" :icon="icon" v-bind="propsIcon" />

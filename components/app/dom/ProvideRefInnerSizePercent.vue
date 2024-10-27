@@ -1,10 +1,11 @@
 <script setup lang="ts">
-// #d0a6bf32-6515-5824-917b-3d2086c895dc
+// #9efa436d-4375-5ad5-8d8b-d3e42d6afe97
 // ##imports
 // ##config ##const
 const props = withDefaults(
   defineProps<{
     percent?: any;
+    // Component | Element
     refLookup?: any;
   }>(),
   {
@@ -12,10 +13,12 @@ const props = withDefaults(
   }
 );
 // ##utils
-const { width: W, height: H } = useElementSize(props.refLookup);
+const el$$ = computed(() => get(props.refLookup, "$el", props.refLookup));
+const { width: W, height: H } = useElementSize(el$$);
 const size_ = computed(() =>
   Math.round(Math.min(W.value, H.value) * Number(props.percent))
 );
+
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
