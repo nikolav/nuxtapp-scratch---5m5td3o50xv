@@ -2,7 +2,7 @@
 import { Demo } from "@/components/dev";
 definePageMeta({
   layout: "app-default",
-  middleware: "access-debug",
+  // middleware: "access-debug",
 });
 
 // @@eos
