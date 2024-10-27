@@ -1,7 +1,11 @@
 <script setup lang="ts">
 // mGboFLwXJpbrJ1T
 import { useDisplay } from "vuetify";
-import { VFabMain, VCardDataIterator } from "@/components/app";
+import {
+  VFabMain,
+  VCardDataIterator,
+  VBtnMenuListItems,
+} from "@/components/app";
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
@@ -9,6 +13,8 @@ definePageMeta({
 
 // @utils
 const { smAndUp } = useDisplay();
+const { showUserScreen } = useNavigationUtils();
+const { calcDisplayName: calcUserDisplayName } = useAuthUtils();
 
 // @data @auth
 const { assets: groups, reload, processing } = useQueryManageAssetsGroups();
@@ -48,24 +54,18 @@ useHead({ title: "Grupe" });
         {{ title }}
       </template>
       <template #list-item-append="{ item }">
-        <VBtn
-          @click.stop
-          density="comfortable"
-          icon
-          v-if="get(item, 'users.length')"
-          size="small"
-          variant="text"
-          color="secondary-lighten-1"
-          class="opacity-75 text-body-2"
-        >
-          <VAvatar
-            color="secondary"
-            size="small"
-            density="compact"
-            :text="get(item, 'users.length')"
-          />
-          <!-- @@list user names -->
-        </VBtn>
+        <VBtnMenuListItems :items="get(item, 'users')">
+          <template #title="{ item }">
+            <a
+              class="link--prominent text-primary-darken-1"
+              @click.stop="showUserScreen(item.id)"
+            >
+              <span>
+                {{ calcUserDisplayName(item) }}
+              </span>
+            </a>
+          </template>
+        </VBtnMenuListItems>
       </template>
       <template #menu="{ selection }">
         <VSheet elevation="3">

@@ -34,10 +34,11 @@ const size_ = computed(() => len(props.items));
   <VBtn
     v-if="!isempty_"
     icon
+    size="small"
     variant="text"
-    color="secondary"
-    density="compact"
-    class="component--VBtnMenuListItems opacity-75"
+    color="secondary-lighten-1"
+    density="comfortable"
+    class="component--VBtnMenuListItems opacity-75 text-body-1"
     v-bind="propsBtn"
   >
     <VAvatar
@@ -54,7 +55,13 @@ const size_ = computed(() => len(props.items));
       :transition="DEFAULT_TRANSITION"
       min-width="122"
     >
-      <VList rounded="lg" density="comfortable" class="py-0" v-bind="propsList">
+      <VList
+        elevation="5"
+        rounded="lg"
+        density="comfortable"
+        class="py-0"
+        v-bind="propsList"
+      >
         <VListItem
           v-for="item in items"
           :key="ttl(item)"

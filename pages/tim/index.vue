@@ -119,8 +119,8 @@ const usersSelectToggle = () => {
     "id"
   );
 };
-const showUserScreen = (uid: any) =>
-  navigateTo({ name: "tim-uid", params: { uid } });
+// show @@user screen
+const { showUserScreen } = useNavigationUtils();
 const calcValueOf = (maybeCallableOrValue: any, node: any) =>
   isFunction(maybeCallableOrValue)
     ? maybeCallableOrValue(node)

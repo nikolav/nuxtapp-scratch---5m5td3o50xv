@@ -1,1 +1,1 @@
-export {};
+export { useAuthUtils } from "./useAuthUtils";
