@@ -49,6 +49,7 @@ useHead({ title: "Grupe" });
       :props-title="{ class: 'ps-3 *pt-1' }"
       :props-selection="{ class: '-translate-y-[2px]' }"
       :per-page="6"
+      :props-list-item="{ class: 'ps-2' }"
     >
       <template #list-item-title="{ title }">
         {{ title }}

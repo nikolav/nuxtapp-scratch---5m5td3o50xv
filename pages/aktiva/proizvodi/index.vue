@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
+import type { IAsset } from "@/types";
 import {
   VFabMain,
   VCardDataIterator,
@@ -8,6 +9,7 @@ import {
   VSheetPinCodeRequired,
 } from "@/components/app";
 import { Iconx } from "@/components/icons";
+import { query } from "firebase/database";
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
@@ -21,7 +23,7 @@ const productsSelected = ref();
 const {
   assets: products,
   reload,
-  remove: assetsRemove,
+  // remove: assetsRemove,
   processing,
 } = useQueryManageAssetsProducts();
 const itemLinkTo = (item: any) => ({
@@ -39,6 +41,24 @@ const productGrops = (p: any) =>
 const getid = (node: any) => get(node, "id");
 const assetNameById = (id: any) => get(find(products.value, { id }), "name");
 
+// ##utils
+const itemTo = (item: IAsset) => ({
+  name: "aktiva-proizvodi-uredi-pid",
+  params: { pid: item.id },
+});
+// ##on:asset-removed
+const route = useRoute();
+const $$pidRemoved = useGlobalVariable("$$pidRemoved");
+useOnceMountedOn(
+  () => !isEmpty(products.value),
+  async () => {
+    if (some(products.value, (p: any) => $$pidRemoved.value == p.id)) {
+      $$pidRemoved.value = "";
+      console.log("@asset:removed --list-reload");
+      await reload();
+    }
+  }
+);
 // ##head
 useHead({ title: "Roba" });
 
@@ -51,10 +71,12 @@ useHead({ title: "Roba" });
       :items="products"
       item-title="name"
       item-value="id"
+      :item-to="itemTo"
       :reload="reload"
       :per-page="6"
       :item-groups="productGrops"
       :card-props="{ disabled: processing }"
+      :props-list-item="{ class: 'ps-2' }"
     >
       <template #menu>
         <pre>{{ productsSelected?.length }}</pre>
@@ -92,63 +114,6 @@ useHead({ title: "Roba" });
           </NuxtLink>
           <span class="ps-4">{{ title }}</span>
         </span>
-      </template>
-      <template #list-item-append="{ item }">
-        <VBtn
-          @click.stop.prevent
-          :to="{
-            name: 'aktiva-proizvodi-uredi-pid',
-            params: { pid: getid(item) },
-          }"
-          icon
-          density="comfortable"
-          variant="plain"
-          color="secondary"
-        >
-          <Iconx icon="$edit" />
-        </VBtn>
-        <VBtn
-          @click.stop.prevent
-          icon
-          variant="plain"
-          color="error"
-          density="comfortable"
-          class="ms-3"
-        >
-          <Iconx icon="mdi:trash-can" size="1.22rem" class="opacity-40" />
-          <VMenu
-            location="center"
-            activator="parent"
-            :close-on-content-click="false"
-            :transition="DEFAULT_TRANSITION"
-          >
-            <VSheetPinCodeRequired
-              message="Pin za brisanje proizvoda:"
-              :props-actions="{ class: 'flex-col !gap-3' }"
-            >
-              <template #actions="{ pin, text }">
-                <VBtn
-                  @click="pin == text && assetsRemove([getid(item)])"
-                  :disabled="text != pin"
-                  color="error"
-                  variant="tonal"
-                  rounded="pill"
-                  class="px-3"
-                >
-                  <template #prepend>
-                    <Iconx size="1.22rem" icon="mdi:trash-can" />
-                  </template>
-                  <span>Obriši proizvod</span>
-                </VBtn>
-                <em
-                  class="text-error"
-                  :class="[text != pin ? 'opacity-20' : undefined]"
-                  >{{ assetNameById(getid(item)) }}</em
-                >
-              </template>
-            </VSheetPinCodeRequired>
-          </VMenu>
-        </VBtn>
       </template>
     </VCardDataIterator>
     <VFabMain

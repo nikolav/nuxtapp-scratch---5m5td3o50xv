@@ -23,6 +23,8 @@ const props = withDefaults(
     menuProps?: any;
     propsTitle?: any;
     propsSelection?: any;
+    propsList?: any;
+    propsListItem?: any;
 
     perPage?: number;
     reload?: any;
@@ -341,13 +343,18 @@ const onSubmitApplyGroupFiler = () => {
           </slot>
         </template>
         <template #default="{ items, isSelected, select }">
-          <VList density="comfortable" variant="text" class="py-0">
+          <VList
+            density="comfortable"
+            variant="text"
+            class="py-0"
+            v-bind="propsList"
+          >
             <!-- @@list:item -->
             <VListItem
               v-for="node in items"
               :key="it_val(node)"
-              class="ps-2"
               :value="it_val(node)"
+              v-bind="propsListItem"
             >
               <template #append="props_" v-if="$slots['list-item-append']">
                 <slot

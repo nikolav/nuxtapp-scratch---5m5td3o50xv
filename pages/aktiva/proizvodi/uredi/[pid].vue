@@ -10,6 +10,7 @@ import {
   VSnackbarSuccess,
   VBtnSave,
   VBtnReset,
+  VSheetPinCodeRequired,
 } from "@/components/app";
 import { Iconx } from "@/components/icons";
 // ##config
@@ -23,13 +24,14 @@ const IMAGE_PICKER_SIZE_MAX = {
   w: 320,
 };
 const {
-  app: { DEFAULT_TRANSITION },
+  app: { DEFAULT_TRANSITION, TOOLTIPS_OPEN_DELAY },
   db: {
     Assets: {
       categories: { CATEGORY_KEY_ASSETS_prefix },
     },
   },
 } = useAppConfig();
+const ON_DELETE_REDIRECT_TIMEOUT = 3122;
 // ##utils
 const { categories_select_menu } = useCategoryAssets();
 const { mdAndUp } = useDisplay();
@@ -37,6 +39,7 @@ const route = useRoute();
 const { file } = useFetchUrlToFileData();
 const { firebasePathAssets } = useTopics();
 const pc = useProcessMonitor();
+const pc_rm = useProcessMonitor();
 const { watchProcessing } = useStoreAppProcessing();
 // ##icons
 // ##refs ##flags
@@ -46,13 +49,21 @@ const newProductImagesPicked = ref();
 const imagesUpdated = ref();
 const pid = computed(() => get(route.params, "pid"));
 const toggleUpdateSuccess = useToggleFlag();
+const toggleAssetRemovedSuccess = useToggleFlag();
+const toggleDeletePromptActive = useToggleFlag();
 // ##state ##auth ##data
-const { ls, url, rma, upload } = useFirebaseStorage(() =>
-  firebasePathAssets(pid.value)
-);
-const { assets: products, commit } = useQueryManageAssetsProducts(() => [
-  pid.value,
-]);
+const {
+  ls,
+  url,
+  rma: rmaDropAssetImages,
+  upload,
+} = useFirebaseStorage(() => firebasePathAssets(pid.value));
+const {
+  assets: products,
+  commit,
+  remove: assetsRemove,
+} = useQueryManageAssetsProducts(() => [pid.value]);
+
 // ##computed
 const p = computed(() => first(products.value));
 // ##forms ##helpers
@@ -152,7 +163,7 @@ const { form, submit: formSubmit } = useFormDataFields(
 
         if (imagesUpdated.value) {
           // clear all, upload new
-          await rma();
+          await rmaDropAssetImages();
           await upload(
             reduce(
               newProductImagesPicked.value,
@@ -196,6 +207,18 @@ const diffDump = () =>
   );
 // ##watch
 watchProcessing(pc.processing);
+watchProcessing(pc_rm.processing);
+const $$pidRemoved = useGlobalVariable("$$pidRemoved");
+watch(pc_rm.success, (rmSuccess: boolean) => {
+  if (!rmSuccess) return;
+  toggleAssetRemovedSuccess.on();
+  toggleDeletePromptActive.off();
+  $$pidRemoved.value = pid.value;
+  setTimeout(
+    () => navigateTo({ name: "aktiva-proizvodi" }),
+    ON_DELETE_REDIRECT_TIMEOUT
+  );
+});
 // ##hooks:lifecycle
 // init asset:images
 useOnceMountedOn(true, async () => {
@@ -215,6 +238,23 @@ useOnceMountedOn(p, fieldsResetFromStore);
 const onUpdateModelValuePicker = (args: any[]) => {
   imagesUpdated.value = !isEmpty(args);
 };
+const onAssetRemove = async (pinEqText: boolean) => {
+  // @click="pin == text && assetsRemove([p?.id])"
+  if (!p.value?.id || !pinEqText) return;
+  pc_rm.begin();
+  try {
+    if (
+      !get(await assetsRemove([p.value.id]), "data.assetsRemove.status.removed")
+    )
+      throw "!--asset-rm";
+    await rmaDropAssetImages();
+  } catch (error) {
+    pc_rm.setError(error);
+  } finally {
+    pc_rm.done();
+  }
+  if (!pc_rm.error.value) pc_rm.successful();
+};
 
 // @@eos
 </script>
@@ -222,6 +262,9 @@ const onUpdateModelValuePicker = (args: any[]) => {
   <section class="page--aktiva-proizvodi-uredi-pid">
     <VSnackbarSuccess v-model="toggleUpdateSuccess.isActive.value">
       <span>Proizvod je uspešno ažuriran.</span>
+    </VSnackbarSuccess>
+    <VSnackbarSuccess v-model="toggleAssetRemovedSuccess.isActive.value">
+      <span>Proizvod je uspešno obrisan.</span>
     </VSnackbarSuccess>
     <VForm @submit.prevent="formSubmit" autocomplete="off">
       <VCard variant="text" rounded="0">
@@ -236,6 +279,62 @@ const onUpdateModelValuePicker = (args: any[]) => {
               class="opacity-40 ms-1"
               icon="$iconBox3DEdit"
             />
+          </template>
+          <template #actions>
+            <VBtn
+              @click.stop.prevent
+              icon
+              variant="plain"
+              color="on-primary"
+              density="comfortable"
+              class="me-1"
+            >
+              <VTooltip
+                location="bottom"
+                activator="parent"
+                :open-delay="TOOLTIPS_OPEN_DELAY"
+                text="Obriši proizvod"
+              />
+              <Iconx
+                icon="mdi:trash-can"
+                size="1.25rem"
+                class="*opacity-40 *text-on-primary"
+              />
+              <VMenu
+                v-model="toggleDeletePromptActive.isActive.value"
+                location="bottom end"
+                activator="parent"
+                :close-on-content-click="false"
+                :transition="DEFAULT_TRANSITION"
+                :offset="-8"
+              >
+                <VSheetPinCodeRequired
+                  message="Pin za brisanje proizvoda:"
+                  :props-actions="{ class: 'flex-col !gap-3' }"
+                >
+                  <template #actions="{ pin, text }">
+                    <VBtn
+                      @click="onAssetRemove(pin == text)"
+                      :disabled="text != pin"
+                      color="error"
+                      variant="tonal"
+                      rounded="pill"
+                      class="px-3"
+                    >
+                      <template #prepend>
+                        <Iconx size="1.22rem" icon="mdi:trash-can" />
+                      </template>
+                      <span>Obriši proizvod</span>
+                    </VBtn>
+                    <em
+                      class="text-error"
+                      :class="[text != pin ? 'opacity-20' : undefined]"
+                      >{{ p?.name }}</em
+                    >
+                  </template>
+                </VSheetPinCodeRequired>
+              </VMenu>
+            </VBtn>
           </template>
         </VToolbarPrimary>
         <VCardText>
