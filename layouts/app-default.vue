@@ -63,8 +63,19 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               </template>
               <VListItemTitle class="ps-4">Moj nalog</VListItemTitle>
             </VListItem>
-            <!-- spacer -->
+            <!-- divider -->
             <VDivider opacity="100" class="mt-2" />
+            <!-- item:about -->
+            <VListItem
+              :to="{ name: 'about' }"
+              value="O aplikaciji"
+              class="ps-3"
+            >
+              <template #prepend>
+                <Icon size="1.25rem" name="mdi:information-variant" />
+              </template>
+              <VListItemTitle class="ps-4">O aplikaciji</VListItemTitle>
+            </VListItem>
             <!-- item:logout -->
             <VListItem @click="auth.logout" value="Kraj" class="ps-3">
               <template #prepend>

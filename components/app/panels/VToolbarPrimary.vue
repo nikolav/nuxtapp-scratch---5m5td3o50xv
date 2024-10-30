@@ -3,6 +3,7 @@
 const props = withDefaults(
   defineProps<{
     routeBackName?: string;
+    routeBackTo?: any;
     dividerStart?: boolean;
     text?: any;
     propsTitle?: any;
@@ -16,7 +17,7 @@ const props = withDefaults(
 const {
   layout: { toolbarMainHeight },
 } = useAppConfig();
-const ROUTE_BACK_NAMED = { name: props.routeBackName };
+const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
 // @@eos
 </script>
 <template>
@@ -30,27 +31,29 @@ const ROUTE_BACK_NAMED = { name: props.routeBackName };
       <VDivider v-if="dividerStart" vertical inset class="ms-2" />
     </template>
     <template #append>
-      <VToolbarItems class="*pe-1" v-bind="propsActions">
+      <VToolbarItems v-bind="propsActions">
         <slot name="actions" />
       </VToolbarItems>
-      <slot name="append" :toRoutePrev="ROUTE_BACK_NAMED">
+      <slot name="append" :toRoutePrev="ROUTE_BACK">
         <VBtn
           size="small"
-          :to="ROUTE_BACK_NAMED"
+          :to="ROUTE_BACK"
           icon="$close"
           variant="plain"
           density="comfortable"
         />
       </slot>
     </template>
-    <VToolbarTitle
-      class="text-center opacity-50 font-weight-light"
-      v-bind="propsTitle"
-    >
-      <slot name="title" :text="text">
-        <span>{{ text }}</span>
-      </slot>
-    </VToolbarTitle>
+    <slot :text="text">
+      <VToolbarTitle
+        class="text-center opacity-50 font-weight-light"
+        v-bind="propsTitle"
+      >
+        <slot name="title" :text="text">
+          <span>{{ text }}</span>
+        </slot>
+      </VToolbarTitle>
+    </slot>
   </VToolbar>
 </template>
 <style lang="scss" scoped></style>

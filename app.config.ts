@@ -267,7 +267,23 @@ export default defineAppConfig({
     // size: "24px", // default <Icon> size applied
     // class: 'icon', // default <Icon> class applied
     // mode: 'css', // default <Icon> mode applied
+    // customize: (
+    //   content: string,
+    //   name: string,
+    //   prefix: string,
+    //   provider: string
+    // ) => {
+    //   // ...
+    // },
+
     aliases: {
+      "account-user": "ri:user-line",
+      "account-user-edit":
+        "streamline:interface-user-edit-actions-close-edit-geometric-human-pencil-person-single-up-user-write",
+      "people-group": "material-symbols:group",
+      "people-groups": "material-symbols:groups",
+      "social-chat": "streamline:chat-two-bubbles-oval",
+      //
       nuxt: "logos:nuxt-icon",
       github: "tabler:brand-github-filled",
       chat: "streamline:chat-two-bubbles-oval",

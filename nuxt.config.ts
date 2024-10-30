@@ -508,22 +508,27 @@ export default defineNuxtConfig({
     },
   },
 
-  // recommended to install the icon data locally with
-  // npm i -D @iconify-json/collection-name
+  // (recommended) install the icon data locally with
+  // npm i -D @iconify-json/<collection-name>
   icon: {
+    // #https://nuxt.com/modules/icon#server-bundle
+    // serverBundle: "auto", // "auto" | "local" | "remote"
     // serverBundle: {
-    //   collections: ["uil", "mdi"],
+    //   collections: [
+    //     "--logos", "--tabler", "--streamline", "--material-symbols", "--ri",
+    //     "--mdi", "--ion", "--mingcute", "--basil",
+    //     "--jam", "--fluent", ""
+    // ],
     // },
-    // componentName: "NuxtIcon",
-    // #https://github.com/nuxt/icon?tab=readme-ov-file#custom-local-collections
     // provider: SSR ? undefined : "server",
-    provider: "server",
+    // #https://github.com/nuxt/icon?tab=readme-ov-file#custom-local-collections
     customCollections: [
       {
-        prefix: "local",
+        prefix: "icons-local",
         dir: "./assets/icons-local",
       },
     ],
+    // componentName: "Icon",
   },
 
   colorMode: {

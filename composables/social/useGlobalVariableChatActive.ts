@@ -27,6 +27,8 @@ export const useGlobalVariableChatActive = () => {
   const clear = () => {
     topicChatActive.value = null;
   };
+  const topicWithTitle = (name: string, title?: string) =>
+    [name, ...(title ? ["--title", kebabCase(title)] : [])].join(" ");
   const isActive = computed(() => null != topicChatActive.value);
   //
   watch(topicChatActive, (topic) => {
@@ -39,6 +41,7 @@ export const useGlobalVariableChatActive = () => {
     topic: topicChatActive,
     chatTitle: chatActiveName,
     topicSet,
+    topicWithTitle,
     clear,
     // alias
     topicClear: clear,
