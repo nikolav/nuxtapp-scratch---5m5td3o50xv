@@ -274,3 +274,10 @@ export const M_commsMessageMany = gql`
     commsMessageMany(uids: $uids, message: $message)
   }
 `;
+
+// cloudMessagingNotifications(uids: [ID!]!, payload: JsonData!): JsonData!
+export const M_cloudMessagingNotifications = gql`
+  mutation m_cloudMessagingNotifications($uids: [ID!]!, $payload: JsonData!) {
+    cloudMessagingNotifications(uids: $uids, payload: $payload)
+  }
+`;

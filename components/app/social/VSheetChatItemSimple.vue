@@ -78,7 +78,7 @@ const ownsMessage = computed(() => uid?.value == props.item?.data.uid);
               :props-footer="{ class: 'd-flex justify-center pt-5' }"
             >
               <template #title>
-                <strong class="text-error-darken-2">Obriši ovu poruku?</strong>
+                <strong class="text-error-darken-2">Obriši poruku?</strong>
               </template>
               <template #footer>
                 <VBtn @click="remove" rounded="pill" color="error">
