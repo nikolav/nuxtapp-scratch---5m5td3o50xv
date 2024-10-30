@@ -19,28 +19,40 @@ export const useFirebaseCloudMessaging = (options: IFCMOptions) => {
   const auth = useStoreApiAuth();
   const service = ref();
   const notificationsGranted = useRequestNotificationsPermission();
-  messagingIsSupported().then((isSupported) => {
-    if (isSupported) {
-      try {
-        service.value = getMessaging(firebaseApp);
-      } catch (error) {
-        // --debug
-        console.error({ "getMessaging:error": error });
+  onMounted(() => {
+    messagingIsSupported().then((isSupported) => {
+      if (isSupported) {
+        try {
+          service.value = getMessaging(firebaseApp);
+        } catch (error) {
+          // --debug
+          console.error({ "getMessaging:error": error });
+        }
       }
-    }
+    });
   });
   // tokens: Ref<Record<string:token, boolean:valid> | undefined>
   const { tokens, commit: commitToken } = useDocUserDeviceTokens();
   // subscribe when service available
   watch(
-    [notificationsGranted, () => auth.isAuthenticated$, () => service.value],
-    async ([notificationsGranted, isAuthenticated, client]) => {
-      if (some([notificationsGranted, isAuthenticated, client], boolNot))
+    [notificationsGranted, () => auth.isAuthenticated$, service, tokens],
+    async ([
+      notificationsGranted,
+      isAuthenticated,
+      client,
+      cloudTokensStore,
+    ]) => {
+      if (
+        some(
+          [notificationsGranted, isAuthenticated, client, cloudTokensStore],
+          boolNot
+        )
+      )
         return;
       try {
         // token:cache for server:push
         const tokenClientFCM = await getToken(client, { vapidKey: VAPID_KEY });
-        if (tokenClientFCM && !hasOwn(tokens.value, tokenClientFCM))
+        if (tokenClientFCM && !(tokenClientFCM in cloudTokensStore))
           await commitToken(tokenClientFCM, true);
         // add subscriber
         onMessage(client, options.onMessage);
