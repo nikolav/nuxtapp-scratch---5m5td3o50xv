@@ -588,6 +588,7 @@ export default defineNuxtConfig({
         "tabler:external-link",
         "tdesign:poweroff",
         "uil:github",
+        "material-symbols:notifications-active-outline-sharp",
       ],
       //
 

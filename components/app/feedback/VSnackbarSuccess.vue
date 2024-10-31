@@ -11,7 +11,7 @@ const {
 <template>
   <VSnackbar
     v-model="isActive"
-    location="bottom"
+    location="top center"
     color="success-darken-1"
     rounded="pill"
     :transition="DEFAULT_TRANSITION"

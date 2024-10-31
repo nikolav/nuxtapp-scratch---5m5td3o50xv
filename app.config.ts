@@ -3,6 +3,7 @@
 
 import type { TStoreMain, TStoreFlags, IConfigDocs, IAppData } from "@/types";
 import {
+  APP_NAME,
   PRODUCTION$,
   URL_APP_PUBLIC,
   MODE_DEBUG,
@@ -19,6 +20,7 @@ const themeDark = "dark";
 const themeLight = "light";
 
 export default defineAppConfig({
+  APP_NAME,
   ADMIN_EMAIL: "admin@nikolav.rs",
   DEBUG: true !== PRODUCTION$,
   APP_USER_DEFAULT: {
@@ -289,6 +291,7 @@ export default defineAppConfig({
       chat: "streamline:chat-two-bubbles-oval",
       location: "material-symbols:location-on",
       user: "ri:user-line",
+      notification: "material-symbols:notifications-active-outline-sharp",
     },
   },
   acconts: {

@@ -7,7 +7,7 @@ export const useMessagingNotification = () => {
     );
   const notificationSend = async (
     uids: number[],
-    payload: { title: string; body: string }
+    payload: { title: string; body: string; image?: string | undefined }
   ) => await mutate({ uids, payload });
   return { notificationSend, responseOk };
 };

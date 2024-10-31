@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Rn2YIcvZUR9cZtdAFd
-import { VBtnOpenGallery } from "@/components/app";
+import { VBtnOpenGallery, ProvideRefInnerSizePercent } from "@/components/app";
 import type { ILightboxSlide } from "@/types";
 defineOptions({
   inheritAttrs: false,
@@ -14,14 +14,11 @@ const props = withDefaults(
   }>(),
   {
     defaultNoImage: "/no-image.jpg",
-    propsContainer: {},
   }
 );
 // { file:File, dataurl:string }[]
 const imagesPicked = defineModel();
-const numImagesPicked = computed(() =>
-  imagesPicked.value ? len(imagesPicked.value) : 0
-);
+const numImagesPicked = computed(() => len(imagesPicked.value) || 0);
 const slidesImagesPicked = computed<ILightboxSlide[]>(() =>
   imagesPicked.value
     ? map(imagesPicked.value, (node: any) => ({
@@ -43,6 +40,7 @@ onChange(async (files) => {
     map(files, async (file: File) => ({ file, dataurl: await dataUrl(file) }))
   );
 });
+
 const filesClear = () => {
   reset();
   imagesPicked.value = undefined;
@@ -55,10 +53,13 @@ watch(
   }
 );
 
+const ref_IoNb44 = ref();
+
 // @@eos
 </script>
 <template>
   <VSheet
+    ref="ref_IoNb44"
     elevation="2"
     rounded
     class="w-full overflow-hidden p-[2px] position-relative"
@@ -88,21 +89,31 @@ watch(
             color="error"
             density="comfortable"
           >
-            <Icon size="1.22rem" name="material-symbols:delete" />
+            <Iconx size="1.22rem" icon="material-symbols:delete" />
           </VBtn>
         </template>
       </VToolbar>
       <slot name="action" :open="open">
-        <VBtn
-          @click="open()"
-          size="4.55rem"
-          color="surface"
-          variant="plain"
-          icon
-          class="position-absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]"
+        <ProvideRefInnerSizePercent
+          :ref-lookup="ref_IoNb44"
+          :percent="0.99"
+          v-slot="{ size }"
         >
-          <Icon size="4.55rem" name="material-symbols:photo-camera-rounded" />
-        </VBtn>
+          <VBtn
+            @click="open()"
+            color="surface"
+            :size="size"
+            variant="plain"
+            icon
+            rounded="circle"
+            class="position-absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]"
+          >
+            <Iconx
+              :size="size * 0.66"
+              icon="material-symbols:photo-camera-rounded"
+            />
+          </VBtn>
+        </ProvideRefInnerSizePercent>
       </slot>
     </VImg>
   </VSheet>

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 // ##imports
-import { useDisplay } from "vuetify";
 import { z } from "zod";
-import { Iconx } from "@/components/icons";
+import { useDisplay } from "vuetify";
+
 // ##config
 const props = defineProps<{
   loading?: boolean;
   resetId?: any;
   topic?: any;
+  notification?: boolean;
 }>();
 const {
   app: { DEFAULT_TRANSITION },
@@ -96,7 +97,7 @@ watch(() => props.resetId, formReset);
         <VTextarea
           v-model.trim="form.message.value"
           autofocus
-          placeholder="Poruka..."
+          :placeholder="`${notification ? 'Obaveštenje' : 'Poruka'}...`"
           variant="plain"
           clearable
         />

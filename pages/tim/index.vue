@@ -26,8 +26,9 @@ const {
   app: { TOOLTIPS_OPEN_DELAY, SEARCH_DEBOUNCE_DELAY, DEFAULT_TRANSITION },
   layout: { toolbarMainHeight },
   icon: {
-    aliases: { chat: iconChat },
+    aliases: { chat: iconChat, notification: iconNotification },
   },
+  APP_NAME,
 } = useAppConfig();
 const headers = [
   {
@@ -62,6 +63,8 @@ const iconSearch = renderIcon("material-symbols:search", {
 // @data
 const { users, reload: usersReload } = useQueryUsers();
 const { messageMany } = useQueryComms();
+const { notificationSend, responseOk: notificationResponseOk } =
+  useMessagingNotification();
 
 // @refs @flags
 const usersSearch = ref();
@@ -79,7 +82,9 @@ const usersFilteredGroups = computed(() =>
       )
 );
 const toggleMessageManyPosted = useToggleFlag();
+const toggleNotificationPosted = useToggleFlag();
 const toggleMenuIsActiveMessageMany = useToggleFlag();
+const toggleMenuIsActiveNotification = useToggleFlag();
 
 // @computed
 const noUsers = computed(() => isEmpty(usersFilteredGroups.value));
@@ -88,6 +93,7 @@ const isEmptyGroupsSelected = computed(() => isEmpty(groupsSelected.value));
 const groupsAll = computed(() =>
   sortBy(union(...map(users.value, "groups")), upperCase)
 );
+const selectionUids = computed(() => map(selection.value, "id"));
 
 // @utils
 const toggleToolbarSecondary = useToggleFlag();
@@ -134,13 +140,26 @@ const onMessageMany = async (message: string) => {
   if (
     !isEmpty(
       get(
-        await messageMany({ message, uids: map(selection.value, "id") }),
+        await messageMany({ message, uids: selectionUids.value }),
         "data.commsMessageMany.status.uids"
       )
     )
   ) {
     // message published
     toggleMessageManyPosted.on();
+  }
+};
+const onNotification = async (body: string) => {
+  if (
+    notificationResponseOk(
+      await notificationSend(selectionUids.value, {
+        title: `Obaveštenje, ${APP_NAME}`,
+        body,
+      })
+    )
+  ) {
+    // notification published
+    toggleNotificationPosted.on();
   }
 };
 
@@ -156,15 +175,32 @@ watch(toggleMessageManyPosted.isActive, (isActive) => {
     toggleMenuIsActiveMessageMany.off();
   }
 });
+watch(toggleNotificationPosted.isActive, (isActive) => {
+  if (isActive) {
+    toggleMenuIsActiveNotification.off();
+  }
+});
 
 // @@eos
 </script>
 <template>
   <section class="page--tim">
     <VMenuComposeChatMessage
-      :activator="undefined"
       v-model="toggleMenuIsActiveMessageMany.isActive.value"
+      :activator="undefined"
       @message="onMessageMany"
+      :class="
+        smAndUp
+          ? '!top-[44%] -translate-y-[44%] !start-1/2 -translate-x-1/2'
+          : 'translate-x-[4%] !top-[44%] -translate-y-[44%]'
+      "
+      :width="smAndUp ? 395 : '92%'"
+    />
+    <VMenuComposeChatMessage
+      notification
+      v-model="toggleMenuIsActiveNotification.isActive.value"
+      :activator="undefined"
+      @message="onNotification"
       :class="
         smAndUp
           ? '!top-[44%] -translate-y-[44%] !start-1/2 -translate-x-1/2'
@@ -174,6 +210,9 @@ watch(toggleMessageManyPosted.isActive, (isActive) => {
     />
     <VSnackbarSuccess v-model="toggleMessageManyPosted.isActive.value">
       <span>Poruka je uspešno poslata.</span>
+    </VSnackbarSuccess>
+    <VSnackbarSuccess v-model="toggleNotificationPosted.isActive.value">
+      <span>Obaveštenje je uspešno poslato.</span>
     </VSnackbarSuccess>
     <VCard id="ID--P8jDb" density="comfortable" variant="text" rounded="0">
       <!-- # https://vuetifyjs.com/en/components/data-tables/basics/#items -->
@@ -302,11 +341,11 @@ watch(toggleMessageManyPosted.isActive, (isActive) => {
                 :transition="DEFAULT_TRANSITION"
               >
                 <VList>
-                  <!-- @@messageMany -->
+                  <!-- @@message:many -->
                   <VListItem
                     @click="toggleMenuIsActiveMessageMany"
                     :disabled="!somePicked"
-                    value="p5EtuiJpan"
+                    value="message:p5EtuiJpan"
                   >
                     <template #prepend>
                       <Iconx
@@ -316,7 +355,24 @@ watch(toggleMessageManyPosted.isActive, (isActive) => {
                       />
                     </template>
                     <VListItemTitle>
-                      <span> Pošalji poruku korisnicima </span>
+                      <span> Poruka </span>
+                    </VListItemTitle>
+                  </VListItem>
+                  <!-- @@notification:users -->
+                  <VListItem
+                    @click="toggleMenuIsActiveNotification"
+                    :disabled="!somePicked"
+                    value="notification:8I30hrhUs"
+                  >
+                    <template #prepend>
+                      <Iconx
+                        :icon="iconNotification"
+                        class="me-2 opacity-20 -translate-x-[2px]"
+                        size="1.5rem"
+                      />
+                    </template>
+                    <VListItemTitle>
+                      <span> Obaveštenje </span>
                     </VListItemTitle>
                   </VListItem>
                 </VList>

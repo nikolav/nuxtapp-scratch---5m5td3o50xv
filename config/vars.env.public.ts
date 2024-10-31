@@ -1,6 +1,8 @@
 import { trimEndBase } from "../utils/trim-end-base";
 import { PRODUCTION$ } from "./vars.env";
 
+export const APP_NAME = "TEREN.FRIKOM";
+
 export const URL_APP_PUBLIC = PRODUCTION$
   ? // ? "https://frikom.nikolav.rs/"
     // "https://qdeiymppite.web.app/"
