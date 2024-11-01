@@ -442,6 +442,10 @@ export default defineNuxtConfig({
         imports: [{ name: "default", as: "reduce" }],
       },
       {
+        from: "lodash/escapeRegExp",
+        imports: [{ name: "default", as: "escapeRegExp" }],
+      },
+      {
         from: "validator/lib/isEmail",
         imports: [{ name: "default", as: "isEmail" }],
       },
@@ -589,6 +593,7 @@ export default defineNuxtConfig({
         "tdesign:poweroff",
         "uil:github",
         "material-symbols:notifications-active-outline-sharp",
+        "material-symbols:label-sharp",
       ],
       //
 

@@ -92,7 +92,7 @@ useHead({ title: "Roba" });
               variant="text"
               color="secondary"
               density="comfortable"
-              class="pa-0 ma-0"
+              class="pa-0 ma-0 ms-1"
             />
           </ProvideAssetImages>
           <NuxtLink v-bind="itemLinkTo(item)">

@@ -3,3 +3,4 @@ export { default as ProvideUserAvailability } from "./ProvideUserAvailability.vu
 export { default as VBadgeUserAvailability } from "./VBadgeUserAvailability.vue";
 export { default as ProvideUserProfile } from "./ProvideUserProfile.vue";
 export { default as VBtnShowLocation } from "./VBtnShowLocation.vue";
+export { default as VDialogManageUserTags } from "./VDialogManageUserTags.vue";

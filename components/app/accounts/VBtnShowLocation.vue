@@ -6,7 +6,12 @@ import { Iconx } from "@/components/icons";
 defineOptions({
   inheritAttrs: false,
 });
-const props = defineProps<{ uid: any; propsMenu?: any; propsSheet?: any }>();
+const props = defineProps<{
+  uid: any;
+  propsMenu?: any;
+  propsSheet?: any;
+  propsIcon?: any;
+}>();
 const {
   app: { TOOLTIPS_OPEN_DELAY, DEFAULT_TRANSITION },
 } = useAppConfig();
@@ -35,7 +40,11 @@ const {
       v-bind="$attrs"
     >
       <slot name="icon">
-        <Iconx size="1.22rem" icon="material-symbols:location-on" />
+        <Iconx
+          size="1.22rem"
+          icon="material-symbols:location-on"
+          v-bind="propsIcon"
+        />
       </slot>
       <VMenu
         location="end center"

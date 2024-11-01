@@ -281,3 +281,11 @@ export const M_cloudMessagingNotifications = gql`
     cloudMessagingNotifications(uids: $uids, payload: $payload)
   }
 `;
+
+// # usersTagsManage(tags: JsonData!): JsonData!
+export const M_usersTagsManage = gql`
+  mutation m_usersTagsManage($tags: JsonData!) {
+    usersTagsManage(tags: $tags)
+  }
+`;
+

@@ -92,6 +92,7 @@ export default defineAppConfig({
     DOCS_LIKES_prefix: "DOCS_LIKES:cmb8IRG3QNiA5r:",
     TOPIC_CHAT_ACTIVE_main:
       "TOPIC_CHAT_ACTIVE_main:oYgQb3SHdQiLpHO1Y0cv --title @kanal:frikom:Svi",
+    USERS_TAGS_prefix: "USERS_TAGS:6yXEQ5lK4e38jPN1:",
   },
   //
   FIELDS_OMIT_STORAGE_META: ["id", "created_at", "updated_at", "__typename"],
@@ -292,6 +293,7 @@ export default defineAppConfig({
       location: "material-symbols:location-on",
       user: "ri:user-line",
       notification: "material-symbols:notifications-active-outline-sharp",
+      label: "material-symbols:label-sharp",
     },
   },
   acconts: {

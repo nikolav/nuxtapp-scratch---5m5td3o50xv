@@ -95,7 +95,7 @@ watch(() => props.resetId, formReset);
           </template>
         </VTextField>
         <VTextarea
-          v-model.trim="form.message.value"
+          v-model="form.message.value"
           autofocus
           :placeholder="`${notification ? 'Obaveštenje' : 'Poruka'}...`"
           variant="plain"

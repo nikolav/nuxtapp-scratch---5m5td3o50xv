@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// 1MEGCDgb23pxaFqEC
+// 4c522173-c6d5-57d6-a60e-a832fafaf384
 const props = withDefaults(
   defineProps<{
     routeBackName?: string;
@@ -8,6 +8,7 @@ const props = withDefaults(
     text?: any;
     propsTitle?: any;
     propsActions?: any;
+    onClose?: any;
   }>(),
   {
     routeBackName: "aktiva-proizvodi",
@@ -34,10 +35,11 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
       <VToolbarItems v-bind="propsActions">
         <slot name="actions" />
       </VToolbarItems>
-      <slot name="append" :toRoutePrev="ROUTE_BACK">
+      <slot name="append" :toRoutePrev="ROUTE_BACK" :onClose="onClose">
         <VBtn
+          @click="onClose"
           size="small"
-          :to="ROUTE_BACK"
+          :to="onClose ? undefined : ROUTE_BACK"
           icon="$close"
           variant="plain"
           density="comfortable"

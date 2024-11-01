@@ -30,6 +30,7 @@ export const useTopics = () => {
       TOPIC_CHAT_ACTIVE_name,
       DOCS_LIKES_prefix,
       TOPIC_CHAT_ACTIVE_main,
+      USERS_TAGS_prefix,
     },
     firebase: {
       messaging: { KEY_FCM_DEVICE_TOKENS },
@@ -94,6 +95,7 @@ export const useTopics = () => {
   const likesDocs = (ddid?: any) => (ddid ? `${DOCS_LIKES_prefix}${ddid}` : "");
   const firebasePathAssetsAvatars = (id?: any) =>
     id ? `${trimEnd(PATH_ASSETS_AVATARS, "/")}/${id}` : "";
+  const usersTags = (tag?: any) => (tag ? `${USERS_TAGS_prefix}${tag}` : "");
 
   return {
     CHAT_MAIN,
@@ -101,6 +103,7 @@ export const useTopics = () => {
     TOPIC_CHAT_ACTIVE,
     TOPIC_CHAT_ACTIVE_name,
     TOPIC_CHAT_ACTIVE_main,
+    USERS_TAGS_prefix,
     //
     chatOrder,
     chatUserChannel,
@@ -126,6 +129,7 @@ export const useTopics = () => {
     likesAssets,
     chatAssets,
     likesDocs,
+    usersTags,
     //
     ioeventAccountUpdated,
   };

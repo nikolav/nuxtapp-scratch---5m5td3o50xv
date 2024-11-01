@@ -85,6 +85,7 @@ const toggleMessageManyPosted = useToggleFlag();
 const toggleNotificationPosted = useToggleFlag();
 const toggleMenuIsActiveMessageMany = useToggleFlag();
 const toggleMenuIsActiveNotification = useToggleFlag();
+const userDisplayName = inject(key_USER_DISPLAY_NAME);
 
 // @computed
 const noUsers = computed(() => isEmpty(usersFilteredGroups.value));
@@ -153,7 +154,13 @@ const onNotification = async (body: string) => {
   if (
     notificationResponseOk(
       await notificationSend(selectionUids.value, {
-        title: `Obaveštenje, ${APP_NAME}`,
+        title: [
+          "Obaveštenje",
+          APP_NAME,
+          userDisplayName?.value ? "@" + userDisplayName.value : "",
+        ]
+          .filter(Boolean)
+          .join(" | "),
         body,
       })
     )
@@ -504,7 +511,7 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
                 class="ps-2 pe-0"
               >
                 <VCheckboxBtn
-                  class="mx-0 scale-[122%]"
+                  class="mx-0 scale-[122%] -translate-y-[2px]"
                   @click.stop
                   :model-value="isSelected(internalItem)"
                   @update:model-value="toggleSelect(internalItem)"
@@ -529,14 +536,15 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
                 v-else-if="col.key == 'fullname'"
                 :class="[smAndUp ? undefined : 'ps-1']"
               >
-                <VBadgeUserAvailability :uid="item.id" />
+                <VBadgeUserAvailability class="!translate-y-1" :uid="item.id" />
                 <VBtnShowLocation
                   :props-sheet="{ color: 'info' }"
                   :props-menu="{
                     location: 'bottom',
                   }"
-                  class="-translate-y-[2px]"
+                  class="-translate-y-[2px] me-1"
                   :uid="item.id"
+                  :props-icon="{ size: '1.55rem' }"
                 >
                   <template #location="{ profile }">
                     <strong class="text-lg">{{
