@@ -31,6 +31,7 @@ export const useQueryUsers = (UIDS?: any, $ENABLED: any = true) => {
     () => (isAll_.value ? result.value?.users : result.value?.usersOnly) || []
   );
   const uids = computed(() => map(users.value, "id") || []);
+  const size = computed(() => len(users.value));
   const reload = async () => await refetch();
   useOnceMountedOn(true, queryStart);
 
@@ -40,5 +41,5 @@ export const useQueryUsers = (UIDS?: any, $ENABLED: any = true) => {
   useIOEvent(IOEVENT_AUTH_NEWUSER, reload);
   useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reload);
 
-  return { uids, users, reload, enabled, loading };
+  return { users, uids, size, reload, enabled, loading };
 };

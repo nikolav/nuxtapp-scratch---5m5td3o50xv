@@ -18,13 +18,16 @@ const {
 // ##utils
 const { smAndUp } = useDisplay();
 const { usersTags } = useTopics();
+const { calcDisplayName } = useAuthUtils();
 // ##icons
 // ##refs ##flags
 const mIsActive = defineModel<boolean>();
 const mUids = defineModel<OrNoValue<IUser[]>>("uids");
 
 // ##data ##auth ##state
-const { users: mUsers } = useQueryUsers(() => toValue(mUids));
+const { users: mUsers, size: sizeUsersSelection } = useQueryUsers(() =>
+  toValue(mUids)
+);
 const {
   tags,
   search,
@@ -54,6 +57,9 @@ const tagsNotIncluded = computed(() =>
 );
 const tagsNotIncludedShortened = computed(() =>
   map(tagsNotIncluded.value, tagShorten)
+);
+const displayNames = computed(() =>
+  map(mUsers.value, calcDisplayName).join(" • ")
 );
 
 // ##forms ##helpers ##handlers
@@ -100,8 +106,16 @@ const handleOnAdd = async (tag: string) =>
                 isActive.value = false;
               }
             "
-            text="Označi korisnike"
           >
+            <template #title>
+              <span>Označi korisnike</span>
+              <VBadge
+                color="primary-darken-3"
+                :content="sizeUsersSelection"
+                inline
+                class="ms-1"
+              />
+            </template>
             <template #prepend>
               <Iconx
                 size="1.22rem"
@@ -111,6 +125,12 @@ const handleOnAdd = async (tag: string) =>
             </template>
           </VToolbarPrimary>
         </VCardItem>
+        <p
+          v-if="displayNames"
+          class="text-center font-italic mt-1 opacity-50 prose-sm"
+        >
+          {{ displayNames }}
+        </p>
         <VCardText>
           <template v-if="someTagsIncluded">
             <div class="__spacer mt-3 d-flex items-center gap-2 flex-wrap">

@@ -197,7 +197,7 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
     toggleMenuIsActiveNotification.off();
   }
 });
-// @on:selection:manual/ui
+// @on:selection:manual/soft
 //  update .uidsSelected
 watch(selection, () => {
   uidsSelected.value = map(selection.value, toUid) || [];
