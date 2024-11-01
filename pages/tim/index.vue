@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
-import type { IUser } from "@/types";
+import type { IUser, OrNoValue } from "@/types";
 import { renderIcon, Iconx } from "@/components/icons";
 import {
   VChipPlus,
@@ -10,6 +10,7 @@ import {
   VBtnShowLocation,
   VMenuComposeChatMessage,
   VSnackbarSuccess,
+  VDialogManageUsersTags,
 } from "@/components/app";
 
 definePageMeta({
@@ -25,9 +26,6 @@ const { smAndUp } = useDisplay();
 const {
   app: { TOOLTIPS_OPEN_DELAY, SEARCH_DEBOUNCE_DELAY, DEFAULT_TRANSITION },
   layout: { toolbarMainHeight },
-  icon: {
-    aliases: { chat: iconChat, notification: iconNotification },
-  },
   APP_NAME,
 } = useAppConfig();
 const headers = [
@@ -60,6 +58,9 @@ const iconSearch = renderIcon("material-symbols:search", {
   class: "opacity-50",
 });
 
+// @utils
+const toUid = (u: any) => Number(u.id);
+
 // @data
 const { users, reload: usersReload } = useQueryUsers();
 const { messageMany } = useQueryComms();
@@ -85,7 +86,15 @@ const toggleMessageManyPosted = useToggleFlag();
 const toggleNotificationPosted = useToggleFlag();
 const toggleMenuIsActiveMessageMany = useToggleFlag();
 const toggleMenuIsActiveNotification = useToggleFlag();
+const toggleDialogUsersTagsIsActive = useToggleFlag();
 const userDisplayName = inject(key_USER_DISPLAY_NAME);
+
+const uidsSelectedKEY = useUniqueId();
+const uidsSelected = ref<OrNoValue<number[]>>();
+const onModelValueDataTable = (args: OrNoValue<IUser[]>) => {
+  uidsSelected.value = map(args, toUid);
+  uidsSelectedKEY();
+};
 
 // @computed
 const noUsers = computed(() => isEmpty(usersFilteredGroups.value));
@@ -94,7 +103,7 @@ const isEmptyGroupsSelected = computed(() => isEmpty(groupsSelected.value));
 const groupsAll = computed(() =>
   sortBy(union(...map(users.value, "groups")), upperCase)
 );
-const selectionUids = computed(() => map(selection.value, "id"));
+const selectionUids = computed(() => map(selection.value, toUid));
 
 // @utils
 const toggleToolbarSecondary = useToggleFlag();
@@ -126,6 +135,7 @@ const usersSelectToggle = () => {
     "id"
   );
 };
+
 // show @@user screen
 const { showUserScreen } = useNavigationUtils();
 const calcValueOf = (maybeCallableOrValue: any, node: any) =>
@@ -187,7 +197,20 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
     toggleMenuIsActiveNotification.off();
   }
 });
-
+// @on:selection:manual/ui
+//  update .uidsSelected
+watch(selection, () => {
+  uidsSelected.value = map(selection.value, toUid) || [];
+});
+// @on-users
+//  re-select active
+watch(users, () => {
+  if (!isEmpty(uidsSelected.value)) {
+    selection.value = filter(users.value, (u: any) =>
+      uidsSelected.value?.includes(Number(u.id))
+    );
+  }
+});
 // @@eos
 </script>
 <template>
@@ -221,6 +244,11 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
     <VSnackbarSuccess v-model="toggleNotificationPosted.isActive.value">
       <span>Obaveštenje je uspešno poslato.</span>
     </VSnackbarSuccess>
+    <VDialogManageUsersTags
+      :key="uidsSelectedKEY.ID.value"
+      v-model:uids="uidsSelected"
+      v-model="toggleDialogUsersTagsIsActive.isActive.value"
+    />
     <VCard id="ID--P8jDb" density="comfortable" variant="text" rounded="0">
       <!-- # https://vuetifyjs.com/en/components/data-tables/basics/#items -->
       <VDataTable
@@ -238,6 +266,7 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
         color="primary"
         density="comfortable"
         class="CLASS--VDataTable--no-row-divider"
+        @update:model-value="onModelValueDataTable"
       >
         <template #top>
           <!-- @@toolbar:1 -->
@@ -348,6 +377,24 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
                 :transition="DEFAULT_TRANSITION"
               >
                 <VList>
+                  <!-- @@users:tags -->
+                  <VListItem
+                    @click="toggleDialogUsersTagsIsActive"
+                    :disabled="!somePicked"
+                    value="users-tags:GGn1YO3"
+                  >
+                    <template #prepend>
+                      <Iconx
+                        icon="label"
+                        class="me-3 opacity-30"
+                        size="1.25rem"
+                      />
+                    </template>
+                    <VListItemTitle>
+                      <span> Označi </span>
+                    </VListItemTitle>
+                  </VListItem>
+                  <VDivider class="border-opacity-100" />
                   <!-- @@message:many -->
                   <VListItem
                     @click="toggleMenuIsActiveMessageMany"
@@ -356,7 +403,7 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
                   >
                     <template #prepend>
                       <Iconx
-                        :icon="iconChat"
+                        icon="chat"
                         class="me-3 opacity-30"
                         size="1.25rem"
                       />
@@ -373,7 +420,7 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
                   >
                     <template #prepend>
                       <Iconx
-                        :icon="iconNotification"
+                        icon="notification"
                         class="me-2 opacity-20 -translate-x-[2px]"
                         size="1.5rem"
                       />

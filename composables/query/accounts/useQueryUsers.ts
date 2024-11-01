@@ -9,9 +9,9 @@ export const useQueryUsers = (UIDS?: any, $ENABLED: any = true) => {
   const isAll_ = computed(() => isEmpty(uidsProvided.value));
   watchEffect(() => {
     const uids_ = toValue(UIDS);
-    uidsProvided.value = isEmpty(uids_)
-      ? undefined
-      : map(filter(uids_, isNumeric), Number);
+    uidsProvided.value =
+      (isEmpty(uids_) ? undefined : map(filter(uids_, isNumeric), Number)) ||
+      [];
   });
   const enabled = computed(() => toValue($ENABLED));
   const {

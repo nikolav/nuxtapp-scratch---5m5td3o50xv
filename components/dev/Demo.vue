@@ -1,21 +1,30 @@
 <script setup lang="ts">
 // 8rWqBKIKsWZ4pbf1
 import { Test, Dump } from "@/components/dev";
-import { VDialogManageUserTags } from "@/components/app";
+import { VDialogManageUsersTags } from "@/components/app";
 
-const { commit } = useMutationUsersTags();
+const uids = [1];
+
+const { commit, tags, search } = useMutationUsersTags();
 const toggleDialog = useToggleFlag();
 const ok = async () => {
-  const res = await commit({ "1": { "foo.1": false } });
+  const res = await commit({ "1": { "bar.2": true } });
   console.log({ res });
 };
 // @@eos
 </script>
 <template>
-  <section class="*bg-red min-h-[422px] d-flex items-center justify-center">
+  <section class="component--Demo">
+    <div>
+      <VTextField v-model="search" label="tags:search" clearable />
+    </div>
     <VBtn @click="ok">ok</VBtn>
     <VBtn @click="toggleDialog">dialog</VBtn>
-    <VDialogManageUserTags v-model="toggleDialog.isActive.value" />
+    <VDialogManageUsersTags
+      v-model="toggleDialog.isActive.value"
+      v-model:uids="uids"
+    />
+    <Dump :data="{ tags }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

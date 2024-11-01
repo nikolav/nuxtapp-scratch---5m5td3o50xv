@@ -446,6 +446,22 @@ export default defineNuxtConfig({
         imports: [{ name: "default", as: "escapeRegExp" }],
       },
       {
+        from: "lodash/intersection",
+        imports: [{ name: "default", as: "intersection" }],
+      },
+      {
+        from: "lodash/intersectionBy",
+        imports: [{ name: "default", as: "intersectionBy" }],
+      },
+      {
+        from: "lodash/uniqBy",
+        imports: [{ name: "default", as: "uniqBy" }],
+      },
+      {
+        from: "lodash/uniq",
+        imports: [{ name: "default", as: "uniq" }],
+      },
+      {
         from: "validator/lib/isEmail",
         imports: [{ name: "default", as: "isEmail" }],
       },
@@ -594,6 +610,9 @@ export default defineNuxtConfig({
         "uil:github",
         "material-symbols:notifications-active-outline-sharp",
         "material-symbols:label-sharp",
+        "material-symbols:label-outline-sharp",
+        "material-symbols:new-label-outline-sharp",
+        "material-symbols:label-off-outline-sharp",
       ],
       //
 

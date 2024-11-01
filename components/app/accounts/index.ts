@@ -3,4 +3,6 @@ export { default as ProvideUserAvailability } from "./ProvideUserAvailability.vu
 export { default as VBadgeUserAvailability } from "./VBadgeUserAvailability.vue";
 export { default as ProvideUserProfile } from "./ProvideUserProfile.vue";
 export { default as VBtnShowLocation } from "./VBtnShowLocation.vue";
-export { default as VDialogManageUserTags } from "./VDialogManageUserTags.vue";
+export { default as VDialogManageUsersTags } from "./VDialogManageUsersTags.vue";
+export { default as VChipUserTag } from "./VChipUserTag.vue";
+export { default as VBtnUsersTagsAdd } from "./VBtnUsersTagsAdd.vue";
