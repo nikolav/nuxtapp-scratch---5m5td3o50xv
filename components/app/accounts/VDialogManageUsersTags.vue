@@ -20,9 +20,9 @@ const { smAndUp } = useDisplay();
 const { usersTags } = useTopics();
 const { calcDisplayName } = useAuthUtils();
 // ##icons
-// ##refs ##flags
+// ##refs ##vmodels ##flags
 const mIsActive = defineModel<boolean>();
-const mUids = defineModel<OrNoValue<IUser[]>>("uids");
+const mUids = defineModel<OrNoValue<number[]>>("uids");
 
 // ##data ##auth ##state
 const { users: mUsers, size: sizeUsersSelection } = useQueryUsers(() =>
@@ -37,7 +37,7 @@ const {
 } = useMutationUsersTags();
 
 // ##computed
-// tags in :users
+// tags in users[]
 const tagsAppliedFromUsers = computed(() =>
   intersectionBy(...map(mUsers.value, getUserTagsFull), upperCase)
 );
@@ -49,7 +49,8 @@ const tagsNotIncluded = computed(() =>
   differenceBy(
     // tags.value,
     search.value
-      ? uniqBy([...[usersTags(search.value)], ...tags.value], upperCase)
+      ? // prepended search query
+        uniqBy([...[usersTags(search.value)], ...tags.value], upperCase)
       : tags.value,
     tagsAppliedFromUsers.value,
     upperCase
@@ -58,12 +59,11 @@ const tagsNotIncluded = computed(() =>
 const tagsNotIncludedShortened = computed(() =>
   map(tagsNotIncluded.value, tagShorten)
 );
-const displayNames = computed(() =>
-  map(mUsers.value, calcDisplayName).join(" • ")
-);
+const displayNames = computed(() => map(mUsers.value, calcDisplayName));
+const formatDisplayNames = computed(() => displayNames.value.join(" • "));
 
 // ##forms ##helpers ##handlers
-const buildHandleTags = (tag: string, flag: boolean) =>
+const buildHandleTagCommit = (tag: string, flag: boolean) =>
   reduce(
     mUsers.value,
     (res: any, u: IUser) => {
@@ -73,9 +73,9 @@ const buildHandleTags = (tag: string, flag: boolean) =>
     <any>{}
   );
 const handleOnClear = async (tag: string) =>
-  await tagsCommit(buildHandleTags(tag, false));
+  await tagsCommit(buildHandleTagCommit(tag, false));
 const handleOnAdd = async (tag: string) =>
-  await tagsCommit(buildHandleTags(tag, true));
+  await tagsCommit(buildHandleTagCommit(tag, true));
 // ##watch
 // ##hooks:lifecycle
 // ##head ##meta
@@ -126,10 +126,10 @@ const handleOnAdd = async (tag: string) =>
           </VToolbarPrimary>
         </VCardItem>
         <p
-          v-if="displayNames"
+          v-if="!isEmpty(displayNames)"
           class="text-center font-italic mt-1 opacity-50 prose-sm"
         >
-          {{ displayNames }}
+          {{ formatDisplayNames }}
         </p>
         <VCardText>
           <template v-if="someTagsIncluded">

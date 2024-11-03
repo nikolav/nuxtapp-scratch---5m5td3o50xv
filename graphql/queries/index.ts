@@ -683,8 +683,19 @@ export const Q_assetsList = gql`
 
 // tagsSearchTagLike(search: String!, prefix: String, attach: String): [String!]!
 export const Q_tagsSearchTagLike = gql`
-  query q_tagsSearchTagLike($search: String!, $prefix: String, $attach: String) {
+  query q_tagsSearchTagLike(
+    $search: String!
+    $prefix: String
+    $attach: String
+  ) {
     tagsSearchTagLike(search: $search, prefix: $prefix, attach: $attach)
+  }
+`;
+
+// cacheRedisGetCacheByKey(cache_key: String!): JsonData!
+export const Q_cacheRedisGetCacheByKey = gql`
+  query q_cacheRedisGetCacheByKey($cache_key: String!) {
+    cacheRedisGetCacheByKey(cache_key: $cache_key)
   }
 `;
 

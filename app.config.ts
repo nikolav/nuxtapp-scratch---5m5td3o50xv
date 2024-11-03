@@ -183,6 +183,8 @@ export default defineAppConfig({
     IOEVENT_STORAGE_CHANGE: "@storage:",
     IOEVENT_STORY_PHOTOS_CHANGE_prefix: "@change:story:images:VDMf82FNKpfl6m:",
     IOEVENT_USER_POSTS_CHANGE_prefix: "@change:posts:rBN5PAj9uZM9wrOq5:",
+    IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix:
+      "IOEVENT_REDIS_CACHE_KEY_UPDATED:Hvtmg8LbKbeajKb:",
   },
   theme: {
     DEFAULT: themeLight,
@@ -298,6 +300,9 @@ export default defineAppConfig({
       "label-add": "material-symbols:new-label-outline-sharp",
       "label-rm": "material-symbols:label-off-outline-sharp",
       trash: "material-symbols:delete",
+      "check-off": "mdi:checkbox-blank-circle-outline",
+      "check-on": "mdi:checkbox-marked-circle",
+      search: "material-symbols:search",
     },
   },
   acconts: {
@@ -380,5 +385,8 @@ export default defineAppConfig({
         PHYSICAL_STORE: "PHYSICAL_STORE:5btoy9I8IKgT0RJO",
       },
     },
+  },
+  redis: {
+    defaultCacheKey: "_main:2a7b484c-fc40-5d2f-b294-2e33b3b01afd",
   },
 });

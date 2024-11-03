@@ -1,15 +1,27 @@
 <script setup lang="ts">
+// @@centered
+// :class="[
+//         '!top-[33%] -translate-y-[33%]',
+//         smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
+//       ]"
+//       :width="smAndUp ? 412 : '92%'"
+
 // ##imports
 import { z } from "zod";
 import { useDisplay } from "vuetify";
 
 // ##config
-const props = defineProps<{
-  loading?: boolean;
-  resetId?: any;
-  topic?: any;
-  notification?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    loading?: boolean;
+    resetId?: any;
+    topic?: any;
+    notification?: boolean;
+  }>(),
+  {
+    topic: "413c9264-5469-5c38-9e93-051eb180e065",
+  }
+);
 const {
   app: { DEFAULT_TRANSITION },
 } = useAppConfig();

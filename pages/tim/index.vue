@@ -52,9 +52,9 @@ const headers = [
 ];
 
 // @icons
-const iconCheckOff = renderIcon("mdi:checkbox-blank-circle-outline");
-const iconCheckOn = renderIcon("mdi:checkbox-marked-circle");
-const iconSearch = renderIcon("material-symbols:search", {
+const iconCheckOff = renderIcon("check-off");
+const iconCheckOn = renderIcon("check-on");
+const iconSearch = renderIcon("search", {
   class: "opacity-50",
 });
 
@@ -91,8 +91,11 @@ const userDisplayName = inject(key_USER_DISPLAY_NAME);
 
 const uidsSelectedKEY = useUniqueId();
 const uidsSelected = ref<OrNoValue<number[]>>();
-const onModelValueDataTable = (args: OrNoValue<IUser[]>) => {
-  uidsSelected.value = map(args, toUid);
+const uidsSelect = (selectionUsers: OrNoValue<any[]>) => {
+  uidsSelected.value = map(selectionUsers, toUid) || [];
+};
+const onModelValueDataTable = (selection: OrNoValue<IUser[]>): void => {
+  uidsSelect(selection);
   uidsSelectedKEY();
 };
 
@@ -199,15 +202,13 @@ watch(toggleNotificationPosted.isActive, (isActive) => {
 });
 // @on:selection:manual/soft
 //  update .uidsSelected
-watch(selection, () => {
-  uidsSelected.value = map(selection.value, toUid) || [];
-});
+watch(selection, uidsSelect);
 // @on-users
 //  re-select active
 watch(users, () => {
   if (!isEmpty(uidsSelected.value)) {
     selection.value = filter(users.value, (u: any) =>
-      uidsSelected.value?.includes(Number(u.id))
+      uidsSelected.value!.includes(Number(u.id))
     );
   }
 });
@@ -219,24 +220,24 @@ watch(users, () => {
       v-model="toggleMenuIsActiveMessageMany.isActive.value"
       :activator="undefined"
       @message="onMessageMany"
-      :class="
-        smAndUp
-          ? '!top-[44%] -translate-y-[44%] !start-1/2 -translate-x-1/2'
-          : 'translate-x-[4%] !top-[44%] -translate-y-[44%]'
-      "
+      :class="[
+        '!top-[33%] -translate-y-[33%]',
+        smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
+      ]"
       :width="smAndUp ? 395 : '92%'"
+      topic="message@tim"
     />
     <VMenuComposeChatMessage
       notification
       v-model="toggleMenuIsActiveNotification.isActive.value"
       :activator="undefined"
       @message="onNotification"
-      :class="
-        smAndUp
-          ? '!top-[44%] -translate-y-[44%] !start-1/2 -translate-x-1/2'
-          : 'translate-x-[4%] !top-[44%] -translate-y-[44%]'
-      "
+      :class="[
+        '!top-[33%] -translate-y-[33%]',
+        smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
+      ]"
       :width="smAndUp ? 395 : '92%'"
+      topic="notification@tim"
     />
     <VSnackbarSuccess v-model="toggleMessageManyPosted.isActive.value">
       <span>Poruka je uspešno poslata.</span>

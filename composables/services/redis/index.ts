@@ -1,0 +1,1 @@
+export { useCacheRedis } from "./useCacheRedis"

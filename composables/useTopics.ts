@@ -40,7 +40,10 @@ export const useTopics = () => {
         PATH_ASSETS_AVATARS,
       },
     },
-    io: { IOEVENT_ACCOUNTS_UPDATED_prefix },
+    io: {
+      IOEVENT_ACCOUNTS_UPDATED_prefix,
+      IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix,
+    },
   } = useAppConfig();
   const chatUserChannel = (uid?: any) =>
     uid ? `${TOPIC_CHAT_USER_CHANNEL_prefix}${uid}` : "";
@@ -96,6 +99,8 @@ export const useTopics = () => {
   const firebasePathAssetsAvatars = (id?: any) =>
     id ? `${trimEnd(PATH_ASSETS_AVATARS, "/")}/${id}` : "";
   const usersTags = (tag?: any) => (tag ? `${USERS_TAGS_prefix}${tag}` : "");
+  const ioeventRedisCacheKey = (cacheKey?: any) =>
+    cacheKey ? `${IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix}${cacheKey}` : "";
 
   return {
     CHAT_MAIN,
@@ -132,5 +137,6 @@ export const useTopics = () => {
     usersTags,
     //
     ioeventAccountUpdated,
+    ioeventRedisCacheKey,
   };
 };
