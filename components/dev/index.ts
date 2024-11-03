@@ -1,3 +1,4 @@
 export { default as Demo } from "./Demo.vue";
 export { default as Dump } from "./Dump.vue";
 export { default as Test } from "./Test.vue";
+export { default as Foo } from "./Foo.vue";

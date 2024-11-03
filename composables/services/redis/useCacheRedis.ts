@@ -53,8 +53,8 @@ export const useCacheRedis = (CACHE_KEY?: any) => {
         })
       : undefined;
   // @io
-  const ioevent = computed(() => ioeventRedisCacheKey(cache_key.value));
-  watchEffect(() => useIOEvent(ioevent.value, reload));
+  const ioevent_ = computed(() => ioeventRedisCacheKey(cache_key.value));
+  watchEffect(() => useIOEvent(ioevent_.value, reload));
   // @processing
   const processing = computed(() => loading.value || mutateLoading.value);
   //
