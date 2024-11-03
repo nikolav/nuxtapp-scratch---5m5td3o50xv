@@ -65,5 +65,7 @@ export const useCacheRedis = (CACHE_KEY?: any) => {
     enabled,
     reload,
     processing,
+    // alias
+    cache: store,
   };
 };
