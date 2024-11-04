@@ -303,6 +303,10 @@ export default defineAppConfig({
       "check-off": "mdi:checkbox-blank-circle-outline",
       "check-on": "mdi:checkbox-marked-circle",
       search: "material-symbols:search",
+      "user-add":
+        "streamline:interface-user-add-actions-add-close-geometric-human-person-plus-single-up-user",
+      eye: "mdi:eye",
+      "eye-off": "mdi:eye-off",
     },
   },
   acconts: {

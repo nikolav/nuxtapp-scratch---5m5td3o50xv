@@ -1,10 +1,14 @@
 <script setup lang="ts">
-// 0e1ef4f7-59ba-5029-a73a-58d4854a4312
+// b343b50d-de03-50c4-a420-84add7c5ee07
 import {
   schemaAuthAccount,
   schemaAuthCredentialsWithPolicies,
 } from "@/schemas";
-import { VSnackbarSuccess, VSheetPinCodeRequired } from "@/components/app";
+import {
+  VSnackbarSuccess,
+  VSheetPinCodeRequired,
+  VToolbarPrimary,
+} from "@/components/app";
 
 definePageMeta({
   middleware: "authorized",
@@ -13,7 +17,7 @@ definePageMeta({
 
 const {
   layout: { toolbarMainHeight },
-  app: { TOOLTIPS_OPEN_DELAY },
+  app: { TOOLTIPS_OPEN_DELAY, DEFAULT_TRANSITION },
 } = useAppConfig();
 
 // @ref
@@ -54,6 +58,11 @@ const {
   }
 );
 
+// measure select .width
+const ref_vCdrsAnOe = ref();
+const select_el$ = useComponentEl(ref_vCdrsAnOe);
+const { width: WS } = useElementSize(select_el$);
+
 // @watch
 onMounted(() => {
   watch(accountsAdded, (account: any) => {
@@ -64,7 +73,6 @@ onMounted(() => {
 });
 
 // @handlers
-const onCancel = formClear;
 
 // @@eos
 </script>
@@ -78,38 +86,16 @@ const onCancel = formClear;
     </VSnackbarSuccess>
     <VForm @submit.prevent autocomplete="off">
       <VCard rounded="t-0" variant="text">
-        <VToolbar color="primary" :height="toolbarMainHeight" class="ps-3">
-          <VToolbarTitle class="text-center font-italic text-body-1 opacity-50">
-            Nov korisnički nalog
-          </VToolbarTitle>
+        <VToolbarPrimary
+          :props-title="{ class: 'text-body-1 font-italic' }"
+          route-back-name="tim"
+          text="Nov korisnički nalog"
+        >
           <template #prepend>
-            <Icon
-              name="streamline:interface-user-add-actions-add-close-geometric-human-person-plus-single-up-user"
-              class="opacity-30"
-              size="1.25rem"
-            />
-            <VDivider vertical inset class="ms-3" />
+            <Iconx icon="user-add" class="opacity-20 ms-2" size="1.22rem" />
           </template>
-          <template #append>
-            <NuxtLink :to="{ name: 'tim' }">
-              <VBtn
-                @click="onCancel"
-                icon
-                variant="plain"
-                density="comfortable"
-              >
-                <VIcon icon="$close" size="small" />
-                <VTooltip
-                  :open-delay="TOOLTIPS_OPEN_DELAY"
-                  text="Odustani"
-                  location="bottom"
-                  activator="parent"
-                />
-              </VBtn>
-            </NuxtLink>
-          </template>
-        </VToolbar>
-        <VCardText class="mt-3 max-w-[492px] mx-auto">
+        </VToolbarPrimary>
+        <VCardText class="mt-2 max-w-[492px] mx-auto">
           <!-- @@eamil -->
           <VTextField
             rounded="pill"
@@ -146,19 +132,19 @@ const onCancel = formClear;
                 variant="plain"
                 density="comfortable"
               >
-                <Icon
+                <Iconx
                   size="1.22rem"
-                  :name="
-                    togglePasswordIsVisible.isActive.value
-                      ? 'mdi:eye'
-                      : 'mdi:eye-off'
+                  :icon="
+                    togglePasswordIsVisible.isActive.value ? 'eye' : 'eye-off'
                   "
                 />
               </VBtn>
             </template>
           </VTextField>
           <VSelect
+            ref="ref_vCdrsAnOe"
             v-model="form.policies.value"
+            center-affix
             label="Tip"
             closable-chips
             single-line
@@ -167,14 +153,17 @@ const onCancel = formClear;
             color="primary"
             variant="solo-filled"
             multiple
+            clearable
+            :list-props="{ class: 'py-0' }"
+            :menu-props="{
+              location: 'center',
+              transition: DEFAULT_TRANSITION,
+              width: WS,
+            }"
             :items="[
               {
                 title: 'Administrator',
                 value: 'admin',
-              },
-              {
-                title: 'Menadžer',
-                value: 'manager',
               },
               {
                 title: 'Spoljni kontakt',
@@ -202,7 +191,6 @@ const onCancel = formClear;
             rounded="pill"
             size="x-large"
             variant="elevated"
-            :color="valid ? 'primary' : 'secondary'"
           >
             <VIcon start icon="$plus" class="opacity-50" size="large" />
             <span>Nov Nalog</span>
@@ -227,8 +215,8 @@ const onCancel = formClear;
                     size="large"
                     :disabled="pin != text"
                   >
-                    <Icon
-                      name="streamline:interface-user-add-actions-add-close-geometric-human-person-plus-single-up-user"
+                    <Iconx
+                      icon="user-add"
                       size="1.22rem"
                       class="me-2 opacity-50"
                     />

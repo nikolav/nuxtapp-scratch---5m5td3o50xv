@@ -516,9 +516,10 @@ export const Q_usersOnly = gql`
   }
 `;
 
+// users(skip_external: Boolean): [User!]!
 export const Q_users = gql`
-  query q_users {
-    users {
+  query q_users($skip_external: Boolean) {
+    users(skip_external: $skip_external) {
       id
       email
       profile

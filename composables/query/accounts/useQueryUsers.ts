@@ -1,6 +1,10 @@
 import type { IUser } from "@/types";
 import { Q_users, Q_usersOnly } from "@/graphql";
-export const useQueryUsers = (UIDS?: any, $ENABLED: any = true) => {
+export const useQueryUsers = (
+  UIDS?: any,
+  $ENABLED: any = true,
+  $EXTERNAL = false
+) => {
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
     io: { IOEVENT_AUTH_NEWUSER, IOEVENT_ACCOUNTS_UPDATED },
@@ -14,6 +18,11 @@ export const useQueryUsers = (UIDS?: any, $ENABLED: any = true) => {
       [];
   });
   const enabled = computed(() => toValue($ENABLED));
+  // include users:external
+  const skip_external = ref();
+  watchEffect(() => {
+    skip_external.value = !toValue($EXTERNAL);
+  });
   const {
     result,
     load: queryStart,
@@ -21,7 +30,8 @@ export const useQueryUsers = (UIDS?: any, $ENABLED: any = true) => {
     loading,
   } = useLazyQuery<{ users?: IUser[]; usersOnly?: IUser[] }>(
     isAll_.value ? Q_users : Q_usersOnly,
-    isAll_.value ? undefined : { uids: uidsProvided },
+    // isAll_.value ? undefined : { uids: uidsProvided },
+    isAll_.value ? { skip_external } : { uids: uidsProvided },
     {
       enabled,
       pollInterval: STORAGE_QUERY_POLL_INTERVAL,

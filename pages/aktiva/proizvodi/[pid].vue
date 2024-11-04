@@ -67,6 +67,7 @@ const aFields = {
       : undefined;
   }),
 };
+const toObjectWithSrc = (src: any) => ({ src });
 // ##watch
 // ##hooks:lifecycle
 useOnceMountedOn(() => 1 < imagesLength.value, slidesStart);
@@ -88,7 +89,7 @@ useHead({ title: titleProductName });
             v-if="!mdAndUp"
             :show-badge="false"
             color="on-primary"
-            :slides="map(images, (src) => ({ src }))"
+            :slides="map(images, toObjectWithSrc)"
             class="scale-[92%]"
             :props-badge="{ class: '-translate-x-[3px] -me-[12px]' }"
           />

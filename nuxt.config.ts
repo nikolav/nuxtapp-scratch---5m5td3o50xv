@@ -615,6 +615,8 @@ export default defineNuxtConfig({
         "material-symbols:label-off-outline-sharp",
         "mdi:checkbox-blank-circle-outline",
         "mdi:checkbox-marked-circle",
+        "mdi:eye-off",
+        "mdi:eye",
       ],
       //
 
