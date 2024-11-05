@@ -49,6 +49,7 @@
     "pinia": "^2.2.4",
     "print-js": "^1.6.0",
     "socket.io-client": "^4.8.0",
+    "tree-model": "^1.0.7",
     "ufo": "^1.5.4",
     "uuid": "^10.0.0",
     "validator": "^13.12.0",

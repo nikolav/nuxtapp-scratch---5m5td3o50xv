@@ -17,9 +17,6 @@ definePageMeta({
 });
 const {
   app: { DEFAULT_TRANSITION },
-  icon: {
-    aliases: { location: iconLocation },
-  },
 } = useAppConfig();
 const FIELDS_RECORD = ["name", "location", "notes"];
 const FIELDS_RECORD_wcategory = [...FIELDS_RECORD, "category"];
@@ -186,7 +183,7 @@ onMounted(() => {
               <Iconx
                 size="1rem"
                 class="opacity-20 me-1 translate-y-[2px]"
-                :icon="iconLocation"
+                icon="location"
               />
             </template>
           </VTextField>

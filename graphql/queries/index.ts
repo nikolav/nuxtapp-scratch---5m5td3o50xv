@@ -700,3 +700,45 @@ export const Q_cacheRedisGetCacheByKey = gql`
   }
 `;
 
+// usersSharedGroups(uids: [ID!]): [User!]!
+export const Q_usersSharedGroups = gql`
+  query q_usersSharedGroups($uids: [ID!]) {
+    usersSharedGroups(uids: $uids) {
+      id
+      email
+      profile
+      is_approved
+      is_manager
+      is_admin
+      is_external
+      is_available
+      tags
+      groups
+      email_verified
+      created_at
+      updated_at
+    }
+  }
+`;
+
+// usersTagged(tags: [String!]!, ALL: Boolean): [User!]!
+export const Q_usersTagged = gql`
+  query q_usersTagged($tags: [String!]!, $ALL: Boolean) {
+    usersTagged(tags: $tags, ALL: $ALL) {
+      id
+      email
+      profile
+      is_approved
+      is_manager
+      is_admin
+      is_external
+      is_available
+      tags
+      groups
+      email_verified
+      created_at
+      updated_at
+    }
+  }
+`;
+

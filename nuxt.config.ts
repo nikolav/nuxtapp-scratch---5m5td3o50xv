@@ -462,6 +462,14 @@ export default defineNuxtConfig({
         imports: [{ name: "default", as: "uniq" }],
       },
       {
+        from: "lodash/merge",
+        imports: [{ name: "default", as: "merge" }],
+      },
+      {
+        from: "lodash/values",
+        imports: [{ name: "default", as: "values" }],
+      },
+      {
         from: "validator/lib/isEmail",
         imports: [{ name: "default", as: "isEmail" }],
       },
@@ -476,6 +484,10 @@ export default defineNuxtConfig({
       {
         from: "uuid",
         imports: [{ name: "v4", as: "uuid" }],
+      },
+      {
+        from: "tree-model",
+        imports: [{ name: "default", as: "TreeModel" }],
       },
     ],
   },

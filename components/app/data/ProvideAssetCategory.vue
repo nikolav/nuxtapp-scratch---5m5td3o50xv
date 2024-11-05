@@ -2,26 +2,15 @@
 // ##imports
 // ##config
 const props = defineProps<{ asset?: any }>();
-const {
-  db: {
-    Assets: {
-      categories: { CATEGORY_KEY_ASSETS_prefix },
-    },
-  },
-} = useAppConfig();
 
 // ##utils
-const { categoryNodeByTag } = useCategoryAssets();
+const { categoryNodeByTag, categoryTagByAsset } = useCategoryAssets();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
 // ##computed
-const categoryNode = computed(() =>
-  categoryNodeByTag(
-    find(props.asset?.tags, (t: string) =>
-      t.startsWith(CATEGORY_KEY_ASSETS_prefix)
-    )
-  )
+const categoryNodeModel = computed(() =>
+  omit(categoryNodeByTag(categoryTagByAsset(props.asset))?.model, "children")
 );
 
 // ##forms ##helpers ##handlers
@@ -32,7 +21,7 @@ const categoryNode = computed(() =>
 // @@eos
 </script>
 <template>
-  <slot v-bind="categoryNode?.value()" />
+  <slot v-bind="categoryNodeModel" />
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

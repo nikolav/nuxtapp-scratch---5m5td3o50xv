@@ -27,6 +27,7 @@ const {
   app: { TOOLTIPS_OPEN_DELAY, SEARCH_DEBOUNCE_DELAY, DEFAULT_TRANSITION },
   layout: { toolbarMainHeight },
   APP_NAME,
+  io: { IOEVENT_ACCOUNTS_UPDATED },
 } = useAppConfig();
 const headers = [
   {
@@ -62,7 +63,13 @@ const iconSearch = renderIcon("search", {
 const toUid = (u: any) => Number(u.id);
 
 // @data
-const { users, reload: usersReload } = useQueryUsers();
+const {
+  users,
+  reload: usersReload,
+  reload: reloadUsers,
+  // } = useQueryUsers();
+// } = useQueryUsersSearch("tagged", { tags: ["foo", "bar"], ALL: true });
+} = useQueryUsersSearch("groups-shared");
 const { messageMany } = useQueryComms();
 const { notificationSend, responseOk: notificationResponseOk } =
   useMessagingNotification();
@@ -212,6 +219,10 @@ watch(users, () => {
     );
   }
 });
+
+// @io
+useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
+
 // @@eos
 </script>
 <template>

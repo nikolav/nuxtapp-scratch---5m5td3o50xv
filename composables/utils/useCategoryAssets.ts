@@ -1,38 +1,29 @@
 import mp from "~/assets/app/categories.assets.products.json";
 import mg from "~/assets/app/categories.assets.groups.json";
-// import { tree } from "@/utils/tree";
 
-// import { CATEGORY_KEY_ASSETS_prefix } from "@/config";
-// @static
 //  menu:products
-const menu = new tree();
-menu.json({ children: mp });
+const t_menu = new TreeModel();
+const menu = t_menu.parse({ children: mp });
+const top = menu;
 
-const top = menu.first();
 const categories_select_menu = top
-  .query((node) => 0 === node.len())
-  .map((node) => {
-    const val = node.value();
-    return {
-      title: val.title,
-      value: val.key,
-    };
-  });
+  .all((node: any) => isEmpty(node.children))
+  .map((node: any) => ({
+    title: node.model.title,
+    value: node.model.key,
+  }));
 
 // menu:groups
-const menu_groups = new tree();
-menu_groups.json({ children: mg });
+const t_menu_groups = new TreeModel();
+const menu_groups = t_menu_groups.parse({ children: mg });
 
-const top_g = menu_groups.first();
+const top_g = menu_groups;
 const categories_select_menu_g = top_g
-  .query((node) => 0 === node.len())
-  .map((node) => {
-    const val = node.value();
-    return {
-      title: val.title,
-      value: val.key,
-    };
-  });
+  .all((node: any) => isEmpty(node.children))
+  .map((node: any) => ({
+    title: node.model.title,
+    value: node.model.key,
+  }));
 
 //
 export const useCategoryAssets = () => {
@@ -50,7 +41,7 @@ export const useCategoryAssets = () => {
   const categoryNodeByTag = (tag?: string, parent: any = top) => {
     if (!isCategoryTag(tag)) return;
     const key_ = matchAfterLastColon(tag!);
-    return parent.lsa().find((node: any) => key_ === node.value().key);
+    return parent.first((node: any) => key_ === node.model.key);
   };
   return {
     categoryNodeByTag,

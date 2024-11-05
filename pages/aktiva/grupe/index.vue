@@ -24,13 +24,9 @@ const itemTo = (item: any) => ({
   name: "aktiva-grupe-gid",
   params: { gid: item?.id },
 });
-const {
-  categoryNodeByTag,
-  categoryTagByAsset,
-  groups: { top: parent },
-} = useCategoryAssets();
+const { categoryNodeByTag, categoryTagByAsset } = useCategoryAssets();
 const itemGroups = (g: any) =>
-  [categoryNodeByTag(categoryTagByAsset(g), parent)?.value().title].filter(
+  [get(categoryNodeByTag(categoryTagByAsset(g)), "model.title")].filter(
     Boolean
   );
 useHead({ title: "Grupe" });

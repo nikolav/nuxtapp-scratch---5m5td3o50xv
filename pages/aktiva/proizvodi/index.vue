@@ -37,9 +37,10 @@ const itemLinkTo = (item: any) => ({
 const { categoryNodeByTag, categoryTagByAsset } = useCategoryAssets();
 // @@items-groups
 const productGrops = (p: any) =>
-  [categoryNodeByTag(categoryTagByAsset(p))?.value().title].filter(Boolean);
+  [get(categoryNodeByTag(categoryTagByAsset(p)), "model.title")].filter(
+    Boolean
+  );
 const getid = (node: any) => get(node, "id");
-const assetNameById = (id: any) => get(find(products.value, { id }), "name");
 
 // ##utils
 const itemTo = (item: IAsset) => ({

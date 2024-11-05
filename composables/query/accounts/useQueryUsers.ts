@@ -3,7 +3,7 @@ import { Q_users, Q_usersOnly } from "@/graphql";
 export const useQueryUsers = (
   UIDS?: any,
   $ENABLED: any = true,
-  $EXTERNAL = false
+  $EXTERNAL: any = false
 ) => {
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
