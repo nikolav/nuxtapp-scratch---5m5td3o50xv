@@ -11,7 +11,10 @@ const route = useRoute();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
-const { assets: groups } = useQueryManageAssetsGroups(() => [route.params.gid]);
+const { assets: groups } = useQueryManageAssetsGroups(
+  () => [route.params.gid],
+  true
+);
 // ##computed
 const g = computed(() => first(groups.value));
 const gid = computed(() => g.value?.id);

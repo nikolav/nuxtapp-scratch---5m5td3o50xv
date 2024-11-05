@@ -37,9 +37,9 @@ const topicGroupChat = computed(() =>
 <template>
   <section class="page--aktiva-grupe-gid">
     <VToolbarPrimary
-      :props-actions="{ class: 'pe-2' }"
+      :props-actions="{ class: 'pe-3' }"
       :props-title="{
-        class: 'opacity-100 font-weight-medium text-body-1 *font-italic',
+        class: 'ms-3 text-start text-body-1 font-italic',
       }"
       :text="g?.name"
       route-back-name="aktiva-grupe"
@@ -58,6 +58,7 @@ const topicGroupChat = computed(() =>
           density="comfortable"
           icon
           variant="text"
+          size="large"
         >
           <Iconx class="ms-1" size="1.33rem" icon="account-user-edit" />
           <VTooltip

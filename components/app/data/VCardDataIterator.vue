@@ -1,14 +1,17 @@
 <script setup lang="ts">
 // IS7qWevRGnAxp0Y
 import { mergeProps } from "vue";
+import type { IAsset } from "@/types";
 import { VBadgeSelectedOfTotal, VBtnFilterClear } from "@/components/app";
 import { renderIcon } from "@/components/icons";
 
+// @config:const
+const DEFAULT_PER_PAGE = 6;
 // @config
 defineOptions({
   inheritAttrs: false,
 });
-const itemsSelected = defineModel<any[] | undefined>();
+const itemsSelected = defineModel<IAsset[] | undefined>();
 const props = withDefaults(
   defineProps<{
     items: any[];
@@ -32,7 +35,7 @@ const props = withDefaults(
   {
     itemTitle: "title",
     itemValue: "id",
-    perPage: 5,
+    perPage: DEFAULT_PER_PAGE,
     reload: noop,
   }
 );

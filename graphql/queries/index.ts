@@ -633,10 +633,10 @@ export const Q_groupsList = gql`
   }
 `;
 
-// assetsList(aids: [ID!], type: String): [Asset!]!
+// assetsList(aids: [ID!], type: String, own: Boolean): [Asset!]!
 export const Q_assetsList = gql`
-  query q_assetsList($aids: [ID!], $type: String) {
-    assetsList(aids: $aids, type: $type) {
+  query q_assetsList($aids: [ID!], $type: String, $own: Boolean) {
+    assetsList(aids: $aids, type: $type, own: $own) {
       id
       name
       code

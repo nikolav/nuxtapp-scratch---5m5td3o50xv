@@ -35,7 +35,7 @@ const props = defineProps<{ length: string | number }>();
   gap: 0;
   display: grid;
   grid-template-areas: "prepend divider default";
-  align-items: center;
+  align-items: baseline;
   .prepend {
     grid-area: "prepend";
   }

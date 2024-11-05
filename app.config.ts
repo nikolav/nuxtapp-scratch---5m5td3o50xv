@@ -2,6 +2,7 @@
 // import { type PluginOptions as ToastsPluginOptions } from "vue-toastification";
 
 import type { TStoreMain, TStoreFlags, IConfigDocs, IAppData } from "@/types";
+
 import {
   APP_NAME,
   PRODUCTION$,
@@ -55,6 +56,11 @@ export default defineAppConfig({
     PRODUCT_IMAGES: "@images:product:",
     TAG_USERS: "@users",
     USER_PHOTOS_prefix: "@user:photos:",
+  },
+  ui: {
+    components: {
+      VCardDataIterator: {},
+    },
   },
   //
   key: {

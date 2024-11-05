@@ -22,7 +22,7 @@ const imagesPicked = ref();
 const AID = ref();
 
 const { firebasePathAssets } = useTopics();
-const { upload: fbsUpload } = useFirebaseStorage(() =>
+const { upload: fbsUpload, rma: fbsRma } = useFirebaseStorage(() =>
   firebasePathAssets(AID.value)
 );
 const { commit } = useQueryManageAssetsProducts();
@@ -61,6 +61,8 @@ const {
         });
         AID.value = get(await commit(d), "data.assetsUpsert.status.asset.id");
         if (!AID.value) throw "--no-asset-saved";
+        // fresh storage for asset:images
+        await fbsRma();
         if (!isEmpty(imagesPicked.value)) {
           await fbsUpload(
             reduce(

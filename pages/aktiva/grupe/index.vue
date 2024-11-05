@@ -16,6 +16,9 @@ const { smAndUp } = useDisplay();
 const { showUserScreen } = useNavigationUtils();
 const { calcDisplayName: calcUserDisplayName } = useAuthUtils();
 
+// @refs @models
+const selection = ref();
+
 // @data @auth
 const { assets: groups, reload, processing } = useQueryManageAssetsGroups();
 
@@ -24,17 +27,22 @@ const itemTo = (item: any) => ({
   name: "aktiva-grupe-gid",
   params: { gid: item?.id },
 });
-const { categoryNodeByTag, categoryTagByAsset } = useCategoryAssets();
+const {
+  categoryNode,
+  groups: { top: g_top },
+} = useCategoryAssets();
 const itemGroups = (g: any) =>
-  [get(categoryNodeByTag(categoryTagByAsset(g)), "model.title")].filter(
-    Boolean
-  );
+  [get(categoryNode(g, g_top), "model.title")].filter(Boolean);
+
+// @head
 useHead({ title: "Grupe" });
+
 // @@eos
 </script>
 <template>
   <section class="page--aktiva-grupe">
     <VCardDataIterator
+      v-model="selection"
       :items="groups"
       item-title="name"
       :item-groups="itemGroups"
@@ -44,7 +52,6 @@ useHead({ title: "Grupe" });
       :menu-props="{ 'max-height': 255 }"
       :props-title="{ class: 'ps-3 *pt-1' }"
       :props-selection="{ class: '-translate-y-[2px]' }"
-      :per-page="6"
       :props-list-item="{ class: 'ps-2' }"
     >
       <template #list-item-title="{ title }">

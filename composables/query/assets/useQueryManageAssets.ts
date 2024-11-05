@@ -8,7 +8,11 @@ import {
 } from "@/graphql";
 import { schemaHasFieldName as sHasName } from "@/schemas";
 // @@useQueryManageAssets
-export const useQueryManageAssets = (ASSETS_TYPE?: any, AIDS?: any) => {
+export const useQueryManageAssets = (
+  ASSETS_TYPE?: any,
+  AIDS?: any,
+  OWN: any = true
+) => {
   const type = ref();
   watchEffect(() => {
     type.value = toValue(ASSETS_TYPE);
@@ -17,6 +21,11 @@ export const useQueryManageAssets = (ASSETS_TYPE?: any, AIDS?: any) => {
   const aids = ref();
   watchEffect(() => {
     aids.value = toValue(AIDS);
+  });
+
+  const own = ref();
+  watchEffect(() => {
+    own.value = toValue(OWN);
   });
 
   const {
@@ -35,6 +44,7 @@ export const useQueryManageAssets = (ASSETS_TYPE?: any, AIDS?: any) => {
     {
       aids,
       type,
+      own,
     },
     { pollInterval: STORAGE_QUERY_POLL_INTERVAL }
   );
@@ -80,6 +90,7 @@ export const useQueryManageAssets = (ASSETS_TYPE?: any, AIDS?: any) => {
     // @refs
     aids,
     type,
+    own,
 
     // @crud
     assets,
