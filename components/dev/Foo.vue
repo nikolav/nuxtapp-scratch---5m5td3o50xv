@@ -1,22 +1,28 @@
 <script setup lang="ts">
 // ##imports
-// ##config ##const
+// ##config:const
+// ##config
 // ##utils
 // ##icons
-// ##refs ##vmodels ##flags
+// ##refs ##flags ##models
 // ##data ##auth ##state
 // ##computed
-// ##forms ##helpers ##handlers
+// ##forms ##handlers ##helpers
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
 // ##provide
+// ##io
 
 // @@eos
 </script>
 <template>
   <section class="component--Foo">
-    <p>foo</p>
+    <h1>Foo</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi unde
+      temporibus perspiciatis?
+    </p>
   </section>
 </template>
 <style lang="scss" scoped></style>

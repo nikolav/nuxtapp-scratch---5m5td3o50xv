@@ -1,19 +1,17 @@
 <script setup lang="ts">
-// 8rWqBKIKsWZ4pbf1
+// c41ef9a5-e0aa-5305-a36f-c080a907969c
 import { Test, Dump } from "@/components/dev";
-import mp from "~/assets/app/categories.assets.products.json";
 
+const { cache, commit } = useCacheRedis("7e919100-b940-5b7b-91ce-861a9923c722");
 const ok = async () => {
-  const t = new TreeModel();
-  const node = t.parse({ title: "#root", key: "", emoji: "", children: mp });
-  console.log(node);
+  await commit({ "dev:0": `--${idGen()}` });
 };
 // @@eos
 </script>
 <template>
   <section class="component--Demo">
     <VBtn @click="ok">ok</VBtn>
-    <Dump :data="{}" />
+    <Dump :data="{ cache }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

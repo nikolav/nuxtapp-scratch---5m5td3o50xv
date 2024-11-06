@@ -1,6 +1,6 @@
 import type { OrNoValue, RecordJson } from "@/types";
 import { Q_cacheRedisGetCacheByKey, M_cacheRedisCommit } from "@/graphql";
-export const useCacheRedis = (CACHE_KEY?: any) => {
+export const useCacheRedis = (CACHE_KEY?: any, enableWatchIO: any = true) => {
   const {
     redis: { defaultCacheKey },
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
@@ -11,7 +11,7 @@ export const useCacheRedis = (CACHE_KEY?: any) => {
   watchEffect(() => {
     cache_key.value = toValue(CACHE_KEY) || defaultCacheKey;
   });
-  const enabled = computed(() => !!(cache_key.value && auth.isAuthenticated$));
+  const enabled = computed(() => !!(cache_key.value && auth.isAuth$));
   const {
     load: qStart,
     result,
@@ -52,9 +52,13 @@ export const useCacheRedis = (CACHE_KEY?: any) => {
           merge,
         })
       : undefined;
+
   // @io
-  const ioevent_ = computed(() => ioeventRedisCacheKey(cache_key.value));
-  watchEffect(() => useIOEvent(ioevent_.value, reload));
+  const IOEvent = computed(() => ioeventRedisCacheKey(cache_key.value));
+  watchEffect(() =>
+    useIOEvent(toValue(enableWatchIO) ? IOEvent.value : "", reload)
+  );
+
   // @processing
   const processing = computed(() => loading.value || mutateLoading.value);
   //
@@ -65,6 +69,7 @@ export const useCacheRedis = (CACHE_KEY?: any) => {
     enabled,
     reload,
     processing,
+    IOEvent,
     // alias
     cache: store,
   };
