@@ -313,6 +313,9 @@ export default defineAppConfig({
         "streamline:interface-user-add-actions-add-close-geometric-human-person-plus-single-up-user",
       eye: "mdi:eye",
       "eye-off": "mdi:eye-off",
+      "dots-v": "mdi:dots-vertical",
+      "folder-open-outline": "material-symbols:folder-open-outline",
+      upload: "ic:sharp-upload",
     },
   },
   acconts: {
@@ -398,5 +401,7 @@ export default defineAppConfig({
   },
   redis: {
     defaultCacheKey: "_main:2a7b484c-fc40-5d2f-b294-2e33b3b01afd",
+    CACHE_KEY_ASSETS_ATTACHMENTS_prefix:
+      "CACHE_KEY_ASSETS_ATTACHMENTS:qdSl6XmU1m:",
   },
 });

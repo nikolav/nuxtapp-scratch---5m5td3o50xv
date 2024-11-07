@@ -2,12 +2,12 @@
 // ##imports
 import { Dump } from "@/components/dev";
 import { VAvatarProfileImage } from "@/components/app";
-// ##config ##const
+// ##config ##props ##const
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
-
+const attrs = useAttrs();
 const {
   app: { DEFAULT_NO_IMAGE_AVAILABLE },
 } = useAppConfig();
@@ -16,13 +16,13 @@ const route = useRoute();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
-const { assets: groups } = useQueryManageAssetsGroups(() => [route.params.gid]);
+// const { assets: groups } = useQueryManageAssetsGroups(() => [route.params.gid]);
 // ##computed
-const g = computed(() => first(groups.value));
-const gid = computed(() => g.value?.id);
-const gname = computed(() => g.value?.name || "");
+const routeData = computed(() => get(attrs, "route-data", <any>{}));
+const g = computed(() => routeData.value?.g);
+const gid = computed(() => routeData.value?.gid);
+const gname = computed(() => routeData.value?.gname);
 const { avatarImage } = useFirebaseStorageAssetsGroupAvatar(gid);
-// const members = computed(() => g.value?.users || []);
 // ##forms ##helpers ##handlers
 // ##watch
 // ##hooks:lifecycle

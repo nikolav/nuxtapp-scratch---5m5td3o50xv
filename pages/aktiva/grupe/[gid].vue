@@ -1,7 +1,12 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary, VBtnTopicChatToggle } from "@/components/app";
+import {
+  VToolbarPrimary,
+  VBtnTopicChatToggle,
+  VBtnDotsMenuList,
+} from "@/components/app";
 // ##config ##const
+const LIST_ITEM_CLASSES = "ps-2 pe-5";
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
@@ -15,6 +20,7 @@ const { chatAssets } = useTopics();
 const { topicWithTitle } = useGlobalVariableChatActive();
 // ##icons
 // ##refs ##flags
+const watchKEY_onMessage = useUniqueId();
 // ##data ##auth ##state
 const { assets: groups } = useQueryManageAssetsGroups(() => [route.params.gid]);
 // ##computed
@@ -37,7 +43,7 @@ const topicGroupChat = computed(() =>
 <template>
   <section class="page--aktiva-grupe-gid">
     <VToolbarPrimary
-      :props-actions="{ class: 'pe-3' }"
+      :props-actions="{ class: 'pe-2' }"
       :props-title="{
         class: 'ms-3 text-start text-body-1 font-italic',
       }"
@@ -52,7 +58,6 @@ const topicGroupChat = computed(() =>
         />
       </template>
       <template #actions>
-        <VBtnTopicChatToggle density="comfortable" :topic="topicGroupChat" />
         <VBtn
           :to="{ name: 'aktiva-grupe-gid-uredi-clanove', params: { gid } }"
           density="comfortable"
@@ -68,9 +73,47 @@ const topicGroupChat = computed(() =>
             location="bottom"
           />
         </VBtn>
+        <VBtnDotsMenuList
+          :props-icon="{ size: '1.5rem' }"
+          :props-list="{ class: '*pe-2' }"
+        >
+          <template #list-items>
+            <VListItem :class="LIST_ITEM_CLASSES" @click="watchKEY_onMessage">
+              <template #prepend>
+                <VBtnTopicChatToggle
+                  density="comfortable"
+                  variant="plain"
+                  color="on-surface"
+                  class="opacity-40"
+                  :topic="topicGroupChat"
+                  :watch-key="watchKEY_onMessage.ID.value"
+                />
+              </template>
+              <VListItemTitle class="ms-1">
+                <span>Poruke</span>
+              </VListItemTitle>
+            </VListItem>
+            <VListItem
+              link
+              :class="LIST_ITEM_CLASSES"
+              :to="{ name: 'aktiva-grupe-gid-prilog', params: { gid } }"
+            >
+              <template #prepend>
+                <Iconx
+                  class="opacity-30 mx-2"
+                  size="1.5rem"
+                  icon="folder-open-outline"
+                />
+              </template>
+              <VListItemTitle class="ms-2">
+                <span>Prilog</span>
+              </VListItemTitle>
+            </VListItem>
+          </template>
+        </VBtnDotsMenuList>
       </template>
     </VToolbarPrimary>
-    <NuxtPage />
+    <NuxtPage :route-data="{ g, gid, gname }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

@@ -9,6 +9,7 @@ const props = defineProps<{
   topic?: any;
   main?: boolean;
   propsIcon?: any;
+  watchKey?: any;
 }>();
 
 // ##utils
@@ -27,6 +28,7 @@ const topic_ = () => {
   topicSet(true === props.main ? TOPIC_CHAT_ACTIVE_main : props.topic);
 };
 // ##watch
+watch(() => props.watchKey, topic_);
 // ##hooks:lifecycle
 // ##head
 

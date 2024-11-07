@@ -8,3 +8,4 @@ export { useCategoryAssets } from "./useCategoryAssets";
 export { useRequestNotificationsPermission } from "./useRequestNotificationsPermission";
 export { useSampleCollection } from "./useSampleCollection";
 export { useSetTimeout } from "./useSetTimeout";
+export { useWindowOpenDataUrl } from "./useWindowOpenDataUrl";

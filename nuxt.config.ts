@@ -470,6 +470,10 @@ export default defineNuxtConfig({
         imports: [{ name: "default", as: "values" }],
       },
       {
+        from: "lodash/last",
+        imports: [{ name: "default", as: "last" }],
+      },
+      {
         from: "validator/lib/isEmail",
         imports: [{ name: "default", as: "isEmail" }],
       },
@@ -629,6 +633,8 @@ export default defineNuxtConfig({
         "mdi:checkbox-marked-circle",
         "mdi:eye-off",
         "mdi:eye",
+        "material-symbols:folder-open-outline",
+        "ic:sharp-upload",
       ],
       //
 

@@ -4,3 +4,8 @@ export const dataUrl = (file: File) =>
     reader.onload = (e) => resolve(e.target?.result);
     reader.readAsDataURL(file);
   });
+
+export const dataBase64 = async (file: File) => {
+  const d = String(await dataUrl(file)) || "";
+  return d.split(",")[1] || "";
+};

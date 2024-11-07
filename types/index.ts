@@ -307,3 +307,20 @@ export interface ITopicChatMessage {
   name?: any;
   message: string;
 }
+
+export interface IAssetsAttachments {
+  key: string;
+  type: string;
+  name: string;
+  dataurl: string;
+  size: number;
+  uploaded_at: number;
+}
+export interface IFileSizeUnit {
+  size: string;
+  unit: string;
+}
+export interface IObjectUrlWithError {
+  error: any;
+  url: OrNoValue<Blob>;
+}

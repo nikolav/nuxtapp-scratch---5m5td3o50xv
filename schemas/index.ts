@@ -97,3 +97,14 @@ export const schemaAssetsInput = z.object({
   barcode: z.optional(z.string()),
   link: z.optional(z.string()),
 });
+export const schemaFileInfo = z
+  .object({
+    name: z.string(),
+    type: z.string(),
+    size: z.number(),
+    lastModified: z.number(),
+  })
+  .transform((d) => ({
+    ...omit(d, "lastModified"),
+    updated_at: d.lastModified,
+  }));

@@ -6,9 +6,9 @@ const props = withDefaults(
     routeBackTo?: any;
     dividerStart?: boolean;
     text?: any;
+    onClose?: any;
     propsTitle?: any;
     propsActions?: any;
-    onClose?: any;
   }>(),
   {
     routeBackName: "aktiva-proizvodi",
@@ -29,7 +29,7 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
   >
     <template v-if="$slots.prepend" #prepend>
       <slot name="prepend" />
-      <VDivider v-if="dividerStart" vertical inset class="ms-2" />
+      <VDivider v-if="dividerStart" class="ms-2" vertical inset />
     </template>
     <template #append>
       <VToolbarItems v-bind="propsActions">
@@ -48,7 +48,7 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
     </template>
     <slot :text="text">
       <VToolbarTitle
-        class="text-center opacity-50 font-weight-light"
+        class="text-center opacity-50 font-weight-light *bg-red"
         v-bind="propsTitle"
       >
         <slot name="title" :text="text">

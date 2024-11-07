@@ -44,6 +44,7 @@ export const useTopics = () => {
       IOEVENT_ACCOUNTS_UPDATED_prefix,
       IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix,
     },
+    redis: { CACHE_KEY_ASSETS_ATTACHMENTS_prefix },
   } = useAppConfig();
   const chatUserChannel = (uid?: any) =>
     uid ? `${TOPIC_CHAT_USER_CHANNEL_prefix}${uid}` : "";
@@ -101,7 +102,8 @@ export const useTopics = () => {
   const usersTags = (tag?: any) => (tag ? `${USERS_TAGS_prefix}${tag}` : "");
   const ioeventRedisCacheKey = (cacheKey?: any) =>
     cacheKey ? `${IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix}${cacheKey}` : "";
-
+  const assetsAttachments = (aid?: any) =>
+    aid ? `${CACHE_KEY_ASSETS_ATTACHMENTS_prefix}${aid}` : "";
   return {
     CHAT_MAIN,
     MAILING_LIST,
@@ -135,6 +137,7 @@ export const useTopics = () => {
     chatAssets,
     likesDocs,
     usersTags,
+    assetsAttachments,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,
