@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// IS7qWevRGnAxp0Y
+// e66ca91d-8013-56a5-a9f4-61903e42b97d
 import { mergeProps } from "vue";
 import type { IAsset } from "@/types";
 import { VBadgeSelectedOfTotal, VBtnFilterClear } from "@/components/app";
@@ -226,8 +226,9 @@ const onSubmitApplyGroupFiler = () => {
           size="small"
           icon
           density="comfortable"
+          class="me-1"
         >
-          <VIcon icon="$loading" />
+          <Iconx size="1.22rem" icon="$loading" />
         </VBtn>
         <VBtn
           v-if="$slots.menu"

@@ -300,3 +300,10 @@ export const M_cacheRedisCommit = gql`
   }
 `;
 
+// commsGroupMessageMany(gids: [ID!]!, message: JsonData!): JsonData!
+export const M_commsGroupMessageMany = gql`
+  mutation m_commsGroupMessageMany($gids: [ID!]!, $message: JsonData!) {
+    commsGroupMessageMany(gids: $gids, message: $message)
+  }
+`;
+
