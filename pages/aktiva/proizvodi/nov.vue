@@ -249,7 +249,10 @@ const { width: WSELECT } = useElementSize(ref_9yvgmhpVs9DnAXGuV5Hm);
                   </VTextarea>
                 </div>
                 <VCardActions class="mt-6 *pa-6">
-                  <VBtnReset @click="formReset()" />
+                  <VBtnReset
+                    @click="formReset()"
+                    :props-icon="{ class: 'me-2' }"
+                  />
                   <VSpacer />
                   <VBtnSave
                     type="submit"

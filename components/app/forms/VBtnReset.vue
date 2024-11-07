@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
 <template>
   <VBtn color="secondary" variant="plain" rounded="pill" class="px-3">
     <slot>
-      <VIcon size="large" icon="$close" start v-bind="propsIcon" />
+      <Iconx size="1.44rem" icon="rubber" v-bind="propsIcon" />
       <span> {{ text }} </span>
     </slot>
   </VBtn>

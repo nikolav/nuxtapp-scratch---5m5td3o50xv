@@ -21,12 +21,15 @@ const props = withDefaults(
 
     defaultNoImage?: any;
     resetId?: any;
+
+    btnSizePercent?: any;
   }>(),
   {
     rounded: true,
     padding: 2,
     icon: "material-symbols:photo-camera-rounded",
     defaultNoImage: DEFAULT_NO_IMAGE_AVAILABLE,
+    btnSizePercent: 0.61,
   }
 );
 const imagePicked = defineModel();
@@ -43,7 +46,10 @@ const ref_XpsHHohktxqr648xO = ref();
 // ##data ##auth ##state
 // ##computed
 const displayImage = computed(
-  () => get(imagePicked.value, "dataurl") || props.defaultNoImage
+  () =>
+    get(imagePicked.value, "dataurl") ||
+    props.defaultNoImage ||
+    DEFAULT_NO_IMAGE_AVAILABLE
 );
 // ##forms ##helpers ##handlers
 onChange(async (files) => {
@@ -98,7 +104,7 @@ watch(
           <slot name="icon" :icon="icon">
             <ProvideRefInnerSizePercent
               :ref-lookup="ref_XpsHHohktxqr648xO"
-              :percent="0.61"
+              :percent="btnSizePercent"
               v-slot="{ size }"
             >
               <Iconx :size="`${size}px`" :icon="icon" v-bind="propsIcon" />

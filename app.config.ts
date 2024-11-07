@@ -316,6 +316,10 @@ export default defineAppConfig({
       "dots-v": "mdi:dots-vertical",
       "folder-open-outline": "material-symbols:folder-open-outline",
       upload: "ic:sharp-upload",
+      tag: "mdi:tag",
+      folder: "mdi:folder",
+      save: "material-symbols:save",
+      rubber: "jam:rubber",
     },
   },
   acconts: {

@@ -18,10 +18,10 @@ const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
 <template>
   <VBtn elevation="1" size="large" variant="tonal" rounded="pill" class="px-4">
     <slot>
-      <Icon
-        class="opacity-50 me-2"
+      <Iconx
+        class="opacity-40 me-2"
         size="1.44rem"
-        name="material-symbols:save"
+        icon="save"
         v-bind="propsIcon"
       />
       <span>{{ text }}</span>

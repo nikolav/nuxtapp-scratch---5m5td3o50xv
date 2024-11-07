@@ -165,7 +165,7 @@ onMounted(() => {
               <Iconx
                 size="1rem"
                 class="opacity-20 translate-y-[2px] me-1"
-                icon="mdi:tag"
+                icon="tag"
               />
             </template>
             <template #label>
@@ -235,7 +235,7 @@ onMounted(() => {
             </template>
           </VTextarea>
           <VCardActions class="mt-6 mb-16 *pa-6">
-            <VBtnReset @click="formReset()" />
+            <VBtnReset @click="formReset()" :props-icon="{ class: 'me-2' }" />
             <VSpacer />
             <VBtnSave
               type="submit"

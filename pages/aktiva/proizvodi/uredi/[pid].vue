@@ -428,7 +428,10 @@ const onAssetRemove = async (pinEqText: boolean) => {
                     </VSelect>
                   </template>
                   <VCardActions class="justify-around pa-5">
-                    <VBtnReset @click="fieldsResetFromStore" />
+                    <VBtnReset
+                      @click="fieldsResetFromStore"
+                      :props-icon="{ class: 'me-2' }"
+                    />
                     <VBtnSave type="submit" :disabled="pc.processing.value" />
                   </VCardActions>
                 </div>
