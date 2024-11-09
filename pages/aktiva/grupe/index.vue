@@ -37,10 +37,7 @@ const { notificationSend, responseOk: notificationResponseOk } =
   useMessagingNotification();
 
 // @forms @helpers
-const toId = (node: any) => {
-  const id = get(node, "id");
-  return isNumeric(id) ? Number(id) : id;
-};
+const toId = (node: any) => Number(node?.id);
 const itemTo = (item: any) => ({
   name: "aktiva-grupe-gid",
   params: { gid: item?.id },
@@ -111,7 +108,7 @@ useHead({ title: "Grupe" });
         smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
       ]"
       :width="smAndUp ? 395 : '92%'"
-      topic="message@tim:3e6b99b6-71b4-5aef-8c3a-a5c53aff1ef8"
+      topic="message:3e6b99b6-71b4-5aef-8c3a-a5c53aff1ef8"
     />
     <VMenuComposeChatMessage
       v-model="toggleMenuActiveNotification.isActive.value"
@@ -122,7 +119,7 @@ useHead({ title: "Grupe" });
         smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
       ]"
       :width="smAndUp ? 395 : '92%'"
-      topic="notification@tim:15179eac-8483-5b71-8451-ced73b607780"
+      topic="notification:15179eac-8483-5b71-8451-ced73b607780"
       notification
     />
     <VCardDataIterator

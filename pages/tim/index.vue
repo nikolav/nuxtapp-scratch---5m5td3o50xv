@@ -68,7 +68,7 @@ const {
   reload: usersReload,
   reload: reloadUsers,
   // } = useQueryUsers();
-// } = useQueryUsersSearch("tagged", { tags: ["foo", "bar"], ALL: true });
+  // } = useQueryUsersSearch("tagged", { tags: ["foo", "bar"], ALL: true });
 } = useQueryUsersSearch("groups-shared");
 const { messageMany } = useQueryComms();
 const { notificationSend, responseOk: notificationResponseOk } =
@@ -562,7 +562,10 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
         <template
           #item="{ internalItem, item, isSelected, toggleSelect, columns }"
         >
-          <tr @click="showUserScreen(item.id)" class="cursor-pointer">
+          <tr
+            @click="showUserScreen(item.id)"
+            class="cursor-pointer *:align-middle"
+          >
             <template v-for="col in columns" :key="col.key">
               <td
                 v-if="'data-table-select' === col.key"
@@ -570,7 +573,7 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
                 class="ps-2 pe-0"
               >
                 <VCheckboxBtn
-                  class="mx-0 scale-[122%] -translate-y-[2px]"
+                  class="mx-0 scale-[122%] -translate-y-px"
                   @click.stop
                   :model-value="isSelected(internalItem)"
                   @update:model-value="toggleSelect(internalItem)"

@@ -324,3 +324,31 @@ export interface IObjectUrlWithError {
   error: any;
   url: OrNoValue<Blob>;
 }
+
+export interface IConfigFields {
+  // options:ui
+  type?: string;
+  required?: boolean;
+  label?: string;
+  icon?: {
+    name?: string;
+    size?: any;
+  };
+
+  // options:model
+
+  // ignore field
+  skip?: boolean;
+
+  // flag true|false if new and cached values are equal
+  equals?: any;
+
+  // default clear value [undefined]
+  nullValue?: any;
+
+  // resolve field from model
+  //   model:value by path
+  path?: string;
+  //   model:value fn
+  pull?: any;
+}
