@@ -1,36 +1,77 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary } from "@/components/app";
+import { VToolbarPrimary, VDataIteratorListData } from "@/components/app";
 // ##config ##const
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
 // ##utils
-const route = useRoute();
+const attrs = useAttrs();
+const routeData = computed(() => get(attrs, "route-data", <any>{}));
+const g = computed(() => routeData.value?.g);
+const gid = computed(() => g.value?.id);
+const gname = computed(() => g.value?.name);
+const qenabled_g = computed(() => !!gid.value);
+const vars_g = computed(() => ({ gids: [gid.value] }));
+
+const { calcDisplayName } = useAuthUtils();
+const itemTo = (user: any) => ({ name: "tim-uid", params: { uid: user?.id } });
+const toId = (node: any) => Number(node.id);
+
+const { assetsUGConfigured } = useTopics();
+
 // ##icons
-// ##refs ##flags
+// ##refs ##flags ##models
+const mSelectionUsers = ref();
 // ##data ##auth ##state
-const { assets: groups } = useQueryManageAssetsGroups(
-  () => [route.params.gid],
-  true
+const { users: users_g, reload: usersQueryReload } = useQueryUsersSearch(
+  "g",
+  vars_g,
+  {
+    enabled: qenabled_g,
+  }
+);
+const { group: groupsConfig } = useQueryManageAssetsGroups(
+  () => [gid.value],
+  undefined,
+  { enabled: qenabled_g }
 );
 // ##computed
-const g = computed(() => first(groups.value));
-const gid = computed(() => g.value?.id);
-const gname = computed(() => g.value?.name || "");
 const ttl = computed(() => `Ažuriraj članove: ${gname.value}`);
+const size_g = computed(() => len(users_g.value));
+const uids_selected = computed<number[]>(() =>
+  isEmpty(mSelectionUsers.value) ? [] : map(mSelectionUsers.value, toId)
+);
+const ugConfigure = computed(() =>
+  gid.value && 0 < uids_selected.value.length
+    ? {
+        [`-${gid.value}`]: uids_selected.value,
+      }
+    : undefined
+);
 // const members = computed(() => g.value?.users || []);
 const routeBackTo = computed(() => ({
   name: "aktiva-grupe-gid",
   params: { gid: gid.value },
 }));
 // ##forms ##helpers ##handlers
+const configure_ug_remove = async () => {
+  const res = await groupsConfig(ugConfigure.value!);
+  console.log({ res });
+};
 // ##watch
+//  clear users selection @users:change
+watch(users_g, () => {
+  mSelectionUsers.value = undefined;
+});
 // ##hooks:lifecycle
 // ##head ##meta
-// ##provide
 useHead({ title: ttl });
+// ##provide
+// ##io
+const ioevent_ug = computed(() => assetsUGConfigured(gid.value));
+watchEffect(() => useIOEvent(ioevent_ug.value, usersQueryReload));
 
 // @@eos
 </script>
@@ -40,14 +81,21 @@ useHead({ title: ttl });
       <VToolbarPrimary
         text="Članovi"
         :route-back-to="routeBackTo"
-        elevation="1"
         rounded="pill"
         color="primary-lighten-1"
         :divider-start="false"
-        :props-title="{ class: 'text-body-1 text-start' }"
+        :props-title="{ class: 'text-body-1 text-start ms-2' }"
       >
         <template #title="{ text }">
-          <span>{{ text }}</span>
+          <span class="d-flex items-center gap-1">
+            <span>{{ text }}</span>
+            <VBadge
+              inline
+              color="primary-darken-2"
+              v-if="size_g"
+              :content="size_g"
+            />
+          </span>
         </template>
         <template #prepend>
           <VBtn
@@ -60,13 +108,48 @@ useHead({ title: ttl });
             <Iconx icon="$prev" size="large" />
           </VBtn>
         </template>
+        <template #actions>
+          <VBtn
+            :to="{
+              name: 'aktiva-grupe-gid-dodaj-clanove',
+              params: { gid },
+            }"
+            icon
+            variant="text"
+          >
+            <Iconx icon="$plus" />
+            <VTooltip text="Dodaj članove u grupu" />
+          </VBtn>
+          <VBtn
+            @click="configure_ug_remove"
+            :disabled="isEmpty(ugConfigure)"
+            icon
+            variant="text"
+          >
+            <Iconx icon="$minus" />
+            <VTooltip text="Izbaci iz grupe" />
+          </VBtn>
+          <VBtn
+            @click="usersQueryReload"
+            icon
+            density="comfortable"
+            variant="plain"
+            size="small"
+            class="ms-1"
+          >
+            <Iconx icon="$loading" />
+          </VBtn>
+        </template>
       </VToolbarPrimary>
     </div>
-    <h1>grupe:uredi-clanove</h1>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem facilis
-      expedita quidem?
-    </p>
+    <VDataIteratorListData
+      v-model="mSelectionUsers"
+      :items="users_g"
+      :item-title="calcDisplayName"
+      :item-to="itemTo"
+      :props-list-item="{ class: '*ps-1' }"
+      :props-list-item-title="{ class: 'ps-4' }"
+    />
   </section>
 </template>
 <style lang="scss" scoped></style>

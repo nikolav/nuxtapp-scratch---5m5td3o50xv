@@ -11,7 +11,8 @@ import { schemaHasFieldName as sHasName } from "@/schemas";
 export const useQueryManageAssets = (
   ASSETS_TYPE?: any,
   AIDS?: any,
-  OWN: any = true
+  OWN: any = true,
+  OPTIONS?: any
 ) => {
   const type = ref();
   watchEffect(() => {
@@ -46,7 +47,10 @@ export const useQueryManageAssets = (
       type,
       own,
     },
-    { pollInterval: STORAGE_QUERY_POLL_INTERVAL }
+    {
+      pollInterval: STORAGE_QUERY_POLL_INTERVAL,
+      ...OPTIONS,
+    }
   );
   const { mutate: mutateAssetsUpsert, loading: loadingUpsert } =
     useMutation(M_assetsUpsert);

@@ -1,4 +1,8 @@
-export const useQueryManageAssetsGroups = (GIDS?: any, OWN?: any) => {
+export const useQueryManageAssetsGroups = (
+  GIDS?: any,
+  OWN?: any,
+  OPTIONS?: any
+) => {
   const {
     db: {
       Assets: {
@@ -6,5 +10,5 @@ export const useQueryManageAssetsGroups = (GIDS?: any, OWN?: any) => {
       },
     },
   } = useAppConfig();
-  return useQueryManageAssets(PEOPLE_GROUP_TEAM, GIDS, OWN);
+  return useQueryManageAssets(PEOPLE_GROUP_TEAM, GIDS, OWN, OPTIONS);
 };

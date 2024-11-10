@@ -43,6 +43,7 @@ export default defineAppConfig({
     LOGOUT_RELOAD_PATH: "/",
     TOOLTIPS_OPEN_DELAY: 345,
     SEARCH_DEBOUNCE_DELAY: 567,
+    SEARCH_DEBOUNCE_DELAY_longer: 1234,
     MODE_DEBUG,
     // MODE_DEBUG: true,
     REDIRECT_UNAUTHORIZED_ROUTE_NAME: "index",
@@ -191,6 +192,8 @@ export default defineAppConfig({
     IOEVENT_USER_POSTS_CHANGE_prefix: "@change:posts:rBN5PAj9uZM9wrOq5:",
     IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix:
       "IOEVENT_REDIS_CACHE_KEY_UPDATED:Hvtmg8LbKbeajKb:",
+    IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED_prefix:
+      "IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED:ZNvAgNYKcEG5TNI:",
   },
   theme: {
     DEFAULT: themeLight,
@@ -320,6 +323,7 @@ export default defineAppConfig({
       folder: "mdi:folder",
       save: "material-symbols:save",
       rubber: "jam:rubber",
+      "account-cog": "mdi:account-settings-variant",
     },
   },
   acconts: {

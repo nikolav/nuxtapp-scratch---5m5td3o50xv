@@ -1,17 +1,31 @@
-import { Q_users, Q_usersSharedGroups, Q_usersTagged } from "@/graphql";
+import {
+  Q_users,
+  Q_usersSharedGroups,
+  Q_usersTagged,
+  Q_usersQ,
+  Q_usersByGroups,
+} from "@/graphql";
 interface IQueryWithVariables {
   Q: any;
   variables?: any;
 }
 // _default
-// groups-shared
-// tags
+// groups-shared; search by groups in common
+// tags;          search by custom user tags: .tags: string[]
+// q;             search by text query; .q: string
+// g;             search by groups; .gids: number[]
 const QUERY = <Record<string, IQueryWithVariables>>{
   _default: { Q: Q_users, variables: { skip_external: true } },
   "groups-shared": { Q: Q_usersSharedGroups },
   tagged: { Q: Q_usersTagged },
+  q: { Q: Q_usersQ },
+  g: { Q: Q_usersByGroups },
 };
-export const useQueryUsersSearch = (NAME?: any, VARIABLES?: any) => {
+export const useQueryUsersSearch = (
+  NAME?: any,
+  VARIABLES?: any,
+  OPTIONS?: any
+) => {
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
   } = useAppConfig();
@@ -26,6 +40,7 @@ export const useQueryUsersSearch = (NAME?: any, VARIABLES?: any) => {
 
   const { load, result, loading, refetch } = useLazyQuery(Q, variables, {
     pollInterval: STORAGE_QUERY_POLL_INTERVAL,
+    ...OPTIONS,
   });
   const users = computed(() => {
     const o = Object(result.value);

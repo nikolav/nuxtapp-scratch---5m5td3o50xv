@@ -36,6 +36,9 @@ import { srLatn } from "vuetify/locale";
 // };
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const {
+    app: { TOOLTIPS_OPEN_DELAY, DEFAULT_TRANSITION },
+  } = useAppConfig();
   const vuetify = createVuetify({
     ssr: SSR,
     blueprint: md2,
@@ -100,6 +103,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       // },
       VCol: {
         cols: 12,
+      },
+      VTooltip: {
+        openDelay: TOOLTIPS_OPEN_DELAY,
+        location: "bottom",
+        activator: "parent",
       },
       // <CustomComponent>: {
       //   "foo:1": "bar",

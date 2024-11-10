@@ -16,11 +16,6 @@ definePageMeta({
   middleware: "authorized",
   layout: "app-default",
 });
-const {
-  icon: {
-    aliases: { user: iconUser },
-  },
-} = useAppConfig();
 // ##utils
 const route = useRoute();
 const UID = computed(() => route.params.uid);
@@ -28,18 +23,18 @@ const UID = computed(() => route.params.uid);
 // ##refs ##flags
 // ##data ##auth ##state
 const {
-  reload,
+  // reload,
   loading,
   //
   uid,
-  user,
-  profile,
+  // user,
+  // profile,
   firstName,
   lastName,
   phone,
   email,
   address,
-  displayLocation,
+  // displayLocation,
   displayName,
   chatChannel: topicChatChannel,
   avatarImage: avatar,
@@ -84,7 +79,7 @@ useHead({ title: displayName });
           </span>
         </template>
         <template #prepend>
-          <Iconx size="1rem" :icon="iconUser" class="opacity-30" />
+          <Iconx size="1rem" icon="user" class="opacity-30" />
         </template>
         <template #actions>
           <VBtnTopicChatToggle
@@ -96,7 +91,7 @@ useHead({ title: displayName });
         </template>
       </VToolbarPrimary>
 
-       <!-- @@size:all-fields -->
+      <!-- @@size:all-fields -->
       <div class="__spacer__all_fields max-w-[592px] mx-auto">
         <VSpacer class="mt-5" />
         <VAvatarProfileImage
@@ -192,7 +187,7 @@ useHead({ title: displayName });
             </VTextField>
           </template>
           <!-- @@field:groups -->
-           <template v-if="!isEmpty(groups)">
+          <template v-if="!isEmpty(groups)">
             <VTextField
               class="groups"
               variant="plain"
@@ -206,13 +201,13 @@ useHead({ title: displayName });
           </template>
         </VCardText>
       </div>
-       <VSpacer class="mt-12" />
-       <VCardActions>
-         <VSpacer/>
-         <div class="opacity-40">
-              <pre>&nbsp;•&nbsp;</pre>
-          </div>
-          <VSpacer/>
+      <VSpacer class="mt-12" />
+      <VCardActions>
+        <VSpacer />
+        <div class="opacity-40">
+          <pre>&nbsp;•&nbsp;</pre>
+        </div>
+        <VSpacer />
       </VCardActions>
     </VCard>
   </section>

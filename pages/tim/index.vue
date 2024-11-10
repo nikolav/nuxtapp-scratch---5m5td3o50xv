@@ -533,10 +533,11 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
               </VMenu>
             </VBtn>
           </VToolbar>
+          <VSpacer class="mb-1" />
         </template>
 
         <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
-          <tr class="text-body-2">
+          <tr class="TH--CLASS-3FNdyoZPFwLjgg7fM0XU text-body-2">
             <template v-for="column in columns" :key="column.key">
               <td>
                 <span class="d-flex items-center">
@@ -556,6 +557,7 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
               </td>
             </template>
           </tr>
+          <VSpacer class="mb-2" />
         </template>
 
         <!-- render row --custom-strategy -->
@@ -667,4 +669,8 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
   border-bottom: unset !important;
 }
 </style>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.TH--CLASS-3FNdyoZPFwLjgg7fM0XU td {
+  height: auto !important;
+}
+</style>

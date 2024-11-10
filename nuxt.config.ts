@@ -635,6 +635,7 @@ export default defineNuxtConfig({
         "mdi:eye",
         "material-symbols:folder-open-outline",
         "ic:sharp-upload",
+        "mdi:account-settings-variant",
       ],
       //
 

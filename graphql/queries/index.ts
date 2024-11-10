@@ -742,3 +742,44 @@ export const Q_usersTagged = gql`
   }
 `;
 
+// usersQ(q: String!, limit: Int): [User!]!
+export const Q_usersQ = gql`
+  query q_usersQ($q: String!, $limit: Int) {
+    usersQ(q: $q, limit: $limit) {
+      id
+      email
+      profile
+      is_approved
+      is_manager
+      is_admin
+      is_external
+      is_available
+      tags
+      groups
+      email_verified
+      created_at
+      updated_at
+    }
+  }
+`;
+
+// usersByGroups(gids: [ID!]!, ALL: Boolean): [User!]!
+export const Q_usersByGroups = gql`
+  query q_usersByGroups($gids: [ID!]!, $ALL: Boolean) {
+    usersByGroups(gids: $gids, ALL: $ALL) {
+      id
+      email
+      profile
+      is_approved
+      is_manager
+      is_admin
+      is_external
+      is_available
+      tags
+      groups
+      email_verified
+      created_at
+      updated_at
+    }
+  }
+`;

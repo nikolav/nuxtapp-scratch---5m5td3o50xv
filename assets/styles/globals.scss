@@ -1,2 +1,25 @@
 // globally insert styles in Nuxt components/pages styles
 $LOCAL_BLUE: blue;
+
+// SCSS mixin for cross-browser placeholder styling
+@mixin placeholder-with-prefix {
+  &::placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    // Firefox
+    @content;
+  }
+  &:-ms-input-placeholder {
+    // Internet Explorer 10-11
+    @content;
+  }
+  &::-ms-input-placeholder {
+    // Microsoft Edge (older versions)
+    @content;
+  }
+  &::-webkit-input-placeholder {
+    // WebKit browsers (Chrome, Safari, Opera)
+    @content;
+  }
+}

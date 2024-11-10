@@ -65,13 +65,8 @@ const topicGroupChat = computed(() =>
           variant="text"
           size="large"
         >
-          <Iconx class="ms-1" size="1.33rem" icon="account-user-edit" />
-          <VTooltip
-            activator="parent"
-            text="Uredi članove"
-            :open-delay="TOOLTIPS_OPEN_DELAY"
-            location="bottom"
-          />
+          <Iconx class="ms-1" size="1.61rem" icon="account-cog" />
+          <VTooltip text="Ažuriraj članove" />
         </VBtn>
         <VBtnDotsMenuList
           :props-icon="{ size: '1.5rem' }"

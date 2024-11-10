@@ -1,8 +1,12 @@
 {
   "rules": {
     "vue/no-v-model-argument": "off",
+    "vue/no-v-for-template-key": "off",
+    "vue/no-use-v-if-with-v-for": "off",
     "vue": {
-      "no-v-model-argument": "off"
+      "no-v-model-argument": "off",
+      "no-use-v-if-with-v-for": "off",
+      "no-v-for-template-key": "off"
     }
   }
 }
