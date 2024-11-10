@@ -8,6 +8,7 @@ export const useQueryUserData = (UID?: any) => {
   const user = computed(() => first(users.value));
   const uid = computed(() => user.value?.id);
   const profile = computed(() => user.value?.profile || {});
+  const key = computed(() => user.value?.key);
 
   // ##utils:computed
   const { $dd } = useNuxtApp();
@@ -59,6 +60,7 @@ export const useQueryUserData = (UID?: any) => {
     uid,
     user,
     profile,
+    key,
     //
     firstName,
     lastName,

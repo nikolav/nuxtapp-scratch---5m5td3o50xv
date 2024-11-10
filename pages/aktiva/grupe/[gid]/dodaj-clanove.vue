@@ -7,6 +7,7 @@ import {
   VToolbarPrimary,
   VDataIteratorListData,
   VFabMain,
+  VSnackbarSuccess,
 } from "@/components/app";
 import { Dump } from "@/components/dev";
 // ##config:const
@@ -28,7 +29,7 @@ const attrs = useAttrs();
 const routeData = computed(() => get(attrs, "route-data", <any>{}));
 const g = computed(() => routeData.value?.g);
 const gid = computed(() => g.value?.id);
-const gname = computed(() => g.value?.name);
+// const gname = computed(() => g.value?.name);
 
 const { calcDisplayName } = useAuthUtils();
 const toId = (node: any) => (null != node ? Number(node.id) : undefined);
@@ -40,6 +41,7 @@ const q = ref("");
 const vars_q = computed(() => ({ q: q.value, limit: 10 }));
 const enabled_q = computed(() => !!q.value);
 const enabled_g = computed(() => !!gid.value);
+const toggleUGConfigStatus = useToggleFlag();
 // ##data ##auth ##state
 //   group({'+22': [1, 2], '-3': [5], '+3': [45]})
 const { group: groupsConfig } = useQueryManageAssetsGroups(
@@ -87,6 +89,8 @@ const configure_g = async () => {
       "data.groupsGUConfigure.error"
     )
   ) {
+    // @success:ug
+    toggleUGConfigStatus.on();
   }
 };
 // ##watch
@@ -110,6 +114,9 @@ useHead({ title: "Dodaj članove" });
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-dodaj-clanove">
+    <VSnackbarSuccess v-model="toggleUGConfigStatus.isActive.value">
+      <p>Grupa je uspešno ažurirana.</p>
+    </VSnackbarSuccess>
     <div class="__spacer pt-1 px-2">
       <VToolbarPrimary
         :route-back-to="routeBackTo"

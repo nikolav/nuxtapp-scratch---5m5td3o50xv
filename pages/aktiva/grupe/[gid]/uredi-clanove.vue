@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary, VDataIteratorListData } from "@/components/app";
+import {
+  VToolbarPrimary,
+  VDataIteratorListData,
+  VSnackbarSuccess,
+} from "@/components/app";
 // ##config ##const
 definePageMeta({
   layout: "app-default",
@@ -24,6 +28,7 @@ const { assetsUGConfigured } = useTopics();
 // ##icons
 // ##refs ##flags ##models
 const mSelectionUsers = ref();
+const toggleUGConfigStatus = useToggleFlag();
 // ##data ##auth ##state
 const { users: users_g, reload: usersQueryReload } = useQueryUsersSearch(
   "g",
@@ -57,8 +62,12 @@ const routeBackTo = computed(() => ({
 }));
 // ##forms ##helpers ##handlers
 const configure_ug_remove = async () => {
-  const res = await groupsConfig(ugConfigure.value!);
-  console.log({ res });
+  if (
+    !get(await groupsConfig(ugConfigure.value!), "data.groupsGUConfigure.error")
+  ) {
+    // @success:ug --rm
+    toggleUGConfigStatus.on();
+  }
 };
 // ##watch
 //  clear users selection @users:change
@@ -77,6 +86,9 @@ watchEffect(() => useIOEvent(ioevent_ug.value, usersQueryReload));
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-uredi-clanove">
+    <VSnackbarSuccess v-model="toggleUGConfigStatus.isActive.value">
+      <p>Grupa je uspešno ažurirana.</p>
+    </VSnackbarSuccess>
     <div class="__spacer pt-1 px-2">
       <VToolbarPrimary
         text="Članovi"

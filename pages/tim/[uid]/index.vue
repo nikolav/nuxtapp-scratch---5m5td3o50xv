@@ -29,6 +29,7 @@ const {
   uid,
   // user,
   // profile,
+  key: key$,
   firstName,
   lastName,
   phone,
@@ -199,6 +200,18 @@ useHead({ title: displayName });
             >
             </VTextField>
           </template>
+          <!-- @@field:key -->
+          <template v-if="key$">
+            <VTextField
+              :model-value="key$"
+              disabled
+              readonly
+              variant="plain"
+              label="Ključ"
+              class="key"
+            >
+            </VTextField>
+          </template>
         </VCardText>
       </div>
       <VSpacer class="mt-12" />
@@ -219,6 +232,9 @@ useHead({ title: displayName });
   .v-field__input {
     font-size: 133%;
     padding-inline-start: 0.5rem;
+  }
+  .key .v-field__input {
+    font-size: 100%;
   }
 }
 </style>

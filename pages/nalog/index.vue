@@ -23,6 +23,8 @@ const emailVerified = computed(() => get(auth.user$, "email_verified"));
 const displayLocation$ = computed(() =>
   get(auth.user$, "profile.displayLocation")
 );
+const email$ = computed(() => get(auth.user$, "email"));
+const key$ = computed(() => get(auth.user$, "key"));
 
 const FIELDS = [
   // @@.1
@@ -159,6 +161,14 @@ onMounted(() => {
               variant="underlined"
             />
             <VTextField
+              disabled
+              readonly
+              :model-value="email$"
+              density="comfortable"
+              label="Email"
+              variant="underlined"
+            />
+            <VTextField
               v-model.trim="form.address.value"
               density="comfortable"
               label="Adresa stanovanja"
@@ -203,6 +213,15 @@ onMounted(() => {
               </VTextField>
             </VSlideYReverseTransition>
           </div>
+          <VSpacer class="mt-6" />
+          <VTextField
+            disabled
+            readonly
+            :model-value="key$"
+            density="comfortable"
+            label="Ključ"
+            variant="underlined"
+          />
         </VCardText>
 
         <VCardActions class="justify-evenly max-w-[345px] mx-auto pt-5">

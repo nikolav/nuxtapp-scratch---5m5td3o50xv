@@ -38,6 +38,7 @@ export const schemaAuthData = z.object({
   id: z.coerce.number(),
   email: z.string().email(),
   profile: z.optional(z.union([z.null(), z.record(schemaJsonData)])),
+  key: z.optional(z.string()),
   // computed
   admin: z.boolean(),
   approved: z.boolean(),
@@ -56,6 +57,7 @@ export const schemaAuthAccount = z.object({
   id: z.coerce.number(),
   email: z.string().email(),
   profile: z.optional(z.union([z.null(), schemaJsonDataRecord])),
+  key: z.optional(z.string()),
   created_at: z.coerce.date(),
   updated_at: z.coerce.date(),
 });
