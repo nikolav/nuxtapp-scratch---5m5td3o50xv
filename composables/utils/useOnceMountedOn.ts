@@ -1,7 +1,7 @@
-export const useOnceMountedOn = (value$: any, callback: () => void) => {
+export const useOnceMountedOn = (VALUE$: any, callback: () => void) => {
   const initialized = ref(false);
   const mounted = useMounted();
-  watch([mounted, () => toValue(value$)], ([isMounted, value]) => {
+  watch([mounted, () => toValue(VALUE$)], ([isMounted, value]) => {
     if (initialized.value) return;
     if (!isMounted) return;
     if (!value) return;

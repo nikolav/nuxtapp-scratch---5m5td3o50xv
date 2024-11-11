@@ -35,16 +35,18 @@ export const schemaAuthCredentialsWithPolicies = schemaAuthCredentials.extend({
   policies: z.optional(z.array(z.string())),
 });
 export const schemaAuthData = z.object({
+  // @fields
   id: z.coerce.number(),
   email: z.string().email(),
   profile: z.optional(z.union([z.null(), z.record(schemaJsonData)])),
   key: z.optional(z.string()),
-  // computed
+  // @computed
   admin: z.boolean(),
   approved: z.boolean(),
   email_verified: z.boolean(),
   external: z.boolean(),
   manager: z.boolean(),
+  default: z.boolean(),
   // @ts
   created_at: z.string(),
   updated_at: z.string(),
@@ -80,14 +82,14 @@ export const schemaTask = z.object({
 });
 export const schemaUsersIsDefault = z
   .object({
-    email: z.string().email(),
     id: z.coerce.number(),
+    email: z.string().email(),
   })
   .refine((d) => USER_ID_DEFAULT === d.id);
 export const schemaUsersNotReserved = z
   .object({
-    email: z.string().email(),
     id: z.coerce.number(),
+    email: z.string().email(),
   })
   .refine((d) => !idsReserved.includes(d.id));
 export const schemaHasFieldName = z.object({

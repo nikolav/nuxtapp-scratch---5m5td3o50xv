@@ -14,14 +14,7 @@ import {
   URL_AUTH_logout,
   URL_AUTH_register,
 } from "@/config";
-import {
-  schemaAuthCredentials,
-  schemaAuthData,
-  schemaAuthDataAdmin,
-  schemaJwt,
-  schemaUsersIsDefault,
-  schemaUsersNotReserved,
-} from "@/schemas";
+import { schemaAuthCredentials, schemaAuthData, schemaJwt } from "@/schemas";
 
 export const useStoreApiAuth = defineStore("auth", () => {
   const {
@@ -34,7 +27,6 @@ export const useStoreApiAuth = defineStore("auth", () => {
         authHeaders,
       },
     },
-    APP_USER_DEFAULT: { email: APP_USER_DEFAULT_email },
   } = useAppConfig();
   // jwt
   const token$ = useLocalStorage(KEY_ACCESS_TOKEN, initialStorage, {
@@ -72,17 +64,13 @@ export const useStoreApiAuth = defineStore("auth", () => {
 
   const uid = computed(() => get(user$.value, "id"));
   const profile = computed(() => get(user$.value, "profile") || {});
-
   const initialized$ = useOnceMountedOn(true, authDataStart);
   const isAuth$ = computed(() => schemaAuthData.safeParse(user$.value).success);
-  const isUser$ = computed(
-    () => schemaUsersNotReserved.safeParse(user$.value).success
-  );
   const isAdmin$ = computed(
-    () => schemaAuthDataAdmin.safeParse(user$.value).success
+    () => isAuth$.value && true === get(user$.value, "admin")
   );
   const isDefault$ = computed(
-    () => schemaUsersIsDefault.safeParse(user$.value).success
+    () => isAuth$.value && true == get(user$.value, "default")
   );
   const isAuthenticated$ = computed(() => isAuth$.value && !isDefault$.value);
 
@@ -121,16 +109,13 @@ export const useStoreApiAuth = defineStore("auth", () => {
     } else {
       // #signal logout to apollo
       await onLogoutApollo();
-      // clear auto `chatName`
-
-      // displayName.value = "";
     }
   });
 
   // track api activity
-  const pc = useProcessMonitor();
+  const psAuth = useProcessMonitor();
   const { watchProcessing } = useStoreAppProcessing();
-  watchProcessing(pc.processing);
+  watchProcessing(psAuth.processing);
 
   // update store @account:update
   const { ioeventAccountUpdated } = useTopics();
@@ -144,8 +129,8 @@ export const useStoreApiAuth = defineStore("auth", () => {
       if (isAuthenticated$.value) return;
 
       let token: OrNoValue<string> = "";
-      pc.begin();
       try {
+        psAuth.begin();
         token = get(
           await $fetch<IAuthResponse>(authEndpoint, {
             method: "POST",
@@ -154,14 +139,14 @@ export const useStoreApiAuth = defineStore("auth", () => {
           "token"
         );
       } catch (error) {
-        pc.setError(error);
+        psAuth.setError(error);
       } finally {
-        if (schemaJwt.safeParse(token).success) {
-          token$.value = token;
-          pc.successful();
-        }
+        psAuth.done();
       }
-      pc.done();
+      if (!psAuth.error.value && schemaJwt.safeParse(token).success) {
+        token$.value = token;
+        psAuth.successful();
+      }
     };
   // @register
   const register = authentication$(URL_AUTH_register);
@@ -170,8 +155,8 @@ export const useStoreApiAuth = defineStore("auth", () => {
   // @logout
   const logout = async () => {
     if (!isAuth$.value) return;
-    pc.begin();
     try {
+      psAuth.begin();
       await $fetch<IAuthLogoutResponse>(URL_AUTH_logout, {
         method: "POST",
         // headers: authHeaders(token$.value),
@@ -181,7 +166,7 @@ export const useStoreApiAuth = defineStore("auth", () => {
             // logout success, cache cleared server side,
             //  set token invalid
             token$.value = "";
-            pc.successful();
+            psAuth.successful();
 
             // clear fb auth
             await signOut(firebaseAuth);
@@ -189,13 +174,11 @@ export const useStoreApiAuth = defineStore("auth", () => {
         },
       });
     } catch (error) {
-      pc.setError(error);
+      psAuth.setError(error);
     } finally {
-      pc.done();
+      psAuth.done();
     }
-    if (!pc.error.value) {
-      pc.successful();
-    }
+    if (!psAuth.error.value) psAuth.successful();
   };
 
   // #api
@@ -215,14 +198,13 @@ export const useStoreApiAuth = defineStore("auth", () => {
     //
     initialized$,
     isAuth$,
-    isUser$,
     isAdmin$,
     isDefault$,
     isAuthenticated$,
     // @refs
     displayName,
     // @api/flags
-    status: pc,
+    status: psAuth,
     // hard login
     //  put token:validated
     tokenPut: (t: string) => {
