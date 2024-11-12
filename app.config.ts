@@ -15,7 +15,6 @@ import {
   URL_PASSWORD_RESET_ACTION,
   CATEGORY_KEY_ASSETS_prefix,
   DEFAULT_NO_IMAGE_AVAILABLE,
-  USERS_HAS_POLICY_ADMINS,
 } from "@/config";
 
 const themeDark = "dark";
@@ -328,6 +327,7 @@ export default defineAppConfig({
     },
   },
   acconts: {
+    POLICY_ADMINS: "@policy:admins:ext0ZRQE9gmZ8Bvwb8GMq5DNmh8wEF",
     availabilityStatus: <{ [type: string]: string }>{
       available: "AVAILABLE:vmWsUhVctBpu1BAp",
       away: "AWAY:p2oLyHH",
@@ -412,8 +412,5 @@ export default defineAppConfig({
     defaultCacheKey: "_main:2a7b484c-fc40-5d2f-b294-2e33b3b01afd",
     CACHE_KEY_ASSETS_ATTACHMENTS_prefix:
       "CACHE_KEY_ASSETS_ATTACHMENTS:qdSl6XmU1m:",
-  },
-  auth: {
-    POLICY_ADMINS: "@policy:admins:ext0ZRQE9gmZ8Bvwb8GMq5DNmh8wEF",
   },
 });

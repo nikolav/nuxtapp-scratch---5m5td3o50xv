@@ -55,12 +55,12 @@ watch(
 // ##hooks:lifecycle
 // set default guest key @!auth
 const onceAuthInitDefault = once(() => {
-  if (!auth.token$) auth.tokenPutDefault();
+  auth.tokenPutDefault();
 });
 watch(
-  () => auth.initialized$,
-  (initialized: boolean) => {
-    if (initialized) onceAuthInitDefault();
+  () => auth.initialized$ && !auth.token$,
+  (initializedNoToken: boolean) => {
+    if (initializedNoToken) onceAuthInitDefault();
   }
 );
 // useOnceOn(

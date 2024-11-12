@@ -4,6 +4,7 @@ export const re_jwt =
   /^([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_\-\+\/=]*)$/;
 export const reAfterLastColon = /\:([^:]*)$/;
 export const reAfterLastDot = /\.([^.]+)$/;
+export const reAfterLastSlash = /\/([^/]+)$/;
 
 // funcs
 export const matchEmailStart = (val: any) =>
@@ -14,3 +15,6 @@ export const matchAfterLastColon = (value: string) =>
 
 export const matchAfterLastDot = (value: string) =>
   get(value.match(reAfterLastDot), "[1]");
+
+export const matchAfterLastSlash = (value: string) =>
+  get(value.match(reAfterLastSlash), "[1]");

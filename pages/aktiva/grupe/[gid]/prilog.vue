@@ -1,8 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import type { IAssetsAttachments } from "@/types";
-import { Dump } from "@/components/dev";
-import { VToolbarPrimary } from "@/components/app";
+import { VToolbarPrimary, VDataIteratorListData } from "@/components/app";
 
 // ##config:const
 // ##config ##props
@@ -14,24 +12,22 @@ definePageMeta({
 const attrs = useAttrs();
 const { open: openAttachmentsAdd, onChange: onChangeAttachments } =
   useFileDialog({ multiple: true });
-const wopenDataUrl = useWindowOpenDataUrl();
+const ps = useProcessMonitor();
 // ##icons
 // ##refs ##flags ##models
 const routeData = computed(() => get(attrs, "route-data", <any>{}));
 const g = computed(() => routeData.value?.g);
 const gid = computed(() => g.value?.id);
 const gname = computed(() => g.value?.name);
-const attachments = ref<IAssetsAttachments[]>();
+const attachments = ref<File[]>();
 
 // ##data ##auth ##state
 const {
-  files: ccFiles,
-  size: ccSize,
-  commit,
-  keys: cckeys,
-  remove: ccremove,
-  attachmentMake,
-} = useCacheRedisAssetsAttachments(gid);
+  images,
+  uploadCollection: fbsUploadCollection,
+  reload,
+  rm,
+} = useFirebaseStorageAssetImages(gid);
 
 // ##computed
 const routeBackTo = computed(() => ({
@@ -40,31 +36,40 @@ const routeBackTo = computed(() => ({
 }));
 
 // ##forms ##handlers ##helpers
-const item_ = (key: any) => ccFiles.value[key];
-const previewDataUrl = (key: any) => {
-  const item = item_(key);
-  return wopenDataUrl(item.dataurl, item.type);
+const itemTitle = (url: string, i: number) => `${i + 1}) ${urlFilename(url)}`;
+const fileDrop = async (url: string) => {
+  try {
+    ps.begin();
+    await rm(urlFilename(url));
+  } catch (error) {
+    ps.setError(error);
+    // pass
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value) ps.successful(reload);
 };
-
 // ##watch
 watch(attachments, async (attachments) => {
-  await commit(
-    transform(
-      attachments,
-      (res: any, node: IAssetsAttachments) => {
-        res[node.key] = node;
-      },
-      <any>{}
-    )
-  );
+  if (isEmpty(attachments)) return;
+  let res;
+  try {
+    ps.begin();
+    res = await fbsUploadCollection(attachments);
+  } catch (error) {
+    ps.setError(error);
+    // pass
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value && !isEmpty(res)) ps.successful(reload);
 });
 
 // ##hooks ##lifecycle
 onChangeAttachments(async (files) => {
-  if (!isEmpty(files)) {
-    attachments.value = await Promise.all(map(files, attachmentMake));
-  }
+  attachments.value = Array.from(files || []);
 });
+onMounted(reload);
 
 // ##head ##meta
 useHead({ title: `Prilog | ${gname.value}` });
@@ -79,7 +84,6 @@ useHead({ title: `Prilog | ${gname.value}` });
       <VToolbarPrimary
         text="Prilog"
         rounded="pill"
-        elevation="1"
         color="primary-lighten-1"
         :route-back-to="routeBackTo"
         :props-title="{ class: 'text-body-1 text-start' }"
@@ -110,44 +114,35 @@ useHead({ title: `Prilog | ${gname.value}` });
           </VBtn>
         </template>
         <template #actions>
-          <VBtn @click="openAttachmentsAdd()" size="small" icon variant="text">
+          <VBtn @click="openAttachmentsAdd()" icon variant="text">
             <Iconx size="1.33rem" icon="upload" />
+          </VBtn>
+          <VBtn @click="reload" size="small" icon variant="plain">
+            <Iconx size="1.122rem" icon="$loading" />
           </VBtn>
         </template>
       </VToolbarPrimary>
     </div>
-    <VDataIterator :items="cckeys" :items-per-page="-1">
-      <template #default="{ items }">
-        <VList
-          density="comfortable"
-          v-if="!isEmpty(cckeys)"
-          class="__spacer px-2"
+    <VDataIteratorListData
+      :show-select="false"
+      :items="images"
+      :item-title="itemTitle"
+      :item-url="identity"
+      external
+      disabled-skeleton-loader
+    >
+      <template #list-item-append="{ item: url_ }">
+        <VBtn
+          @click.stop="fileDrop(url_)"
+          color="error"
+          icon
+          variant="plain"
+          size="small"
         >
-          <VListItem
-            v-for="(item, i) in items"
-            :key="item.raw"
-            link
-            target="_blank"
-            @click.stop="previewDataUrl(item.raw)"
-          >
-            <template #append>
-              <VBtn
-                icon
-                variant="plain"
-                size="small"
-                color="error"
-                @click.stop="ccremove(item.raw)"
-              >
-                <Iconx size="1.22rem" icon="trash" />
-              </VBtn>
-            </template>
-            <VListItemTitle>
-              <span> {{ i + 1 }}&rpar; {{ item_(item.raw)?.name }} </span>
-            </VListItemTitle>
-          </VListItem>
-        </VList>
+          <Iconx size="1.122rem" icon="trash" />
+        </VBtn>
       </template>
-    </VDataIterator>
+    </VDataIteratorListData>
   </section>
 </template>
 <style lang="scss" scoped></style>

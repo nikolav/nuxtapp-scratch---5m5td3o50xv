@@ -1,12 +1,6 @@
 import { z } from "zod";
 import validator from "validator";
 import { schemaJsonDataRecord, schemaJsonData } from "./json";
-import { USER_ID_DEFAULT, USERS_HAS_POLICY_ADMINS } from "@/config";
-
-const idsReserved = (<number[]>[]).concat(
-  USERS_HAS_POLICY_ADMINS,
-  USER_ID_DEFAULT
-);
 
 export { schemaJsonData, schemaJsonDataRecord } from "./json";
 export const authLoginCreds = z.object({
@@ -51,10 +45,6 @@ export const schemaAuthData = z.object({
   created_at: z.string(),
   updated_at: z.string(),
 });
-export const schemaAuthDataAdmin = z.object({
-  email: z.string().email(),
-  id: z.coerce.number().refine((uid) => USERS_HAS_POLICY_ADMINS.includes(uid)),
-});
 export const schemaAuthAccount = z.object({
   id: z.coerce.number(),
   email: z.string().email(),
@@ -63,35 +53,12 @@ export const schemaAuthAccount = z.object({
   created_at: z.coerce.date(),
   updated_at: z.coerce.date(),
 });
-export const schemaChatTask = z.object({
-  name: z.coerce.string().trim().min(1),
-  comment: z.coerce.string().trim().min(1),
-});
-export const schemaEmail = z.string().email();
 export const schemaJwt = z.string().refine(validator.isJWT);
 export const schemaStorageMeta = z.object({
   title: z.optional(z.coerce.string()),
   description: z.optional(z.coerce.string()),
   public: z.optional(z.coerce.boolean()),
 });
-export const schemaTask = z.object({
-  title: z.string().trim().min(1),
-  completedAt: z.coerce.date().nullable().default(null),
-  href: z.optional(z.string().trim()),
-  description: z.optional(z.string().trim()),
-});
-export const schemaUsersIsDefault = z
-  .object({
-    id: z.coerce.number(),
-    email: z.string().email(),
-  })
-  .refine((d) => USER_ID_DEFAULT === d.id);
-export const schemaUsersNotReserved = z
-  .object({
-    id: z.coerce.number(),
-    email: z.string().email(),
-  })
-  .refine((d) => !idsReserved.includes(d.id));
 export const schemaHasFieldName = z.object({
   name: z.string(),
 });

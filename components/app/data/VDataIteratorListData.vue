@@ -13,6 +13,8 @@ const props = withDefaults(
     // calc :to route
     itemTo?: any;
     itemTitle?: any;
+    itemUrl?: any;
+    external?: boolean;
     //
     disabledSkeletonLoader?: boolean;
   }>(),
@@ -35,6 +37,8 @@ const showSelect = computed(() =>
   "show-select" in attrs ? attrs["show-select"] : true
 );
 // ##forms ##handlers ##helpers
+const navigateExternal = async (url: string) =>
+  await navigateTo(url, { open: { target: "_blank" } });
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -62,13 +66,18 @@ const showSelect = computed(() =>
     </template>
     <template #default="{ items, toggleSelect }">
       <VList v-bind="propsList">
-        <template v-if="showSelect" v-for="node in items" :key="it_val(node)">
+        <template v-for="(node, idx) in items" :key="it_val(node)">
           <slot name="list-item" :item="node.raw">
             <VListItem
-              :to="itemTo ? itemTo(node.raw) : undefined"
+              @click="
+                external
+                  ? itemUrl && navigateExternal(itemUrl(node.raw))
+                  : undefined
+              "
+              :to="external ? undefined : itemTo ? itemTo(node.raw) : undefined"
               v-bind="propsListItem"
             >
-              <template #prepend>
+              <template v-if="showSelect" #prepend>
                 <VCheckboxBtn
                   density="comfortable"
                   color="primary"
@@ -85,7 +94,7 @@ const showSelect = computed(() =>
                 <VListItemTitle v-bind="propsListItemTitle">
                   <slot name="list-item-title" :item="node.raw">
                     <span>
-                      {{ (itemTitle || it_val)(node.raw) }}
+                      {{ (itemTitle || it_val)(node.raw, idx) }}
                     </span>
                   </slot>
                 </VListItemTitle>
