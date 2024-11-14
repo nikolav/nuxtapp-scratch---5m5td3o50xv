@@ -57,7 +57,7 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
             min-width="192"
           >
             <!-- item:account -->
-            <VListItem :to="{ name: 'nalog' }" value="Moj nalog" class="ps-3">
+            <VListItem :to="{ name: 'nalog-index' }" value="Moj nalog" class="ps-3">
               <template #prepend>
                 <Icon size="1.44rem" name="material-symbols:account-circle" />
               </template>

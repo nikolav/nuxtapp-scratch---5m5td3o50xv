@@ -38,6 +38,7 @@ export const useTopics = () => {
         PATH_PROFILE_AVATARS,
         PATH_ASSETS_IMAGES,
         PATH_ASSETS_AVATARS,
+        PATH_ACCOUNT_ATTACHMENTS,
       },
     },
     io: {
@@ -107,6 +108,8 @@ export const useTopics = () => {
     aid ? `${CACHE_KEY_ASSETS_ATTACHMENTS_prefix}${aid}` : "";
   const assetsUGConfigured = (gid?: any) =>
     gid ? `${IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED_prefix}${gid}` : "";
+  const accountAttachments = (uid?: any) =>
+    uid ? `${trimEnd(PATH_ACCOUNT_ATTACHMENTS, "/")}/${uid}` : "";
   return {
     CHAT_MAIN,
     MAILING_LIST,
@@ -142,6 +145,7 @@ export const useTopics = () => {
     usersTags,
     assetsAttachments,
     assetsUGConfigured,
+    accountAttachments,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,

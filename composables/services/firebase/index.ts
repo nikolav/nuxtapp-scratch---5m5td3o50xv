@@ -5,3 +5,4 @@ export { useFirebaseRemoteConfig } from "./useFirebaseRemoteConfig";
 export { useFirebaseStorage } from "./useFirebaseStorage";
 export { useFirebaseStorageAssetImages } from "./useFirebaseStorageAssetImages";
 export { useFirebaseStorageAssetsGroupAvatar } from "./useFirebaseStorageAssetsGroupAvatar";
+export { useFirebaseStorageAttachments } from "./useFirebaseStorageAttachments";

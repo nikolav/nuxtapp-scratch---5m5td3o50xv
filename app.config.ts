@@ -260,6 +260,7 @@ export default defineAppConfig({
       PATH_PROFILE_AVATARS: "/media/AVATARS:yenDhzULhtZohA9yo",
       PATH_ASSETS_IMAGES: "/media/ASSETS:ZJYH3/images",
       PATH_ASSETS_AVATARS: "/media/ASSETS:AVATARS:OYDQyknrfYvlUCzFGON",
+      PATH_ACCOUNT_ATTACHMENTS: "/media/ACCOUNT:ATTACHMENTS:oQh8cnzHyoJl13g1",
     },
     firestore: {
       COLLECTIONS_PATH: "/app/collections",
