@@ -13,7 +13,7 @@ export const useFirebaseStorageAssetImages = (AID?: any) => {
       map(await ls(), async (node: any) => await url(node.name))
     );
   };
-  const uploadCollection = async (ls: OrNoValue<File[]>) => {
+  const uploadAll = async (ls: OrNoValue<File[]>) => {
     if (isEmpty(ls)) return;
     return await upload(
       reduce(
@@ -35,7 +35,8 @@ export const useFirebaseStorageAssetImages = (AID?: any) => {
     id: aid,
     images,
     reload: imagesLoad,
-    uploadCollection,
+    uploadAll,
+    uploadCollection: uploadAll,
     ...storage,
   };
 };

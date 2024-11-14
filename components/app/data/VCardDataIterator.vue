@@ -31,6 +31,8 @@ const props = withDefaults(
 
     perPage?: number;
     reload?: any;
+    //
+    signalIdDeselect?: any;
   }>(),
   {
     itemTitle: "title",
@@ -122,6 +124,15 @@ const it_val = (item: any) => get(item, `raw.${props.itemValue}`);
 const onSubmitApplyGroupFiler = () => {
   groupsSelected.value = groupSelectionMany.value;
 };
+
+// @watch
+// deselect:*@SIG
+watch(
+  () => props.signalIdDeselect,
+  (ID: any) => {
+    if (ID) itemsSelectAllOff();
+  }
+);
 
 // @@eos
 </script>

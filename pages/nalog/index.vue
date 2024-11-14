@@ -253,7 +253,8 @@ onMounted(() => {
         </VCardActions>
       </VCard>
     </VForm>
-    <VDivider class="border-opacity-100 mt-8 w-[75%] mx-auto" />
+    <VDivider class="border-opacity-100 mt-12 w-[75%] mx-auto" />
+
     <div class="d-flex flex-col max-w-fit mx-auto space-y-5 pt-5 pb-12">
       <VBtn
         v-if="!emailVerified"
@@ -262,10 +263,11 @@ onMounted(() => {
         variant="tonal"
         rounded="pill"
         class="px-5"
-        color="warning-darken-1"
+        color="info"
         elevation="1"
         >Potvrdi email</VBtn
       >
+      <VSpacer class="mt-5" />
       <VBtn
         elevation="1"
         color="error"
@@ -308,10 +310,10 @@ onMounted(() => {
           </template>
         </VMenu>
       </VBtn>
-      <VDivider class="mt-8" />
+      <VDivider class="mt-10" />
       <VBtn
         size="large"
-        class="px-5 !scale-[85%] opacity-60"
+        class="px-5 !scale-[85%] opacity-60 *text-none"
         color="error"
         rounded="pill"
       >

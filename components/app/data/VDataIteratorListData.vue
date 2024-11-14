@@ -4,24 +4,19 @@ import type { IUser } from "@/types";
 import { renderIcon } from "@/components/icons";
 // ##config:const
 // ##config ##props
-const props = withDefaults(
-  defineProps<{
-    propsList?: any;
-    propsListItem?: any;
-    propsListItemTitle?: any;
-    propsSelectionCheck?: any;
-    // calc :to route
-    itemTo?: any;
-    itemTitle?: any;
-    itemUrl?: any;
-    external?: boolean;
-    //
-    disabledSkeletonLoader?: boolean;
-  }>(),
-  {
-    itemTitle: (node: any) => String(node?.id),
-  }
-);
+const props = defineProps<{
+  propsList?: any;
+  propsListItem?: any;
+  propsListItemTitle?: any;
+  propsSelectionCheck?: any;
+  //
+  itemTitle?: any;
+  itemTo?: any;
+  itemUrl?: any;
+  external?: boolean;
+  //
+  disabledSkeletonLoader?: boolean;
+}>();
 const selection = defineModel<IUser[]>();
 // ##utils
 const attrs = useAttrs();

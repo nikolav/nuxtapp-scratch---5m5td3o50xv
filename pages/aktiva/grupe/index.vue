@@ -18,6 +18,8 @@ const { APP_NAME } = useAppConfig();
 const { smAndUp } = useDisplay();
 const { showUserScreen } = useNavigationUtils();
 const { calcDisplayName: calcUserDisplayName } = useAuthUtils();
+const ps = useProcessMonitor();
+const sigID_deselect = useUniqueId();
 
 // @refs @models
 const selection = ref();
@@ -26,12 +28,18 @@ const toggleMenuActiveNotification = useToggleFlag();
 
 const toggleGroupMessageSuccess = useToggleFlag();
 const toggleGroupNotificationSuccess = useToggleFlag();
+const toggleGroupRemovedSuccess = useToggleFlag();
 
 const suid = inject(key_UID);
 const userDisplayName = inject(key_USER_DISPLAY_NAME);
 
 // @data @auth
-const { assets: groups, reload, processing } = useQueryManageAssetsGroups();
+const {
+  assets: groups,
+  reload,
+  processing,
+  remove: gRemove,
+} = useQueryManageAssetsGroups();
 const { groupMessageMany, responseOkGroupMessageMany } = useQueryComms();
 const { notificationSend, responseOk: notificationResponseOk } =
   useMessagingNotification();
@@ -76,7 +84,28 @@ const onGroupNotificationMany = async (message: string) => {
     )
       toggleGroupNotificationSuccess.on();
 };
-
+const assetsGroupsRemove = async () => {
+  let res;
+  if (!isEmpty(selection.value)) {
+    try {
+      ps.begin();
+      res = await Promise.all(
+        map(selection.value, async (g: any) => await gRemove([Number(g.id)]))
+      );
+    } catch (error) {
+      ps.setError(error);
+    } finally {
+      ps.done();
+    }
+    if (
+      !ps.error.value &&
+      every(res, (r: any, i: any) => !get(r, `${i}.data.assetsRemove.error`))
+    ) {
+      ps.successful(sigID_deselect);
+      toggleGroupRemovedSuccess.on();
+    }
+  }
+};
 // @watch
 // close message:compose @send:success
 watch(toggleGroupMessageSuccess.isActive, (isActive) => {
@@ -93,6 +122,9 @@ useHead({ title: "Grupe" });
 </script>
 <template>
   <section class="page--aktiva-grupe">
+    <VSnackbarSuccess v-model="toggleGroupRemovedSuccess.isActive.value">
+      <span>Grupe su uspešno ažurirane.</span>
+    </VSnackbarSuccess>
     <VSnackbarSuccess v-model="toggleGroupMessageSuccess.isActive.value">
       <span>Poruka je uspešno poslata.</span>
     </VSnackbarSuccess>
@@ -134,6 +166,7 @@ useHead({ title: "Grupe" });
       :props-title="{ class: 'ps-3 *pt-1' }"
       :props-selection="{ class: '-translate-y-[2px]' }"
       :props-list-item="{ class: 'ps-2' }"
+      :signal-id-deselect="sigID_deselect.ID.value"
     >
       <template #list-item-title="{ title }">
         {{ title }}
@@ -163,12 +196,23 @@ useHead({ title: "Grupe" });
           <VListItem @click="toggleMenuActiveNotification" value="item@2">
             <template #prepend>
               <Iconx
-                class="ms-1 me-4 opacity-20"
+                class="ms-1 me-[12px] opacity-20"
                 size="1.5rem"
                 icon="notification"
               />
             </template>
             <VListItemTitle>Obaveštenje</VListItemTitle>
+          </VListItem>
+          <VDivider class="border-opacity-100 mt-3" />
+          <VListItem link @click="assetsGroupsRemove">
+            <template #prepend>
+              <Iconx
+                class="ms-1 me-[15px] opacity-20"
+                size="1.33rem"
+                icon="trash"
+              />
+            </template>
+            <span>Obriši grupe</span>
           </VListItem>
         </VList>
       </template>
