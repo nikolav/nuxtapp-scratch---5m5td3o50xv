@@ -48,10 +48,6 @@ const { attachments, size: attachmentsSize } = useFirebaseStorageAttachments({
   ID: uid,
   KEY: accountAttachments,
 });
-watchEffect(() => {
-  console.log("attachments", attachments.value);
-  console.log("attachmentsSize", attachmentsSize.value);
-});
 // ##computed
 // ##forms ##helpers ##handlers
 const itemTitle = (url: any) => urlFilename(url);
