@@ -8,8 +8,8 @@ import {
   VAvatarProfileImage,
   VCardTitleSectionStart,
   VBtnShowLocation,
+  VDataIteratorListData,
 } from "@/components/app";
-import { Iconx } from "@/components/icons";
 
 // ##config ##const
 definePageMeta({
@@ -19,6 +19,7 @@ definePageMeta({
 // ##utils
 const route = useRoute();
 const UID = computed(() => route.params.uid);
+const { accountAttachments } = useTopics();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
@@ -43,8 +44,18 @@ const {
   groups,
   employedAt,
 } = useQueryUserData(() => [UID.value]);
+const { attachments, size: attachmentsSize } = useFirebaseStorageAttachments({
+  ID: uid,
+  KEY: accountAttachments,
+});
+watchEffect(() => {
+  console.log("attachments", attachments.value);
+  console.log("attachmentsSize", attachmentsSize.value);
+});
 // ##computed
 // ##forms ##helpers ##handlers
+const itemTitle = (url: any) => urlFilename(url);
+const itemUrl = identity;
 // ##watch
 // ##hooks:lifecycle
 // ##head
@@ -63,7 +74,7 @@ useHead({ title: displayName });
     >
       <!-- :text="displayName" -->
       <VToolbarPrimary
-        :props-title="{ class: 'font-italic text-h6 text-start ps-0 ms-3' }"
+        :props-title="{ class: 'font-italic text-body-1 text-start ps-0 ms-3' }"
         :props-actions="{ class: 'pe-2' }"
         route-back-name="tim"
       >
@@ -83,12 +94,37 @@ useHead({ title: displayName });
           <Iconx size="1rem" icon="user" class="opacity-30" />
         </template>
         <template #actions>
-          <VBtnTopicChatToggle
-            :topic="topicChatChannel"
-            :props-icon="{ size: '1rem' }"
-            density="comfortable"
-            variant="plain"
-          />
+          <VBtnTopicChatToggle :topic="topicChatChannel" variant="text" />
+          <VBtn :disabled="!(0 < attachmentsSize)" icon variant="plain">
+            <VBadge
+              color="primary-darken-2"
+              :content="attachmentsSize"
+              location="bottom end"
+              offset-x="-5"
+              offset-y="1"
+              :model-value="0 < attachmentsSize"
+            >
+              <Iconx size="1.44rem" icon="folder-open-outline" />
+            </VBadge>
+            <VMenu activator="parent" location="bottom end" :offset="[-5, 0]">
+              <VDataIteratorListData
+                disabled-skeleton-loader
+                :props-list="{
+                  rounded: true,
+                  density: 'compact',
+                  variant: 'elevated',
+                  elevation: '3',
+                  class: 'py-0',
+                  'max-width': 422,
+                }"
+                :show-select="false"
+                :item-title="itemTitle"
+                :item-url="itemUrl"
+                :items="attachments"
+                external
+              />
+            </VMenu>
+          </VBtn>
         </template>
       </VToolbarPrimary>
 

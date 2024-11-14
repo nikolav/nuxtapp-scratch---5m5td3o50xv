@@ -6,6 +6,9 @@ export const useFirebaseStorageAttachments = (config: {
   const id = ref();
   const attachmentsKey = config.KEY || identity;
   const attachments = ref();
+  const size = computed(() =>
+    isEmpty(attachments.value) ? 0 : len(attachments.value)
+  );
   watchEffect(() => {
     id.value = toValue(config.ID);
   });
@@ -39,6 +42,7 @@ export const useFirebaseStorageAttachments = (config: {
     attachments,
     reload: attachmentsReload,
     uploadAll,
+    size,
     // alias
     images: attachments,
     uploadCollection: uploadAll,

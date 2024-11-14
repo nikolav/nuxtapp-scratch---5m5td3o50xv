@@ -109,6 +109,9 @@ export default defineNuxtPlugin((nuxtApp) => {
         location: "bottom",
         activator: "parent",
       },
+      VMenu: {
+        transition: DEFAULT_TRANSITION,
+      },
       // <CustomComponent>: {
       //   "foo:1": "bar",
       // },
