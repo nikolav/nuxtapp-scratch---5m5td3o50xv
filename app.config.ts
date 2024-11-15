@@ -325,6 +325,8 @@ export default defineAppConfig({
       save: "material-symbols:save",
       rubber: "jam:rubber",
       "account-cog": "mdi:account-settings-variant",
+      storefront: "ic:round-storefront",
+      hashtag: "ri:hashtag",
     },
   },
   acconts: {

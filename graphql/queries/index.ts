@@ -551,6 +551,7 @@ export const Q_productsList = gql`
       condition
       data
       notes
+      key
       users {
         id
         email
@@ -601,6 +602,7 @@ export const Q_groupsList = gql`
       condition
       data
       notes
+      key
       users {
         id
         email
@@ -639,10 +641,10 @@ export const Q_groupsList = gql`
   }
 `;
 
-// assetsList(aids: [ID!], type: String, own: Boolean): [Asset!]!
+// assetsList(aids: [ID!], type: String, own: Boolean, aids_subs_only: [ID!], aids_subs_type: String): [Asset!]!
 export const Q_assetsList = gql`
-  query q_assetsList($aids: [ID!], $type: String, $own: Boolean) {
-    assetsList(aids: $aids, type: $type, own: $own) {
+  query q_assetsList($aids: [ID!], $type: String, $own: Boolean, $aids_subs_only: [ID!], $aids_subs_type: String) {
+    assetsList(aids: $aids, type: $type, own: $own, aids_subs_only: $aids_subs_only, aids_subs_type: $aids_subs_type) {
       id
       name
       code
@@ -652,6 +654,7 @@ export const Q_assetsList = gql`
       condition
       data
       notes
+      key
       tags
       author {
         id

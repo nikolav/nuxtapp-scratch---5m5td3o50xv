@@ -1,11 +1,9 @@
 <script setup lang="ts">
-// G5c3pxAQijg
+// nnB8T1jLDgmeu3O
 const isActive = defineModel<boolean>();
-
 const {
   app: { DEFAULT_TRANSITION },
 } = useAppConfig();
-
 // @@eos
 </script>
 <template>
@@ -15,6 +13,7 @@ const {
     color="success-darken-1"
     rounded="pill"
     :transition="DEFAULT_TRANSITION"
+    class="VSnackbar--P1tGlbWxbhpt"
   >
     <VListItem density="comfortable" class="ps-2 pe-0">
       <template #prepend>
@@ -43,4 +42,8 @@ const {
   </VSnackbar>
 </template>
 <style lang="scss" scoped></style>
-<style lang="scss"></style>
+<style lang="scss">
+.VSnackbar--P1tGlbWxbhpt .v-list-item__prepend .v-list-item__spacer {
+  width: 1rem !important;
+}
+</style>

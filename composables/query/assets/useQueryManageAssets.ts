@@ -12,7 +12,8 @@ export const useQueryManageAssets = (
   ASSETS_TYPE?: any,
   AIDS?: any,
   OWN: any = true,
-  OPTIONS?: any
+  OPTIONS?: any,
+  VARS_ADDITIONAL?: any
 ) => {
   const type = ref();
   watchEffect(() => {
@@ -29,6 +30,18 @@ export const useQueryManageAssets = (
     own.value = toValue(OWN);
   });
 
+  const vars_add = ref();
+  watchEffect(() => {
+    vars_add.value = toValue(VARS_ADDITIONAL);
+  });
+
+  const variables_ = computed(() => ({
+    aids: aids.value,
+    type: type.value,
+    own: own.value,
+    ...vars_add.value,
+  }));
+
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
   } = useAppConfig();
@@ -40,18 +53,10 @@ export const useQueryManageAssets = (
     loading,
   } = useLazyQuery<{
     assetsList: IAsset[];
-  }>(
-    Q_assetsList,
-    {
-      aids,
-      type,
-      own,
-    },
-    {
-      pollInterval: STORAGE_QUERY_POLL_INTERVAL,
-      ...OPTIONS,
-    }
-  );
+  }>(Q_assetsList, variables_, {
+    pollInterval: STORAGE_QUERY_POLL_INTERVAL,
+    ...OPTIONS,
+  });
   const { mutate: mutateAssetsUpsert, loading: loadingUpsert } =
     useMutation(M_assetsUpsert);
   const { mutate: mutateAssetsRemove, loading: loadingAssetsRemove } =

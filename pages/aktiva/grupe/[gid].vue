@@ -91,6 +91,22 @@ const topicGroupChat = computed(() =>
             <VListItem
               link
               :class="LIST_ITEM_CLASSES"
+              :to="{ name: 'aktiva-grupe-gid-sites', params: { gid } }"
+            >
+              <template #prepend>
+                <Iconx
+                  class="opacity-30 mx-2"
+                  size="1.5rem"
+                  icon="storefront"
+                />
+              </template>
+              <VListItemTitle class="ms-2">
+                <span>Lokali</span>
+              </VListItemTitle>
+            </VListItem>
+            <VListItem
+              link
+              :class="LIST_ITEM_CLASSES"
               :to="{ name: 'aktiva-grupe-gid-prilog', params: { gid } }"
             >
               <template #prepend>

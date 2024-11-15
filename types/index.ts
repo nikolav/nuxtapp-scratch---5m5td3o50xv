@@ -283,6 +283,7 @@ export interface IAsset {
   condition?: string | undefined;
   data?: Record<string, any> | undefined;
   notes?: string | undefined;
+  key?: string | undefined;
 
   tags?: string[] | undefined;
   author?: IUser | undefined;
@@ -326,16 +327,18 @@ export interface IObjectUrlWithError {
 }
 
 export interface IConfigFields {
-  // options:ui
+  // --options-ui
   type?: string;
   required?: boolean;
   label?: string;
   icon?: {
     name?: string;
     size?: any;
+    props?: any;
   };
+  props?: any;
 
-  // options:model
+  // --options-model
 
   // ignore field
   skip?: boolean;
