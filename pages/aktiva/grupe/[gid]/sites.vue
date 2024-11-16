@@ -1,7 +1,10 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary, VDataIteratorListData } from "@/components/app";
-import { Dump } from "@/components/dev";
+import {
+  VToolbarPrimary,
+  VDataIteratorListData,
+  VSnackbarSuccess,
+} from "@/components/app";
 import type { IAsset } from "@/types";
 // ##config:const
 // ##config ##props
@@ -19,12 +22,15 @@ const {
 // ##schemas
 // ##utils
 const attrs = useAttrs();
+const ps = useProcessMonitor();
+const { assetsConfigured } = useTopics();
 // ##icons
 // ##refs ##flags ##models
 const routeData = computed(() => get(attrs, "route-data"));
-const g = computed(() => get(routeData.value, "g"));
+const toggleSitesSGConfigSuccess = useToggleFlag();
+// const g = computed(() => get(routeData.value, "g"));
 const gid = computed(() => get(routeData.value, "gid"));
-const gname = computed(() => get(routeData.value, "gname"));
+// const gname = computed(() => get(routeData.value, "gname"));
 const selectionSites = ref();
 // ##data ##auth ##state
 // assetsList(
@@ -34,10 +40,13 @@ const selectionSites = ref();
 //   aids_subs_only : [ID!],
 //   aids_subs_type : String):
 // [Asset!]!
+//
+// *sites parent to this user's groups
 const {
   assets: sites,
   length: sizeSitesOnly,
   reload,
+  sitesSGConfig,
 } = useQueryManageAssetsSites(
   // --all-assets-IDs
   undefined,
@@ -47,7 +56,9 @@ const {
   undefined,
   // --vars-additional
   () => ({
+    // --this-group's-parent-assets:sites
     aids_subs_only: gid.value ? [gid.value] : undefined,
+    // --this-group
     aids_subs_type: PEOPLE_GROUP_TEAM,
   })
 );
@@ -57,23 +68,57 @@ const routeBackTo = computed(() => ({
   params: { gid: gid.value },
 }));
 const noSelection = computed(() => isEmpty(selectionSites.value));
+const configurationSGUnassign = computed(() =>
+  noSelection.value
+    ? undefined
+    : {
+        [`${map(selectionSites.value, (s: IAsset) => `-${s.id}`).join(" ")}`]: [
+          Number(gid.value),
+        ],
+      }
+);
 // ##forms ##handlers ##helpers
 const itemTitle = (node: IAsset) => node.name;
 const itemTo = (node: IAsset) => ({
   name: "aktiva-lokali-sid",
   params: { sid: node.id },
 });
+const selectionSitesDeselectAll = () => {
+  selectionSites.value = undefined;
+};
+const sgConfigureUnassign = async () => {
+  const sg = configurationSGUnassign.value;
+  if (isEmpty(sg)) return;
+  try {
+    ps.begin();
+    if (get(await sitesSGConfig(sg), "data.sitesSGConfig.error"))
+      throw "sitesSGConfig:unassign:error";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      toggleSitesSGConfigSuccess.on();
+      selectionSitesDeselectAll();
+    });
+};
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
 useHead({ title: "🏪 Lokali grupe" });
 // ##provide
 // ##io
+watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
 
 // @@eos
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-sites">
+    <VSnackbarSuccess v-model="toggleSitesSGConfigSuccess.isActive.value">
+      <p>Lokali su uspešno izbačeni iz grupe.</p>
+    </VSnackbarSuccess>
     <div class="__spacer mt-1 mx-2">
       <VToolbarPrimary
         text="Lokali"
@@ -104,11 +149,20 @@ useHead({ title: "🏪 Lokali grupe" });
           </VBtn>
         </template>
         <template #actions>
-          <VBtn icon variant="text">
+          <VBtn
+            :to="{ name: 'aktiva-grupe-gid-lokali', params: { gid } }"
+            icon
+            variant="text"
+          >
             <Iconx icon="$plus" />
             <VTooltip text="Pridruži nov lokal" />
           </VBtn>
-          <VBtn :disabled="noSelection" icon variant="text">
+          <VBtn
+            @click="sgConfigureUnassign"
+            :disabled="noSelection"
+            icon
+            variant="text"
+          >
             <Iconx icon="$minus" />
             <VTooltip text="Izbaci lokale" />
           </VBtn>

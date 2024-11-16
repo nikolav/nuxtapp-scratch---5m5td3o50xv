@@ -194,6 +194,7 @@ export default defineAppConfig({
       "IOEVENT_REDIS_CACHE_KEY_UPDATED:Hvtmg8LbKbeajKb:",
     IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED_prefix:
       "IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED:ZNvAgNYKcEG5TNI:",
+    IOEVENT_ASSETS_CONFIGRED_prefix: "IOEVENT_ASSETS_CONFIGRED:B11XCb8hAP5:",
   },
   theme: {
     DEFAULT: themeLight,
@@ -327,6 +328,7 @@ export default defineAppConfig({
       "account-cog": "mdi:account-settings-variant",
       storefront: "ic:round-storefront",
       hashtag: "ri:hashtag",
+      link: "material-symbols:link-rounded",
     },
   },
   acconts: {

@@ -3,9 +3,10 @@ interface ISocketEventHandler<T = any> {
 }
 
 export const useIOEvent = <T = any>(
-  e: string,
+  EVENT: any,
   handle: ISocketEventHandler<T>
 ) => {
+  const e = toValue(EVENT);
   if (!e) return;
   const { $socket } = useNuxtApp();
   onUnmounted(() => $socket?.off(e, handle));

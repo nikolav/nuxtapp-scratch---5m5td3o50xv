@@ -28,7 +28,7 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
     color="primary"
   >
     <template v-if="$slots.prepend" #prepend>
-      <slot name="prepend" />
+      <slot name="prepend" :routeBack="ROUTE_BACK" />
       <VDivider v-if="dividerStart" class="ms-2" vertical inset />
     </template>
     <template #append>

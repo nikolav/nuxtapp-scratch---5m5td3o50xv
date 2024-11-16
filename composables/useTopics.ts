@@ -45,6 +45,7 @@ export const useTopics = () => {
       IOEVENT_ACCOUNTS_UPDATED_prefix,
       IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix,
       IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED_prefix,
+      IOEVENT_ASSETS_CONFIGRED_prefix,
     },
     redis: { CACHE_KEY_ASSETS_ATTACHMENTS_prefix },
   } = useAppConfig();
@@ -110,6 +111,8 @@ export const useTopics = () => {
     gid ? `${IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED_prefix}${gid}` : "";
   const accountAttachments = (uid?: any) =>
     uid ? `${trimEnd(PATH_ACCOUNT_ATTACHMENTS, "/")}/${uid}` : "";
+  const assetsConfigured = (aid?: any) =>
+    aid ? `${IOEVENT_ASSETS_CONFIGRED_prefix}${aid}` : "";
   return {
     CHAT_MAIN,
     MAILING_LIST,
@@ -146,6 +149,7 @@ export const useTopics = () => {
     assetsAttachments,
     assetsUGConfigured,
     accountAttachments,
+    assetsConfigured,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,

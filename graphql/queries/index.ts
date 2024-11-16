@@ -798,3 +798,55 @@ export const Q_usersByGroups = gql`
     }
   }
 `;
+
+// assetsSearchQ(q: String!, type: String, limit: Int): [Asset!]!
+export const Q_assetsSearchQ = gql`
+  query q_assetsSearchQ($q: String!, $type: String, $limit: Int) {
+    assetsSearchQ(q: $q, type: $type, limit: $limit) {
+      id
+      name
+      code
+      type
+      location
+      status
+      condition
+      data
+      notes
+      key
+      tags
+      author {
+        id
+        email
+        profile
+        key
+        is_approved
+        is_manager
+        is_admin
+        is_external
+        is_available
+        tags
+        groups
+        created_at
+        updated_at
+      }
+      users {
+        id
+        email
+        profile
+        key
+        is_approved
+        is_manager
+        is_admin
+        is_external
+        is_available
+        tags
+        groups
+        created_at
+        updated_at
+      }
+      docs
+      created_at
+      updated_at
+    }
+  }
+`;

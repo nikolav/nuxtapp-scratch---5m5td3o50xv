@@ -179,7 +179,7 @@ useHead({ title: "Dodaj članove" });
       @click="configure_g"
     >
       <template #icon>
-        <Iconx size="1.33rem" icon="user-add" class="translate-x-[2px]" />
+        <Iconx size="1.5rem" icon="link" />
       </template>
     </VFabMain>
   </section>

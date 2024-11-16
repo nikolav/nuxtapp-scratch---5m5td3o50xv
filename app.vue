@@ -58,9 +58,11 @@ const onceAuthInitDefault = once(() => {
   auth.tokenPutDefault();
 });
 watch(
-  () => auth.initialized$ && !auth.token$,
-  (initializedNoToken: boolean) => {
-    if (initializedNoToken) onceAuthInitDefault();
+  () => auth.initialized$,
+  (initialized: boolean) => {
+    if (!initialized) return;
+    if (auth.token$) return;
+    onceAuthInitDefault();
   }
 );
 // useOnceOn(

@@ -5,6 +5,7 @@ import {
   M_assetsUpsert,
   M_assetsRemove,
   M_groupsGUConfigure,
+  M_sitesSGConfig,
 } from "@/graphql";
 import { schemaHasFieldName as sHasName } from "@/schemas";
 // @@useQueryManageAssets
@@ -63,6 +64,8 @@ export const useQueryManageAssets = (
     useMutation(M_assetsRemove);
   const { mutate: mutateGUConfig, loading: loadingGU } =
     useMutation(M_groupsGUConfigure);
+  const { mutate: mutateSitesSGConfig, loading: loadingSG } =
+    useMutation(M_sitesSGConfig);
 
   //
   const assets = computed(() => result.value?.assetsList || []);
@@ -79,6 +82,8 @@ export const useQueryManageAssets = (
   // group({'+22': [1, 2], '-3': [5], '+3': [45]})
   const group = async (guConfig: RecordJson) =>
     await mutateGUConfig({ guConfig });
+  const sitesSGConfig = async (sgConfig: any) =>
+    await mutateSitesSGConfig({ sgConfig });
 
   const { watchProcessing } = useStoreAppProcessing();
   const processing = computed(
@@ -86,7 +91,8 @@ export const useQueryManageAssets = (
       loading.value ||
       loadingUpsert.value ||
       loadingAssetsRemove.value ||
-      loadingGU.value
+      loadingGU.value ||
+      loadingSG.value
   );
   watchProcessing(processing);
 
@@ -110,6 +116,8 @@ export const useQueryManageAssets = (
 
     // @groups:(un)assign
     group,
+    // @sites; (un)assign groups
+    sitesSGConfig,
 
     // @flags
     processing,

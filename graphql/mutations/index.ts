@@ -307,3 +307,9 @@ export const M_commsGroupMessageMany = gql`
   }
 `;
 
+// sitesSGConfig(sgConfig: JsonData!): JsonData!
+export const M_sitesSGConfig = gql`
+  mutation m_sitesSGConfig($sgConfig: JsonData!) {
+    sitesSGConfig(sgConfig: $sgConfig)
+  }
+`;
