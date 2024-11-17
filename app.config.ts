@@ -100,6 +100,8 @@ export default defineAppConfig({
     TOPIC_CHAT_ACTIVE_main:
       "TOPIC_CHAT_ACTIVE_main:oYgQb3SHdQiLpHO1Y0cv --title @kanal:frikom:Svi",
     USERS_TAGS_prefix: "USERS_TAGS:6yXEQ5lK4e38jPN1:",
+    ASSETS_TAGS_prefix: "ASSETS_TAGS:RmgEwCWtZdzWqg:",
+    ASSETS_ATTACHMENTS_FOLDER_prefix: "ASSETS_ATTACHMENTS_FOLDER:24gX3pQdU7fB:",
   },
   //
   FIELDS_OMIT_STORAGE_META: ["id", "created_at", "updated_at", "__typename"],
@@ -260,6 +262,7 @@ export default defineAppConfig({
     storage: {
       PATH_PROFILE_AVATARS: "/media/AVATARS:yenDhzULhtZohA9yo",
       PATH_ASSETS_IMAGES: "/media/ASSETS:ZJYH3/images",
+      PATH_ASSETS_ATTACHMENTS_FOLDER: "/media/ASSETS:ATTACH:l8Nn87YIoq9JU2hdUM",
       PATH_ASSETS_AVATARS: "/media/ASSETS:AVATARS:OYDQyknrfYvlUCzFGON",
       PATH_ACCOUNT_ATTACHMENTS: "/media/ACCOUNT:ATTACHMENTS:oQh8cnzHyoJl13g1",
     },

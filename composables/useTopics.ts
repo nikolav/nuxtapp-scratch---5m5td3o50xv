@@ -31,6 +31,7 @@ export const useTopics = () => {
       DOCS_LIKES_prefix,
       TOPIC_CHAT_ACTIVE_main,
       USERS_TAGS_prefix,
+      ASSETS_TAGS_prefix,
     },
     firebase: {
       messaging: { KEY_FCM_DEVICE_TOKENS },
@@ -39,6 +40,7 @@ export const useTopics = () => {
         PATH_ASSETS_IMAGES,
         PATH_ASSETS_AVATARS,
         PATH_ACCOUNT_ATTACHMENTS,
+        PATH_ASSETS_ATTACHMENTS_FOLDER,
       },
     },
     io: {
@@ -93,12 +95,12 @@ export const useTopics = () => {
   const userAvailabilityStatus = () => USER_AVAILABILITY_STATUS;
   const firebasePathAssets = (aid: any) =>
     aid ? `${trimEnd(PATH_ASSETS_IMAGES, "/")}/${aid}` : "";
-  const ratingAssets = (aid?: any) =>
-    aid ? `${TOPIC_RATING_ASSETS_prefix}${aid}` : "";
+  const ratingAssets = (akey?: any) =>
+    akey ? `${TOPIC_RATING_ASSETS_prefix}${akey}` : "";
   const likesAssets = (aid?: any) =>
     aid ? `${ASSETS_LIKES_prefix}${aid}` : "";
-  const chatAssets = (aid?: any) =>
-    aid ? `${TOPIC_CHAT_ASSETS_prefix}${aid}` : "";
+  const chatAssets = (akey?: any) =>
+    akey ? `${TOPIC_CHAT_ASSETS_prefix}${akey}` : "";
   const likesDocs = (ddid?: any) => (ddid ? `${DOCS_LIKES_prefix}${ddid}` : "");
   const firebasePathAssetsAvatars = (id?: any) =>
     id ? `${trimEnd(PATH_ASSETS_AVATARS, "/")}/${id}` : "";
@@ -113,6 +115,8 @@ export const useTopics = () => {
     uid ? `${trimEnd(PATH_ACCOUNT_ATTACHMENTS, "/")}/${uid}` : "";
   const assetsConfigured = (aid?: any) =>
     aid ? `${IOEVENT_ASSETS_CONFIGRED_prefix}${aid}` : "";
+  const assetsAttachmentsFolder = (akey?: any) =>
+    akey ? `${trimEnd(PATH_ASSETS_ATTACHMENTS_FOLDER, "/")}/${akey}` : "";
   return {
     CHAT_MAIN,
     MAILING_LIST,
@@ -120,6 +124,7 @@ export const useTopics = () => {
     TOPIC_CHAT_ACTIVE_name,
     TOPIC_CHAT_ACTIVE_main,
     USERS_TAGS_prefix,
+    ASSETS_TAGS_prefix,
     //
     chatOrder,
     chatUserChannel,
@@ -150,6 +155,7 @@ export const useTopics = () => {
     assetsUGConfigured,
     accountAttachments,
     assetsConfigured,
+    assetsAttachmentsFolder,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,

@@ -41,6 +41,9 @@ const props = defineProps<{
       <template #title="propsTitle_">
         <slot name="title" v-bind="propsTitle_" />
       </template>
+      <template #actions>
+        <slot name="actions" />
+      </template>
     </VToolbarPrimary>
   </div>
 </template>
