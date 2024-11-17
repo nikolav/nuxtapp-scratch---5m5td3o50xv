@@ -104,7 +104,7 @@ useHead({ title: "Veži lokale" });
 <template>
   <section class="page--aktiva-grupe-gid-lokali">
     <VSnackbarSuccess v-model="toggleSitesSGConfigSuccess.isActive.value">
-      <p>Lokali su uspešno dodati grupi.</p>
+      <p>Grupa je uspešno ažurirana.</p>
     </VSnackbarSuccess>
     <VToolbarSecondary
       :route-back-to="{ name: 'aktiva-grupe-gid-sites', params: { gid } }"

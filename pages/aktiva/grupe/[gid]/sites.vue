@@ -117,7 +117,7 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
 <template>
   <section class="page--aktiva-grupe-gid-sites">
     <VSnackbarSuccess v-model="toggleSitesSGConfigSuccess.isActive.value">
-      <p>Lokali su uspešno izbačeni iz grupe.</p>
+      <p>Grupa je uspešno ažurirana.</p>
     </VSnackbarSuccess>
     <div class="__spacer mt-1 mx-2">
       <VToolbarPrimary

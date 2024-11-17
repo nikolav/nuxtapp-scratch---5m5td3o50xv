@@ -70,7 +70,7 @@ const topicGroupChat = computed(() =>
         </VBtn>
         <VBtnDotsMenuList
           :props-icon="{ size: '1.5rem' }"
-          :props-list="{ class: '*pe-2' }"
+          :props-list="{ class: '*pe-2 py-0' }"
         >
           <template #list-items>
             <VListItem :class="LIST_ITEM_CLASSES" @click="watchKEY_onMessage">
@@ -102,6 +102,18 @@ const topicGroupChat = computed(() =>
               </template>
               <VListItemTitle class="ms-2">
                 <span>Lokali</span>
+              </VListItemTitle>
+            </VListItem>
+            <VListItem
+              link
+              :class="LIST_ITEM_CLASSES"
+              :to="{ name: 'aktiva-grupe-gid-kanali', params: { gid } }"
+            >
+              <template #prepend>
+                <Iconx class="opacity-30 mx-2" size="1.5rem" icon="headset" />
+              </template>
+              <VListItemTitle class="ms-2">
+                <span>Kanali</span>
               </VListItemTitle>
             </VListItem>
             <VListItem

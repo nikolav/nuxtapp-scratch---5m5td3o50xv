@@ -120,7 +120,7 @@ onMounted(() => {
           <VRow justify="center" class="translate-y-1">
             <VBtnUpdateProfileImage />
           </VRow>
-          <div class="*space-y-2 mt-3">
+          <div class="__spacer space-y-3 mt-3">
             <VSpacer class="mt-9" />
             <!-- @@availability -->
             <VSelectAvailabilityPicker />
@@ -162,11 +162,13 @@ onMounted(() => {
               density="comfortable"
               label="Naziv radnog mesta"
               variant="underlined"
+              hide-details
             />
 
             <VBtnDatePicker
               label="Datum zaposlenja"
               v-model="form.employed_at.value"
+              :props-container="{ class: 'mt-8' }"
             />
 
             <VSpacer class="mt-8" />

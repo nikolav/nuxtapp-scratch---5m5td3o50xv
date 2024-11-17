@@ -313,3 +313,10 @@ export const M_sitesSGConfig = gql`
     sitesSGConfig(sgConfig: $sgConfig)
   }
 `;
+
+// channelsCGConfig(cgConfig: JsonData!): JsonData!
+export const M_channelsCGConfig = gql`
+  mutation m_channelsCGConfig($cgConfig: JsonData!) {
+    channelsCGConfig(cgConfig: $cgConfig)
+  }
+`;

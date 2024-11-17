@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ##imports
+import { Dump } from "@/components/dev";
 import { FIELDS_ASSETS_SITES as FIELDS } from "@/config/forms";
 import type { IAsset } from "@/types";
 import {
@@ -8,6 +9,8 @@ import {
   VSnackbarSuccess,
   VRatingTopicRating,
   VBtnGroupTopicLikeDislike,
+  ProvideAssetsChildren,
+  VSheetHeaderBodyFooter,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -18,6 +21,11 @@ definePageMeta({
 const attrs = useAttrs();
 const {
   app: { DEFAULT_TRANSITION },
+  db: {
+    Assets: {
+      type: { PEOPLE_GROUP_TEAM },
+    },
+  },
 } = useAppConfig();
 // ##schemas
 // ##utils
@@ -73,6 +81,11 @@ const form = useFormModel(
     },
   }
 );
+const itemTitle = (g: IAsset) => startCase(g.name);
+const itemTo = (g: IAsset) => ({
+  name: "aktiva-grupe-gid",
+  params: { gid: g.id },
+});
 // ##watch
 // ##hooks ##lifecycle
 useOnceMountedOn(site, form.reset);
@@ -88,10 +101,34 @@ useHead({ title: sname });
     <VSnackbarSuccess v-model="toggleAssetsSitesUpdateSuccess.isActive.value">
       <p>Lokal je uspešno ažuriran.</p>
     </VSnackbarSuccess>
+    <!-- @@social -->
     <div class="__spacer pt-3 pe-1 d-flex items-center justify-between">
       <VRatingTopicRating :topic="topicRatingSites" small />
       <VBtnGroupTopicLikeDislike :topic="topicLikesSites" light />
     </div>
+    <!-- @@chips:groups -->
+    <VSheetHeaderBodyFooter elevation="0" rounded="0" class="pa-2">
+      <template #body>
+        <VCardText
+          class="__spacer *pa-2 d-flex *justify-center items-center flex-wrap gap-2"
+        >
+          <ProvideAssetsChildren
+            :asset="site"
+            :type="PEOPLE_GROUP_TEAM"
+            v-slot="{ assets: chAssets }"
+          >
+            <VChip
+              v-for="g in chAssets"
+              color="info-darken-1"
+              elevation="1"
+              :key="g.id"
+              :text="itemTitle(g)"
+              :to="itemTo(g)"
+            />
+          </ProvideAssetsChildren>
+        </VCardText>
+      </template>
+    </VSheetHeaderBodyFooter>
     <VSpacer class="mt-3" />
     <VForm @submit.prevent="form.submit" autocomplete="off">
       <VCard variant="text" rounded="0">

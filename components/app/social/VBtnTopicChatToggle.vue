@@ -43,12 +43,8 @@ watch(() => props.watchKey, topic_);
       size="large"
       v-bind="$attrs"
     >
-      <slot name="icon" :isActive="isActive">
-        <Iconx
-          size="1.33rem"
-          icon="streamline:chat-two-bubbles-oval"
-          v-bind="propsIcon"
-        />
+      <slot name="icon" :isActive="isActive" :props="propsIcon">
+        <Iconx size="1.33rem" icon="chat" v-bind="propsIcon" />
       </slot>
     </VBtn>
   </slot>

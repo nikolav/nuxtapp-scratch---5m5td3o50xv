@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
-import { AppNavigationButtons } from "@/components/app";
+import { AppNavigationButtons, VBtnTopicChatToggle } from "@/components/app";
 
 const auth = useStoreApiAuth();
 const route = useRoute();
@@ -42,6 +42,16 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
         variant="plain"
         >demo</VBtn
       >
+      <VBtnTopicChatToggle
+        main
+        density="comfortable"
+        color="primary-darken-1"
+        :props-icon="{
+          icon: 'icons-local:megaphone',
+          size: '1.66rem',
+          class: 'translate-x-[2px]',
+        }"
+      />
       <VBtn size="large" density="comfortable" icon variant="plain">
         <Icon size="1.55rem" name="mdi:dots-vertical" />
         <VMenu
@@ -57,7 +67,11 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
             min-width="192"
           >
             <!-- item:account -->
-            <VListItem :to="{ name: 'nalog-index' }" value="Moj nalog" class="ps-3">
+            <VListItem
+              :to="{ name: 'nalog-index' }"
+              value="Moj nalog"
+              class="ps-3"
+            >
               <template #prepend>
                 <Icon size="1.44rem" name="material-symbols:account-circle" />
               </template>

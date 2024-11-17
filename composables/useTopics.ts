@@ -32,6 +32,7 @@ export const useTopics = () => {
       TOPIC_CHAT_ACTIVE_main,
       USERS_TAGS_prefix,
       ASSETS_TAGS_prefix,
+      ASSETS_DIGITAL_CHANNEL_prefix,
     },
     firebase: {
       messaging: { KEY_FCM_DEVICE_TOKENS },
@@ -117,6 +118,8 @@ export const useTopics = () => {
     aid ? `${IOEVENT_ASSETS_CONFIGRED_prefix}${aid}` : "";
   const assetsAttachmentsFolder = (akey?: any) =>
     akey ? `${trimEnd(PATH_ASSETS_ATTACHMENTS_FOLDER, "/")}/${akey}` : "";
+  const assetsDigitalChannel = (ckey?: any) =>
+    ckey ? `${ASSETS_DIGITAL_CHANNEL_prefix}${ckey}` : "";
   return {
     CHAT_MAIN,
     MAILING_LIST,
@@ -156,6 +159,7 @@ export const useTopics = () => {
     accountAttachments,
     assetsConfigured,
     assetsAttachmentsFolder,
+    assetsDigitalChannel,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,

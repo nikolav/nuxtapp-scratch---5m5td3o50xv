@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // mGboFLwXJpbrJ1T
 import { useDisplay } from "vuetify";
+import type { IAsset } from "@/types";
 import {
   VFabMain,
   VCardDataIterator,
@@ -106,6 +107,7 @@ const assetsGroupsRemove = async () => {
     }
   }
 };
+const fmtTitle = (g: IAsset, _idx: number) => startCase(g.name);
 // @watch
 // close message:compose @send:success
 watch(toggleGroupMessageSuccess.isActive, (isActive) => {
@@ -167,6 +169,7 @@ useHead({ title: "Grupe" });
       :props-selection="{ class: '-translate-y-[2px]' }"
       :props-list-item="{ class: 'ps-2' }"
       :signal-id-deselect="sigID_deselect.ID.value"
+      :format-title="fmtTitle"
     >
       <template #list-item-title="{ title }">
         {{ title }}

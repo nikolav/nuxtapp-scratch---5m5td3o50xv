@@ -14,7 +14,7 @@ const props = defineProps<{
     absolute
     appear
     icon
-    class="!fixed !z-[1555]"
+    class="!fixed !z-[999]"
     :class="[smAndUp ? 'end-20 bottom-6' : 'end-6 bottom-20']"
   >
     <slot name="icon">

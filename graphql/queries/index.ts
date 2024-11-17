@@ -641,10 +641,10 @@ export const Q_groupsList = gql`
   }
 `;
 
-// assetsList(aids: [ID!], type: String, own: Boolean, aids_subs_only: [ID!], aids_subs_type: String): [Asset!]!
+// assetsList(aids: [ID!], type: String, own: Boolean, aids_subs_only: [ID!], aids_subs_type: String, children: Boolean): [Asset!]!
 export const Q_assetsList = gql`
-  query q_assetsList($aids: [ID!], $type: String, $own: Boolean, $aids_subs_only: [ID!], $aids_subs_type: String) {
-    assetsList(aids: $aids, type: $type, own: $own, aids_subs_only: $aids_subs_only, aids_subs_type: $aids_subs_type) {
+  query q_assetsList($aids: [ID!], $type: String, $own: Boolean, $aids_subs_only: [ID!], $aids_subs_type: String, $children: Boolean) {
+    assetsList(aids: $aids, type: $type, own: $own, aids_subs_only: $aids_subs_only, aids_subs_type: $aids_subs_type, children: $children) {
       id
       name
       code

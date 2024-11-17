@@ -102,6 +102,8 @@ export default defineAppConfig({
     USERS_TAGS_prefix: "USERS_TAGS:6yXEQ5lK4e38jPN1:",
     ASSETS_TAGS_prefix: "ASSETS_TAGS:RmgEwCWtZdzWqg:",
     ASSETS_ATTACHMENTS_FOLDER_prefix: "ASSETS_ATTACHMENTS_FOLDER:24gX3pQdU7fB:",
+    ASSETS_DIGITAL_CHANNEL_prefix:
+      "ASSETS_DIGITAL_CHANNEL:FDqTCDRMxf7TZ5yqEEuf:",
   },
   //
   FIELDS_OMIT_STORAGE_META: ["id", "created_at", "updated_at", "__typename"],
@@ -332,6 +334,7 @@ export default defineAppConfig({
       storefront: "ic:round-storefront",
       hashtag: "ri:hashtag",
       link: "material-symbols:link-rounded",
+      headset: "basil:headset-solid",
     },
   },
   acconts: {

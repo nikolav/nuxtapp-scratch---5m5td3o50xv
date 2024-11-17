@@ -60,6 +60,8 @@ useOnceMountedOn(
     }
   }
 );
+// ## helpers
+const fmtTitle = (p: IAsset) => startCase(p.name);
 // ##head
 useHead({ title: "Roba" });
 
@@ -78,6 +80,7 @@ useHead({ title: "Roba" });
       :item-groups="productGrops"
       :card-props="{ disabled: processing }"
       :props-list-item="{ class: 'ps-2' }"
+      :format-title="fmtTitle"
     >
       <template #menu>
         <pre>{{ productsSelected?.length }}</pre>

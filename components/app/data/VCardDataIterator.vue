@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // e66ca91d-8013-56a5-a9f4-61903e42b97d
 import { mergeProps } from "vue";
-import type { IAsset } from "@/types";
+import type { IAsset, OrNoValue } from "@/types";
 import { VBadgeSelectedOfTotal, VBtnFilterClear } from "@/components/app";
 import { renderIcon } from "@/components/icons";
 
@@ -33,6 +33,7 @@ const props = withDefaults(
     reload?: any;
     //
     signalIdDeselect?: any;
+    formatTitle?: any;
   }>(),
   {
     itemTitle: "title",
@@ -117,7 +118,10 @@ const filterClear = () => {
   groupsSelected.value = groupSelectionMany.value = [];
 };
 const showItemPage = async (item: any) => await navigateTo(props.itemTo(item));
-const it_ttl = (item: any) => get(item, `raw.${props.itemTitle}`);
+const it_ttl = (item: any, idx: number) =>
+  props.formatTitle
+    ? props.formatTitle(item.raw, idx)
+    : get(item, `raw.${props.itemTitle}`);
 const it_val = (item: any) => get(item, `raw.${props.itemValue}`);
 
 // @forms
@@ -366,7 +370,7 @@ watch(
           >
             <!-- @@list:item -->
             <VListItem
-              v-for="node in items"
+              v-for="(node, idx) in items"
               :key="it_val(node)"
               :value="it_val(node)"
               v-bind="propsListItem"
@@ -380,7 +384,7 @@ watch(
               <template #prepend>
                 <VCheckboxBtn
                   base-color="secondary-lighten-1"
-                  class="mx-0 scale-[122%]"
+                  class="CLASS--VCheckboxBtn mx-0 scale-[122%]"
                   @click.stop
                   :model-value="isSelected(node)"
                   @update:model-value="select([node], !isSelected(node))"
@@ -415,9 +419,9 @@ watch(
                     <slot
                       name="list-item-title"
                       :item="node.raw"
-                      :title="it_ttl(node)"
+                      :title="it_ttl(node, idx)"
                     >
-                      <span>{{ it_ttl(node) }}</span>
+                      <span>{{ it_ttl(node, idx) }}</span>
                     </slot>
                   </VListItemTitle>
                 </slot>
