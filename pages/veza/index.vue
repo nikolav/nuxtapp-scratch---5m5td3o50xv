@@ -29,6 +29,7 @@ const itemTo = (ch: IAsset) => ({
 });
 const topicCH = (ch: any) =>
   topicWithTitle(assetsDigitalChannel(ch.key), ch.name);
+const fmtTitle = (ch: IAsset) => startCase(ch.name);
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -52,6 +53,7 @@ useHead({ title: "Veza" });
         class: 'ps-3',
       }"
       :props-title="{ class: 'ms-3' }"
+      :format-title="fmtTitle"
     >
       <template #list-item-append="{ item: channel_ }">
         <VBtnTopicChatToggle

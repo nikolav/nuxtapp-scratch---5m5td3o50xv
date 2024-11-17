@@ -112,6 +112,9 @@ export default defineNuxtPlugin((nuxtApp) => {
       VMenu: {
         transition: DEFAULT_TRANSITION,
       },
+      VForm: {
+        autocomplete: "off",
+      },
       // <CustomComponent>: {
       //   "foo:1": "bar",
       // },
