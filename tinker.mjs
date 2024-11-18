@@ -2,8 +2,11 @@ import ld from "lodash";
 
 const { transform, map, escapeRegExp, get } = ld;
 
-const x = "FOO:BAR:";
-
-console.log(
-  get("FOO:BAR:122".match(new RegExp(`^${escapeRegExp(x)}(.*)$`)), "[1]")
-);
+(async () => {
+  const res = await fetch("https://zyeqzw35h4kv5b70k7uqim.site");
+  const d = await res.json();
+  for (const pid of d.prerender.pids) {
+    // ctx.routes.add(`/aktiva/proizvodi/${pid}`);
+    console.log(`/aktiva/proizvodi/${pid}`);
+  }
+})();

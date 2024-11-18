@@ -1,6 +1,12 @@
 import vitePluginVuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
-import { API_URL, SSR, BASE_DIR, ENDPOINT_GRAPHQL } from "./config";
+import {
+  API_URL,
+  // API_URL_production,
+  SSR,
+  BASE_DIR,
+  ENDPOINT_GRAPHQL,
+} from "./config";
 import { trimEndBase } from "./utils/trim-end-base";
 
 import { IMPORTS } from "./config/imports-package";
@@ -201,14 +207,13 @@ export default defineNuxtConfig({
     //   //     path: "/path",
     //   //     prefix: "App",
     //   //   });
-    // async "prerender:routes"(ctx) {
-    //   const { pages } = await fetch("https://api.some-cms.com/pages").then(
-    //     (res) => res.json()
-    //   );
-    //   for (const page of pages) {
-    //     ctx.routes.add(`/${page.name}`);
-    //   }
-    // },
+    async "prerender:routes"(ctx) {
+      const res = await fetch(API_URL);
+      const d = await res.json();
+      for (const pid of d.prerender.pids) {
+        ctx.routes.add(`/aktiva/proizvodi/${pid}`);
+      }
+    },
   },
 
   // include auto import dirs
