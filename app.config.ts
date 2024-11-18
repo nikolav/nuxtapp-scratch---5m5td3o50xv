@@ -23,6 +23,7 @@ const themeLight = "light";
 export default defineAppConfig({
   APP_NAME,
   ADMIN_EMAIL: "admin@nikolav.rs",
+  ADMIN_UID: 1,
   DEBUG: true !== PRODUCTION$,
   APP_USER_DEFAULT: {
     email: "korisnik@nikolav.rs",
@@ -335,6 +336,7 @@ export default defineAppConfig({
       hashtag: "ri:hashtag",
       link: "material-symbols:link-rounded",
       headset: "basil:headset-solid",
+      envelope: "material-symbols:mail-outline",
     },
   },
   acconts: {
