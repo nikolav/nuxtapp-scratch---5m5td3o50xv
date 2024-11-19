@@ -369,64 +369,71 @@ watch(
             v-bind="propsList"
           >
             <!-- @@list:item -->
-            <VListItem
-              v-for="(node, idx) in items"
-              :key="it_val(node)"
-              :value="it_val(node)"
-              v-bind="propsListItem"
-            >
-              <template #append="props_" v-if="$slots['list-item-append']">
-                <slot
-                  name="list-item-append"
-                  v-bind="mergeProps(props_, { item: node.raw })"
-                />
-              </template>
-              <template #prepend>
-                <VCheckboxBtn
-                  base-color="secondary-lighten-1"
-                  class="CLASS--VCheckboxBtn mx-0 scale-[122%]"
-                  @click.stop
-                  :model-value="isSelected(node)"
-                  @update:model-value="select([node], !isSelected(node))"
-                  density="compact"
-                  :false-icon="iconCheckOff"
-                  :true-icon="iconCheckOn"
-                  color="primary"
-                  v-bind="propsSelection"
-                ></VCheckboxBtn>
-              </template>
-              <template #title="props_">
-                <slot
-                  name="title"
-                  v-bind="
-                    mergeProps(props_, {
-                      node,
-                      item: node.raw,
-                      isSelected,
-                      select,
-                    })
-                  "
-                >
-                  <VListItemTitle
-                    class="ps-1 text-body-1"
-                    @click.stop="
-                      itemTo
-                        ? showItemPage(node.raw)
-                        : select([node], !isSelected(node))
-                    "
-                    v-bind="propsTitle"
-                  >
+            <template v-for="(node, idx) in items" :key="it_val(node)">
+              <slot
+                name="list-item"
+                :node="node"
+                :i="idx"
+                :isSelected="isSelected"
+                :select="select"
+              >
+                <VListItem :value="it_val(node)" v-bind="propsListItem">
+                  <template #append="props_" v-if="$slots['list-item-append']">
                     <slot
-                      name="list-item-title"
-                      :item="node.raw"
-                      :title="it_ttl(node, idx)"
-                    >
-                      <span>{{ it_ttl(node, idx) }}</span>
+                      name="list-item-append"
+                      v-bind="mergeProps(props_, { item: node.raw })"
+                    />
+                  </template>
+                  <template #prepend>
+                    <slot name="list-item-prepend">
+                      <VCheckboxBtn
+                        base-color="secondary-lighten-1"
+                        class="CLASS--VCheckboxBtn mx-0 scale-[122%]"
+                        @click.stop
+                        :model-value="isSelected(node)"
+                        @update:model-value="select([node], !isSelected(node))"
+                        density="compact"
+                        :false-icon="iconCheckOff"
+                        :true-icon="iconCheckOn"
+                        color="primary"
+                        v-bind="propsSelection"
+                      />
                     </slot>
-                  </VListItemTitle>
-                </slot>
-              </template>
-            </VListItem>
+                  </template>
+                  <template #title="props_">
+                    <slot
+                      name="title"
+                      v-bind="
+                        mergeProps(props_, {
+                          node,
+                          item: node.raw,
+                          isSelected,
+                          select,
+                        })
+                      "
+                    >
+                      <VListItemTitle
+                        class="ps-1 text-body-1"
+                        @click.stop="
+                          itemTo
+                            ? showItemPage(node.raw)
+                            : select([node], !isSelected(node))
+                        "
+                        v-bind="propsTitle"
+                      >
+                        <slot
+                          name="list-item-title"
+                          :item="node.raw"
+                          :title="it_ttl(node, idx)"
+                        >
+                          <span>{{ it_ttl(node, idx) }}</span>
+                        </slot>
+                      </VListItemTitle>
+                    </slot>
+                  </template>
+                </VListItem>
+              </slot>
+            </template>
           </VList>
         </template>
       </VDataIterator>

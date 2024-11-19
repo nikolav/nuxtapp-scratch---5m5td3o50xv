@@ -40,7 +40,7 @@ const size_ = computed(() => len(props.items));
     color="secondary-lighten-1"
     density="comfortable"
     class="component--VBtnMenuListItems opacity-75 text-body-1"
-    v-bind="propsBtn"
+    v-bind="mergeProps($attrs, propsBtn)"
   >
     <VAvatar
       color="secondary"

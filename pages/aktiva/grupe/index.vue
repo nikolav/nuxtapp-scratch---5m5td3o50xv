@@ -5,9 +5,9 @@ import type { IAsset } from "@/types";
 import {
   VFabMain,
   VCardDataIterator,
-  VBtnMenuListItems,
   VMenuComposeChatMessage,
   VSnackbarSuccess,
+  VListItemDisplayGroup,
 } from "@/components/app";
 definePageMeta({
   layout: "app-default",
@@ -17,8 +17,6 @@ const { APP_NAME } = useAppConfig();
 
 // @utils
 const { smAndUp } = useDisplay();
-const { showUserScreen } = useNavigationUtils();
-const { calcDisplayName: calcUserDisplayName } = useAuthUtils();
 const ps = useProcessMonitor();
 const sigID_deselect = useUniqueId();
 
@@ -171,23 +169,18 @@ useHead({ title: "Grupe" });
       :signal-id-deselect="sigID_deselect.ID.value"
       :format-title="fmtTitle"
     >
-      <template #list-item-title="{ title }">
-        {{ title }}
+      <template #list-item="props_">
+        <div class="__space my-1 ps-1">
+          <VListItemDisplayGroup
+            :to="itemTo(props_.node.raw)"
+            rounded="s-pill"
+            :props-avatar="{ size: 48 }"
+            :props-title="{ class: 'text-h6' }"
+            v-bind="props_"
+          />
+        </div>
       </template>
-      <template #list-item-append="{ item }">
-        <VBtnMenuListItems :items="get(item, 'users')">
-          <template #title="{ item }">
-            <a
-              class="link--prominent text-primary-darken-1"
-              @click.stop="showUserScreen(item.id)"
-            >
-              <span>
-                {{ calcUserDisplayName(item) }}
-              </span>
-            </a>
-          </template>
-        </VBtnMenuListItems>
-      </template>
+
       <template #menu>
         <VList>
           <VListItem @click="toggleMenuActiveMessages" value="item@1">
