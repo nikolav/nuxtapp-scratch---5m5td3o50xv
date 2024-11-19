@@ -182,7 +182,7 @@ useHead({ title: sname });
                   transition: DEFAULT_TRANSITION,
                 }"
                 :list-props="{ width: W_fields, class: 'py-0' }"
-                class="mt-5"
+                class="mt-6"
               >
                 <template #label="{ label }">
                   <Iconx
@@ -198,6 +198,22 @@ useHead({ title: sname });
                 </template>
               </VSelect>
             </template>
+            <VSpacer class="mt-7" />
+            <VTextField
+              disabled
+              readonly
+              variant="plain"
+              :model-value="skey"
+              label="Ključ"
+            >
+              <template #prepend-inner>
+                <Iconx
+                  icon="hashtag"
+                  size="1rem"
+                  class="opacity-50 translate-y-[.122rem] me-[.22rem]"
+                />
+              </template>
+            </VTextField>
           </div>
         </VCardText>
         <VCardActions class="justify-around mt-3 mb-12">

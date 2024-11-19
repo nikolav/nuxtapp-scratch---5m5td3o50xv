@@ -427,7 +427,24 @@ const onAssetRemove = async (pinEqText: boolean) => {
                       </template>
                     </VSelect>
                   </template>
-                  <VCardActions class="justify-around pa-5">
+                  <!-- @@ -->
+                   <VSpacer class="mt-5" />
+                  <VTextField
+                    disabled
+                    readonly
+                    variant="plain"
+                    :model-value="p?.key"
+                    label="Ključ"
+                  >
+                    <template #prepend-inner>
+                      <Iconx
+                        icon="hashtag"
+                        size="1rem"
+                        class="opacity-50 translate-y-[.122rem] me-[.22rem]"
+                      />
+                    </template>
+                  </VTextField>
+                  <VCardActions class="justify-around pa-5 mt-5">
                     <VBtnReset
                       @click="fieldsResetFromStore"
                       :props-icon="{ class: 'me-2' }"

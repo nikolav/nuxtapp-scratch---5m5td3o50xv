@@ -26,6 +26,7 @@ const routeData = computed(() => get(attrs, "route-data", <any>{}));
 const g = computed(() => routeData.value?.g);
 const gid = computed(() => routeData.value?.gid);
 const gname = computed(() => routeData.value?.gname);
+const gkey = computed(() => g.value?.key);
 
 const {
   groups: { categories_select_menu },
@@ -250,6 +251,22 @@ useHead({ title: gname });
                 </template>
               </VTextarea>
             </template>
+            <VSpacer class="mt-5" />
+            <VTextField
+              disabled
+              readonly
+              variant="plain"
+              :model-value="gkey"
+              label="Ključ"
+            >
+              <template #prepend-inner>
+                <Iconx
+                  icon="hashtag"
+                  size="1rem"
+                  class="opacity-50 translate-y-[.122rem] me-[.22rem]"
+                />
+              </template>
+            </VTextField>
           </div>
         </VCardText>
         <VCardActions class="mt-3 mb-10">

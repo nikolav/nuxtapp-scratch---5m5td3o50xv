@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
+import { URL_APP_PRODUCT_PREVIEW } from "@/config";
 import type { IAsset } from "@/types";
 import {
   VFabMain,
   VCardDataIterator,
   ProvideAssetImages,
   VBtnOpenGallery,
-  VSheetPinCodeRequired,
 } from "@/components/app";
-import { Iconx } from "@/components/icons";
-import { query } from "firebase/database";
+
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
-const {
-  app: { DEFAULT_TRANSITION, TOOLTIPS_OPEN_DELAY },
-} = useAppConfig();
 const { smAndUp } = useDisplay();
 
 const productsSelected = ref();
@@ -26,11 +22,13 @@ const {
   // remove: assetsRemove,
   processing,
 } = useQueryManageAssetsProducts();
+
 const itemLinkTo = (item: any) => ({
-  to: {
-    name: "aktiva-proizvodi-pid",
-    params: { pid: item?.id },
-  },
+  // to: {
+  //   name: "aktiva-proizvodi-pid",
+  //   params: { pid: item?.id },
+  // },
+  href: publicUrlAssetProduct(item, URL_APP_PRODUCT_PREVIEW),
   external: true,
   target: "_blank",
 });
@@ -48,7 +46,6 @@ const itemTo = (item: IAsset) => ({
   params: { pid: item.id },
 });
 // ##on:asset-removed
-const route = useRoute();
 const $$pidRemoved = useGlobalVariable("$$pidRemoved");
 useOnceMountedOn(
   () => !isEmpty(products.value),
