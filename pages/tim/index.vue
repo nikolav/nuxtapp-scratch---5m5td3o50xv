@@ -3,14 +3,15 @@ import { useDisplay } from "vuetify";
 import type { IUser, OrNoValue } from "@/types";
 import { renderIcon, Iconx } from "@/components/icons";
 import {
-  VChipPlus,
+  // VChipPlus,
   VBtnFilterClear,
   VFabMain,
-  VBadgeUserAvailability,
-  VBtnShowLocation,
+  // VBadgeUserAvailability,
+  // VBtnShowLocation,
   VMenuComposeChatMessage,
   VSnackbarSuccess,
   VDialogManageUsersTags,
+  VListItemTimShowUser,
 } from "@/components/app";
 
 definePageMeta({
@@ -117,15 +118,6 @@ const selectionUids = computed(() => map(selection.value, toUid));
 
 // @utils
 const toggleToolbarSecondary = useToggleFlag();
-const {
-  page$,
-  length: totPages,
-  perPage,
-} = usePaginatedData({
-  // data: users,
-  data: usersFilteredGroups,
-  perPage: 6,
-});
 
 // @helpers
 const filterClear = () => {
@@ -145,13 +137,6 @@ const usersSelectToggle = () => {
     "id"
   );
 };
-
-// show @@user screen
-const { showUserScreen } = useNavigationUtils();
-const calcValueOf = (maybeCallableOrValue: any, node: any) =>
-  isFunction(maybeCallableOrValue)
-    ? maybeCallableOrValue(node)
-    : maybeCallableOrValue;
 
 // @forms
 const onSubmitApplyGroupFiler = () => {
@@ -265,20 +250,19 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
       <!-- # https://vuetifyjs.com/en/components/data-tables/basics/#items -->
       <VDataTable
         id="ID--1QknrimP7"
+        v-model="selection"
+        @update:model-value="onModelValueDataTable"
         :headers="headers"
         :items="usersFilteredGroups"
-        v-model="selection"
         :search="usersDataFilter"
-        :items-per-page="perPage"
-        :page="page$"
-        show-select
+        :items-per-page="-1"
         hide-default-footer
+        hide-default-header
         hover
-        return-object
         color="primary"
         density="comfortable"
+        return-object
         class="CLASS--VDataTable--no-row-divider"
-        @update:model-value="onModelValueDataTable"
       >
         <template #top>
           <!-- @@toolbar:1 -->
@@ -536,46 +520,13 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
           <VSpacer class="mb-1" />
         </template>
 
-        <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
-          <tr class="TH--CLASS-3FNdyoZPFwLjgg7fM0XU text-body-2">
-            <template v-for="column in columns" :key="column.key">
-              <td>
-                <span class="d-flex items-center">
-                  <VIcon
-                    v-if="isSorted(column)"
-                    :size="14"
-                    :icon="getSortIcon(column)"
-                    class="-translate-y-px"
-                  />
-                  <small
-                    class="ms-1 opacity-50"
-                    :class="[column.sortable ? 'cursor-pointer' : undefined]"
-                    @click="() => column.sortable && toggleSort(column)"
-                    >{{ column.title }}</small
-                  >
-                </span>
-              </td>
-            </template>
-          </tr>
-          <VSpacer class="mb-2" />
-        </template>
-
         <!-- render row --custom-strategy -->
-        <template
-          #item="{ internalItem, item, isSelected, toggleSelect, columns }"
-        >
-          <tr
-            @click="showUserScreen(item.id)"
-            class="cursor-pointer *:align-middle"
-          >
-            <template v-for="col in columns" :key="col.key">
-              <td
-                v-if="'data-table-select' === col.key"
-                style="width: 1%"
-                class="ps-2 pe-0"
-              >
+        <template #item="{ internalItem, item, isSelected, toggleSelect }">
+          <div class="__spacer my-3 ms-1">
+            <VListItemTimShowUser :user="item" :props-avatar="{ size: 54 }">
+              <template #selection>
                 <VCheckboxBtn
-                  class="mx-0 scale-[122%] -translate-y-px"
+                  class="px-0 mx-0 ms-1 scale-[122%] *-translate-y-px"
                   @click.stop
                   :model-value="isSelected(internalItem)"
                   @update:model-value="toggleSelect(internalItem)"
@@ -585,74 +536,11 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
                   color="primary"
                   base-color="secondary-lighten-1"
                 />
-              </td>
-              <td
-                v-else-if="col.key == 'groups'"
-                :class="[smAndUp ? undefined : 'px-0 ps-1']"
-              >
-                <VChipPlus
-                  :items="item.groups"
-                  :size="smAndUp ? undefined : 'small'"
-                />
-              </td>
-              <!-- @@ -->
-              <td
-                v-else-if="col.key == 'fullname'"
-                :class="[smAndUp ? undefined : 'ps-1']"
-              >
-                <VBadgeUserAvailability class="!translate-y-1" :uid="item.id" />
-                <VBtnShowLocation
-                  :props-sheet="{ color: 'info' }"
-                  :props-menu="{
-                    location: 'bottom',
-                  }"
-                  class="-translate-y-[2px] me-1"
-                  :uid="item.id"
-                  :props-icon="{ size: '1.55rem' }"
-                >
-                  <template #location="{ profile }">
-                    <strong class="text-lg">{{
-                      profile.displayLocation
-                    }}</strong>
-                  </template>
-                </VBtnShowLocation>
-                <strong
-                  class="text-body-1 ps-1"
-                  :class="[
-                    item.is_manager ? 'text-primary-darken-1' : undefined,
-                  ]"
-                  >{{ calcValueOf(col.value, item) }}</strong
-                >
-              </td>
-              <td v-else>
-                <span>{{ calcValueOf(col.value, item) }}</span>
-              </td>
-            </template>
-          </tr>
+              </template>
+            </VListItemTimShowUser>
+          </div>
         </template>
       </VDataTable>
-
-      <template #actions>
-        <VSpacer />
-        <!-- @@ -->
-        <VPagination
-          v-if="1 < sizeUsers"
-          v-model="page$"
-          :length="totPages"
-          :total-visible="1"
-          variant="text"
-          color="primary"
-          rounded="circle"
-          density="comfortable"
-        >
-          <template #item>
-            <small class="opacity-50 pt-2 d-inline-block">{{
-              `${page$} / ${totPages}`
-            }}</small>
-          </template>
-        </VPagination>
-        <VSpacer />
-      </template>
     </VCard>
     <!-- fab:action -->
     <VFabMain class="translate-y-2" :to="{ name: 'nalog-nov' }" />

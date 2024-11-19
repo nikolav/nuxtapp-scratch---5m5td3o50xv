@@ -9,7 +9,7 @@ const props = withDefaults(
     onClose?: any;
     propsTitle?: any;
     propsActions?: any;
-    hideDefaultClose?: any;
+    hideDefaultClose?: boolean;
   }>(),
   {
     routeBackName: "aktiva-proizvodi",

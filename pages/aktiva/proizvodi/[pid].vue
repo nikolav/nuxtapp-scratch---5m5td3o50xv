@@ -85,8 +85,7 @@ useHead({ title: titleProductName });
     <VCard variant="text" rounded="0" elevation="0">
       <VToolbarPrimary
         :props-title="{ class: 'text-start text-body-1 font-italic' }"
-        :props-actions="{ class: 'pe-5' }"
-        route-back-name="index"
+        :props-actions="{ class: 'pe-3' }"
         hide-default-close
       >
         <template #prepend>

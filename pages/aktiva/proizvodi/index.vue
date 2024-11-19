@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
-import { URL_APP_PRODUCT_PREVIEW } from "@/config";
+// import { URL_APP_PRODUCT_PREVIEW } from "@/config";
 import type { IAsset } from "@/types";
 import {
   VFabMain,
@@ -28,7 +28,7 @@ const itemLinkTo = (item: any) => ({
   //   name: "aktiva-proizvodi-pid",
   //   params: { pid: item?.id },
   // },
-  href: publicUrlAssetProduct(item, URL_APP_PRODUCT_PREVIEW),
+  href: publicUrlAssetProduct(item),
   external: true,
   target: "_blank",
 });
