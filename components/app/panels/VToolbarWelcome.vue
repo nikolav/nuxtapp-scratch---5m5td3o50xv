@@ -7,6 +7,8 @@ import {
 } from "@/components/app";
 // ##config:const
 // ##config ##props
+defineOptions({ inheritAttrs: false });
+
 const { ADMIN_UID } = useAppConfig();
 // ##schemas
 // ##utils
@@ -52,15 +54,16 @@ onChange(async (files) => {
 // @@eos
 </script>
 <template>
-  <section>
+  <section class="component--VToolbarWelcome">
     <VSnackbarSuccess v-model="toggleUploadSuccess.isActive.value">
       <p>👍🏻&nbsp; Prilog je uspešno sačuvan.</p>
     </VSnackbarSuccess>
     <VToolbarPrimary
       elevation="1"
       color="transparent"
-      class="component--VToolbarWelcome position-fixed top-0 inset-x-0 !z-[122] ps-1 backdrop-blur-md"
       :divider-start="false"
+      class="position-fixed top-0 inset-x-0 !z-[122] ps-1 backdrop-blur-md"
+      v-bind="$attrs"
     >
       <template #prepend>
         <NuxtLink
@@ -72,7 +75,7 @@ onChange(async (files) => {
             size="1rem"
             class="translate-y-[2px] opacity-30"
           />
-          <a class="link--prominent"><small> admin@nikolav.rs </small></a>
+          <a class="link--prominent"><small> admin </small></a>
         </NuxtLink>
       </template>
       <template #append>

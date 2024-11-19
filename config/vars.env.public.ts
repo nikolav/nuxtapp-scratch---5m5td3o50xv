@@ -4,9 +4,9 @@ import { PRODUCTION$ } from "./vars.env";
 export const APP_NAME = "TEREN.FRIKOM";
 
 export const URL_APP_PUBLIC = PRODUCTION$
-  ? // ? "https://frikom.nikolav.rs/"
-    // "https://qdeiymppite.web.app/"
-    "https://morning-ocean-24984-2ae2dd559da2.herokuapp.com/"
+  ? // "https://qdeiymppite.web.app/"
+    // "https://morning-ocean-24984-2ae2dd559da2.herokuapp.com/"
+    "https://frikom.nikolav.rs/"
   : // "http://140.82.39.170/"
     // "https://nikolav.rs/"
     // ? "https://qdeiymppite.web.app/"

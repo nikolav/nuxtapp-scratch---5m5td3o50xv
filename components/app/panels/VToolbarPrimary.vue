@@ -9,6 +9,7 @@ const props = withDefaults(
     onClose?: any;
     propsTitle?: any;
     propsActions?: any;
+    hideDefaultClose?: any;
   }>(),
   {
     routeBackName: "aktiva-proizvodi",
@@ -35,16 +36,18 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
       <VToolbarItems v-bind="propsActions">
         <slot name="actions" />
       </VToolbarItems>
-      <slot name="append" :toRoutePrev="ROUTE_BACK" :onClose="onClose">
-        <VBtn
-          @click="onClose"
-          size="small"
-          :to="onClose ? undefined : ROUTE_BACK"
-          icon="$close"
-          variant="plain"
-          density="comfortable"
-        />
-      </slot>
+      <template v-if="!hideDefaultClose">
+        <slot name="append" :toRoutePrev="ROUTE_BACK" :onClose="onClose">
+          <VBtn
+            @click="onClose"
+            size="small"
+            :to="onClose ? undefined : ROUTE_BACK"
+            icon="$close"
+            variant="plain"
+            density="comfortable"
+          />
+        </slot>
+      </template>
     </template>
     <slot :text="text">
       <VToolbarTitle

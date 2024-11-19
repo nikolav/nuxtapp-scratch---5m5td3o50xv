@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // ##imports
 import { useDisplay } from "vuetify";
-import { Dump } from "@/components/dev";
 import {
   VToolbarPrimary,
   VRatingTopicRating,
@@ -27,11 +26,16 @@ const { ratingAssets, likesAssets, chatAssets } = useTopics();
 const { mdAndUp, smAndUp } = useDisplay();
 const route = useRoute();
 const pid = computed(() => get(route.params, "pid"));
-const watchID = useUniqueId();
+// const watchID = useUniqueId();
 // ##icons
 // ##refs ##flags
 // ##data ##auth ##state
-const { assets: products } = useQueryManageAssetsProducts(() => [pid.value]);
+const qenabled = computed(() => !!pid.value);
+const { assets: products } = useQueryManageAssetsProducts(
+  () => [pid.value],
+  undefined,
+  { enabled: qenabled }
+);
 const p = computed(() => first(products.value));
 const ID = computed(() => p.value?.id);
 const { images } = useFirebaseStorageAssetImages(ID);
@@ -78,11 +82,12 @@ useHead({ title: titleProductName });
 </script>
 <template>
   <section class="page--aktiva-proizvodi-pid">
-    <VCard variant="text" rounded="0">
+    <VCard variant="text" rounded="0" elevation="0">
       <VToolbarPrimary
         :props-title="{ class: 'text-start text-body-1 font-italic' }"
         :props-actions="{ class: 'pe-5' }"
         route-back-name="index"
+        hide-default-close
       >
         <template #prepend>
           <VBtnOpenGallery
@@ -93,12 +98,7 @@ useHead({ title: titleProductName });
             class="scale-[92%]"
             :props-badge="{ class: '-translate-x-[3px] -me-[12px]' }"
           />
-          <Iconx
-            v-else
-            size="1.5rem"
-            class="ms-1 opacity-30"
-            icon="game-icons:cardboard-box-closed"
-          />
+          <Iconx v-else size="1.5rem" class="ms-1 opacity-30" icon="box" />
         </template>
         <template #title>
           <span :class="!smAndUp ? 'text-sm' : undefined">
@@ -195,7 +195,6 @@ useHead({ title: titleProductName });
             >
               <p>{{ description }}</p>
             </section>
-            <!-- <Dump :data="{ images, p }" /> -->
           </VCol>
         </VRow>
       </VContainer>

@@ -337,6 +337,7 @@ export default defineAppConfig({
       link: "material-symbols:link-rounded",
       headset: "basil:headset-solid",
       envelope: "material-symbols:mail-outline",
+      box: "game-icons:cardboard-box-closed",
     },
   },
   acconts: {

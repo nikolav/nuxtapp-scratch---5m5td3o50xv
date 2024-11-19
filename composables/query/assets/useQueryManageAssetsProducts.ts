@@ -1,4 +1,8 @@
-export const useQueryManageAssetsProducts = (PIDS?: any, OWN: any = false) => {
+export const useQueryManageAssetsProducts = (
+  PIDS?: any,
+  OWN: any = false,
+  OPTIONS?: any
+) => {
   const {
     db: {
       Assets: {
@@ -6,5 +10,5 @@ export const useQueryManageAssetsProducts = (PIDS?: any, OWN: any = false) => {
       },
     },
   } = useAppConfig();
-  return useQueryManageAssets(PHYSICAL_PRODUCT, PIDS, OWN);
+  return useQueryManageAssets(PHYSICAL_PRODUCT, PIDS, OWN, OPTIONS);
 };

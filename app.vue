@@ -27,13 +27,6 @@ const authBgActive = useState(FLAG_SHOW_AUTH_BACKGROUND);
 const auth = useStoreApiAuth();
 // ##computed
 // ##forms ##helpers ##handlers
-// messaging
-useFirebaseCloudMessaging({
-  onMessage: (payload: MessagePayload) => {
-    console.log({ "firebaseCloudMessaging:payload --debug": payload });
-  },
-});
-
 // ##watch
 // onAuthStatus
 watch(
@@ -98,6 +91,13 @@ provide(key_UID, uid);
 provide(key_TOKEN, token);
 provide(key_USER_DISPLAY_NAME, myDisplayName);
 provide(key_REF_APPMAIN, ref_appMain);
+
+// ##messaging
+useFirebaseCloudMessaging({
+  onMessage: (payload: MessagePayload) => {
+    console.log({ "firebaseCloudMessaging:payload --debug": payload });
+  },
+});
 
 // @@eos
 </script>
