@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { URL_PRODUCT_PREVIEW_HOST } from "@/config";
 import {
   VToolbarPrimary,
   VImgImagesPicker,
@@ -7,7 +8,7 @@ import {
   VBtnReset,
 } from "@/components/app";
 import { schemaAssetsInput as si } from "@/schemas";
-import { Iconx } from "@/components/icons";
+
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
@@ -92,6 +93,11 @@ const formReset = () => {
   KEY_ImagesCleared();
 };
 
+const toPreview = computed(() => ({
+  href: publicUrlAssetProduct({ id: AID.value }, URL_PRODUCT_PREVIEW_HOST),
+  target: "_blank",
+}));
+
 onMounted(() => {
   watch(pc.success, (success_) => {
     if (!success_) return;
@@ -108,7 +114,7 @@ const { width: WSELECT } = useElementSize(ref_9yvgmhpVs9DnAXGuV5Hm);
 <template>
   <section class="page--aktiva-prodizvodi-nov">
     <VSnackbarSuccess v-model="toggleSuccessCommit.isActive.value">
-      <NuxtLink :to="{ name: 'aktiva-proizvodi-pid', params: { pid: AID } }">
+      <NuxtLink v-bind="toPreview">
         <a class="text-decoration-underline text-body-1 underline-offset-[6px]"
           >📄 Proizvod je uspešno sačuvan.
         </a>
