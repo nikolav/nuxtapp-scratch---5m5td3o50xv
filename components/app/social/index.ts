@@ -6,3 +6,5 @@ export { default as VDataIteratorRenderChatSimple } from "./VDataIteratorRenderC
 export { default as VSheetChatItemSimple } from "./VSheetChatItemSimple.vue";
 export { default as VBtnTopicChatToggle } from "./VBtnTopicChatToggle.vue";
 export { default as VBtnShareSocialNetworks } from "./VBtnShareSocialNetworks.vue";
+export { default as TopicRatingStatus } from "./TopicRatingStatus.vue";
+export { default as LikeDislikeStatus } from "./LikeDislikeStatus.vue";

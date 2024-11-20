@@ -2,7 +2,11 @@
 // ##imports
 import { useDisplay } from "vuetify";
 import type { IAsset } from "@/types";
-import { VFabMain, VCardDataIterator } from "@/components/app";
+import {
+  VFabMain,
+  VCardDataIterator,
+  TopicRatingStatus,
+} from "@/components/app";
 
 // ##config:const
 // ##config ##props
@@ -16,6 +20,7 @@ const { smAndUp } = useDisplay();
 const {
   sites: { itemCategories: sitesItemGroups, logo: sitesLogo },
 } = useCategoryAssets();
+const { ratingAssets, likesAssets } = useTopics();
 // ##icons
 // ##refs ##flags ##models
 const sitesSelected = ref();
@@ -59,6 +64,13 @@ useHead({ title: "Lokali" });
       :format-title="fmtTitle"
     >
       <template #menu> foo </template>
+      <template #list-item-append="{ item: site }">
+        <TopicRatingStatus
+          :topic="ratingAssets(get(site, 'key'))"
+          class="text-warning-darken-1"
+          size="1.122rem"
+        />
+      </template>
       <template #list-item-title="{ item: site }">
         <span class="d-flex items-center gap-4">
           <VAvatar

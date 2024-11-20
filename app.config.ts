@@ -338,6 +338,8 @@ export default defineAppConfig({
       headset: "basil:headset-solid",
       envelope: "material-symbols:mail-outline",
       box: "game-icons:cardboard-box-closed",
+      "star-circle": "mdi:star-circle",
+      thumb: "fa6-regular:thumbs-up",
     },
   },
   acconts: {

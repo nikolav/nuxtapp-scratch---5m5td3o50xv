@@ -379,6 +379,8 @@ export default defineNuxtConfig({
         "tabler:external-link",
         "tdesign:poweroff",
         "uil:github",
+        "mdi:star-circle",
+        "fa6-regular:thumbs-up",
       ],
       //
 
