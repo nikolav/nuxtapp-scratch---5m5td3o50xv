@@ -14,7 +14,7 @@ definePageMeta({
 // ##utils
 const { smAndUp } = useDisplay();
 const {
-  sites: { itemCategories: sitesItemGroups },
+  sites: { itemCategories: sitesItemGroups, logo: sitesLogo },
 } = useCategoryAssets();
 // ##icons
 // ##refs ##flags ##models
@@ -32,7 +32,7 @@ const itemLinkToSite = (item: any) => ({
   name: "aktiva-lokali-sid",
   params: { sid: item.id },
 });
-const fmtTitle = (s: IAsset) => startCase(s.name);
+const fmtTitle = (s: any) => startCase(s.name);
 
 // ##watch
 // ##hooks ##lifecycle
@@ -59,6 +59,16 @@ useHead({ title: "Lokali" });
       :format-title="fmtTitle"
     >
       <template #menu> foo </template>
+      <template #list-item-title="{ item: site }">
+        <span class="d-flex items-center gap-4">
+          <VAvatar
+            :image="sitesLogo(site)"
+            size="small"
+            density="comfortable"
+          />
+          <span>{{ fmtTitle(site) }}</span>
+        </span>
+      </template>
     </VCardDataIterator>
     <VFabMain
       :class="[smAndUp ? '-translate-x-12' : '-translate-y-8 translate-x-2']"

@@ -65,6 +65,9 @@ export const useCategoryAssets = () => {
   const productsCategoriesFormAssetProduct = (node: any) =>
     [get(categoryNode(node, top), "model.title")].filter(Boolean);
 
+  const sitesLogoThumb = (node: any) =>
+    get(categoryNode(node, top_s), "model.emoji", "");
+
   return {
     categoryNodeByTag,
     categoryTagByAsset,
@@ -99,6 +102,7 @@ export const useCategoryAssets = () => {
       top: top_s,
       categories_select_menu: categories_select_menu_s,
       itemCategories: sitesCategoriesFormAssetSite,
+      logo: sitesLogoThumb,
     },
   };
 };
