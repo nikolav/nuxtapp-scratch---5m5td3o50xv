@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// @@centered
+// @@positioned
 // :class="[
 //         '!top-[33%] -translate-y-[33%]',
 //         smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
@@ -17,6 +17,7 @@ const props = withDefaults(
     resetId?: any;
     topic?: any;
     notification?: boolean;
+    positioned?: boolean;
   }>(),
   {
     topic: "413c9264-5469-5c38-9e93-051eb180e065",
@@ -30,7 +31,10 @@ const emit = defineEmits<{
 }>();
 
 // ##utils
-const { smAndUp, width: VW } = useDisplay();
+const {
+  smAndUp,
+  // width: VW
+} = useDisplay();
 const schemaChatMessage = z.object({
   name: z.string().min(1),
   message: z.string().min(1),
@@ -77,10 +81,18 @@ watch(() => props.resetId, formReset);
     activator="parent"
     location="top end"
     v-model="menuIsActive"
-    :width="smAndUp ? 345 : VW"
+    :width="smAndUp ? 345 : '95%'"
     :transition="DEFAULT_TRANSITION"
     :close-on-content-click="false"
     :offset="22"
+    :class="
+      positioned
+        ? [
+            '!top-[25%] -translate-y-[25%]',
+            smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
+          ]
+        : undefiend
+    "
   >
     <VSheet :rounded="smAndUp ? 'lg ts-xl' : 'lg'" class="pa-3 ps-5">
       <VBtn

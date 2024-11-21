@@ -52,6 +52,7 @@ const toggleUpdateSuccess = useToggleFlag();
 const toggleAssetRemovedSuccess = useToggleFlag();
 const toggleDeletePromptActive = useToggleFlag();
 // ##state ##auth ##data
+// const auth = useStoreApiAuth();
 const {
   ls,
   url,
@@ -428,7 +429,7 @@ const onAssetRemove = async (pinEqText: boolean) => {
                     </VSelect>
                   </template>
                   <!-- @@ -->
-                   <VSpacer class="mt-5" />
+                  <VSpacer class="mt-5" />
                   <VTextField
                     disabled
                     readonly

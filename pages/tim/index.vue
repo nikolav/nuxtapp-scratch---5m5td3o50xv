@@ -12,6 +12,7 @@ import {
   VSnackbarSuccess,
   VDialogManageUsersTags,
   VListItemTimShowUser,
+  VSheetPinCodeRequired,
 } from "@/components/app";
 
 definePageMeta({
@@ -25,7 +26,12 @@ useHead({
 });
 const { smAndUp } = useDisplay();
 const {
-  app: { TOOLTIPS_OPEN_DELAY, SEARCH_DEBOUNCE_DELAY, DEFAULT_TRANSITION },
+  app: {
+    TOOLTIPS_OPEN_DELAY,
+    SEARCH_DEBOUNCE_DELAY,
+    DEFAULT_TRANSITION,
+    BODY_ADD_CLASS,
+  },
   layout: { toolbarMainHeight },
   APP_NAME,
   io: { IOEVENT_ACCOUNTS_UPDATED },
@@ -60,10 +66,14 @@ const iconSearch = renderIcon("search", {
   class: "opacity-50",
 });
 
-// @utils
-const toUid = (u: any) => Number(u.id);
+// ##utils
+// const toUid = (u: any) => Number(u.id);
+const toUid = toIds;
+const ps = useProcessMonitor();
 
 // @data
+const auth = useStoreApiAuth();
+const { drop: accountDrop } = useMutationAccountsManage();
 const {
   users,
   reload: usersReload,
@@ -75,7 +85,7 @@ const { messageMany } = useQueryComms();
 const { notificationSend, responseOk: notificationResponseOk } =
   useMessagingNotification();
 
-// @refs @flags
+// ##refs ##flags
 const usersSearch = ref();
 const usersDataFilter = ref();
 const groupsSelected = ref<string[]>();
@@ -97,6 +107,8 @@ const toggleMenuIsActiveNotification = useToggleFlag();
 const toggleDialogUsersTagsIsActive = useToggleFlag();
 const userDisplayName = inject(key_USER_DISPLAY_NAME);
 
+const toggleMenuPinCodeRequiredOnAccountRemove = useToggleFlag();
+
 const uidsSelectedKEY = useUniqueId();
 const uidsSelected = ref<OrNoValue<number[]>>();
 const uidsSelect = (selectionUsers: OrNoValue<any[]>) => {
@@ -115,11 +127,16 @@ const groupsAll = computed(() =>
   sortBy(union(...map(users.value, "groups")), upperCase)
 );
 const selectionUids = computed(() => map(selection.value, toUid));
+const disabledBtnAccountsRemove = computed(
+  () => !auth.isAdmin$ || 1 !== len(selection.value)
+);
 
-// @utils
+// ##utils
+const { calcDisplayName } = useAuthUtils();
 const toggleToolbarSecondary = useToggleFlag();
+const placement_JRK4nyTV6J = usePanelPlacedViewport();
 
-// @helpers
+// ##forms ##helpers
 const filterClear = () => {
   usersSearch.value = undefined;
   groupsSelected.value = groupSelectionMany.value = [];
@@ -138,7 +155,7 @@ const usersSelectToggle = () => {
   );
 };
 
-// @forms
+// ##forms
 const onSubmitApplyGroupFiler = () => {
   groupsSelected.value = groupSelectionMany.value;
 };
@@ -173,6 +190,26 @@ const onNotification = async (body: string) => {
     // notification published
     toggleNotificationPosted.on();
   }
+};
+
+// @@
+const handleAccountOnRemove = async () => {
+  try {
+    ps.begin();
+    const uid_ = first(selectionUids.value);
+    if (get(await accountDrop(uid_), "data.accountsDrop.error"))
+      throw "--account:remove:failed";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      // usersSelectAllOff();
+      toggleMenuPinCodeRequiredOnAccountRemove.off();
+    });
+  console.log({ error: ps.error.value });
 };
 
 // @watch
@@ -212,6 +249,35 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
 </script>
 <template>
   <section class="page--tim">
+    <VMenu
+      v-model="toggleMenuPinCodeRequiredOnAccountRemove.isActive.value"
+      :activator="undefined"
+      :attach="`.${BODY_ADD_CLASS}`"
+      :close-on-content-click="false"
+      v-bind="placement_JRK4nyTV6J"
+    >
+      <VSheetPinCodeRequired
+        :max-width="undefined"
+        :message="`Pin za brisanje naloga [${calcDisplayName(
+          first(selection)
+        )}]:`"
+      >
+        <template #actions="{ text, pin }">
+          <VBtn
+            @click="handleAccountOnRemove"
+            color="error"
+            variant="tonal"
+            :disabled="text != pin"
+            rounded="pill"
+            class="px-3"
+          >
+            <Iconx icon="trash" size="1.22rem" class="opacity-85" />
+            <span class="ms-1">Obriši nalog</span>
+          </VBtn>
+        </template>
+      </VSheetPinCodeRequired>
+    </VMenu>
+
     <VMenuComposeChatMessage
       v-model="toggleMenuIsActiveMessageMany.isActive.value"
       :activator="undefined"
@@ -239,7 +305,7 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
       <span>Poruka je uspešno poslata.</span>
     </VSnackbarSuccess>
     <VSnackbarSuccess v-model="toggleNotificationPosted.isActive.value">
-      <span>Obaveštenje je uspešno poslato.</span>
+      <p>Obaveštenje je uspešno poslato.</p>
     </VSnackbarSuccess>
     <VDialogManageUsersTags
       :key="uidsSelectedKEY.ID.value"
@@ -372,7 +438,7 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
                 max-width="392"
                 :transition="DEFAULT_TRANSITION"
               >
-                <VList>
+                <VList class="py-0">
                   <!-- @@users:tags -->
                   <VListItem
                     @click="toggleDialogUsersTagsIsActive"
@@ -390,7 +456,6 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
                       <span> Označi </span>
                     </VListItemTitle>
                   </VListItem>
-                  <VDivider class="border-opacity-100" />
                   <!-- @@message:many -->
                   <VListItem
                     @click="toggleMenuIsActiveMessageMany"
@@ -423,6 +488,24 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
                     </template>
                     <VListItemTitle>
                       <span> Obaveštenje </span>
+                    </VListItemTitle>
+                  </VListItem>
+                  <VDivider class="border-opacity-100" />
+                  <!-- @@account:drop -->
+                  <VListItem
+                    :disabled="disabledBtnAccountsRemove"
+                    @click="toggleMenuPinCodeRequiredOnAccountRemove.on"
+                    value="account:drop:JkncubP"
+                  >
+                    <template #prepend>
+                      <Iconx
+                        icon="account-remove"
+                        size="1.5rem"
+                        class="me-3 opacity-20 -translate-x-[2px] text-error"
+                      />
+                    </template>
+                    <VListItemTitle>
+                      <span> Obriši nalog </span>
                     </VListItemTitle>
                   </VListItem>
                 </VList>

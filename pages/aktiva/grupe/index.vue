@@ -203,7 +203,7 @@ useHead({ title: "Grupe" });
           <VListItem link @click="assetsGroupsRemove">
             <template #prepend>
               <Iconx
-                class="ms-1 me-[15px] opacity-20"
+                class="ms-1 me-[15px] opacity-20 text-error"
                 size="1.33rem"
                 icon="trash"
               />

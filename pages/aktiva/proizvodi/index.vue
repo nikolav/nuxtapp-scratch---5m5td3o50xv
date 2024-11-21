@@ -79,9 +79,6 @@ useHead({ title: "Roba" });
       :props-list-item="{ class: 'ps-2' }"
       :format-title="fmtTitle"
     >
-      <template #menu>
-        <pre>{{ productsSelected?.length }}</pre>
-      </template>
       <template #list-item-title="{ item, title }">
         <span class="d-inline-flex items-center translate-y-[2px]">
           <!-- @@btn:assets:images -->

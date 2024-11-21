@@ -320,3 +320,18 @@ export const M_channelsCGConfig = gql`
     channelsCGConfig(cgConfig: $cgConfig)
   }
 `;
+
+// cloudMessagingNotificationsChats(cids: [ID!]!, payload: JsonData!, AND_THIS: Boolean): JsonData!
+export const M_cloudMessagingNotificationsChats = gql`
+  mutation m_cloudMessagingNotificationsChats(
+    $cids: [ID!]!
+    $payload: JsonData!
+    $AND_THIS: Boolean
+  ) {
+    cloudMessagingNotificationsChats(
+      cids: $cids
+      payload: $payload
+      AND_THIS: $AND_THIS
+    )
+  }
+`;

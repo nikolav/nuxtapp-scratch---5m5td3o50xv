@@ -35,6 +35,8 @@ export default defineAppConfig({
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
+    ROUTE_NAME_REDIRECT_AUTHENTICATED: "veza",
+    BODY_ADD_CLASS: "BODY--zV2igS18CKTkOoaMREwt",
     DEFAULT_NO_IMAGE_AVAILABLE,
     COOKIE_ANONYMOS_USER: "ANONYMOS_USER:XFwrJOC6a",
     DEFAULT_TRANSITION: "slide-y-reverse-transition",
@@ -301,6 +303,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "account-remove": "material-symbols:person-remove-outline",
       "account-user": "ri:user-line",
       "account-user-edit":
         "streamline:interface-user-edit-actions-close-edit-geometric-human-pencil-person-single-up-user-write",

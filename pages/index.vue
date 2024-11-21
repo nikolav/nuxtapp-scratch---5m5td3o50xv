@@ -5,13 +5,19 @@ import { Redirect } from "@/components/utils";
 import { VToolbarWelcome } from "@/components/app";
 
 const { height: WH } = useDisplay();
+const {
+  app: { ROUTE_NAME_REDIRECT_AUTHENTICATED },
+} = useAppConfig();
 // @@ss
 const auth = useStoreApiAuth();
 // @@eos
 </script>
 <template>
   <section class="page--index">
-    <Redirect v-if="auth.isAuthenticated$" :to="{ name: 'app' }" />
+    <Redirect
+      v-if="auth.isAuthenticated$"
+      :to="{ name: ROUTE_NAME_REDIRECT_AUTHENTICATED }"
+    />
     <template v-else>
       <VToolbarWelcome />
       <VResponsive

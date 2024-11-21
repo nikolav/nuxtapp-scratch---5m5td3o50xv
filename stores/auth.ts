@@ -69,10 +69,13 @@ export const useStoreApiAuth = defineStore("auth", () => {
   const isAdmin$ = computed(
     () => isAuth$.value && true === get(user$.value, "admin")
   );
+  const isAuthenticated$ = computed(() => isAuth$.value && !isDefault$.value);
   const isDefault$ = computed(
     () => isAuth$.value && true == get(user$.value, "default")
   );
-  const isAuthenticated$ = computed(() => isAuth$.value && !isDefault$.value);
+  const isExternal$ = computed(
+    () => isAuth$.value && true == get(user$.value, "external")
+  );
 
   // #@apollo
   // apply auth token to Apollo client
@@ -190,9 +193,10 @@ export const useStoreApiAuth = defineStore("auth", () => {
     //
     initialized$,
     isAuth$,
+    isAuthenticated$,
     isAdmin$,
     isDefault$,
-    isAuthenticated$,
+    isExternal$,
     // @refs
     displayName,
     // @api/flags

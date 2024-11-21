@@ -132,7 +132,7 @@ onMounted(() => {
     <VCard variant="text" rounded="0" elevation="0" class="__spacer pa-0 ma-0">
       <VToolbarPrimary
         :props-title="{ class: 'font-italic text-body-1' }"
-        text="Napravi novu grupu"
+        text="Nova grupa"
         route-back-name="aktiva-grupe"
       >
         <template #prepend>

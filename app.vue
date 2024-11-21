@@ -5,7 +5,7 @@ import { SpinnerAppProcessing } from "@/components/ui";
 import { VNavigationDrawerChatActive } from "@/components/app";
 // ##config ##const
 const {
-  app: { LOGOUT_RELOAD_PATH },
+  app: { LOGOUT_RELOAD_PATH, BODY_ADD_CLASS },
   vars: { FLAG_SHOW_AUTH_BACKGROUND },
   re: { ROUTE_NAMES_SKIP_REDIRECT_APP_ON_AUTHENTICATED },
 } = useAppConfig();
@@ -70,6 +70,7 @@ watch(
 // ##head ##meta
 useHead({
   titleTemplate: (ttl: any) => `${ttl ? ttl + " | " : ""} --app`,
+  bodyAttrs: { class: BODY_ADD_CLASS },
 });
 useSeoMeta({
   title: "NuxtApp",

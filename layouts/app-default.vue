@@ -43,6 +43,7 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
         >demo</VBtn
       >
       <VBtnTopicChatToggle
+        v-if="!auth.isExternal$"
         main
         density="comfortable"
         color="primary-darken-1"
