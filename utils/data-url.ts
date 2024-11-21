@@ -1,4 +1,4 @@
-export const dataUrl = (file: File) =>
+export const dataUrl = (file: File): any =>
   new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = (e) => resolve(e.target?.result);
