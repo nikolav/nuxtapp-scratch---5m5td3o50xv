@@ -1,4 +1,5 @@
 import { ENDPOINT_GRAPHQL } from "@/config";
+import axios from "axios";
 
 // dlFileB64(data: JsonData!): JsonData!
 const Q_dlFileB64 = `
@@ -18,22 +19,41 @@ export const useFetchUrlToFileData = () => {
       pc.begin();
       if (!isURL(url)) throw "--no-url";
       fdata = get(
-        await $fetch(ENDPOINT_GRAPHQL, {
+        await axios({
+          url: ENDPOINT_GRAPHQL,
           method: "POST",
           headers: {
             Authorization: `Bearer ${auth.token$}`,
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            // "Content-Type": "application/json",
+            // Accept: "application/json",
           },
-          body: {
+          data: {
             query: Q_dlFileB64,
             variables: {
               data: { url },
             },
           },
         }),
-        "data.dlFileB64.status.data"
+        "data.data.dlFileB64.status.data"
       );
+      // fdata = get(
+      //   await $fetch(ENDPOINT_GRAPHQL, {
+      //     method: "POST",
+      //     headers: {
+      //       Authorization: `Bearer ${auth.token$}`,
+      //       "Content-Type": "application/json",
+      //       Accept: "application/json",
+      //     },
+      //     body: {
+      //       query: Q_dlFileB64,
+      //       variables: {
+      //         data: { url },
+      //       },
+      //     },
+      //   }),
+      //   "data.dlFileB64.status.data"
+      // );
+      console.log({ "@DEBUG:fdata": fdata });
     } catch (error) {
       pc.setError(error);
     } finally {
@@ -45,6 +65,7 @@ export const useFetchUrlToFileData = () => {
         type: mimetypeLookupImage(filename_),
       });
     }
+    console.log({ "@DEBUG:file:error": pc.error.value });
     return file_;
   };
 

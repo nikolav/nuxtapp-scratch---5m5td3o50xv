@@ -223,6 +223,7 @@ watch(pc_rm.success, (rmSuccess: boolean) => {
 // ##hooks:lifecycle
 // init asset:images
 useOnceMountedOn(true, async () => {
+  await nextTick();
   newProductImagesPicked.value = await Promise.all(
     map(await ls(), async (node: any) => {
       const f = await file(await url(node.name), node.name);
