@@ -12,7 +12,7 @@ import {
   VBtnReset,
   VSheetPinCodeRequired,
 } from "@/components/app";
-import { Iconx } from "@/components/icons";
+
 // ##config
 definePageMeta({
   layout: "app-default",
@@ -226,6 +226,7 @@ useOnceMountedOn(true, async () => {
   newProductImagesPicked.value = await Promise.all(
     map(await ls(), async (node: any) => {
       const f = await file(await url(node.name), node.name);
+      console.log("@DEBUG:newProductImagesPicked:onMounted", { f });
       return {
         file: f,
         dataurl: await dataUrl(<File>f),
