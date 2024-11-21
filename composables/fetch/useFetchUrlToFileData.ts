@@ -1,15 +1,13 @@
-import { ENDPOINT_GRAPHQL } from "@/config";
 import axios from "axios";
+import {
+  // ENDPOINT_GRAPHQL,
+  URL_B64URL,
+} from "@/config";
 
 // dlFileB64(data: JsonData!): JsonData!
-const Q_dlFileB64 = `
-  query q_dlFileB64($data: JsonData!) {
-    dlFileB64(data: $data)
-  }
-`;
+// const Q_dlFileB64 = `query q_dlFileB64($data: JsonData!) { dlFileB64(data: $data) }`;
 
 export const useFetchUrlToFileData = () => {
-  const auth = useStoreApiAuth();
   const pc = useProcessMonitor();
   const file = async (url: string, filename?: string) => {
     let fdata;
@@ -17,54 +15,28 @@ export const useFetchUrlToFileData = () => {
     const filename_ = filename || `file:${idGen()}`;
     try {
       pc.begin();
-      if (!isURL(url)) throw "--no-url";
+      if (!isURL(url)) throw "--url-invalid";
       fdata = get(
         await axios({
-          url: ENDPOINT_GRAPHQL,
+          url: URL_B64URL,
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${auth.token$}`,
-            // "Content-Type": "application/json",
-            // Accept: "application/json",
-          },
           data: {
-            query: Q_dlFileB64,
-            variables: {
-              data: { url },
-            },
+            url,
           },
+          responseType: "text",
         }),
-        "data.data.dlFileB64.status.data"
+        "data"
       );
-      // fdata = get(
-      //   await $fetch(ENDPOINT_GRAPHQL, {
-      //     method: "POST",
-      //     headers: {
-      //       Authorization: `Bearer ${auth.token$}`,
-      //       "Content-Type": "application/json",
-      //       Accept: "application/json",
-      //     },
-      //     body: {
-      //       query: Q_dlFileB64,
-      //       variables: {
-      //         data: { url },
-      //       },
-      //     },
-      //   }),
-      //   "data.dlFileB64.status.data"
-      // );
-      console.log({ "@DEBUG:fdata": fdata });
+      file_ = new File([b64tob(fdata)], filename_, {
+        type: mimetypeLookupImage(filename_),
+      });
+      console.log({ "@DEBUG:file_": file_ });
     } catch (error) {
       pc.setError(error);
     } finally {
       pc.done();
     }
-    if (!pc.error.value) {
-      pc.successful();
-      file_ = new File([b64tob(fdata)], filename_, {
-        type: mimetypeLookupImage(filename_),
-      });
-    }
+    if (!pc.error.value) pc.successful();
     console.log({ "@DEBUG:file:error": pc.error.value });
     return file_;
   };
