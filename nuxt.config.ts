@@ -381,6 +381,7 @@ export default defineNuxtConfig({
         "uil:github",
         "mdi:star-circle",
         "fa6-regular:thumbs-up",
+        "material-symbols:settings",
       ],
       //
 

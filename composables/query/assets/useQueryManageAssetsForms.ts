@@ -1,4 +1,8 @@
-export const useQueryManageAssetsForms = (FIDS?: any) => {
+export const useQueryManageAssetsForms = (
+  FIDS?: any,
+  OWN: any = true,
+  OPTIONS?: any
+) => {
   const {
     db: {
       Assets: {
@@ -6,5 +10,5 @@ export const useQueryManageAssetsForms = (FIDS?: any) => {
       },
     },
   } = useAppConfig();
-  return useQueryManageAssets(DIGITAL_FORM, FIDS);
+  return useQueryManageAssets(DIGITAL_FORM, FIDS, OWN, OPTIONS);
 };

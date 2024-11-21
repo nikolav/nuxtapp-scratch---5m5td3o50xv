@@ -89,15 +89,7 @@ export const useStoreApiAuth = defineStore("auth", () => {
     if (token$.value) await onLoginApollo(token$.value);
   });
 
-  const calcDisplayNameOnNoStorage = () => {
-    displayName.value = startCase(
-      get(profile.value, "displayName") ||
-        [get(profile.value, "firstName"), get(profile.value, "lastName")]
-          .filter(Boolean)
-          .join(" ") ||
-        matchEmailStart(get(user$.value, "email"))
-    );
-  };
+  const { calcDisplayName: calcDisplayNameOnNoStorage } = useAuthUtils();
   // sync apollo:auth
   watch(isAuth$, async (isAuth) => {
     if (isAuth) {
@@ -105,7 +97,7 @@ export const useStoreApiAuth = defineStore("auth", () => {
       // await onLoginApollo(token$.value);
 
       // cache auto `chatName`
-      if (!displayName.value) calcDisplayNameOnNoStorage();
+      if (!displayName.value) calcDisplayNameOnNoStorage(user$.value);
     } else {
       // #signal logout to apollo
       await onLogoutApollo();

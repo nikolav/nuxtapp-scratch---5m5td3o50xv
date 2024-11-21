@@ -342,6 +342,7 @@ export default defineAppConfig({
       box: "game-icons:cardboard-box-closed",
       "star-circle": "mdi:star-circle",
       thumb: "fa6-regular:thumbs-up",
+      cog: "material-symbols:settings",
     },
   },
   acconts: {

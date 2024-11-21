@@ -12,7 +12,9 @@ export const URL_APP_PUBLIC = PRODUCTION$
     // ? "https://qdeiymppite.web.app/"
     "http://localhost:3000/";
 
-export const URL_PRODUCT_PREVIEW_HOST = "https://morning-ocean-24984-2ae2dd559da2.herokuapp.com";
+export const URL_PRODUCT_PREVIEW_HOST = PRODUCTION$
+  ? "https://morning-ocean-24984-2ae2dd559da2.herokuapp.com"
+  : "http://localhost:3000";
 
 const LOGGING_: boolean = true;
 

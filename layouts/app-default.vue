@@ -77,20 +77,31 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               </template>
               <VListItemTitle class="ps-4">Moj nalog</VListItemTitle>
             </VListItem>
-            <!-- divider -->
-            <VDivider opacity="100" class="mt-2" />
-            <!-- item:about -->
+            <!-- item:settings:admin -->
             <VListItem
-              :to="{ name: 'about' }"
-              value="O aplikaciji"
+              :to="{ name: 'config' }"
+              value="Podešavanja"
               class="ps-3"
             >
               <template #prepend>
-                <Icon size="1.25rem" name="mdi:information-variant" />
+                <Iconx size="1.44rem" icon="cog" />
               </template>
-              <VListItemTitle class="ps-4">O aplikaciji</VListItemTitle>
+              <VListItemTitle class="ps-4">Podešavanja</VListItemTitle>
+            </VListItem>
+            <!-- item:about -->
+            <VListItem link value="O aplikaciji" class="ps-3">
+              <template #prepend>
+                <Iconx size="1.25rem" icon="github" />
+              </template>
+              <NuxtLink
+                href="https://github.com/nikolav/nuxtapp-scratch---5m5td3o50xv/tree/frikom-app"
+                target="_blank"
+              >
+                <VListItemTitle class="ps-4">O aplikaciji</VListItemTitle>
+              </NuxtLink>
             </VListItem>
             <!-- item:logout -->
+            <VDivider opacity="100" class="mt-2" />
             <VListItem @click="auth.logout" value="Kraj" class="ps-3">
               <template #prepend>
                 <Icon size="1.25rem" name="tdesign:poweroff" />

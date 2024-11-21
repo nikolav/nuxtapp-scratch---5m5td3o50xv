@@ -34,6 +34,7 @@ const props = withDefaults(
     //
     signalIdDeselect?: any;
     formatTitle?: any;
+    hidePagination?: boolean;
   }>(),
   {
     itemTitle: "title",
@@ -438,7 +439,7 @@ watch(
         </template>
       </VDataIterator>
     </VCardText>
-    <template #actions v-if="1 < totPages">
+    <template #actions v-if="!hidePagination && 1 < totPages">
       <VSpacer />
       <VPagination
         v-model="page$"

@@ -62,6 +62,8 @@ useHead({ title: "Lokali" });
       :props-title="{ class: 'ms-2 ps-0' }"
       :props-selection="{ class: '-translate-y-px' }"
       :format-title="fmtTitle"
+      :items-per-page="-1"
+      hide-pagination
     >
       <template #menu> foo </template>
       <template #list-item-append="{ item: site }">
