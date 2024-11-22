@@ -6,7 +6,8 @@
 import { useDisplay } from "vuetify";
 import {
   VToolbarPrimary,
-  VImgImagesPicker,
+  // VImgImagesPicker,
+  VImgImagesPickerDefaut,
   VSnackbarSuccess,
   VBtnSave,
   VBtnReset,
@@ -64,6 +65,7 @@ const {
   commit,
   remove: assetsRemove,
 } = useQueryManageAssetsProducts(() => [pid.value]);
+const imagesOld = ref();
 
 // ##computed
 const p = computed(() => first(products.value));
@@ -223,16 +225,19 @@ watch(pc_rm.success, (rmSuccess: boolean) => {
 // ##hooks:lifecycle
 // init asset:images
 useOnceMountedOn(true, async () => {
-  newProductImagesPicked.value = await Promise.all(
-    map(await ls(), async (node: any) => {
-      const f = await file(await url(node.name), node.name);
-      console.log("@DEBUG:newProductImagesPicked:onMounted", { f });
-      return {
-        file: f,
-        dataurl: await dataUrl(<File>f),
-      };
-    })
+  imagesOld.value = await Promise.all(
+    map(await ls(), async (node: any) => await url(node.name))
   );
+  // newProductImagesPicked.value = await Promise.all(
+  //   map(await ls(), async (node: any) => {
+  //     const f = await file(await url(node.name), node.name);
+  //     console.log("@DEBUG:newProductImagesPicked:onMounted", { f });
+  //     return {
+  //       file: f,
+  //       dataurl: await dataUrl(<File>f),
+  //     };
+  //   })
+  // );
 });
 // init asset:fields
 useOnceMountedOn(p, fieldsResetFromStore);
@@ -344,9 +349,10 @@ const onAssetRemove = async (pinEqText: boolean) => {
             <VRow>
               <VCol md="6">
                 <!-- @@picker -->
-                <VImgImagesPicker
+                <VImgImagesPickerDefaut
                   v-model="newProductImagesPicked"
                   @update:model-value="onUpdateModelValuePicker"
+                  :default-images="imagesOld"
                   :props-container="{
                     height: IMAGE_PICKER_SIZE_MAX.h,
                     maxWidth: IMAGE_PICKER_SIZE_MAX.w,

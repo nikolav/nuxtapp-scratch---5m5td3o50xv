@@ -5,3 +5,4 @@ export { default as VBtnOpenGallery } from "./VBtnOpenGallery.vue";
 export { default as ProvideAssetImages } from "./ProvideAssetImages.vue";
 export { default as VImgPickerSingle } from "./VImgPickerSingle.vue";
 export { default as ProvideAssetsGroupAvatar } from "./ProvideAssetsGroupAvatar.vue";
+export { default as VImgImagesPickerDefaut } from "./VImgImagesPickerDefaut.vue";
