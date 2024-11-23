@@ -303,6 +303,9 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      poweroff: "tdesign:poweroff",
+      account: "material-symbols:account-circle",
+      help: "material-symbols:help",
       "account-remove": "material-symbols:person-remove-outline",
       "account-user": "ri:user-line",
       "account-user-edit":

@@ -24,6 +24,7 @@ const {
 const accountsAdded = ref();
 
 // @data
+const auth = useStoreApiAuth();
 const { add: accountsAdd } = useMutationAccountsManage();
 
 // @flags
@@ -164,6 +165,9 @@ onMounted(() => {
               {
                 title: 'Administrator',
                 value: 'admin',
+                props: {
+                  disabled: !auth.isAdmin$,
+                },
               },
               {
                 title: 'Spoljni kontakt',

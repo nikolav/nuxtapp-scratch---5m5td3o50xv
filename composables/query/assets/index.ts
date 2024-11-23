@@ -5,3 +5,5 @@ export { useQueryManageAssetsSites } from "./useQueryManageAssetsSites";
 export { useQueryManageAssetsForms } from "./useQueryManageAssetsForms";
 export { useQueryAssetsSearch } from "./useQueryAssetsSearch";
 export { useQueryManageAssetsComms } from "./useQueryManageAssetsComms";
+export { useQueryAssetsCount } from "./useQueryAssetsCount";
+export { useQueryAssetsCountProducts } from "./useQueryAssetsCountProducts";

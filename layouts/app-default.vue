@@ -6,7 +6,7 @@ const auth = useStoreApiAuth();
 const route = useRoute();
 const { smAndUp } = useDisplay();
 const {
-  app: { TOOLTIPS_OPEN_DELAY, MODE_DEBUG, DEFAULT_TRANSITION },
+  app: { MODE_DEBUG, DEFAULT_TRANSITION },
 } = useAppConfig();
 
 const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
@@ -30,7 +30,7 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
       </template>
       <VAppBarTitle
         v-if="appBarTitle"
-        class="ms-1 font-italic font-weight-thin text-body-1 text-primary"
+        class="ms-2 font-italic font-weight-thin text-body-1 text-primary"
         >{{ appBarTitle }}</VAppBarTitle
       >
       <VSpacer v-if="!smAndUp" />
@@ -54,7 +54,7 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
         }"
       />
       <VBtn size="large" density="comfortable" icon variant="plain">
-        <Icon size="1.55rem" name="mdi:dots-vertical" />
+        <Iconx size="1.55rem" icon="dots-v" />
         <VMenu
           :transition="DEFAULT_TRANSITION"
           activator="parent"
@@ -74,7 +74,7 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               class="ps-3"
             >
               <template #prepend>
-                <Icon size="1.44rem" name="material-symbols:account-circle" />
+                <Iconx size="1.44rem" icon="account" />
               </template>
               <VListItemTitle class="ps-4">Moj nalog</VListItemTitle>
             </VListItem>
@@ -85,12 +85,18 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               class="ps-3"
             >
               <template #prepend>
-                <Iconx size="1.44rem" icon="cog" />
+                <Iconx size="1.44rem" icon="cog" class="opacity-50" />
               </template>
               <VListItemTitle class="ps-4">Podešavanja</VListItemTitle>
             </VListItem>
+            <VListItem :to="{ name: 'help' }" value="Pomoć" class="ps-3">
+              <template #prepend>
+                <Iconx size="1.44rem" icon="help" class="opacity-50" />
+              </template>
+              <VListItemTitle class="ps-4">Pomoć</VListItemTitle>
+            </VListItem>
             <!-- item:about -->
-            <VListItem link value="O aplikaciji" class="ps-3">
+            <!-- <VListItem link value="O aplikaciji" class="ps-3">
               <template #prepend>
                 <Iconx size="1.25rem" icon="github" />
               </template>
@@ -100,12 +106,12 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               >
                 <VListItemTitle class="ps-4">O aplikaciji</VListItemTitle>
               </NuxtLink>
-            </VListItem>
+            </VListItem> -->
             <!-- item:logout -->
             <VDivider opacity="100" class="mt-2" />
             <VListItem @click="auth.logout" value="Kraj" class="ps-3">
               <template #prepend>
-                <Icon size="1.25rem" name="tdesign:poweroff" />
+                <Iconx size="1.25rem" icon="poweroff" class="opacity-50" />
               </template>
               <VListItemTitle class="ps-4">Kraj</VListItemTitle>
             </VListItem>

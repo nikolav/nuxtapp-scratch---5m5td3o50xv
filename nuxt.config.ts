@@ -310,6 +310,7 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "material-symbols:help",
         "material-symbols:person-remove-outline",
         "basil:headset-solid",
         "bi:images",
@@ -423,18 +424,17 @@ export default defineNuxtConfig({
 
   // https://image.nuxt.com/get-started/configuration
   image: {
-    // # can override at the component level
-    // quality: 80,
+    // # override at the component level
+    quality: 92,
     // # globally initialize an $img helper
     // inject: true,
     // format: ["webp"],
-    // #allow domains to be optimized
+    // # enable image optimization on an external website
     domains: [
-      // 🏠
       // "frikom.nikolav.rs",
     ],
     //
-    // The screen sizes predefined by `@nuxt/image`:
+    // # The screen sizes predefined by `@nuxt/image`:
     screens: {
       xs: 320,
       sm: 640,
@@ -444,5 +444,15 @@ export default defineNuxtConfig({
       xxl: 1536,
       "2xl": 1536,
     },
+    // # pre-defined configurations
+    // presets: {
+    //   avatar: {
+    //     modifiers: {
+    //       format: "jpg",
+    //       width: 50,
+    //       height: 50,
+    //     },
+    //   },
+    // },
   },
 });
