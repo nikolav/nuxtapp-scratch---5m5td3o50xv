@@ -10,11 +10,9 @@ definePageMeta({
 // ##utils
 // ##icons
 // ##refs ##flags ##models
-const ref_tEsiXAni9GHwifLEb = ref();
 // ##data ##auth ##state
 const products_tot = useQueryAssetsCountProducts();
 // ##computed
-const { width: WPCard } = useElementSize(ref_tEsiXAni9GHwifLEb);
 // ##forms ##handlers ##helpers ##small-utils
 const CARDS_items = [
   {
@@ -72,19 +70,7 @@ useHead({ title: "Aktiva" });
         :to="item.to"
         class="mx-auto"
       >
-        <VResponsive
-          class="pa-0 ma-0 w-100 *bg-lime"
-          ref="ref_tEsiXAni9GHwifLEb"
-        >
-          <NuxtImg
-            :width="WPCard"
-            height="192"
-            quality="90"
-            :src="item.image"
-            preload
-            loading="lazy"
-          />
-        </VResponsive>
+        <VImg height="192" :src="item.image" cover />
         <VCardItem>
           <template #title>
             <h4 class="text-h6 font-weight-light">{{ item.title }}</h4>
