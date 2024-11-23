@@ -7,10 +7,16 @@ const route = useRoute();
 const { smAndUp } = useDisplay();
 const {
   app: { MODE_DEBUG, DEFAULT_TRANSITION },
+  links: {
+    external: { DRIVE_ATTACHMENTS_MAIN },
+  },
 } = useAppConfig();
 
 const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
   useSidebarMenu();
+
+const openDriveAttachmentsMain = async () =>
+  await navigateTo(DRIVE_ATTACHMENTS_MAIN, { open: { target: "_blank" } });
 
 // @@eos
 </script>
@@ -78,6 +84,22 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               </template>
               <VListItemTitle class="ps-4">Moj nalog</VListItemTitle>
             </VListItem>
+            <!-- item:disk:drive -->
+            <VListItem
+              link
+              @click="openDriveAttachmentsMain"
+              value="Disk"
+              class="ps-3"
+            >
+              <template #prepend>
+                <Iconx
+                  size="1.33rem"
+                  icon="icons-local:storage"
+                  class="opacity-50"
+                />
+              </template>
+              <VListItemTitle class="!ps-[18px]">Disk</VListItemTitle>
+            </VListItem>
             <!-- item:settings:admin -->
             <VListItem
               :to="{ name: 'config' }"
@@ -113,7 +135,7 @@ const { ID_subnav, hasNavSecondary, sidebarMainHeight, appBarTitle } =
               <template #prepend>
                 <Iconx size="1.25rem" icon="poweroff" class="opacity-50" />
               </template>
-              <VListItemTitle class="ps-4">Kraj</VListItemTitle>
+              <VListItemTitle class="!ps-[18px]">Kraj</VListItemTitle>
             </VListItem>
           </VList>
         </VMenu>
