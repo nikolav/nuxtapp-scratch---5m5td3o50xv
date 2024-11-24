@@ -191,7 +191,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
       :props-actions="{ class: 'pe-1' }"
     >
       <template #actions>
-        <VBtn icon variant="plain">
+        <VBtn disabled icon variant="plain">
           <Iconx icon="preview" size="1.33rem" />
         </VBtn>
       </template>

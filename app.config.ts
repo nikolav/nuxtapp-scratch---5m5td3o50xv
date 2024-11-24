@@ -240,6 +240,8 @@ export default defineAppConfig({
   },
   links: {
     external: {
+      URL_DRIVE_PUBLIC:
+        "https://drive.google.com/drive/folders/1Ie0raokMqVFKHXQnCFUqrBPDi_QKS6Uo?usp=sharing",
       GOOGLE_CALENDAR_EDIT_PAGE:
         "https://calendar.google.com/calendar/u/0?cid=dnVrb3ZpY25pa29sYTIwMTRAZ21haWwuY29t",
       SRC_GOOGLE_CALENDAR_IFRAME:

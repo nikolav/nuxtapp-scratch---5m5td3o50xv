@@ -1,15 +1,21 @@
-export const useQueryManageAssetsForms = (...args: any[]) =>
-  // FIDS?: any,
-  // OWN: any = true,
-  // OPTIONS?: any,
-  // VARS_ADDITIONAL?: any
-  {
-    const {
-      db: {
-        Assets: {
-          type: { DIGITAL_FORM },
-        },
+export const useQueryManageAssetsForms = (
+  FIDS?: any,
+  OWN: any = true,
+  OPTIONS?: any,
+  VARS_ADDITIONAL?: any
+) => {
+  const {
+    db: {
+      Assets: {
+        type: { DIGITAL_FORM },
       },
-    } = useAppConfig();
-    return useQueryManageAssets(DIGITAL_FORM, ...args);
-  };
+    },
+  } = useAppConfig();
+  return useQueryManageAssets(
+    DIGITAL_FORM,
+    FIDS,
+    OWN,
+    OPTIONS,
+    VARS_ADDITIONAL
+  );
+};
