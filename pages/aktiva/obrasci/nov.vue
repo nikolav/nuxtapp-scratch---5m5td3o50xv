@@ -60,33 +60,7 @@ const FIELDS = <Record<string, IConfigFields>>{
 // ##utils
 const ps = useProcessMonitor();
 // ##icons
-const ICONS_addmenu = {
-  [DigitalFormFieldTypes.TEXT]: {
-    icon: "paragraph",
-    size: "1.22rem",
-    class: "opacity-40",
-  },
-  [DigitalFormFieldTypes.BOOLEAN]: {
-    icon: "control-switch",
-    size: "1.22rem",
-    class: "opacity-40",
-  },
-  [DigitalFormFieldTypes.CHOICE]: {
-    icon: "checklist",
-    size: "1.22rem",
-    class: "opacity-40",
-  },
-  [DigitalFormFieldTypes.FILES]: {
-    icon: "$file",
-    size: "1.22rem",
-    class: "opacity-40",
-  },
-  [DigitalFormFieldTypes.RATING]: {
-    icon: "$ratingEmpty",
-    size: "1.22rem",
-    class: "opacity-40",
-  },
-};
+const { ICONS_ASSETS_FORMS_type: ICONS_addmenu } = useIconsConfig();
 // ##refs ##flags ##models
 const lastFormCreated = ref();
 const toggleFormCreatedSuccess = useToggleFlag();
