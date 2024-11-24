@@ -47,8 +47,8 @@ const src = computed(() => {
       "height" !== field ? `${field}=${value}` : `height=${props.height}`
   ).join("&")}`;
 });
-const topic_cal_chat = computed(() =>
-  topicWithTitle(TOPIC_CHAT_CALENDAR_MAIN, props.chatCallendarTitle)
+const topic_callendarChat = computed(() =>
+  topicWithTitle(props.chatCallendarTopic, props.chatCallendarTitle)
 );
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
@@ -62,14 +62,14 @@ const topic_cal_chat = computed(() =>
 <template>
   <VCard
     :key="calReloadKEY.ID.value"
-    class="component--GoogleCalendar mt-0 pa-0 mx-auto"
+    class="component--GoogleCalendar pa-0 ma-0 mx-1"
     variant="text"
     elevation="0"
     rounded="0"
   >
     <VCardItem density="compact">
       <template #prepend>
-        <VBtnTopicChatToggle :topic="topic_cal_chat" variant="text" />
+        <VBtnTopicChatToggle :topic="topic_callendarChat" variant="text" />
       </template>
       <template #append>
         <VCardActions class="__spacer">

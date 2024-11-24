@@ -14,7 +14,10 @@ import type { IConfigFields } from "@/types";
 defineOptions({
   inheritAttrs: false,
 });
-const props = defineProps<{ formFieldData: any; index: number }>();
+const props = defineProps<{
+  formFieldData: any;
+  index: number;
+}>();
 const emit = defineEmits<{
   dropKey: [key: string];
   fieldUpdated: [item: any];
@@ -106,7 +109,9 @@ const dd = computed(() =>
   reduce(
     form.data,
     (res: any, item: any, field: string) => {
-      res[field] = item.value;
+      if ("items" !== field) {
+        res[field] = item.value;
+      }
       return res;
     },
     <any>{}

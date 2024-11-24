@@ -6,6 +6,7 @@ import {
   VBtnReset,
   VCardAssetsDigitalFormField,
   VCardTitleSectionStart,
+  VSnackbarSuccess,
 } from "@/components/app";
 import type { IConfigFields } from "@/types";
 
@@ -23,9 +24,24 @@ const {
 } = useAppConfig();
 // ##schemas
 const FIELDS = <Record<string, IConfigFields>>{
-  description: {
+  name: {
+    required: true,
+    label: "Naziv upitnika",
+    icon: {
+      name: "tag",
+      size: "1rem",
+      props: {
+        class: "me-1 opacity-20 translate-y-[2px]",
+      },
+    },
+    props: {
+      variant: "underlined",
+      hideDetails: true,
+    },
+  },
+  notes: {
     type: "textarea",
-    label: "Opis upitnika",
+    label: "Opis",
     icon: {
       name: "$edit",
       size: "1rem",
@@ -37,10 +53,12 @@ const FIELDS = <Record<string, IConfigFields>>{
       variant: "underlined",
       rows: 4,
       clearable: true,
+      hideDetails: true,
     },
   },
 };
 // ##utils
+const ps = useProcessMonitor();
 // ##icons
 const ICONS_addmenu = {
   [DigitalFormFieldTypes.TEXT]: {
@@ -70,14 +88,38 @@ const ICONS_addmenu = {
   },
 };
 // ##refs ##flags ##models
+const lastFormCreated = ref();
+const toggleFormCreatedSuccess = useToggleFlag();
 const mFormFields = ref(<any[]>[]);
 // ##data ##auth ##state
+const { commit } = useQueryManageAssetsForms(undefined, true);
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 const form = useFormModel("5e4ace58-a3c3-58f6-b3b7-5b64b5a99717", FIELDS, {
-  onSubmit: async (data: any) => {
-    console.log({ data });
-    console.log({ fields: mFormFields.value });
+  onSubmit: async (fdata: any) => {
+    const dd = assign({}, fdata, { data: { fields: mFormFields.value } });
+    let res: any;
+    try {
+      ps.begin(() => {
+        lastFormCreated.value = null;
+        toggleFormCreatedSuccess.off();
+      });
+      res = await commit(dd);
+      if (get(res, "data.assetsUpsert.error")) throw "--form:create:failed";
+    } catch (error) {
+      ps.setError(error);
+    } finally {
+      ps.done(() => {
+        console.log("Done.");
+      });
+    }
+    if (!ps.error.value)
+      ps.successful(() => {
+        lastFormCreated.value = get(res, "data.assetsUpsert.status.asset");
+        toggleFormCreatedSuccess.on();
+        nextTick(formClearAll);
+        console.log(lastFormCreated.value);
+      });
   },
 });
 const dropFieldByKey = (key: string) => {
@@ -106,6 +148,13 @@ const choiceItemsUpdated = (node: any) => {
     return item;
   });
 };
+const clearFields = () => {
+  mFormFields.value = [];
+};
+const formClearAll = () => {
+  form.clear();
+  clearFields();
+};
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -123,6 +172,18 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
 </script>
 <template>
   <section class="page--aktiva-obrasci-nov">
+    <VSnackbarSuccess v-model="toggleFormCreatedSuccess.isActive.value">
+      <NuxtLink
+        :to="{
+          name: 'aktiva-obrasci-fid',
+          params: { fid: lastFormCreated.id },
+        }"
+      >
+        <a class="link--prominent">
+          <p>🎫&nbsp; Obrazac je uspešno sačuvan.</p>
+        </a>
+      </NuxtLink>
+    </VSnackbarSuccess>
     <VToolbarPrimary
       text="Nov upitnik"
       route-back-name="aktiva-obrasci"
@@ -140,8 +201,28 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
     </VToolbarPrimary>
     <VForm @submit.prevent="form.submit">
       <VCard variant="text" rounded="0" elevation="0">
-        <VCardText>
+        <VCardText class="__spacer space-y-5 mt-2">
           <template v-for="(item, field) in FIELDS" :key="field">
+            <VTextField
+              v-if="!item.type"
+              v-model.trim="form.data[field].value"
+              autofocus
+              variant="underlined"
+              hide-details
+              clearable
+            >
+              <template #prepend-inner>
+                <Iconx
+                  :size="item.icon?.size"
+                  :icon="item.icon?.name"
+                  v-bind="item.icon?.props"
+                />
+              </template>
+              <template #label>
+                <span>{{ item.label }}</span>
+                <span v-if="item.required" class="text-error"> *</span>
+              </template>
+            </VTextField>
             <VTextarea
               v-if="'textarea' == item.type"
               v-model="form.data[field].value"
@@ -158,9 +239,8 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
             </VTextarea>
           </template>
           <VCardTitleSectionStart
-            v-if="!isEmpty(mFormFields)"
             title="Pitanja"
-            :props-container="{ class: 'mt-5' }"
+            :props-container="{ class: 'mt-10' }"
             class="text-center text-medium-emphasis"
           >
             <template #default="{ title }">
@@ -174,7 +254,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
               </VBadge>
             </template>
           </VCardTitleSectionStart>
-          <div class="__spacer space-y-5 mt-4">
+          <div v-if="!isEmpty(mFormFields)" class="__spacer space-y-5 mt-4">
             <VCardAssetsDigitalFormField
               v-for="(item, i) in mFormFields"
               :key="item.key"
@@ -186,8 +266,11 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
             />
           </div>
         </VCardText>
-        <VCardActions class="justify-center mt-5">
-          <VBtn icon variant="elevated" color="primary">
+        <VCardActions
+          class="justify-center"
+          :class="[isEmpty(mFormFields) ? 'mt-0 pt-0' : 'mt-5']"
+        >
+          <VBtn icon variant="tonal" color="primary">
             <Iconx icon="$plus" size="1.75rem" />
             <VTooltip text="Dodaj pitanje" />
             <VMenu width="256" activator="parent" location="center center">
@@ -240,12 +323,13 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
             </VMenu>
           </VBtn>
         </VCardActions>
-        <VCardActions class="justify-around mt-10">
-          <VBtnReset @click="form.clear" :props-icon="{ class: 'me-2' }" />
-          <VBtnSave type="submit" />
+        <VCardActions class="justify-around mt-16">
+          <VBtnReset @click="formClearAll" :props-icon="{ class: 'me-2' }" />
+          <VBtnSave type="submit" variant="elevated" />
         </VCardActions>
       </VCard>
     </VForm>
+    <VSpacer class="mt-24" />
   </section>
 </template>
 <style lang="scss" scoped></style>

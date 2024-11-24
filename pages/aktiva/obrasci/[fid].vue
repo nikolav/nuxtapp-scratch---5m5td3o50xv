@@ -8,7 +8,7 @@ definePageMeta({
 const route = useRoute();
 const fid = computed(() => get(route.params, "fid"));
 
-const { assets } = useQueryManageAssets(undefined, () => [fid.value]);
+const { assets } = useQueryManageAssets(undefined, () => [fid.value], false);
 const form = computed(() => first(assets.value));
 
 // @@eos
