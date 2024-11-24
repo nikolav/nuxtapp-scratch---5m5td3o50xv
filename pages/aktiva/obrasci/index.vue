@@ -36,7 +36,7 @@ const fmtTitle = (f: any) => startCase(f?.name);
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "Obrasci" });
+useHead({ title: "🎫 Obrasci" });
 
 // ##provide
 // ##io

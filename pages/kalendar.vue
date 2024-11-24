@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ##imports
+import { VCardGoogleCalendar } from "@/components/app";
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -12,19 +13,21 @@ definePageMeta({
 // ##refs ##flags ##models
 // ##data ##auth ##state
 // ##computed
-// ##forms ##handlers ##helpers
+// ##forms ##handlers ##helpers ##small-utils
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "Podešavanja" });
+useHead({ title: "📅 Kalendar" });
 // ##provide
 // ##io
 
 // @@eos
 </script>
 <template>
-  <section class="page--config-index">
-    <h1>🚧 @config-index</h1>
+  <section class="page--kalendar">
+    <div class="__spacer mt-1">
+      <VCardGoogleCalendar />
+    </div>
   </section>
 </template>
 <style lang="scss" scoped></style>

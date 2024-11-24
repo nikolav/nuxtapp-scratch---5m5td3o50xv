@@ -11,6 +11,7 @@ export * from "./panels";
 export * from "./prompt";
 export * from "./dom";
 export * from "./menu";
+export * from "./services";
 
 export { default as VChipPlus } from "./v-chip-plus.vue";
 export { default as VBtnFilterClear } from "./vbtn-filter-clear.vue";

@@ -17,6 +17,7 @@ import {
   DEFAULT_NO_IMAGE_AVAILABLE,
   //
   TOKEN_DEFAULT,
+  TOPIC_CHAT_CALENDAR_MAIN,
 } from "@/config";
 
 const themeDark = "dark";
@@ -35,7 +36,7 @@ export default defineAppConfig({
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
-    ROUTE_NAME_REDIRECT_AUTHENTICATED: "veza",
+    ROUTE_NAME_REDIRECT_AUTHENTICATED: "aktiva",
     BODY_ADD_CLASS: "BODY--zV2igS18CKTkOoaMREwt",
     DEFAULT_NO_IMAGE_AVAILABLE,
     COOKIE_ANONYMOS_USER: "ANONYMOS_USER:XFwrJOC6a",
@@ -70,6 +71,7 @@ export default defineAppConfig({
   },
   //
   key: {
+    TOPIC_CHAT_CALENDAR_MAIN,
     PRODUCTS_CHANGE: "O36Bjz6COY6i",
     FLAG_CART_OPEN: "OBNwu3k37w3a6H",
     APP_MOUNTED: "Zkcmk4BnXHU",
@@ -305,6 +307,11 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      checklist: "material-symbols:checklist",
+      "control-switch": "mdi:toggle-switch-outline",
+      paragraph: "uil:paragraph",
+      task: "mingcute:task-2-fill",
+      preview: "icon-park-outline:preview-open",
       poweroff: "tdesign:poweroff",
       account: "material-symbols:account-circle",
       help: "material-symbols:help",
@@ -422,6 +429,13 @@ export default defineAppConfig({
   },
   db: {
     Assets: {
+      DigitalFormFieldTypes: {
+        TEXT: "DIGITAL_FORM:TEXT:54QNKF",
+        CHOICE: "DIGITAL_FORM:CHOICE:hrNoq9hhbh2wUyZ9fjmf",
+        BOOLEAN: "DIGITAL_FORM:BOOLEAN:P1cUlYS4",
+        RATING: "DIGITAL_FORM:RATING:C6zX66WEWk",
+        FILES: "DIGITAL_FORM:FILES:KBr3gZuJAM4s",
+      },
       categories: {
         CATEGORY_KEY_ASSETS_prefix,
       },

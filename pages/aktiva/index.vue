@@ -21,7 +21,7 @@ const CARDS_items = [
     icon: {
       icon: "storefront",
       size: "1.55rem",
-      class: "opacity-20 me-1",
+      class: "opacity-20 *me-1",
     },
     to: { name: "aktiva-lokali" },
     count: undefined,
@@ -32,10 +32,20 @@ const CARDS_items = [
     icon: {
       icon: "people-groups",
       size: "1.88rem",
-      class: "opacity-20 me-1",
+      class: "opacity-20 *me-1",
     },
     to: { name: "tim" },
     count: undefined,
+  },
+  {
+    title: "Izveštaji",
+    image: "/forms.y37RA68d8i.jpg",
+    icon: {
+      icon: "task",
+      size: "1.55rem",
+      class: "opacity-20 *me-1",
+    },
+    to: { name: "teren" },
   },
   {
     title: "Asortiman",
@@ -61,7 +71,7 @@ useHead({ title: "Aktiva" });
 </script>
 <template>
   <section class="page--aktiva">
-    <div class="__spacer px-2 pt-2 space-y-5">
+    <div class="__spacer px-4 pt-4 space-y-4">
       <VCard
         v-for="item in CARDS_items"
         :key="item.title"

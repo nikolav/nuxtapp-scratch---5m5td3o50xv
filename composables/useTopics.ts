@@ -10,6 +10,7 @@ export const useTopics = () => {
       USER_AVAILABILITY_STATUS,
     },
     key: {
+      TOPIC_CHAT_CALENDAR_MAIN,
       CHAT_MAIN,
       COM_LIKES_prefix,
       COM_RATING_prefix,
@@ -52,6 +53,7 @@ export const useTopics = () => {
     },
     redis: { CACHE_KEY_ASSETS_ATTACHMENTS_prefix },
   } = useAppConfig();
+  
   const chatUserChannel = (uid?: any) =>
     uid ? `${TOPIC_CHAT_USER_CHANNEL_prefix}${uid}` : "";
   const productChat = (pid: number | undefined) =>
@@ -121,6 +123,7 @@ export const useTopics = () => {
   const assetsDigitalChannel = (ckey?: any) =>
     ckey ? `${ASSETS_DIGITAL_CHANNEL_prefix}${ckey}` : "";
   return {
+    TOPIC_CHAT_CALENDAR_MAIN,
     CHAT_MAIN,
     MAILING_LIST,
     TOPIC_CHAT_ACTIVE,

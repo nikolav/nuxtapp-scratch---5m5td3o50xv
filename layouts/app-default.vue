@@ -72,6 +72,7 @@ const openDriveAttachmentsMain = async () =>
             lines="one"
             density="comfortable"
             min-width="192"
+            id="ID--clbn7is7M"
           >
             <!-- item:account -->
             <VListItem
@@ -99,6 +100,18 @@ const openDriveAttachmentsMain = async () =>
                 />
               </template>
               <VListItemTitle class="!ps-[18px]">Disk</VListItemTitle>
+            </VListItem>
+            <!-- item:kalendar -->
+            <VListItem
+              link
+              :to="{ name: 'kalendar' }"
+              value="Kalendar"
+              class="ps-3"
+            >
+              <template #prepend>
+                <Iconx size="1.33rem" icon="$calendar" class="opacity-50" />
+              </template>
+              <VListItemTitle class="!ps-[18px]">Kalendar</VListItemTitle>
             </VListItem>
             <!-- item:settings:admin -->
             <VListItem
@@ -182,3 +195,8 @@ const openDriveAttachmentsMain = async () =>
   </section>
 </template>
 <style lang="scss" scoped></style>
+<style lang="scss">
+#ID--clbn7is7M .v-list-item__prepend .v-list-item__spacer {
+  width: 0 !important;
+ }
+</style>

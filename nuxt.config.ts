@@ -310,6 +310,9 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "material-symbols:checklist",
+        "mdi:toggle-switch-outline",
+        "uil:paragraph",
         "material-symbols:help",
         "material-symbols:person-remove-outline",
         "basil:headset-solid",
