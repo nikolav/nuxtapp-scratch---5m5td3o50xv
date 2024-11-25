@@ -328,3 +328,10 @@ export const M_cloudMessagingNotificationsChats = gql`
     )
   }
 `;
+
+// assetsPatchData(aid: ID!, patch: JsonData!): JsonData!
+export const M_assetsPatchData = gql`
+  mutation m_assetsPatchData($aid: ID!, $patch: JsonData!) {
+    assetsPatchData(aid: $aid, patch: $patch)
+  }
+`;

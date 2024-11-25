@@ -15,6 +15,7 @@ const props = withDefaults(
     tooltipEdit?: string;
     chatCallendarTopic?: any;
     chatCallendarTitle?: any;
+    showChat?: boolean;
   }>(),
   {
     width: WIDTH_default,
@@ -25,6 +26,7 @@ const props = withDefaults(
       "https://calendar.google.com/calendar/u/0?cid=MGUxY2JjOTMyMTMzNDI5ZDJjMzBmNmVjMzg1NzZjMTcyYzlhZjk0MzlhOTg0MmQ5YjcyOThiOTZiZWIzYTY4OEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t",
     chatCallendarTopic: TOPIC_CHAT_CALENDAR_MAIN,
     chatCallendarTitle: "📅 Glavni kalendar",
+    showChat: true,
   }
 );
 
@@ -68,8 +70,12 @@ const topic_callendarChat = computed(() =>
     rounded="0"
   >
     <VCardItem density="compact">
-      <template #prepend>
-        <VBtnTopicChatToggle :topic="topic_callendarChat" variant="text" />
+      <template v-if="showChat" #prepend>
+        <VBtnTopicChatToggle
+          v-if="showChat"
+          :topic="topic_callendarChat"
+          variant="text"
+        />
       </template>
       <template #append>
         <VCardActions class="__spacer">
@@ -85,7 +91,7 @@ const topic_callendarChat = computed(() =>
         </VCardActions>
       </template>
     </VCardItem>
-    <VResponsive class="pa-0 ma-0" :width="width" :height="height">
+    <VResponsive class="pa-0 ma-0 mx-auto" :width="width" :height="height">
       <iframe
         :src="src"
         style="border-width: 0"

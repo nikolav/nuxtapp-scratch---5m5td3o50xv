@@ -6,6 +6,7 @@ import {
   M_assetsRemove,
   M_groupsGUConfigure,
   M_assetsAGConfig,
+  M_assetsPatchData,
 } from "@/graphql";
 import { schemaHasFieldName as sHasName } from "@/schemas";
 // @@useQueryManageAssets
@@ -71,6 +72,8 @@ export const useQueryManageAssets = (
     useMutation(M_groupsGUConfigure);
   const { mutate: mutateAssetsAGConfig, loading: loadingAG } =
     useMutation(M_assetsAGConfig);
+  const { mutate: mutateAssetsPatchData, loading: loadingPatch } =
+    useMutation(M_assetsPatchData);
 
   //
   const assets = computed(() => result.value?.assetsList || []);
@@ -99,6 +102,9 @@ export const useQueryManageAssets = (
   const formsFGConfig = async (fgConfig: any) =>
     await assetsAGConfig(fgConfig, DIGITAL_FORM);
 
+  const assetsPatchData = async (aid: any, patch: any) =>
+    await mutateAssetsPatchData({ aid, patch });
+
   const { watchProcessing } = useStoreAppProcessing();
   const processing = computed(
     () =>
@@ -106,7 +112,8 @@ export const useQueryManageAssets = (
       loadingUpsert.value ||
       loadingAssetsRemove.value ||
       loadingGU.value ||
-      loadingAG.value
+      loadingAG.value ||
+      loadingPatch.value
   );
   watchProcessing(processing);
 
@@ -135,6 +142,8 @@ export const useQueryManageAssets = (
     sitesSGConfig,
     channelsCGConfig,
     formsFGConfig,
+    //
+    assetsPatchData,
 
     // @flags
     processing,

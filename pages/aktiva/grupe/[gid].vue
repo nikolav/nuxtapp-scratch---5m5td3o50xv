@@ -22,7 +22,7 @@ const { topicWithTitle } = useGlobalVariableChatActive();
 // ##refs ##flags
 const watchKEY_onMessage = useUniqueId();
 // ##data ##auth ##state
-const { assets: groups } = useQueryManageAssetsGroups(() => [route.params.gid]);
+const { assets: groups, reload: gReload } = useQueryManageAssetsGroups(() => [route.params.gid]);
 // ##computed
 const g = computed(() => first(groups.value));
 const gid = computed(() => g.value?.id);
@@ -91,6 +91,18 @@ const topicGroupChat = computed(() =>
             <VListItem
               link
               :class="LIST_ITEM_CLASSES"
+              :to="{ name: 'aktiva-grupe-gid-kalendar', params: { gid } }"
+            >
+              <template #prepend>
+                <Iconx class="opacity-30 mx-2" size="1.5rem" icon="$calendar" />
+              </template>
+              <VListItemTitle class="ms-2">
+                <span>Kalendar</span>
+              </VListItemTitle>
+            </VListItem>
+            <VListItem
+              link
+              :class="LIST_ITEM_CLASSES"
               :to="{ name: 'aktiva-grupe-gid-sites', params: { gid } }"
             >
               <template #prepend>
@@ -152,7 +164,7 @@ const topicGroupChat = computed(() =>
         </VBtnDotsMenuList>
       </template>
     </VToolbarPrimary>
-    <NuxtPage :route-data="{ g, gid, gname }" />
+    <NuxtPage :route-data="{ g, gid, gname, gReload }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

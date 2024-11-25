@@ -16,7 +16,14 @@ const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
 // @@eos
 </script>
 <template>
-  <VBtn elevation="1" size="large" variant="tonal" rounded="pill" class="px-4">
+  <VBtn
+    elevation="1"
+    size="large"
+    variant="tonal"
+    rounded="pill"
+    class="px-4"
+    v-bind="$attrs"
+  >
     <slot>
       <Iconx
         class="opacity-40 me-2"

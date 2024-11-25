@@ -50,10 +50,11 @@ export const useTopics = () => {
       IOEVENT_REDIS_CACHE_KEY_UPDATED_prefix,
       IOEVENT_PEOPLE_GROUP_TEAM_CONFIGURED_prefix,
       IOEVENT_ASSETS_CONFIGRED_prefix,
+      IOEVENT_ASSETS_UPDATED_prefix,
     },
     redis: { CACHE_KEY_ASSETS_ATTACHMENTS_prefix },
   } = useAppConfig();
-  
+
   const chatUserChannel = (uid?: any) =>
     uid ? `${TOPIC_CHAT_USER_CHANNEL_prefix}${uid}` : "";
   const productChat = (pid: number | undefined) =>
@@ -122,6 +123,9 @@ export const useTopics = () => {
     akey ? `${trimEnd(PATH_ASSETS_ATTACHMENTS_FOLDER, "/")}/${akey}` : "";
   const assetsDigitalChannel = (ckey?: any) =>
     ckey ? `${ASSETS_DIGITAL_CHANNEL_prefix}${ckey}` : "";
+  const assetsUpdated = (aid?: any) =>
+    aid ? `${IOEVENT_ASSETS_UPDATED_prefix}${aid}` : "";
+
   return {
     TOPIC_CHAT_CALENDAR_MAIN,
     CHAT_MAIN,
@@ -163,6 +167,7 @@ export const useTopics = () => {
     assetsConfigured,
     assetsAttachmentsFolder,
     assetsDigitalChannel,
+    assetsUpdated,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,
