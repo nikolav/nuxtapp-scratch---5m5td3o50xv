@@ -1,6 +1,6 @@
 export const useQueryManageAssetsForms = (
   FIDS?: any,
-  OWN: any = true,
+  OWN?: any,
   OPTIONS?: any,
   VARS_ADDITIONAL?: any
 ) => {

@@ -307,17 +307,10 @@ export const M_commsGroupMessageMany = gql`
   }
 `;
 
-// sitesSGConfig(sgConfig: JsonData!): JsonData!
-export const M_sitesSGConfig = gql`
-  mutation m_sitesSGConfig($sgConfig: JsonData!) {
-    sitesSGConfig(sgConfig: $sgConfig)
-  }
-`;
-
-// channelsCGConfig(cgConfig: JsonData!): JsonData!
-export const M_channelsCGConfig = gql`
-  mutation m_channelsCGConfig($cgConfig: JsonData!) {
-    channelsCGConfig(cgConfig: $cgConfig)
+// assetsAGConfig(ag_config: JsonData!, assets_type: String!): JsonData!
+export const M_assetsAGConfig = gql`
+  mutation m_assetsAGConfig($ag_config: JsonData!, $assets_type: String!) {
+    assetsAGConfig(ag_config: $ag_config, assets_type: $assets_type)
   }
 `;
 

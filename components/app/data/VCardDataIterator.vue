@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // e66ca91d-8013-56a5-a9f4-61903e42b97d
 import { mergeProps } from "vue";
-import type { IAsset, OrNoValue } from "@/types";
+import type { IAsset } from "@/types";
 import { VBadgeSelectedOfTotal, VBtnFilterClear } from "@/components/app";
 import { renderIcon } from "@/components/icons";
 

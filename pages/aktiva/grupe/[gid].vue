@@ -70,7 +70,7 @@ const topicGroupChat = computed(() =>
         </VBtn>
         <VBtnDotsMenuList
           :props-icon="{ size: '1.5rem' }"
-          :props-list="{ class: '*pe-2 py-0' }"
+          :props-list="{ class: '*pe-2 py-0', id: 'ID--UHBFcD8MGgeMNNVG' }"
         >
           <template #list-items>
             <VListItem :class="LIST_ITEM_CLASSES" @click="watchKEY_onMessage">
@@ -119,6 +119,22 @@ const topicGroupChat = computed(() =>
             <VListItem
               link
               :class="LIST_ITEM_CLASSES"
+              :to="{ name: 'aktiva-grupe-gid-obrasci', params: { gid } }"
+            >
+              <template #prepend>
+                <Iconx
+                  class="opacity-30 mx-2"
+                  size="1.33rem"
+                  icon="$iconAppCogFill"
+                />
+              </template>
+              <VListItemTitle class="ms-2 translate-x-[2px]">
+                <span>Obrasci</span>
+              </VListItemTitle>
+            </VListItem>
+            <VListItem
+              link
+              :class="LIST_ITEM_CLASSES"
               :to="{ name: 'aktiva-grupe-gid-prilog', params: { gid } }"
             >
               <template #prepend>
@@ -141,4 +157,8 @@ const topicGroupChat = computed(() =>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
-<style lang="scss"></style>
+<style lang="scss">
+#ID--UHBFcD8MGgeMNNVG .v-list-item__prepend .v-list-item__spacer {
+  width: 0.33rem !important;
+}
+</style>

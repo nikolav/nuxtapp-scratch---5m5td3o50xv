@@ -99,14 +99,16 @@ watchEffect(() => useIOEvent(ioevent_ug.value, usersQueryReload));
         :props-title="{ class: 'text-body-1 text-start ms-2' }"
       >
         <template #title="{ text }">
-          <span class="d-flex items-center gap-1">
-            <span>{{ text }}</span>
+          <span class="d-flex items-center gap-3">
+            <span>🧑🏻</span>
             <VBadge
+              :model-value="0 < size_g"
+              :content="size_g"
               inline
               color="primary-darken-2"
-              v-if="size_g"
-              :content="size_g"
-            />
+            >
+              <span class="me-1">{{ text }}</span>
+            </VBadge>
           </span>
         </template>
         <template #prepend>

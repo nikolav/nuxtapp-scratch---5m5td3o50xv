@@ -74,7 +74,7 @@ const sgConfigure = async () => {
   if (isEmpty(sg)) return;
   try {
     ps.begin();
-    if (get(await sitesSGConfig(sg), "data.sitesSGConfig.error"))
+    if (get(await sitesSGConfig(sg), "data.assetsAGConfig.error"))
       throw "--sgConfig-error";
   } catch (error) {
     ps.setError(error);

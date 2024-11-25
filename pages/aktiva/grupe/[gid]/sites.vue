@@ -91,7 +91,7 @@ const sgConfigureUnassign = async () => {
   if (isEmpty(sg)) return;
   try {
     ps.begin();
-    if (get(await sitesSGConfig(sg), "data.sitesSGConfig.error"))
+    if (get(await sitesSGConfig(sg), "data.assetsAGConfig.error"))
       throw "sitesSGConfig:unassign:error";
   } catch (error) {
     ps.setError(error);
@@ -129,8 +129,8 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
         :divider-start="false"
       >
         <template #title="{ text: text_ }">
-          <span class="d-inline-flex items-center gap-4 pt-1">
-            <Iconx size="1.122rem" icon="storefront" class="opacity-40" />
+          <span class="d-inline-flex items-center gap-3">
+            <span>🏬</span>
 
             <VBadge
               :model-value="0 < sizeSitesOnly"

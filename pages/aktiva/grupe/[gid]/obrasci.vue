@@ -9,6 +9,11 @@ definePageMeta({
   middleware: "authorized",
 });
 
+const attrs = useAttrs();
+const g = computed(() => get(attrs, "route-data.g", <any>{}));
+const gid = computed(() => g.value?.id);
+const gname = computed(() => g.value?.name);
+
 const {
   db: {
     Assets: {
@@ -16,91 +21,80 @@ const {
     },
   },
 } = useAppConfig();
-const attrs = useAttrs();
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
-const g = computed(() => routeData.value?.g);
-const gid = computed(() => routeData.value?.gid);
-const gname = computed(() => routeData.value?.gname);
 
 // ##schemas
 // ##utils
 const { assetsConfigured } = useTopics();
+const ps = useProcessMonitor();
 // ##icons
 // ##refs ##flags ##models
-const chSelection = ref();
-const ps = useProcessMonitor();
+const frmSelection = ref();
 // ##data ##auth ##state
-// assetsList(
-//   aids           : [ID!],
-//   type           : String,
-//   own            : Boolean,
-//   aids_subs_only : [ID!],
-//   aids_subs_type : String):
-// [Asset!]!
-//
-// *sites parent to this user's groups
+const qenabled = computed(() => !!gid.value);
+// *forms parent to this user's groups
 const {
-  assets: channels,
-  length: sizeChannelsOnly,
+  assets: forms,
+  length: sizeForms,
   reload,
-  channelsCGConfig,
-} = useQueryManageAssetsComms(
+  formsFGConfig,
+} = useQueryManageAssetsForms(
   // --all-assets-IDs
   undefined,
   // --sites-managed-OWN
   undefined,
   // --graphql-options-None
-  undefined,
+  { enabled: qenabled },
   // --vars-additional
   () => ({
-    // --this-group's-parent-assets:channels
-    aids_subs_only: gid.value ? [gid.value] : undefined,
+    // --this-group's-parent-assets:forms
+    aids_subs_only: filter([gid.value], Boolean),
     // --this-group
     aids_subs_type: PEOPLE_GROUP_TEAM,
   })
 );
-
 // ##computed
-const noSelectionCH = computed(() => isEmpty(chSelection.value));
-const configurationCGUnassign = computed(() =>
-  gid.value && !noSelectionCH.value
+const noSelectionFRM = computed(() => isEmpty(frmSelection.value));
+const configurationFGUnassign = computed(() =>
+  gid.value && !noSelectionFRM.value
     ? {
-        [`${map(chSelection.value, (c: IAsset) => `-${c.id}`).join(" ")}`]: [
+        [`${map(frmSelection.value, (f: IAsset) => `-${f.id}`).join(" ")}`]: [
           Number(gid.value),
         ],
       }
     : undefined
 );
-// ##forms ##handlers ##helpers
+// ##forms ##handlers ##helpers ##small-utils
+const clearFRMSelection = () => {
+  frmSelection.value = undefined;
+};
+
 const itemTo = computed(() => ({
   name: "aktiva-grupe-gid",
   params: { gid: gid.value },
 }));
 const itemTitle = (c: IAsset) => startCase(c.name);
-const itemToCH = (c: IAsset) => ({ name: "veza-cid", params: { cid: c.id } });
-const clearCHSelection = () => {
-  chSelection.value = undefined;
-};
-const cgConfigureUnassign = async () => {
-  const cg = configurationCGUnassign.value;
-  if (isEmpty(cg)) return;
+const itemToFRM = (f: IAsset) => ({
+  name: "aktiva-obrasci-fid",
+  params: { fid: f.id },
+});
+const fgConfigureUnassign = async () => {
+  const fg = configurationFGUnassign.value;
+  if (isEmpty(fg)) return;
   try {
-    if (get(await channelsCGConfig(cg), "data.channelsCGConfig.error"))
-      throw "channelsCGConfig:unassign:failed";
+    if (get(await formsFGConfig(fg), "data.assetsAGConfig.error"))
+      throw "assetsAGConfig:unassign:error";
   } catch (error) {
     ps.setError(error);
   } finally {
     ps.done();
   }
-  if (!ps.error.value)
-    ps.successful(() => {
-      nextTick(clearCHSelection);
-    });
+  if (!ps.error.value) ps.successful(clearFRMSelection);
 };
+
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "Kanali" });
+useHead({ title: "Obrasci" });
 // ##provide
 // ##io
 watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
@@ -108,24 +102,24 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
 // @@eos
 </script>
 <template>
-  <section class="page--aktiva-grupe-gid-kanal">
+  <section class="page--aktiva-grupe-gid-obrasci">
     <VToolbarSecondary
       :route-back-to="itemTo"
-      text="Kanali"
-      :props-title="{ class: 'text-start text-body-1 ms-3' }"
+      text="Obrasci"
+      :props-title="{ class: 'text-start text-body-1 ms-2' }"
     >
       <template #actions>
         <VBtn
-          :to="{ name: 'aktiva-grupe-gid-kanali-dodaj', params: { gid } }"
+          :to="{ name: 'aktiva-grupe-gid-obrasci-dodaj', params: { gid } }"
           icon
           variant="text"
         >
           <Iconx icon="$plus" />
-          <VTooltip text="Pridruži kanal" />
+          <VTooltip text="Pridruži obrazac" />
         </VBtn>
         <VBtn
-          @click="cgConfigureUnassign"
-          :disabled="noSelectionCH"
+          @click="fgConfigureUnassign"
+          :disabled="noSelectionFRM"
           icon
           variant="text"
         >
@@ -137,12 +131,12 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
         </VBtn>
       </template>
       <template #title="{ text }">
-        <span class="d-flex items-center gap-3">
-          <span>🔊</span>
+        <span class="d-flex items-center gap-2">
+          <span>📝</span>
           <VBadge
-            :model-value="0 < sizeChannelsOnly"
+            :model-value="0 < sizeForms"
             inline
-            :content="sizeChannelsOnly"
+            :content="sizeForms"
             color="primary-darken-1"
           >
             <span class="me-1">{{ text }}</span>
@@ -151,10 +145,10 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
       </template>
     </VToolbarSecondary>
     <VDataIteratorListData
-      v-model="chSelection"
-      :items="channels"
+      v-model="frmSelection"
+      :items="forms"
       :item-title="itemTitle"
-      :item-to="itemToCH"
+      :item-to="itemToFRM"
       disabled-skeleton-loader
       :props-list="{ density: 'compact', class: 'py-0' }"
       :props-list-item="{ class: '*ps-4 ms-0' }"

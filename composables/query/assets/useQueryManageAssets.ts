@@ -5,8 +5,7 @@ import {
   M_assetsUpsert,
   M_assetsRemove,
   M_groupsGUConfigure,
-  M_sitesSGConfig,
-  M_channelsCGConfig,
+  M_assetsAGConfig,
 } from "@/graphql";
 import { schemaHasFieldName as sHasName } from "@/schemas";
 // @@useQueryManageAssets
@@ -46,6 +45,11 @@ export const useQueryManageAssets = (
 
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
+    db: {
+      Assets: {
+        type: { DIGITAL_FORM, PHYSICAL_STORE, DIGITAL_CHAT },
+      },
+    },
   } = useAppConfig();
 
   const {
@@ -65,10 +69,8 @@ export const useQueryManageAssets = (
     useMutation(M_assetsRemove);
   const { mutate: mutateGUConfig, loading: loadingGU } =
     useMutation(M_groupsGUConfigure);
-  const { mutate: mutateSitesSGConfig, loading: loadingSG } =
-    useMutation(M_sitesSGConfig);
-  const { mutate: mutateChannelsCGConfig, loading: loadingCG } =
-    useMutation(M_channelsCGConfig);
+  const { mutate: mutateAssetsAGConfig, loading: loadingAG } =
+    useMutation(M_assetsAGConfig);
 
   //
   const assets = computed(() => result.value?.assetsList || []);
@@ -85,10 +87,17 @@ export const useQueryManageAssets = (
   // group({'+22': [1, 2], '-3': [5], '+3': [45]})
   const group = async (guConfig: RecordJson) =>
     await mutateGUConfig({ guConfig });
+  const assetsAGConfig = async (ag_config: any, assets_type: string) =>
+    await mutateAssetsAGConfig({
+      ag_config,
+      assets_type,
+    });
   const sitesSGConfig = async (sgConfig: any) =>
-    await mutateSitesSGConfig({ sgConfig });
+    await assetsAGConfig(sgConfig, PHYSICAL_STORE);
   const channelsCGConfig = async (cgConfig: any) =>
-    await mutateChannelsCGConfig({ cgConfig });
+    await assetsAGConfig(cgConfig, DIGITAL_CHAT);
+  const formsFGConfig = async (fgConfig: any) =>
+    await assetsAGConfig(fgConfig, DIGITAL_FORM);
 
   const { watchProcessing } = useStoreAppProcessing();
   const processing = computed(
@@ -97,8 +106,7 @@ export const useQueryManageAssets = (
       loadingUpsert.value ||
       loadingAssetsRemove.value ||
       loadingGU.value ||
-      loadingSG.value ||
-      loadingCG.value
+      loadingAG.value
   );
   watchProcessing(processing);
 
@@ -122,10 +130,11 @@ export const useQueryManageAssets = (
 
     // @groups:(un)assign
     group,
-    // @sites; (un)assign groups
+    // @assets; (un)assign groups
+    assetsAGConfig,
     sitesSGConfig,
-    // @channels; (un)assign groups
     channelsCGConfig,
+    formsFGConfig,
 
     // @flags
     processing,
