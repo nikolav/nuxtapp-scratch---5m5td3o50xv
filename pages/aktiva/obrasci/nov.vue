@@ -83,16 +83,13 @@ const form = useFormModel("5e4ace58-a3c3-58f6-b3b7-5b64b5a99717", FIELDS, {
     } catch (error) {
       ps.setError(error);
     } finally {
-      ps.done(() => {
-        console.log("Done.");
-      });
+      ps.done();
     }
     if (!ps.error.value)
       ps.successful(() => {
         lastFormCreated.value = get(res, "data.assetsUpsert.status.asset");
         toggleFormCreatedSuccess.on();
-        nextTick(formClearAll);
-        console.log(lastFormCreated.value);
+        formClearAll();
       });
   },
 });
@@ -132,7 +129,7 @@ const formClearAll = () => {
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "🎫 Obrazac" });
+useHead({ title: "📝 Obrazac" });
 // ##provide
 // ##io
 
@@ -154,7 +151,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
         }"
       >
         <a class="link--prominent">
-          <p>🎫&nbsp; Obrazac je uspešno sačuvan.</p>
+          <p>📝&nbsp; Obrazac je uspešno sačuvan.</p>
         </a>
       </NuxtLink>
     </VSnackbarSuccess>
@@ -282,6 +279,26 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
                     />
                   </template>
                   <VListItemTitle class="ms-4"> Ocena 1-5 </VListItemTitle>
+                </VListItem>
+                <VListItem @click="itemadd(DigitalFormFieldTypes.TABLE_DATA)">
+                  <template #prepend>
+                    <Iconx
+                      v-bind="ICONS_addmenu[DigitalFormFieldTypes.TABLE_DATA]"
+                    />
+                  </template>
+                  <VListItemTitle class="ms-5 *translate-x-[2px]">
+                    Popuni tabelu
+                  </VListItemTitle>
+                </VListItem>
+                <VListItem @click="itemadd(DigitalFormFieldTypes.GOOGLE_FORMS)">
+                  <template #prepend>
+                    <Iconx
+                      v-bind="ICONS_addmenu[DigitalFormFieldTypes.GOOGLE_FORMS]"
+                    />
+                  </template>
+                  <VListItemTitle class="ms-5 *translate-x-[2px]">
+                    Google obrasci
+                  </VListItemTitle>
                 </VListItem>
                 <VListItem @click="itemadd(DigitalFormFieldTypes.FILES)">
                   <template #prepend>

@@ -56,7 +56,7 @@ const handleDelete = async (selection: any) => {
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "🎫 Obrasci" });
+useHead({ title: "📝 Obrasci" });
 
 // ##provide
 // ##io
@@ -76,6 +76,8 @@ useHead({ title: "🎫 Obrasci" });
       hide-pagination
       :format-title="fmtTitle"
       :signal-id-deselect="resetIdDeselect.ID.value"
+      :props-list-item="{ class: 'ps-3' }"
+      :props-title="{ class: 'ps-3' }"
     >
       <template #menu="{ selection }">
         <VList

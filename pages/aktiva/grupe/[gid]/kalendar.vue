@@ -150,8 +150,8 @@ watchEffect(() => useIOEvent(() => assetsUpdated(gid.value), gReload));
     </template>
     <VCardGoogleCalendar
       v-else
-      :href="configGoogleCalendar.public_url"
-      :href-edit="configGoogleCalendar.shareable_link"
+      :href="configGoogleCalendar?.public_url"
+      :href-edit="configGoogleCalendar?.shareable_link"
       :show-chat="false"
     />
     <VSpacer class="mt-16" />

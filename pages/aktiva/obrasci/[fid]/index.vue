@@ -39,7 +39,7 @@ const fields = computed(() => get(form.value, "data.fields"));
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "🎫 Obrasci" });
+useHead({ title: "📝 Obrasci" });
 // ##provide
 // ##io
 

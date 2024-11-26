@@ -30,6 +30,16 @@ export const useIconsConfig = () => {
       size: "1.22rem",
       class: "opacity-40",
     },
+    [DigitalFormFieldTypes.TABLE_DATA]: {
+      icon: "icons-local:google-sheets",
+      size: ".92rem",
+      class: "opacity-40",
+    },
+    [DigitalFormFieldTypes.GOOGLE_FORMS]: {
+      icon: "icons-local:google-forms",
+      size: ".92rem",
+      class: "opacity-40",
+    },
   };
   return {
     ICONS_ASSETS_FORMS_type,

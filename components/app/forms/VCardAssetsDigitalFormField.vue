@@ -52,6 +52,14 @@ const FIELDS = <Record<string, IConfigFields>>{
   items: {
     type: "menu",
   },
+  link: {
+    required: true,
+    type: "link",
+    label: "Link: ",
+    props: {
+      variant: "underlined",
+    },
+  },
   required: {
     type: "check:required",
     label: "Unos obavezan",
@@ -93,6 +101,16 @@ const ICONS_header = {
     icon: "$ratingEmpty",
     size: "1.33rem",
     class: "text-primary-darken-1 opacity-50",
+  },
+  [DigitalFormFieldTypes.TABLE_DATA]: {
+    icon: "icons-local:google-sheets",
+    size: "1rem",
+    class: "opacity-50",
+  },
+  [DigitalFormFieldTypes.GOOGLE_FORMS]: {
+    icon: "icons-local:google-forms",
+    size: "1rem",
+    class: "opacity-50",
   },
 };
 // ##refs ##flags ##models
@@ -167,7 +185,7 @@ watch(
       <VToolbar density="compact">
         <template #prepend>
           <VBadge :content="index" inline color="secondary" />
-          <Iconx v-bind="ICONS_header[formFieldData.type]" />
+          <Iconx class="ms-1" v-bind="ICONS_header[formFieldData.type]" />
         </template>
         <template #append>
           <VBtn
@@ -195,6 +213,26 @@ watch(
             :label="item.label"
             v-bind="item.props"
           />
+          <template
+            v-if="
+              [
+                DigitalFormFieldTypes.TABLE_DATA,
+                DigitalFormFieldTypes.GOOGLE_FORMS,
+              ].includes(formFieldData.type)
+            "
+          >
+            <VTextField
+              v-if="'link' == item.type"
+              v-model="form.data[field].value"
+              :label="item.label"
+              v-bind="item.props"
+            >
+              <template #label="{ label }">
+                <span>{{ label }}</span>
+                <span v-if="item.required" class="text-error"> *</span>
+              </template>
+            </VTextField>
+          </template>
           <!-- for choices render editable list -->
           <template v-if="DigitalFormFieldTypes.CHOICE === formFieldData.type">
             <VSheet v-if="'menu' == item.type" class="__spacer py-5">
