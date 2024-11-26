@@ -11,6 +11,7 @@ import {
 import type { IConfigFields } from "@/types";
 
 // ##config:const
+const DEFAULT_MENU_WIDTH = 312;
 // ##config ##props
 definePageMeta({
   layout: "app-default",
@@ -244,7 +245,12 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
           <VBtn icon variant="tonal" color="primary">
             <Iconx icon="$plus" size="1.75rem" />
             <VTooltip text="Dodaj pitanje" />
-            <VMenu width="256" activator="parent" location="center center">
+            <!-- ##menu -->
+            <VMenu
+              :width="DEFAULT_MENU_WIDTH"
+              activator="parent"
+              location="center center"
+            >
               <VList id="ID--haTiig41kUAREtP1zEO">
                 <VListItem @click="itemadd(DigitalFormFieldTypes.TEXT)">
                   <template #prepend>

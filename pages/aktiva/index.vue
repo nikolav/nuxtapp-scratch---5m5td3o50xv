@@ -59,6 +59,17 @@ const CARDS_items = [
     to: { name: "aktiva-proizvodi" },
     count: products_tot,
   },
+  {
+    title: "Veza",
+    image: "/veza.zm0JgOtXYA.png",
+    icon: {
+      icon: "headset",
+      size: "1.55rem",
+      class: "opacity-20 me-1",
+    },
+    to: { name: "veza" },
+    props: { class: "bg-top" },
+  },
 ];
 // ##watch
 // ##hooks ##lifecycle
@@ -80,7 +91,7 @@ useHead({ title: "Aktiva" });
         :to="item.to"
         class="mx-auto"
       >
-        <VImg height="192" :src="item.image" cover />
+        <VImg height="192" :src="item.image" cover v-bind="item.props" />
         <VCardItem>
           <template #title>
             <h4 class="text-h6 font-weight-light">{{ item.title }}</h4>

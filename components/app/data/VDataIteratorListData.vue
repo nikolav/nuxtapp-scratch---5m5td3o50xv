@@ -62,7 +62,7 @@ const navigateExternal = async (url: string) =>
     <template #default="{ items, toggleSelect }">
       <VList v-bind="propsList">
         <template v-for="(node, idx) in items" :key="it_val(node)">
-          <slot name="list-item" :item="node.raw">
+          <slot name="list-item" :item="node.raw" :i="idx">
             <VListItem
               @click="
                 external

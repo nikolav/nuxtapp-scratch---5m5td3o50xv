@@ -1,38 +1,42 @@
 <script setup lang="ts">
 // ##imports
-import { VFabMain } from "@/components/app";
 // ##config:const
 // ##config ##props
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
+
+const attrs = useAttrs();
+const form = computed(() => get(attrs, "route-data.form", {}));
+const fields = computed(() => get(form.value, "data.fields", []));
 // ##schemas
 // ##utils
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
-
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "Izveštaji" });
+useHead({ title: "📝 Izveštaji | Popuni" });
 // ##provide
 // ##io
 
 // @@eos
 </script>
 <template>
-  <section class="page--teren">
-    <h1>teren</h1>
-    <h2>🚧@TODO</h2>
-    <ul>
-      <li>pregled izvestaja za tekuci dan</li>
-      <li>pretraga/filter/crud @izvestaji</li>
-    </ul>
-    <VFabMain :to="{ name: 'teren-izvestaji' }" />
+  <section class="page--teren-rid-popuni">
+    <h1>@teren-rid-popuni</h1>
+    <template v-if="isEmpty(fields)">
+      <span> 🚧 @TODO --no-form-data </span>
+    </template>
+    <template v-else>
+      <small>
+        <pre>{{ fields }}</pre>
+      </small>
+    </template>
   </section>
 </template>
 <style lang="scss" scoped></style>

@@ -56,7 +56,7 @@ const handleDelete = async (selection: any) => {
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "📝 Obrasci" });
+useHead({ title: "Obrasci" });
 
 // ##provide
 // ##io

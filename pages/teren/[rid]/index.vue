@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { VFabMain } from "@/components/app";
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -12,27 +11,20 @@ definePageMeta({
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
-
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "Izveštaji" });
+// useHead({ title: "" });
 // ##provide
 // ##io
 
 // @@eos
 </script>
 <template>
-  <section class="page--teren">
-    <h1>teren</h1>
-    <h2>🚧@TODO</h2>
-    <ul>
-      <li>pregled izvestaja za tekuci dan</li>
-      <li>pretraga/filter/crud @izvestaji</li>
-    </ul>
-    <VFabMain :to="{ name: 'teren-izvestaji' }" />
+  <section class="page--teren-rid-index">
+    <h1>@teren-rid-index</h1>
   </section>
 </template>
 <style lang="scss" scoped></style>

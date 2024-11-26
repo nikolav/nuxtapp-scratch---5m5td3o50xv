@@ -19,7 +19,6 @@ const {
 } = useAppConfig();
 
 const attrs = useAttrs();
-const fid = computed(() => get(attrs, "route-data.fid"));
 const form = computed(() => get(attrs, "route-data.form"));
 // ##schemas
 // ##utils
