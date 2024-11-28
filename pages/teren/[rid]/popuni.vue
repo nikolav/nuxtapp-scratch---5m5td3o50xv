@@ -8,7 +8,7 @@ import {
 
 // ##config:const
 const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_routeName = "teren-izvestaji";
-const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_timeout = 4560;
+const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_timeout = 3450;
 // ##config ##props
 definePageMeta({
   layout: "app-default",

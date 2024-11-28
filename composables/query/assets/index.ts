@@ -8,3 +8,4 @@ export { useQueryManageAssetsProducts } from "./useQueryManageAssetsProducts";
 export { useQueryManageAssetsSites } from "./useQueryManageAssetsSites";
 export { useQueryAssetsSearch } from "./useQueryAssetsSearch";
 export { useQueryAssetsCount } from "./useQueryAssetsCount";
+export { useQueryAssetsFormsSubmissionsSearch } from "./useQueryAssetsFormsSubmissionsSearch";

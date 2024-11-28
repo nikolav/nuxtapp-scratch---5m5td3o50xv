@@ -359,3 +359,13 @@ export interface IConfigFields {
 
   [key: string]: any;
 }
+
+export interface IDocs {
+  id: number;
+  key: string;
+  data: RecordJson;
+  asset: IAsset;
+  created_at: string;
+  updated_at: string;
+}
+

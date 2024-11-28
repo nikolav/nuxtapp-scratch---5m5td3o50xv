@@ -871,3 +871,29 @@ export const Q_assetsCount = gql`
     assetsCount(asset_type: $asset_type, own: $own)
   }
 `;
+
+// assetsFormsSubmissionsList: [Docs!]!
+export const Q_assetsFormsSubmissionsList = gql`
+  query q_assetsFormsSubmissionsList {
+    assetsFormsSubmissionsList {
+      id
+      key
+      data
+      asset {
+        id
+        name
+        code
+        type
+        location
+        status
+        condition
+        data
+        notes
+        key
+        tags
+      }
+      created_at
+      updated_at
+    }
+  }
+`;

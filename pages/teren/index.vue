@@ -1,6 +1,11 @@
 <script setup lang="ts">
 // ##imports
-import { VFabMain } from "@/components/app";
+import { Dump } from "@/components/dev";
+import {
+  VFabMain,
+  VCardDataIterator,
+  VCardFormsSubmission,
+} from "@/components/app";
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -12,13 +17,15 @@ definePageMeta({
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
-
+const { submissions, reload } = useQueryAssetsFormsSubmissionsSearch();
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
+const itemGroups = (r: any) => [startCase(get(r, "asset.name"))];
+
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "Izveštaji" });
+useHead({ title: "📝 Izveštaji" });
 // ##provide
 // ##io
 
@@ -26,12 +33,26 @@ useHead({ title: "Izveštaji" });
 </script>
 <template>
   <section class="page--teren">
-    <h1>teren</h1>
-    <h2>🚧@TODO</h2>
-    <ul>
-      <li>pregled izvestaja za tekuci dan</li>
-      <li>pretraga/filter/crud @izvestaji</li>
-    </ul>
+    <VCardDataIterator
+      :item-groups="itemGroups"
+      item-title="key"
+      :items="submissions"
+      :per-page="-1"
+      :reload="reload"
+      hide-pagination
+      :props-list="{ class: 'py-0' }"
+    >
+      <template #list-item="{ node, i, select, isSelected }">
+        <VCardFormsSubmission
+          rounded
+          :submission="node.raw"
+          :i="i"
+          :select="() => select([node])"
+          :isSelected="() => isSelected([node])"
+          class="ma-2"
+        />
+      </template>
+    </VCardDataIterator>
     <VFabMain :to="{ name: 'teren-izvestaji' }" />
   </section>
 </template>

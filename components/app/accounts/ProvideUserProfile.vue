@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // ##imports
 // ##config
-const props = defineProps<{ uid: any }>();
+const props = defineProps<{ uid: any; includeExternal?: boolean }>();
 // ##utils
 // ##icons
 // ##refs
@@ -10,12 +10,16 @@ const auth = useStoreApiAuth();
 const isUserOther = computed(
   () => props.uid && auth.uid && props.uid != auth.uid
 );
-const { users } = useQueryUsers([props.uid], isUserOther);
-const userOtherProfile = computed(() => get(first(users.value), "profile"));
-// ##computed
-const profile = computed(() =>
-  isUserOther.value ? userOtherProfile.value : auth.profile
+const { users } = useQueryUsers(
+  () => [props.uid],
+  isUserOther,
+  () => [props.includeExternal]
 );
+// ##computed
+const user = computed(() =>
+  isUserOther.value ? first(users.value) : auth.user$
+);
+const profile = computed(() => user.value?.profile);
 // ##forms ##helpers
 // ##watch
 // ##hooks:lifecycle
@@ -23,7 +27,7 @@ const profile = computed(() =>
 // @@eos
 </script>
 <template>
-  <slot :profile="profile" />
+  <slot :user="user" :profile="profile" />
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

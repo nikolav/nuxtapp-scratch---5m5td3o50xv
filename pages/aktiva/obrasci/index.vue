@@ -128,7 +128,7 @@ useHead({ title: "Obrasci" });
               },
             },
             {
-              title: 'Deaktiviraj obrasce',
+              title: 'Blokiraj obrasce',
               value: 'bfb9e8b2-42ff-5cdd-8dac-5e9b93eb489d',
               props: {
                 class: 'ms-4 text-body-1',
