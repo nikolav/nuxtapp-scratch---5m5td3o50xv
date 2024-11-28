@@ -93,10 +93,10 @@ export const IMPORTS = [
     from: "lodash/cloneDeep",
     imports: [{ name: "default", as: "cloneDeep" }],
   },
-  // {
-  //   from: "lodash/clone",
-  //   imports: [{ name: "default", as: "clone" }],
-  // },
+  {
+    from: "lodash/clone",
+    imports: [{ name: "default", as: "clone" }],
+  },
   {
     from: "lodash/isString",
     imports: [{ name: "default", as: "isString" }],
@@ -244,6 +244,10 @@ export const IMPORTS = [
   {
     from: "lodash/last",
     imports: [{ name: "default", as: "last" }],
+  },
+  {
+    from: "lodash/flatten",
+    imports: [{ name: "default", as: "flatten" }],
   },
   {
     from: "validator/lib/isEmail",

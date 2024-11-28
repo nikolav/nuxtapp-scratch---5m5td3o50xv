@@ -1,6 +1,14 @@
 <script setup lang="ts">
 // ##imports
+import {
+  VFormRenderAssetsFormFields,
+  VToolbarPrimary,
+  VSnackbarSuccess,
+} from "@/components/app";
+
 // ##config:const
+const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_routeName = "teren-izvestaji";
+const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_timeout = 4560;
 // ##config ##props
 definePageMeta({
   layout: "app-default",
@@ -9,16 +17,103 @@ definePageMeta({
 
 const attrs = useAttrs();
 const form = computed(() => get(attrs, "route-data.form", {}));
-const fields = computed(() => get(form.value, "data.fields", []));
+
 // ##schemas
 // ##utils
+const ps = useProcessMonitor();
+const { assetsFormsSubmissionAttachmentsPath } = usePathUtils();
+const { assetsFormsResponseAttachmentsFolder } = useTopics();
+
 // ##icons
 // ##refs ##flags ##models
+const toggleSubmissionSuccess = useToggleFlag();
+const uid = inject(key_UID);
+
 // ##data ##auth ##state
+const { submission } = useQueryManageAssetsForms();
+const { upload } = useFirebaseStorage(() =>
+  assetsFormsResponseAttachmentsFolder(form.value.key)
+);
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
+const formSubmit = async (data: any) => {
+  // check if has attachments
+  //  upload
+  //   record attachment paths; 'PATH:media' / 'form:key' / 'question' / files...
+  //  save rest with attachment links
+  let res: any;
+  const fid = form.value.id;
+  try {
+    ps.begin(toggleSubmissionSuccess.off);
+    if (!fid) throw "submission:failed";
+
+    const dd = reduce(
+      data.answers,
+      (res: any, answer: any, q: any) => {
+        res[q] = clone(answer);
+        return res;
+      },
+      <any>{}
+    );
+
+    const attachmentsByQuestion = reduce(
+      data.answers,
+      (res: any, answer: any, question: string) => {
+        if (some(answer, (node: any) => filesIsFile(node.file))) {
+          res[question] = reduce(
+            answer,
+            (res: any[], node: any) => {
+              if (filesIsFile(node.file)) {
+                res[node.file.name] = {
+                  file: node.file,
+                  path: assetsFormsSubmissionAttachmentsPath(
+                    data.key,
+                    question
+                  ),
+                };
+              }
+              return res;
+            },
+            <any>{}
+          );
+        }
+        return res;
+      },
+      <any>{}
+    );
+    const upl = await Promise.all(
+      map(attachmentsByQuestion, async (files: any, q: string) => ({
+        [q]: flatten(map(await upload(files), values)),
+      }))
+    );
+    each(upl, (qlinks: any) => {
+      assign(dd, qlinks);
+    });
+
+    // console.log({ key: data.key, data: dd });
+    if (
+      get(
+        await submission({ uid: uid?.value, response: dd }, fid, data.key),
+        "data.assetsFormsSubmission.error"
+      )
+    )
+      throw "submission:failed";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      toggleSubmissionSuccess.on();
+      setTimeout(() => {
+        navigateTo({ name: DEFAULT_SUBMISSION_SUCCESS_REDIRECT_routeName });
+      }, DEFAULT_SUBMISSION_SUCCESS_REDIRECT_timeout);
+    });
+};
 // ##watch
 // ##hooks ##lifecycle
+// guard redirect@!asset:active
 // ##head ##meta
 useHead({ title: "📝 Izveštaji | Popuni" });
 // ##provide
@@ -28,15 +123,35 @@ useHead({ title: "📝 Izveštaji | Popuni" });
 </script>
 <template>
   <section class="page--teren-rid-popuni">
-    <h1>@teren-rid-popuni</h1>
-    <template v-if="isEmpty(fields)">
-      <span> 🚧 @TODO --no-form-data </span>
+    <VSnackbarSuccess v-model="toggleSubmissionSuccess.isActive.value">
+      <p>Obrazac je uspešno poslat.</p>
+    </VSnackbarSuccess>
+    <VToolbarPrimary
+      :text="form.name"
+      route-back-name="teren-izvestaji"
+      :props-title="{ class: 'text-body-1 text-start font-italic' }"
+    >
+      <template #prepend>
+        <Iconx
+          icon="$edit"
+          size="1.33rem"
+          class="opacity-20 mx-1 translate-x-[2px]"
+        />
+      </template>
+    </VToolbarPrimary>
+    <template v-if="form.notes">
+      <VCardText class="text-body-2 text-disabled indent-2 !prose">
+        <p>
+          {{ form.notes }}
+        </p>
+      </VCardText>
+      <VDivider class="border-opacity-100 mt-5 mb-10 mx-auto" length="55%" />
     </template>
-    <template v-else>
-      <small>
-        <pre>{{ fields }}</pre>
-      </small>
-    </template>
+    <VFormRenderAssetsFormFields
+      @submited="formSubmit"
+      :form="form"
+      :props-btn-save="{ size: 'x-large', class: 'px-5' }"
+    />
   </section>
 </template>
 <style lang="scss" scoped></style>

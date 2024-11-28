@@ -39,6 +39,7 @@ const CARDS_items = [
   },
   {
     title: "Izveštaji",
+    // image: "/forms.yhoMIMv7yr.png",
     image: "/forms.y37RA68d8i.jpg",
     icon: {
       icon: "task",
@@ -46,6 +47,7 @@ const CARDS_items = [
       class: "opacity-20 *me-1",
     },
     to: { name: "teren" },
+    props: { class: "" },
   },
   {
     title: "Asortiman",

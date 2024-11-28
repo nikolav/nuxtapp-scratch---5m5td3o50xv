@@ -279,6 +279,8 @@ export default defineAppConfig({
       PATH_ASSETS_ATTACHMENTS_FOLDER: "/media/ASSETS:ATTACH:l8Nn87YIoq9JU2hdUM",
       PATH_ASSETS_AVATARS: "/media/ASSETS:AVATARS:OYDQyknrfYvlUCzFGON",
       PATH_ACCOUNT_ATTACHMENTS: "/media/ACCOUNT:ATTACHMENTS:oQh8cnzHyoJl13g1",
+      PATH_FORMS_RESPONSE_ATTACHMENTS:
+        "/media/FORMS:RESPONSE:ATTACHMENTS:FIe1p",
     },
     firestore: {
       COLLECTIONS_PATH: "/app/collections",
@@ -310,6 +312,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "external-link": "tabler:external-link",
       checklist: "material-symbols:checklist",
       "control-switch": "mdi:toggle-switch-outline",
       paragraph: "uil:paragraph",
@@ -432,6 +435,15 @@ export default defineAppConfig({
   },
   db: {
     Assets: {
+      AssetsStatus: {
+        ACTIVE: "ACTIVE:YjCrzsLhGtiE4f3ffO",
+        ARCHIVED: "ARCHIVED:zfbooZxI5IXQmbZIZ",
+        CANCELED: "CANCELED:2whyBKhy6vv98bPcsUNc",
+        CLOSED: "CLOSED:bGbGsEnAk2xu9sye7",
+        DONE: "DONE:6jRIWy6fWT3mT3uNuF2",
+        INACTIVE: "INACTIVE:fdHJBPHGyC",
+        PENDING: "PENDING:P4kOFE3HF",
+      },
       DigitalFormFieldTypes: {
         TEXT: "DIGITAL_FORM:TEXT:54QNKF",
         CHOICE: "DIGITAL_FORM:CHOICE:hrNoq9hhbh2wUyZ9fjmf",

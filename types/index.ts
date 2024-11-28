@@ -260,6 +260,7 @@ export interface IInputFileUpload {
     // storage filename
     name?: string;
     file: File;
+    [key: string]: any;
   };
 }
 
@@ -335,6 +336,7 @@ export interface IConfigFields {
     name?: string;
     size?: any;
     props?: any;
+    [key: string]: any;
   };
   props?: any;
 
@@ -354,4 +356,6 @@ export interface IConfigFields {
   path?: string;
   //   model:value fn
   pull?: any;
+
+  [key: string]: any;
 }

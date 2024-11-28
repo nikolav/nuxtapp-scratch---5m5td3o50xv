@@ -335,3 +335,10 @@ export const M_assetsPatchData = gql`
     assetsPatchData(aid: $aid, patch: $patch)
   }
 `;
+
+// assetsFormsSubmission(data: JsonData!, fid: ID!, key: String): JsonData!
+export const M_assetsFormsSubmission = gql`
+  mutation m_assetsFormsSubmission($data: JsonData!, $fid: ID!, $key: String) {
+    assetsFormsSubmission(data: $data, fid: $fid, key: $key)
+  }
+`;

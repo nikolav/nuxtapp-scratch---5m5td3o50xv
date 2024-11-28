@@ -9,3 +9,5 @@ export { useRequestNotificationsPermission } from "./useRequestNotificationsPerm
 export { useSampleCollection } from "./useSampleCollection";
 export { useSetTimeout } from "./useSetTimeout";
 export { useWindowOpenDataUrl } from "./useWindowOpenDataUrl";
+export { usePathUtils } from "./usePathUtils";
+export { useAssetsUtils } from "./useAssetsUtils";

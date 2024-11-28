@@ -2,6 +2,7 @@
 // ##imports
 import { useDisplay } from "vuetify";
 import { VFabMain, VCardDataIterator } from "@/components/app";
+import type { IAsset } from "@/types";
 
 // ##config:const
 // ##config ##props
@@ -9,10 +10,19 @@ definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
+
+const {
+  db: {
+    Assets: {
+      AssetsStatus: { ACTIVE, INACTIVE },
+    },
+  },
+} = useAppConfig();
 // ##schemas
 // ##utils
 const { smAndUp } = useDisplay();
 const ps = useProcessMonitor();
+const { assetsIsActive } = useAssetsUtils();
 
 // ##icons
 // ##refs ##flags ##models
@@ -26,6 +36,7 @@ const {
   processing,
   reload: formsReload,
   remove: formsRemove,
+  commit,
 } = useQueryManageAssetsForms();
 
 // ##computed
@@ -53,6 +64,19 @@ const handleDelete = async (selection: any) => {
       resetIdDeselect();
     });
 };
+const handleFormsActivationStatus =
+  (status: string) => async (selection: any) => {
+    const res = await Promise.all(
+      map(
+        selection,
+        async (asset: IAsset) => await commit({ status }, asset.id)
+      )
+    );
+    resetIdDeselect();
+    console.log({ res });
+  };
+const handleFormsActivate = handleFormsActivationStatus(ACTIVE);
+const handleFormsDeactivate = handleFormsActivationStatus(INACTIVE);
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -76,13 +100,46 @@ useHead({ title: "Obrasci" });
       hide-pagination
       :format-title="fmtTitle"
       :signal-id-deselect="resetIdDeselect.ID.value"
-      :props-list-item="{ class: 'ps-3' }"
+      :props-list-item="{ class: 'ps-3 CLASS--Au3MEZtU0E8' }"
       :props-title="{ class: 'ps-3' }"
     >
+      <template #list-item-append="{ item: frm }">
+        <Iconx
+          v-if="assetsIsActive(frm)"
+          icon="$delimiter"
+          class="text-success"
+        />
+      </template>
       <template #menu="{ selection }">
         <VList
-          class="py-0"
+          class="py-0 CLASS--eI26B"
           :items="[
+            {
+              title: 'Aktiviraj obrasce',
+              value: '55639594-2115-54a2-996e-c531852a92d0',
+              props: {
+                class: 'ms-4 text-body-1',
+                icon: {
+                  icon: '$delimiter',
+                  size: '1.22rem',
+                  class: 'text-green *opacity-30',
+                },
+                handle: () => handleFormsActivate(selection),
+              },
+            },
+            {
+              title: 'Deaktiviraj obrasce',
+              value: 'bfb9e8b2-42ff-5cdd-8dac-5e9b93eb489d',
+              props: {
+                class: 'ms-4 text-body-1',
+                icon: {
+                  icon: '$delimiter',
+                  size: '1.22rem',
+                  class: 'text-red *opacity-30',
+                },
+                handle: () => handleFormsDeactivate(selection),
+              },
+            },
             {
               title: 'Obriši obrasce',
               value: 'fe7d09fd-6422-5b9d-8d4a-db9d7771ff5b',
@@ -124,4 +181,11 @@ useHead({ title: "Obrasci" });
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
-<style lang="scss"></style>
+<style lang="scss">
+.CLASS--eI26B .v-list-item__prepend .v-list-item__spacer {
+  width: 0.5rem !important;
+}
+.CLASS--Au3MEZtU0E8 .v-list-item__append .v-list-item__spacer {
+  width: 1% !important;
+}
+</style>

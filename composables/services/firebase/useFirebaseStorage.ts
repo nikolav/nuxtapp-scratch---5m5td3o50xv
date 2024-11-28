@@ -17,11 +17,17 @@ export const useFirebaseStorage = (STORE_PATH?: any) => {
     await Promise.all(
       map(
         files,
-        (node: { file: any; name: any }, title: any) =>
+        (node: { file: any; name: any; path?: any }, title: any) =>
           new Promise((resolve, reject) => {
             if (!node?.file) return reject(null);
-            const filename = node?.name || node.file.name;
-            const refStorageNode = fbRef(refStore.value, filename);
+            // const filename = node?.name || node.file.name;
+            const path_filename = [
+              node?.path ? trim(node.path, "/") : undefined,
+              trim(node?.name || node.file.name, "/"),
+            ]
+              .filter(Boolean)
+              .join("/");
+            const refStorageNode = fbRef(refStore.value, path_filename);
             const uploadTask = uploadBytesResumable(refStorageNode, node.file);
             uploadTask.on(
               "state_changed",

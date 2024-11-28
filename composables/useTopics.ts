@@ -43,6 +43,7 @@ export const useTopics = () => {
         PATH_ASSETS_AVATARS,
         PATH_ACCOUNT_ATTACHMENTS,
         PATH_ASSETS_ATTACHMENTS_FOLDER,
+        PATH_FORMS_RESPONSE_ATTACHMENTS,
       },
     },
     io: {
@@ -125,6 +126,8 @@ export const useTopics = () => {
     ckey ? `${ASSETS_DIGITAL_CHANNEL_prefix}${ckey}` : "";
   const assetsUpdated = (aid?: any) =>
     aid ? `${IOEVENT_ASSETS_UPDATED_prefix}${aid}` : "";
+  const assetsFormsResponseAttachmentsFolder = (key?: any) =>
+    key ? `${trimEnd(PATH_FORMS_RESPONSE_ATTACHMENTS, "/")}/${key}` : "";
 
   return {
     TOPIC_CHAT_CALENDAR_MAIN,
@@ -168,6 +171,7 @@ export const useTopics = () => {
     assetsAttachmentsFolder,
     assetsDigitalChannel,
     assetsUpdated,
+    assetsFormsResponseAttachmentsFolder,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,

@@ -11,6 +11,7 @@ definePageMeta({
 // ##schemas
 // ##utils
 const { calcDisplayName } = useAuthUtils();
+const { assetsIsActive } = useAssetsUtils();
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
@@ -22,6 +23,7 @@ const {
 } = useQueryManageAssetsForms();
 
 // ##computed
+const formsActive = computed(() => filter(forms.value, assetsIsActive));
 // ##forms ##handlers ##helpers ##small-utils
 const itemGroups = (f: any) => [calcDisplayName(f?.author)];
 // ##watch
@@ -36,14 +38,18 @@ useHead({ title: "📃 Izveštaji | Izbor" });
 <template>
   <section class="page--teren-izvestaji">
     <VCardDataIterator
-      :items="forms"
+      :items="formsActive"
       :item-groups="itemGroups"
       hide-pagination
       :per-page="-1"
       :reload="formsReload"
     >
       <template #list-item="{ node }">
-        <VCardItemFormsSubmit :form="node.raw" class="ma-3" />
+        <VCardItemFormsSubmit
+          :disabled="!assetsIsActive(node.raw)"
+          :form="node.raw"
+          class="ma-3"
+        />
       </template>
     </VCardDataIterator>
   </section>

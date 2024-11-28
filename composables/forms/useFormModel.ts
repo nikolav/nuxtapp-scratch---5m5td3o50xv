@@ -1,19 +1,19 @@
 import type { IConfigFields } from "@/types";
 
 const DEFAULT_equals = (val1: any, val2: any) => val1 === val2;
+interface IConfig {
+  model?: any;
+  onSubmit?: any;
+  schema?: any;
+  dump?: any;
+}
 
 export const useFormModel = (
   // key.random for value caching
   _key: string,
   // fields definition
   fields: Record<string, IConfigFields>,
-  config: {
-    // maybeRef<user|product|..>
-    model?: any;
-    onSubmit?: any;
-    schema?: any;
-    dump?: any;
-  }
+  config: IConfig
 ) => {
   const resetKEY = useUniqueId();
   const main$ = useStoreMain();
