@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // ##imports
 import type { IDocs, OrNoValue } from "@/types";
-import { ProvideUserProfile } from "@/components/app";
 // ##config:const
 // ##config ##props
 defineOptions({
@@ -25,11 +24,12 @@ const { calcDisplayName } = useAuthUtils();
 // ##refs ##flags ##models
 // ##data ##auth ##state
 // ##computed
-const uid = computed(() => get(props.submission, "data.uid", -1));
+const user = computed(() => props.submission?.user);
+const profile = computed(() => user.value?.profile);
 // ##forms ##handlers ##helpers ##small-utils
-const itemTo = (r: any) => ({
-  name: "teren-rid-pregled",
-  params: { rid: r.id },
+const itemTo = (s: any) => ({
+  name: "teren-rid-pregled-submission",
+  params: { rid: get(props.submission, "asset.id"), submission: s.id },
 });
 // ##watch
 // ##hooks ##lifecycle
@@ -40,42 +40,39 @@ const itemTo = (r: any) => ({
 // @@eos
 </script>
 <template>
-  <ProvideUserProfile :uid="uid" v-slot="{ profile, user }">
-    <VCard
-      :to="itemTo(submission)"
-      link
-      class="component--VCardFormsSubmission"
-      v-bind="$attrs"
-    >
-      <VCardItem class="ps-2 pe-0">
-        <template #prepend>
-          <VAvatar
-            size="51"
-            :image="profile?.avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
-          />
-        </template>
-        <VCardTitle class="text-body-1 *indent-1">
-          <span
-            class="text-sm d-inline-block -translate-y-[3px] opacity-50 me-1"
-            >✍🏻</span
-          >
-          <span>{{ get(submission, "asset.name") }}</span>
-        </VCardTitle>
-        <VCardSubtitle class="justify-between d-flex pe-4">
-          <VChip
-            density="comfortable"
-            @click.stop
-            :to="{ name: 'tim-uid', params: { uid } }"
-            elevation="1"
-            :text="calcDisplayName(user)"
-          />
-          <small class="font-italic opacity-85">
-            <pre>{{ $dd.utc(submission.created_at).fromNow(true) }}</pre>
-          </small>
-        </VCardSubtitle>
-      </VCardItem>
-    </VCard>
-  </ProvideUserProfile>
+  <VCard
+    :to="itemTo(submission)"
+    link
+    class="component--VCardFormsSubmission"
+    v-bind="$attrs"
+  >
+    <VCardItem class="ps-2 pe-0">
+      <template #prepend>
+        <VAvatar
+          size="51"
+          :image="profile?.avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+        />
+      </template>
+      <VCardTitle class="text-body-1 *indent-1">
+        <span class="text-sm d-inline-block -translate-y-[3px] opacity-50 me-1"
+          >✍🏻</span
+        >
+        <span>{{ get(submission, "asset.name") }}</span>
+      </VCardTitle>
+      <VCardSubtitle class="justify-between d-flex pe-4">
+        <VChip
+          density="comfortable"
+          @click.stop
+          :to="{ name: 'tim-uid', params: { uid: user.id } }"
+          elevation="1"
+          :text="calcDisplayName(user)"
+        />
+        <small class="font-italic opacity-85">
+          <pre>{{ $dd.utc(submission.created_at).fromNow(true) }}</pre>
+        </small>
+      </VCardSubtitle>
+    </VCardItem>
+  </VCard>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

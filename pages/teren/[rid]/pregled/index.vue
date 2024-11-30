@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ##imports
+import { Dump } from "@/components/dev";
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -7,6 +8,7 @@ definePageMeta({
   middleware: "authorized",
 });
 
+const attrs = useAttrs();
 // ##schemas
 // ##utils
 // ##icons
@@ -24,8 +26,8 @@ useHead({ title: "📝 Obrasci | Pregled" });
 // @@eos
 </script>
 <template>
-  <section class="page--teren-rid-pregled">
-    <NuxtPage v-bind="$attrs" />
+  <section class="page--teren-rid-pregled-index">
+    <h1>@teren-rid-pregled</h1>
   </section>
 </template>
 <style lang="scss" scoped></style>

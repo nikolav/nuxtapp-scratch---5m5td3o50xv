@@ -31,9 +31,9 @@ const CARDS_items = [
   },
   {
     title: "Tim",
-    // image: "/tim.2024-11-23 04_07_39-Window.png",
+    image: "/tim.2024-11-23 04_07_39-Window.png",
     // image: "/tim.2.png",
-    image: "/tim.3.png",
+    // image: "/tim.3.png",
     icon: {
       icon: "people-groups",
       size: "1.88rem",
@@ -128,7 +128,7 @@ useHead({ title: "Aktiva" });
 .CLASS--JwRxXZJ4V {
   img {
     // object-position: 0 18% !important;
-    object-position: 0 5% !important;
+    // object-position: 0 5% !important;
   }
 }
 .CLASS-mPGeyycY7qSc0WvQ {

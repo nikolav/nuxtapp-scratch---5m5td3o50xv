@@ -71,6 +71,10 @@ export default defineAppConfig({
   },
   //
   key: {
+    TOPIC_ASSETS_FORMS_REPORT_CHAT_prefix:
+      "TOPIC_ASSETS_FORMS_REPORT_CHAT:36eb36f6-7947-5774-b175-76cdca6cd6fc:",
+    TOPIC_ASSETS_FORMS_REPORT_LIKES_prefix:
+      "TOPIC_ASSETS_FORMS_REPORT_LIKES:ed98867d-e9b6-5d23-9750-7fa121223772:",
     TOPIC_CHAT_CALENDAR_MAIN,
     PRODUCTS_CHANGE: "O36Bjz6COY6i",
     FLAG_CART_OPEN: "OBNwu3k37w3a6H",
@@ -312,6 +316,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      page: "iconoir:page",
       "external-link": "tabler:external-link",
       checklist: "material-symbols:checklist",
       "control-switch": "mdi:toggle-switch-outline",

@@ -8,11 +8,9 @@ const route = useRoute();
 const rid = computed(() => route.params.rid);
 const enabled = computed(() => !!rid.value);
 
-const { assets: forms } = useQueryManageAssetsForms(
-  () => [rid.value],
-  undefined,
-  { enabled }
-);
+const { assets: forms } = useQueryManageAssetsForms(() => [rid.value], false, {
+  enabled,
+});
 const form = computed(() => first(forms.value));
 
 // @@eos

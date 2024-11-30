@@ -5,6 +5,7 @@ export * from "./products";
 export * from "./groups";
 export * from "./assets";
 export * from "./tags";
+export * from "./reports";
 //
 export { useQueryApolloStatus } from "./useQueryApolloStatus";
 

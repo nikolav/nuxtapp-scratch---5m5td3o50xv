@@ -892,8 +892,36 @@ export const Q_assetsFormsSubmissionsList = gql`
         key
         tags
       }
+      user {
+        id
+        email
+        profile
+        key
+        is_approved
+        is_manager
+        is_admin
+        is_external
+        is_available
+        tags
+        groups
+        created_at
+        updated_at
+      }
       created_at
       updated_at
     }
+  }
+`;
+
+// reportsSearch(query_strategy: String!, query_strategy_args: JsonData): JsonData!
+export const Q_reportsSearch = gql`
+  query q_reportsSearch(
+    $query_strategy: String!
+    $query_strategy_args: JsonData
+  ) {
+    reportsSearch(
+      query_strategy: $query_strategy
+      query_strategy_args: $query_strategy_args
+    )
   }
 `;

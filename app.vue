@@ -69,7 +69,7 @@ watch(
 
 // ##head ##meta
 useHead({
-  titleTemplate: (ttl: any) => `${ttl ? ttl + " | " : ""} --app`,
+  titleTemplate: (ttl: any) => `${ttl ? ttl + " | " : ""} frikom:teren`,
   bodyAttrs: { class: BODY_ADD_CLASS },
 });
 useSeoMeta({

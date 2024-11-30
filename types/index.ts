@@ -364,8 +364,8 @@ export interface IDocs {
   id: number;
   key: string;
   data: RecordJson;
-  asset: IAsset;
+  asset?: OrNoValue<IAsset>;
+  user?: OrNoValue<IUser>;
   created_at: string;
   updated_at: string;
 }
-

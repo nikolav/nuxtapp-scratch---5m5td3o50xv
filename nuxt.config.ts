@@ -310,6 +310,7 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "iconoir:page",
         "material-symbols:checklist",
         "mdi:toggle-switch-outline",
         "uil:paragraph",

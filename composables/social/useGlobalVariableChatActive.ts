@@ -1,7 +1,7 @@
 import { z } from "zod";
 const schemaTopicFromShell = z.object({
   topic: z.string().min(1),
-  title: z.optional(z.string()),
+  title: z.optional(z.coerce.string()),
 });
 export const useGlobalVariableChatActive = () => {
   const { TOPIC_CHAT_ACTIVE, TOPIC_CHAT_ACTIVE_name } = useTopics();

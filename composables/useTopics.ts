@@ -34,6 +34,8 @@ export const useTopics = () => {
       USERS_TAGS_prefix,
       ASSETS_TAGS_prefix,
       ASSETS_DIGITAL_CHANNEL_prefix,
+      TOPIC_ASSETS_FORMS_REPORT_LIKES_prefix,
+      TOPIC_ASSETS_FORMS_REPORT_CHAT_prefix,
     },
     firebase: {
       messaging: { KEY_FCM_DEVICE_TOKENS },
@@ -128,6 +130,10 @@ export const useTopics = () => {
     aid ? `${IOEVENT_ASSETS_UPDATED_prefix}${aid}` : "";
   const assetsFormsResponseAttachmentsFolder = (key?: any) =>
     key ? `${trimEnd(PATH_FORMS_RESPONSE_ATTACHMENTS, "/")}/${key}` : "";
+  const reportsLikes = (submId?: any) =>
+    submId ? `${TOPIC_ASSETS_FORMS_REPORT_LIKES_prefix}${submId}` : "";
+  const reportsChat = (submId?: any) =>
+    submId ? `${TOPIC_ASSETS_FORMS_REPORT_CHAT_prefix}${submId}` : "";
 
   return {
     TOPIC_CHAT_CALENDAR_MAIN,
@@ -172,6 +178,8 @@ export const useTopics = () => {
     assetsDigitalChannel,
     assetsUpdated,
     assetsFormsResponseAttachmentsFolder,
+    reportsLikes,
+    reportsChat,
     //
     ioeventAccountUpdated,
     ioeventRedisCacheKey,

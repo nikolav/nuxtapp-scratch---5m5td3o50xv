@@ -29,7 +29,6 @@ const { assetsFormsResponseAttachmentsFolder } = useTopics();
 // ##refs ##flags ##models
 const lastSubmissionCreated = ref();
 const toggleSubmissionSuccess = useToggleFlag();
-const uid = inject(key_UID);
 
 // ##data ##auth ##state
 const { submission } = useQueryManageAssetsForms();
@@ -94,7 +93,7 @@ const formSubmit = async (data: any) => {
       assign(dd, qlinks);
     });
 
-    res = await submission({ uid: uid?.value, response: dd }, fid, data.key);
+    res = await submission({ response: dd }, fid, data.key);
     // console.log({ key: data.key, data: dd });
     if (get(res, "data.assetsFormsSubmission.error")) throw "submission:failed";
   } catch (error) {
@@ -128,8 +127,11 @@ watch(toggleSubmissionSuccess.isActive, (isActive) => {
           action: {
             text: "📃 Pogledaj obrazac",
             to: {
-              name: "teren-rid-pregled",
-              params: { rid: lastSubmissionCreated.value.id },
+              name: "teren-rid-pregled-submission",
+              params: {
+                rid: form.value.id,
+                submission: lastSubmissionCreated.value.id,
+              },
             },
           },
           icon: {

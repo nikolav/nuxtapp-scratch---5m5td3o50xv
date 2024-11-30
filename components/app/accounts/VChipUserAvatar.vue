@@ -11,7 +11,7 @@ const { calcDisplayName } = useAuthUtils();
 // ##data ##auth ##state
 // ##computed
 const uname = computed(() => calcDisplayName(props.user) || "");
-const uid = computed(() => props.user?.id);
+const uid = computed(() => props.user?.id || 0);
 const avatar = computed(() => get(props.user, "profile.avatarImage"));
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch

@@ -6,3 +6,4 @@ export { default as VCardItemFormsSubmit } from "./VCardItemFormsSubmit.vue";
 export { default as VBtnPickFiles } from "./VBtnPickFiles.vue";
 export { default as VFormRenderAssetsFormFields } from "./VFormRenderAssetsFormFields.vue";
 export { default as NuxtLinkAssetsFormExternal } from "./NuxtLinkAssetsFormExternal.vue";
+export { default as VCardAssetsFormReportResponse } from "./VCardAssetsFormReportResponse.vue";
