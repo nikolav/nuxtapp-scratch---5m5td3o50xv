@@ -6,3 +6,4 @@ export { default as VToolbarSecondary } from "./VToolbarSecondary.vue";
 export { default as VToolbarWelcome } from "./VToolbarWelcome.vue";
 export { default as VListItemTimShowUser } from "./VListItemTimShowUser.vue";
 export { default as VListItemDisplayGroup } from "./VListItemDisplayGroup.vue";
+export { default as VBtnPanelClose } from "./VBtnPanelClose.vue";

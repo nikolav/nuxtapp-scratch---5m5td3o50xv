@@ -25,10 +25,15 @@ const CARDS_items = [
     },
     to: { name: "aktiva-lokali" },
     count: undefined,
+    props: {
+      class: "CLASS--paxXfBzGu",
+    },
   },
   {
     title: "Tim",
-    image: "/tim.2024-11-23 04_07_39-Window.png",
+    // image: "/tim.2024-11-23 04_07_39-Window.png",
+    // image: "/tim.2.png",
+    image: "/tim.3.png",
     icon: {
       icon: "people-groups",
       size: "1.88rem",
@@ -36,6 +41,9 @@ const CARDS_items = [
     },
     to: { name: "tim" },
     count: undefined,
+    props: {
+      class: "CLASS--JwRxXZJ4V",
+    },
   },
   {
     title: "Izveštaji",
@@ -47,7 +55,7 @@ const CARDS_items = [
       class: "opacity-20 *me-1",
     },
     to: { name: "teren" },
-    props: { class: "" },
+    props: { class: "CLASS-mPGeyycY7qSc0WvQ" },
   },
   {
     title: "Asortiman",
@@ -60,6 +68,7 @@ const CARDS_items = [
     },
     to: { name: "aktiva-proizvodi" },
     count: products_tot,
+    props: { class: "CLASS-X3PZhHeI4n" },
   },
   {
     title: "Veza",
@@ -115,4 +124,26 @@ useHead({ title: "Aktiva" });
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
-<style lang="scss"></style>
+<style lang="scss">
+.CLASS--JwRxXZJ4V {
+  img {
+    // object-position: 0 18% !important;
+    object-position: 0 5% !important;
+  }
+}
+.CLASS-mPGeyycY7qSc0WvQ {
+  img {
+    object-position: 0 45% !important;
+  }
+}
+.CLASS-X3PZhHeI4n {
+  img {
+    object-position: 0 3% !important;
+  }
+}
+.CLASS--paxXfBzGu {
+  img {
+    object-position: 0 78% !important;
+  }
+}
+</style>

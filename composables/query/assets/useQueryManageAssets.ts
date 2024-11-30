@@ -48,6 +48,7 @@ export const useQueryManageAssets = (
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
     db: {
       Assets: {
+        AssetsStatus,
         type: { DIGITAL_FORM, PHYSICAL_STORE, DIGITAL_CHAT },
       },
     },
@@ -86,6 +87,8 @@ export const useQueryManageAssets = (
       }),
       aid,
     });
+  const commit_archive = async (aid: any, flag = true) =>
+    await commit({ status: flag ? AssetsStatus.ARCHIVED : null }, aid);
   const remove = async (aids: any) => await mutateAssetsRemove({ aids });
   // group({'+22': [1, 2], '-3': [5], '+3': [45]})
   const group = async (guConfig: RecordJson) =>
@@ -134,6 +137,8 @@ export const useQueryManageAssets = (
     commit,
     remove,
     reload,
+    //
+    commit_archive,
 
     // @groups:(un)assign
     group,

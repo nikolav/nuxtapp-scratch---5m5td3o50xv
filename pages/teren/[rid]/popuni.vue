@@ -3,7 +3,7 @@
 import {
   VFormRenderAssetsFormFields,
   VToolbarPrimary,
-  VSnackbarSuccess,
+  // VSnackbarSuccess,
 } from "@/components/app";
 
 // ##config:const
@@ -20,12 +20,14 @@ const form = computed(() => get(attrs, "route-data.form", {}));
 
 // ##schemas
 // ##utils
+const { watchProcessing } = useStoreAppProcessing();
 const ps = useProcessMonitor();
 const { assetsFormsSubmissionAttachmentsPath } = usePathUtils();
 const { assetsFormsResponseAttachmentsFolder } = useTopics();
 
 // ##icons
 // ##refs ##flags ##models
+const lastSubmissionCreated = ref();
 const toggleSubmissionSuccess = useToggleFlag();
 const uid = inject(key_UID);
 
@@ -44,7 +46,9 @@ const formSubmit = async (data: any) => {
   let res: any;
   const fid = form.value.id;
   try {
-    ps.begin(toggleSubmissionSuccess.off);
+    ps.begin(() => {
+      lastSubmissionCreated.value = undefined;
+    });
     if (!fid) throw "submission:failed";
 
     const dd = reduce(
@@ -90,14 +94,9 @@ const formSubmit = async (data: any) => {
       assign(dd, qlinks);
     });
 
+    res = await submission({ uid: uid?.value, response: dd }, fid, data.key);
     // console.log({ key: data.key, data: dd });
-    if (
-      get(
-        await submission({ uid: uid?.value, response: dd }, fid, data.key),
-        "data.assetsFormsSubmission.error"
-      )
-    )
-      throw "submission:failed";
+    if (get(res, "data.assetsFormsSubmission.error")) throw "submission:failed";
   } catch (error) {
     ps.setError(error);
   } finally {
@@ -105,13 +104,44 @@ const formSubmit = async (data: any) => {
   }
   if (!ps.error.value)
     ps.successful(() => {
-      toggleSubmissionSuccess.on();
-      setTimeout(() => {
-        navigateTo({ name: DEFAULT_SUBMISSION_SUCCESS_REDIRECT_routeName });
-      }, DEFAULT_SUBMISSION_SUCCESS_REDIRECT_timeout);
+      lastSubmissionCreated.value = get(
+        res,
+        "data.assetsFormsSubmission.status.submission"
+      );
+      nextTick(toggleSubmissionSuccess.on);
     });
 };
 // ##watch
+watchProcessing(ps.processing);
+watch(toggleSubmissionSuccess.isActive, (isActive) => {
+  if (isActive)
+    navigateTo({
+      name: "status-message",
+      params: {
+        message: JSON.stringify({
+          props: {
+            size: "large",
+            color: "success",
+            title: "👌🏻 Obrazac je uspešno poslat.",
+            // text: "limited gently solve dead sunlight knowledge",
+          },
+          action: {
+            text: "📃 Pogledaj obrazac",
+            to: {
+              name: "teren-rid-pregled",
+              params: { rid: lastSubmissionCreated.value.id },
+            },
+          },
+          icon: {
+            icon: "$complete",
+            size: "8rem",
+            color: "success",
+            class: "",
+          },
+        }),
+      },
+    });
+});
 // ##hooks ##lifecycle
 // guard redirect@!asset:active
 // ##head ##meta
@@ -123,9 +153,9 @@ useHead({ title: "📝 Izveštaji | Popuni" });
 </script>
 <template>
   <section class="page--teren-rid-popuni">
-    <VSnackbarSuccess v-model="toggleSubmissionSuccess.isActive.value">
+    <!-- <VSnackbarSuccess v-model="toggleSubmissionSuccess.isActive.value">
       <p>Obrazac je uspešno poslat.</p>
-    </VSnackbarSuccess>
+    </VSnackbarSuccess> -->
     <VToolbarPrimary
       :text="form.name"
       route-back-name="teren-izvestaji"
@@ -147,11 +177,14 @@ useHead({ title: "📝 Izveštaji | Popuni" });
       </VCardText>
       <VDivider class="border-opacity-100 mt-5 mb-10 mx-auto" length="55%" />
     </template>
-    <VFormRenderAssetsFormFields
-      @submited="formSubmit"
-      :form="form"
-      :props-btn-save="{ size: 'x-large', class: 'px-5' }"
-    />
+    <VSpacer v-else class="mt-10" />
+    <div class="__spaceer ps-3">
+      <VFormRenderAssetsFormFields
+        @submited="formSubmit"
+        :form="form"
+        :props-btn-save="{ size: 'x-large', class: 'px-5' }"
+      />
+    </div>
   </section>
 </template>
 <style lang="scss" scoped></style>

@@ -4,6 +4,7 @@ import {
   VToolbarPrimary,
   VBtnGroupTopicLikeDislike,
   VCardTitleSectionStart,
+  ProvideAssetsChildren,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -14,7 +15,10 @@ definePageMeta({
 
 const {
   db: {
-    Assets: { DigitalFormFieldTypes },
+    Assets: {
+      DigitalFormFieldTypes,
+      type: { PEOPLE_GROUP_TEAM },
+    },
   },
 } = useAppConfig();
 
@@ -62,7 +66,8 @@ useHead({ title: "📝 Obrasci" });
         />
       </template>
     </VToolbarPrimary>
-    <VCardText class="__spacer pa-5 space-y-10">
+
+    <VCardText class="__spacer pa-5 space-y-12">
       <div class="__spacer d-flex items-center justify-between">
         <VChip
           v-if="authorDisplayName"
@@ -78,6 +83,23 @@ useHead({ title: "📝 Obrasci" });
           <VTooltip text="Autor" />
         </VChip>
         <VBtnGroupTopicLikeDislike light :topic="topicLikesAssetsForm_" />
+      </div>
+      <div class="__spacer d-flex items-center gap-2">
+        <ProvideAssetsChildren
+          :asset="form"
+          :type="PEOPLE_GROUP_TEAM"
+          v-slot="{ assets: groups }"
+        >
+          <VChip
+            v-for="g in groups"
+            :key="g.key"
+            :text="startCase(g.name)"
+            color="info"
+            elevation="1"
+            size="small"
+            :to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
+          />
+        </ProvideAssetsChildren>
       </div>
       <VTextField
         :model-value="form?.name"

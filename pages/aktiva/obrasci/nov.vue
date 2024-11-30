@@ -7,10 +7,14 @@ import {
   VCardAssetsDigitalFormField,
   VCardTitleSectionStart,
   VSnackbarSuccess,
+  VBtnPanelClose,
+  VFormRenderAssetsFormFields,
 } from "@/components/app";
 import type { IConfigFields } from "@/types";
+import { useDisplay } from "vuetify";
 
 // ##config:const
+const DEFAULT_DRAWER_WIDTH = 382;
 const DEFAULT_MENU_WIDTH = 312;
 // ##config ##props
 definePageMeta({
@@ -59,16 +63,21 @@ const FIELDS = <Record<string, IConfigFields>>{
   },
 };
 // ##utils
+const { width: VW, smAndUp } = useDisplay();
 const ps = useProcessMonitor();
 // ##icons
 const { ICONS_ASSETS_FORMS_type: ICONS_addmenu } = useIconsConfig();
 // ##refs ##flags ##models
+const toggleDrawerPreviewActive = useToggleFlag();
 const lastFormCreated = ref();
 const toggleFormCreatedSuccess = useToggleFlag();
 const mFormFields = ref(<any[]>[]);
 // ##data ##auth ##state
 const { commit } = useQueryManageAssetsForms(undefined, true);
 // ##computed
+const wDrawer = computed(() =>
+  smAndUp.value ? DEFAULT_DRAWER_WIDTH : VW.value
+);
 // ##forms ##handlers ##helpers ##small-utils
 const form = useFormModel("5e4ace58-a3c3-58f6-b3b7-5b64b5a99717", FIELDS, {
   onSubmit: async (fdata: any) => {
@@ -89,8 +98,8 @@ const form = useFormModel("5e4ace58-a3c3-58f6-b3b7-5b64b5a99717", FIELDS, {
     if (!ps.error.value)
       ps.successful(() => {
         lastFormCreated.value = get(res, "data.assetsUpsert.status.asset");
-        toggleFormCreatedSuccess.on();
         formClearAll();
+        nextTick(toggleFormCreatedSuccess.on);
       });
   },
 });
@@ -130,7 +139,7 @@ const formClearAll = () => {
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "📝 Obrazac" });
+useHead({ title: "📝 Obrazac | Nov" });
 // ##provide
 // ##io
 
@@ -144,6 +153,25 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
 </script>
 <template>
   <section class="page--aktiva-obrasci-nov">
+    <VNavigationDrawer
+      v-model="toggleDrawerPreviewActive.isActive.value"
+      location="right"
+      :order="-1"
+      :width="wDrawer"
+    >
+      <VBtnPanelClose
+        @click="toggleDrawerPreviewActive.off"
+        density="comfortable"
+        class="ma-2 z-[1]"
+      />
+      <div class="__spacer pa-3 mt-12">
+        <VFormRenderAssetsFormFields
+          is-preview
+          :form="{ data: { fields: mFormFields } }"
+        />
+      </div>
+    </VNavigationDrawer>
+
     <VSnackbarSuccess v-model="toggleFormCreatedSuccess.isActive.value">
       <NuxtLink
         :to="{
@@ -156,6 +184,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
         </a>
       </NuxtLink>
     </VSnackbarSuccess>
+
     <VToolbarPrimary
       text="Nov upitnik"
       route-back-name="aktiva-obrasci"
@@ -163,7 +192,12 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
       :props-actions="{ class: 'pe-1' }"
     >
       <template #actions>
-        <VBtn disabled icon variant="plain">
+        <VBtn
+          :disabled="isEmpty(mFormFields)"
+          @click="toggleDrawerPreviewActive.on"
+          icon
+          variant="plain"
+        >
           <Iconx icon="preview" size="1.33rem" />
         </VBtn>
       </template>
