@@ -23,13 +23,13 @@ const {
   processing,
 } = useQueryManageAssetsProducts();
 
-const itemLinkTo = (item: any) => ({
+const itemLinkTo = (itemP: any) => ({
   // to: {
   //   name: "aktiva-proizvodi-pid",
-  //   params: { pid: item?.id },
+  //   params: { pid: itemP?.id },
   // },
-  href: publicUrlAssetProduct(item, URL_PRODUCT_PREVIEW_HOST),
-  external: true,
+  href: publicUrlAssetProduct(itemP, URL_PRODUCT_PREVIEW_HOST),
+  // external: true,
   target: "_blank",
 });
 const { categoryNodeByTag, categoryTagByAsset } = useCategoryAssets();
@@ -38,7 +38,7 @@ const productGrops = (p: any) =>
   [get(categoryNodeByTag(categoryTagByAsset(p)), "model.title")].filter(
     Boolean
   );
-const getid = (node: any) => get(node, "id");
+const getid = toIds;
 
 // ##utils
 const itemTo = (item: IAsset) => ({

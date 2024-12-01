@@ -261,6 +261,7 @@ export default defineAppConfig({
       /^auth\-password\-reset\-form$/,
       /^docs\-/,
       /^aktiva-proizvodi-pid/,
+      /^aktiva-proizvodi-detaljno/,
       /^teren-prikaz/,
     ],
   },
@@ -317,6 +318,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      barcode: "material-symbols:barcode",
       world: "tabler:world",
       page: "iconoir:page",
       "external-link": "tabler:external-link",

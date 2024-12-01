@@ -1,204 +1,29 @@
 <script setup lang="ts">
 // ##imports
-import { useDisplay } from "vuetify";
-import {
-  VToolbarPrimary,
-  VRatingTopicRating,
-  VBtnGroupTopicLikeDislike,
-  VBtnTopicChatToggle,
-  VBtnShareSocialNetworks,
-  VChipAssetCategory,
-  VBtnOpenGallery,
-} from "@/components/app";
-import { Iconx } from "@/components/icons";
-// ##config
+// ##config:const
+// ##config ##props ##route ##attrs
 definePageMeta({
   layout: "default",
-  // middleware: "authorized",
+  middleware: "redirect-query-q",
 });
-const {
-  app: { DEFAULT_NO_IMAGE_AVAILABLE },
-  layout: { toolbarMainHeight },
-} = useAppConfig();
-
+// ##schemas
 // ##utils
-const { ratingAssets, likesAssets, chatAssets } = useTopics();
-const { mdAndUp, smAndUp } = useDisplay();
-const route = useRoute();
-const pid = computed(() => get(route.params, "pid"));
-// const watchID = useUniqueId();
 // ##icons
-// ##refs ##flags
+// ##refs ##flags ##models
 // ##data ##auth ##state
-const qenabled = computed(() => !!pid.value);
-const { assets: products } = useQueryManageAssetsProducts(
-  () => [pid.value],
-  undefined,
-  { enabled: qenabled }
-);
-const p = computed(() => first(products.value));
-const ID = computed(() => p.value?.id);
-const { images } = useFirebaseStorageAssetImages(ID);
 // ##computed
-const assetPathPublicUrl = usePublicUrlAssetProduct(ID);
-const titleProductName = computed(() => p.value?.name || "");
-const topicRatingAssets = computed(() => ratingAssets(ID.value));
-const topicLikesAsset = computed(() => likesAssets(ID.value));
-const topicChatAsset = computed(
-  () => `${chatAssets(ID.value)} --title ${kebabCase(titleProductName.value)}`
-);
-const {
-  current: imageCurrent,
-  size: imagesLength,
-  start: slidesStart,
-} = useSampleCollection(images, undefined, undefined, [
-  DEFAULT_NO_IMAGE_AVAILABLE,
-]);
-const assetDescription = computed(() => p.value?.notes || "");
-const barcode = computed(() => get(p.value, "data.barcode"));
-const description = computed(() => p.value?.notes);
-// ##forms ##helpers
-const aFields = {
-  name: computed(() => p.value?.name),
-  linkTo: computed(() => {
-    const lnk = get(p.value, "data.link");
-    return lnk
-      ? {
-          href: lnk,
-          external: true,
-          target: "_blank",
-        }
-      : undefined;
-  }),
-};
-const toObjectWithSrc = (src: any) => ({ src });
+// ##forms ##handlers ##helpers ##small-utils
 // ##watch
-// ##hooks:lifecycle
-useOnceMountedOn(() => 1 < imagesLength.value, slidesStart);
-// ##head
-useHead({ title: titleProductName });
+// ##hooks ##lifecycle
+// ##head ##meta
+// useHead({ title: "" });
+// ##provide
+// ##io
 
 // @@eos
 </script>
 <template>
-  <section class="page--aktiva-proizvodi-pid">
-    <VCard variant="text" rounded="0" elevation="0">
-      <VToolbarPrimary
-        :props-title="{ class: 'text-start text-body-1 font-italic' }"
-        :props-actions="{ class: 'pe-3' }"
-        hide-default-close
-      >
-        <template #prepend>
-          <VBtnOpenGallery
-            v-if="!mdAndUp"
-            :show-badge="false"
-            color="on-primary"
-            :slides="map(images, toObjectWithSrc)"
-            class="scale-[92%]"
-            :props-badge="{ class: '-translate-x-[3px] -me-[12px]' }"
-          />
-          <Iconx v-else size="1.5rem" class="ms-1 opacity-30" icon="box" />
-        </template>
-        <template #title>
-          <span :class="!smAndUp ? 'text-sm' : undefined">
-            Podaci o proizvodu
-          </span>
-        </template>
-        <template #actions>
-          <VBtnTopicChatToggle :topic="topicChatAsset" />
-          <VBtnShareSocialNetworks
-            :item="{
-              url: assetPathPublicUrl,
-              title: titleProductName,
-              description: assetDescription,
-            }"
-            :small="!smAndUp"
-            :props-share-buttons="{ color: 'primary-darken-1' }"
-            :props-icon-share="{ size: '1.22rem' }"
-          />
-        </template>
-      </VToolbarPrimary>
-      <VContainer fluid class="pa-2 ma-0">
-        <VRow no-gutters class="pa-0 ma-0">
-          <VCol class="pa-0 ma-0" v-if="mdAndUp" md="5" order="-1">
-            <VResponsive :height="`calc(100vh - ${toolbarMainHeight}px - 1em)`">
-              <VFadeTransition mode="out-in">
-                <NuxtImg
-                  :key="imageCurrent"
-                  class="fill-height *bg-red !object-cover rounded-lg border p-[2px] mx-auto"
-                  sizes="100vw"
-                  :src="imageCurrent"
-                />
-              </VFadeTransition>
-            </VResponsive>
-          </VCol>
-          <VCol md="7">
-            <section>
-              <!-- @@social -->
-              <div
-                class="__spacer d-flex justify-between items-center pa-1 ps-0"
-              >
-                <VRatingTopicRating
-                  :topic="topicRatingAssets"
-                  color="secondary-lighten-2"
-                  :density="smAndUp ? undefined : 'compact'"
-                />
-                <VBtnGroupTopicLikeDislike :topic="topicLikesAsset" />
-              </div>
-              <!-- @@title -->
-              <h1 v-if="aFields.linkTo.value" class="ps-3">
-                <NuxtLink v-bind="aFields.linkTo.value">
-                  <a class="text-primary-darken-3 text-decoration-underline">
-                    <Iconx
-                      icon="tabler:external-link"
-                      size="1.33rem"
-                      class="*-translate-y-px me-3 opacity-20"
-                    />
-                    <span>
-                      {{ aFields.name }}
-                    </span>
-                  </a>
-                </NuxtLink>
-              </h1>
-              <h1 v-else>{{ aFields.name }}</h1>
-            </section>
-            <!-- @chips @tags -->
-            <div class="ps-3 d-flex items-center gap-2">
-              <VChipAssetCategory
-                :asset="p"
-                :size="smAndUp ? 'large' : 'small'"
-                :show-extra="smAndUp"
-              />
-              <VChip
-                color="primary"
-                elevation="1"
-                variant="tonal"
-                v-if="barcode"
-                :size="smAndUp ? 'large' : 'small'"
-              >
-                <template v-if="smAndUp" #prepend>
-                  <Iconx
-                    size="1.33rem"
-                    class="opacity-30 translate-y-px"
-                    icon="material-symbols:barcode"
-                  />
-                </template>
-                <pre class="ms-1">{{ barcode }}</pre>
-              </VChip>
-            </div>
-            <!-- @description @info -->
-            <section
-              v-if="description"
-              class="indent-4 pa-5"
-              :class="[smAndUp ? 'prose-lg' : 'prose']"
-            >
-              <p>{{ description }}</p>
-            </section>
-          </VCol>
-        </VRow>
-      </VContainer>
-    </VCard>
-  </section>
+  <section class="page--aktiva-proizvodi-pid">⏳</section>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

@@ -9,4 +9,7 @@ export const publicUrlAssetProduct = (
   p: any,
   host = URL_APP_PUBLIC,
   path = ASSETS_PATH_proizvodi
-) => (p ? [trim(host, "/"), trim(path, "/"), p.id].join("/") : "");
+) =>
+  p
+    ? [trim(host, "/"), trim(path, "/"), encodeURIComponent(p.id)].join("/")
+    : "";

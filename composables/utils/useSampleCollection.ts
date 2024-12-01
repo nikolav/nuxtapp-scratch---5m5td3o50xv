@@ -1,5 +1,5 @@
 export const useSampleCollection = (
-  COLLECTION: any = [],
+  COLLECTION: any = <any[]>[],
   timeot = 8901,
   _sampleOnInit = true,
   _defaultEmpty = <any>[]
@@ -28,7 +28,7 @@ export const useSampleCollection = (
   };
   // init
   const initialized = useOnceOn(
-    () => _sampleOnInit && 0 < items.value?.length,
+    () => _sampleOnInit && !isEmpty(items.value),
     next
   );
 
@@ -41,6 +41,6 @@ export const useSampleCollection = (
     start,
     stop,
     running,
-    initialized: readonly(initialized),
+    initialized,
   };
 };

@@ -6,7 +6,8 @@ import {
   SSR,
   BASE_DIR,
   ENDPOINT_GRAPHQL,
-  URL_APP_PUBLIC,
+  // URL_APP_PUBLIC,
+  PRODUCTION$,
 } from "./config";
 import { trimEndBase } from "./utils/trim-end-base";
 
@@ -209,7 +210,8 @@ export default defineNuxtConfig({
     //   //     prefix: "App",
     //   //   });
     async "prerender:routes"(ctx) {
-      if ("frikom.nikolav.rs" !== new URL(URL_APP_PUBLIC).hostname) return;
+      // if ("frikom.nikolav.rs" !== new URL(URL_APP_PUBLIC).hostname) return;
+      if (!PRODUCTION$) return;
       const res = await fetch(API_URL);
       const d = await res.json();
       for (const pid of d.prerender.pids) {
