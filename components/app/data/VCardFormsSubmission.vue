@@ -19,6 +19,7 @@ const {
 } = useAppConfig();
 // ##schemas
 // ##utils
+const { isPublic: reportsIsPublic } = useReportsUtils();
 const { $dd } = useNuxtApp();
 const { calcDisplayName } = useAuthUtils();
 // ##icons
@@ -31,6 +32,7 @@ const iconCheckOff = renderIcon("check-off", {
 // ##refs ##flags ##models
 // ##data ##auth ##state
 // ##computed
+const isPublic = computed(() => reportsIsPublic(props.submission));
 const user = computed(() => props.submission?.user);
 const profile = computed(() => user.value?.profile);
 // ##forms ##handlers ##helpers ##small-utils
@@ -54,6 +56,12 @@ const itemTo = (s: any) => ({
     v-bind="$attrs"
   >
     <VCardItem class="ps-2 pe-0">
+      <Iconx
+        v-if="isPublic"
+        size="1.22rem"
+        icon="world"
+        class="text-primary position-absolute top-0 end-0 z-[1] opacity-20 ma-1 pointer-events-none"
+      />
       <VCheckboxBtn
         :model-value="isSelected()"
         @click.stop.prevent="select(!isSelected())"

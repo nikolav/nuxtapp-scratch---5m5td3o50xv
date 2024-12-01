@@ -13,7 +13,43 @@ definePageMeta({
   middleware: "authorized",
 });
 
+const {
+  db: {
+    Docs: {
+      DocsTags: { SHAREABLE },
+    },
+  },
+} = useAppConfig();
+
 const MENU_items = <any[]>[
+  {
+    title: "Javni pristup",
+    value: "86060d82-a317-5b29-ae53-df6ab62b7542",
+    icon: {
+      icon: "world",
+      size: "1.33rem",
+      class: "text-success-darken-1 opacity-75",
+    },
+    handle: async (selection: any) =>
+      await handleReportsConfig({ tags: { [SHAREABLE]: true } }, selection),
+    props: {},
+  },
+  {
+    title: "Blokiraj javni pristup",
+    value: "1660bf16-aa8f-52c5-9dbd-d37652eabfb1",
+    icon: {
+      icon: "$minus",
+      size: "1.33rem",
+      class: "text-error opacity-75",
+    },
+    handle: async (selection: any) =>
+      await handleReportsConfig({ tags: { [SHAREABLE]: false } }, selection),
+    props: {},
+  },
+  {
+    type: "divider",
+    value: "8ee5fe7d-53e3-5d64-b22f-7e368530b08a",
+  },
   {
     title: "Obriši izveštaje",
     value: "f4a3073f-d961-58eb-9f31-b3be81c7a4ac",
@@ -50,10 +86,34 @@ const signalIdDeselect = useUniqueId();
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
-const { drop: reportsDrop } = useQueryReportsManage();
+const { drop: reportsDrop, configure: reportsConfigure } =
+  useQueryReportsManage();
 const { submissions, reload } = useQueryAssetsFormsSubmissionsSearch();
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
+const handleReportsConfig = async (config: any, selection: any) => {
+  try {
+    ps.begin();
+    const ids = map(selection, toIds);
+    if (isEmpty(ids)) throw "reports:config:empty";
+    if (
+      get(
+        await reportsConfigure(config, ...ids),
+        "data.reportsConfigurationTags.error"
+      )
+    )
+      throw "reports:config:failed";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      signalIdDeselect();
+      nextTick(reload);
+    });
+};
 const itemGroups = (r: any) => [startCase(get(r, "asset.name"))];
 
 // ##watch
@@ -117,6 +177,6 @@ useHead({ title: "📝 Izveštaji" });
 <style module></style>
 <style lang="scss">
 .VList--4PflZkOzfb65oIwWbz .v-list-item__prepend .v-list-item__spacer {
-  width: 1rem !important;
+  width: 1.22rem !important;
 }
 </style>

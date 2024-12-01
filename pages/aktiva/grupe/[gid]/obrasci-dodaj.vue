@@ -115,7 +115,7 @@ useHead({ title: "Obrasci" });
           variant="underlined"
           density="compact"
           rounded="pill"
-          placeholder="Traži kanal..."
+          placeholder="Traži obrazac..."
           hide-details
           single-line
           clearable

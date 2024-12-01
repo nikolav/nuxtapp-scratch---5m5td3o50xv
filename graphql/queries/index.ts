@@ -879,6 +879,7 @@ export const Q_assetsFormsSubmissionsList = gql`
       id
       key
       data
+      tags
       asset {
         id
         name

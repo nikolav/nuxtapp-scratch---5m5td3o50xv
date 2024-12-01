@@ -24,6 +24,8 @@ const fid = computed(() => form.value?.id || -1);
 
 // ##schemas
 // ##utils
+const { publicUrl: reportsPublicUrl, isPublic: reportsIsPublic } =
+  useReportsUtils();
 const { $dd } = useNuxtApp();
 const { reportsLikes, reportsChat } = useTopics();
 const { topicWithTitle } = useGlobalVariableChatActive();
@@ -37,6 +39,8 @@ const submId = computed(() => report.value?.id);
 const response = computed(() => get(report.value, "data.response"));
 const user = computed(() => report.value?.user);
 const pageTitle = computed(() => `📝 Izveštaj | #${submId.value}`);
+const publicUrl = computed(() => reportsPublicUrl(report.value));
+const isPublic = computed(() => reportsIsPublic(report.value));
 
 const topicReportsLikes = computed(() => reportsLikes(submId.value));
 const topicReportChat = computed(() =>
@@ -70,6 +74,19 @@ useHead({ title: pageTitle });
           :topic="topicReportChat"
           :props-icon="{ size: '1.122rem', class: 'opacity-50' }"
         />
+        <!-- @@ -->
+        <VBtn
+          v-if="isPublic"
+          :href="publicUrl"
+          icon
+          variant="plain"
+          density="comfortable"
+          tag="a"
+          target="_blank"
+          class="opacity-50"
+        >
+          <Iconx size="1rem" icon="external-link" />
+        </VBtn>
       </template>
       <template #prepend>
         <Iconx icon="page" size="1.22rem" class="opacity-20 ms-1" />
@@ -111,4 +128,8 @@ useHead({ title: pageTitle });
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
-<style lang="scss"></style>
+<style lang="scss">
+.VList--IjZ4A9a5NazJEMJyI .v-list-item__prepend .v-list-item__spacer {
+  width: 1rem !important;
+}
+</style>

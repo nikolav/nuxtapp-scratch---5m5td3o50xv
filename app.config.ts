@@ -261,6 +261,7 @@ export default defineAppConfig({
       /^auth\-password\-reset\-form$/,
       /^docs\-/,
       /^aktiva-proizvodi-pid/,
+      /^teren-prikaz/,
     ],
   },
   SEO: {
@@ -316,6 +317,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      world: "tabler:world",
       page: "iconoir:page",
       "external-link": "tabler:external-link",
       checklist: "material-symbols:checklist",
@@ -439,6 +441,11 @@ export default defineAppConfig({
     // },
   },
   db: {
+    Docs: {
+      DocsTags: {
+        SHAREABLE: "DocsTags:SHAREABLE:muSvm4x5",
+      },
+    },
     Assets: {
       AssetsStatus: {
         ACTIVE: "ACTIVE:YjCrzsLhGtiE4f3ffO",

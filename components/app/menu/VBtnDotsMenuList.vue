@@ -1,3 +1,4 @@
+import { important } from '../../../.nuxt/types/tailwind.config';
 <script setup lang="ts">
 // ##imports
 // ##config:const
@@ -40,8 +41,8 @@ const {
       location="bottom end"
       :transition="DEFAULT_TRANSITION"
       :offset="-12"
-      v-bind="propsMenu"
       :max-width="212"
+      v-bind="propsMenu"
     >
       <VList v-bind="propsList">
         <slot name="list-items" />

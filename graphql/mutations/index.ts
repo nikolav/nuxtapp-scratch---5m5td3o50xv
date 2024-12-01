@@ -350,3 +350,10 @@ export const M_reportsDrop = gql`
   }
 `;
 
+// reportsConfigurationTags(ids: [ID!]!, config: JsonData!): JsonData!
+// config: { tags?: Record<tag:string, active:boolean> }
+export const M_reportsConfigurationTags = gql`
+  mutation m_reportsConfigurationTags($ids: [ID!]!, $config: JsonData!) {
+    reportsConfigurationTags(ids: $ids, config: $config)
+  }
+`;

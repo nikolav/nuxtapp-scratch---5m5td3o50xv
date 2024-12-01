@@ -133,7 +133,7 @@ useHead({ title: "Dodaj članove" });
               density="compact"
               rounded="pill"
               variant="underlined"
-              placeholder="Traži..."
+              placeholder="Traži korisnike..."
               hide-details
               single-line
               clearable

@@ -1,6 +1,6 @@
 import type { IDocs } from "@/types";
 import { Q_assetsFormsSubmissionsList } from "@/graphql";
-import { result } from "lodash";
+
 export const useQueryAssetsFormsSubmissionsSearch = () => {
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
