@@ -117,30 +117,32 @@ watch(toggleSubmissionSuccess.isActive, (isActive) => {
     navigateTo({
       name: "status-message",
       params: {
-        message: JSON.stringify({
-          props: {
-            size: "large",
-            color: "success",
-            title: "👌🏻 Obrazac je uspešno poslat.",
-            // text: "limited gently solve dead sunlight knowledge",
-          },
-          action: {
-            text: "📃 Pogledaj obrazac",
-            to: {
-              name: "teren-rid-pregled-submission",
-              params: {
-                rid: form.value.id,
-                submission: lastSubmissionCreated.value.id,
+        message: encodeURIComponent(
+          JSON.stringify({
+            props: {
+              size: "large",
+              color: "success",
+              title: "👌🏻 Obrazac je uspešno sačuvan.",
+              // text: "limited gently solve dead sunlight knowledge",
+            },
+            action: {
+              text: "📃 Pogledaj obrazac",
+              to: {
+                name: "teren-rid-pregled-submission",
+                params: {
+                  rid: form.value.id,
+                  submission: lastSubmissionCreated.value.id,
+                },
               },
             },
-          },
-          icon: {
-            icon: "$complete",
-            size: "8rem",
-            color: "success",
-            class: "",
-          },
-        }),
+            icon: {
+              icon: "$success",
+              size: "10rem",
+              color: "success",
+              class: "",
+            },
+          })
+        ),
       },
     });
 });

@@ -342,3 +342,11 @@ export const M_assetsFormsSubmission = gql`
     assetsFormsSubmission(data: $data, fid: $fid, key: $key)
   }
 `;
+
+// reportsDrop(ids: [ID!]!): JsonData!
+export const M_reportsDrop = gql`
+  mutation m_reportsDrop($ids: [ID!]!) {
+    reportsDrop(ids: $ids)
+  }
+`;
+

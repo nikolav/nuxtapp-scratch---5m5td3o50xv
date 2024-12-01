@@ -3,7 +3,7 @@
 import { SpanTruncateCharsLength } from "@/components/app";
 // ##config:const
 // ##config ##props ##route ##attrs
-const props = defineProps<{ report: any }>();
+const props = defineProps<{ report: any; descriptions?: boolean }>();
 
 const form = computed(() => props.report?.asset);
 const fields = computed(() => get(form.value, "data.fields"));
@@ -57,7 +57,7 @@ const { ICONS_ASSETS_FORMS_type } = useIconsConfig();
             <span>{{ formField.data.question }}</span>
           </h4>
           <VCardText
-            v-if="formField.data.description"
+            v-if="descriptions && formField.data.description"
             class="indent-2 text-body-1 text-disabled"
           >
             <p>

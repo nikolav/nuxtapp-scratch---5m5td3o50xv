@@ -9,7 +9,9 @@ definePageMeta({
 // ##schemas
 // ##utils
 const route = useRoute();
-const message = computed(() => JSON.parse(String(route.params.message)));
+const message = computed(() =>
+  JSON.parse(decodeURIComponent(String(route.params.message)))
+);
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state

@@ -1,1 +1,2 @@
-export { useQueryReportsSearch } from "./useQueryReportsSearch"
+export { useQueryReportsSearch } from "./useQueryReportsSearch";
+export { useQueryReportsManage } from "./useQueryReportsManage";

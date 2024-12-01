@@ -30,7 +30,9 @@ useHead({ title: "✅" });
   <section class="page--status-message-index">
     <VEmptyState v-bind="message.props">
       <template #media>
+        <VSpacer class="mt-2" />
         <Iconx v-bind="message.icon" />
+        <VSpacer class="mt-4" />
       </template>
       <template #actions>
         <VCardActions class="pa-5">
