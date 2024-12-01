@@ -151,9 +151,9 @@ useHead({ title: titleProductName });
                 <NuxtLink v-bind="aFields.linkTo.value">
                   <a class="text-primary-darken-3 text-decoration-underline">
                     <Iconx
-                      icon="external-link"
+                      icon="icons-local:house"
                       size="1.33rem"
-                      class="*-translate-y-px me-3 opacity-20"
+                      class="translate-y-[3px] me-3 opacity-20"
                     />
                     <span>
                       {{ aFields.name }}

@@ -54,9 +54,6 @@ useHead({ title: "📃 Izveštaji | Izbor" });
     </VCardDataIterator>
   </section>
 </template>
-<style lang="scss" scoped>
-.CLASS--zPik9wFa9O0XaNl {
-}
-</style>
+<style lang="scss" scoped></style>
 <style module></style>
 <style lang="scss"></style>

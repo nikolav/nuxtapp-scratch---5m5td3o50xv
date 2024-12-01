@@ -262,7 +262,8 @@ export default defineAppConfig({
       /^docs\-/,
       /^aktiva-proizvodi-pid/,
       /^aktiva-proizvodi-detaljno/,
-      /^teren-prikaz/,
+      /^teren-izvestaj-rid/,
+      /^teren-detaljno/,
     ],
   },
   SEO: {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // ##imports
 // ##config:const
-// ##config ##props
+// ##config ##props ##route ##attrs
 definePageMeta({
-  layout: "app-default",
-  middleware: "authorized",
+  layout: "default",
+  middleware: "redirect-teren-prikaz-params-rid-query-q",
 });
 // ##schemas
 // ##utils
@@ -23,7 +23,7 @@ definePageMeta({
 // @@eos
 </script>
 <template>
-  <section class="page--teren-rid-index">⏳</section>
+  <section class="page--teren-izvestaj-rid">⏳</section>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

@@ -1,9 +1,10 @@
 import { Q_reportsSearch } from "@/graphql";
 // reportsSearch(query_strategy: String!, query_strategy_args: JsonData): JsonData!
 export const useQueryReportsSearch = (STRATEGY?: any, ARGS?: any) => {
+  const auth = useStoreApiAuth();
   const query_strategy = computed(() => toValue(STRATEGY));
   const query_strategy_args = computed(() => toValue(ARGS));
-  const enabled = computed(() => !!query_strategy.value);
+  const enabled = computed(() => auth.isAuth$ && !!query_strategy.value);
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
   } = useAppConfig();
