@@ -37,8 +37,8 @@ export { SSR } from "./vars.env";
 export const CATEGORY_KEY_ASSETS_prefix = "CATEGORY_KEY:ASSETS:hhPDiM:";
 export const DEFAULT_NO_IMAGE_AVAILABLE = "/no-image.jpg";
 
-export const ASSETS_PATH_proizvodi = "aktiva/proizvodi";
-// export const ASSETS_PATH_proizvodi = "aktiva/proizvodi/detaljno";
+// export const ASSETS_PATH_proizvodi = "aktiva/proizvodi";
+export const ASSETS_PATH_proizvodi = "aktiva/proizvodi/detaljno";
 
 export const TOPIC_CHAT_CALENDAR_MAIN =
   "TOPIC_CHAT_CALENDAR_MAIN:1132d3ce-5ed9-5f3f-9604-eb11041e1658";

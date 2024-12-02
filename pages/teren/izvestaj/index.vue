@@ -46,7 +46,7 @@ useHead({ title: ttl });
       <VCardText class="__spacer d-flex items-center">
         <VChipUserAvatar :user="report.user" />
         <VSpacer />
-        <NuxtLink :href="appPublic">
+        <NuxtLink :href="appPublic" class="self-start">
           <a
             class="link--prominent text-primary-darken-1 font-italic opacity-40"
           >

@@ -166,7 +166,7 @@ const formSubmit = () => {
     <VCard flat>
       <template v-if="isEmpty(FIELDS)">
         <slot name="no-data">
-          <span> 🚧 @TODO --no-data </span>
+          <span> ⏳🚧 --no-data </span>
         </slot>
       </template>
       <template v-else>

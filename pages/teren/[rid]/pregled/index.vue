@@ -26,9 +26,7 @@ useHead({ title: "📝 Obrasci | Pregled" });
 // @@eos
 </script>
 <template>
-  <section class="page--teren-rid-pregled-index">
-    <h1>@teren-rid-pregled</h1>
-  </section>
+  <section class="page--teren-rid-pregled-index">⏳</section>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

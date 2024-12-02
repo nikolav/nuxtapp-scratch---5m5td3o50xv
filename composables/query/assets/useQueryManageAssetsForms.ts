@@ -17,14 +17,7 @@ export const useQueryManageAssetsForms = (
   const submission = async (data: any, fid: any, key?: any) =>
     await mFormsSubmission({ data, fid, key });
 
-  const q = useQueryManageAssets(
-    DIGITAL_FORM,
-    FIDS,
-    OWN,
-    OPTIONS,
-    VARS_ADDITIONAL
-  );
-
+  const q = useQueryManageAssets(DIGITAL_FORM, FIDS, OWN, OPTIONS, VARS_ADDITIONAL);
   return {
     ...q,
     submission,

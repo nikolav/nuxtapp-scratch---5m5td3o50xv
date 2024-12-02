@@ -211,7 +211,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
           <template v-for="(item, field) in FIELDS" :key="field">
             <VTextField
               v-if="!item.type"
-              v-model.trim="form.data[field].value"
+              v-model="form.data[field].value"
               autofocus
               variant="underlined"
               hide-details

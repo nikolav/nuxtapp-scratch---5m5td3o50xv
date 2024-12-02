@@ -11,5 +11,7 @@ export const publicUrlAssetProduct = (
   path = ASSETS_PATH_proizvodi
 ) =>
   p
-    ? [trim(host, "/"), trim(path, "/"), encodeURIComponent(p.id)].join("/")
+    ? `${trim(host, "/")}/${trim(path, "/")}?q=${encodeURIComponent(p.id)}`
     : "";
+
+// [trim(host, "/"), trim(path, "/"), encodeURIComponent(p.id)].join("/")

@@ -51,6 +51,7 @@ const handleDelete = async (selection: any) => {
     ps.begin(toggleFormsDeletedSuccess.off);
     const rm_aids = map(selection, toIds);
     if (isEmpty(rm_aids)) throw "--assets:chats:remove-failed";
+    // soft:rm
     if (get(await formsRemove(rm_aids), "data.assetsRemove.error"))
       throw "--assets:chats:remove-failed";
   } catch (error) {

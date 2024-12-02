@@ -209,15 +209,15 @@ export default defineNuxtConfig({
     //   //     path: "/path",
     //   //     prefix: "App",
     //   //   });
-    async "prerender:routes"(ctx) {
-      // if ("frikom.nikolav.rs" !== new URL(URL_APP_PUBLIC).hostname) return;
-      if (!PRODUCTION$) return;
-      const res = await fetch(API_URL);
-      const d = await res.json();
-      for (const pid of d.prerender.pids) {
-        ctx.routes.add(`/aktiva/proizvodi/${pid}`);
-      }
-    },
+    // async "prerender:routes"(ctx) {
+    //   // if ("frikom.nikolav.rs" !== new URL(URL_APP_PUBLIC).hostname) return;
+    //   if (!PRODUCTION$) return;
+    //   const res = await fetch(API_URL);
+    //   const d = await res.json();
+    //   for (const pid of d.prerender.pids) {
+    //     ctx.routes.add(`/aktiva/proizvodi/${pid}`);
+    //   }
+    // },
   },
 
   // include auto import dirs

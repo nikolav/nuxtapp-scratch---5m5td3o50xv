@@ -254,7 +254,7 @@ export const M_groupsGUConfigure = gql`
   }
 `;
 
-// assetsRemove(aids: [ID!]!): JsonData!
+// assetsRemove(aids: [ID!]!, SOFT: Boolean): JsonData!
 export const M_assetsRemove = gql`
   mutation m_assetsRemove($aids: [ID!]!) {
     assetsRemove(aids: $aids)
