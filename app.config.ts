@@ -318,6 +318,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      empty: "ph:empty",
       barcode: "material-symbols:barcode",
       world: "tabler:world",
       page: "iconoir:page",

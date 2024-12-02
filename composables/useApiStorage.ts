@@ -30,7 +30,6 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
   const enabled$ = computed(
     () => !!(toggleEnabled.isActive.value && auth.isAuth$)
   );
-  const { watchProcessing } = useStoreAppProcessing();
   const {
     load: storageStart,
     result,
@@ -71,7 +70,7 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
   // })
 
   // @@upload
-  const uploadStatus = useProcessMonitor();
+  const ps = useProcessMonitor();
   const upload = async <TFileData = IStorageStatusFileSaved>(
     uplFiles: IFilesUpload
   ) => {
@@ -91,7 +90,7 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
     let data;
 
     try {
-      uploadStatus.begin();
+      ps.begin();
       data = get(
         await axios<Record<string, TFileData>>({
           method: "POST",
@@ -104,12 +103,13 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
         }),
         "data"
       );
+      if (isEmpty(data)) throw "storage@api:error";
     } catch (error) {
-      uploadStatus.setError(error);
+      ps.setError(error);
     } finally {
-      uploadStatus.done();
+      ps.done();
     }
-    if (!(uploadStatus.error.value || isEmpty(data))) uploadStatus.successful();
+    if (!ps.error.value) ps.successful();
     return data;
   };
 
@@ -118,7 +118,6 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
     const path = resourceUrl(file_id);
     return file_id && path
       ? await navigateTo(path, {
-          external: true,
           open: { target: "_blank" },
         })
       : undefined;
@@ -166,15 +165,15 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
   const processing = computed(
     () =>
       loading.value ||
-      uploadStatus.processing.value ||
+      ps.processing.value ||
       rmLoading.value ||
       metaLoading.value
   );
-  watchProcessing(processing);
 
   // @io/listen
-  watchEffect(() => useIOEvent(ioevent_.value, reloadFiles));
-  watchEffect(() => useIOEvent(IOEVENT_STORAGE_META_CHANGE.value, reloadFiles));
+  const watcher_IO = useUniqueId();
+  watchEffect(() => useIOEvent(ioevent_.value, watcher_IO));
+  watchEffect(() => useIOEvent(IOEVENT_STORAGE_META_CHANGE.value, watcher_IO));
 
   return {
     // @crud
@@ -190,13 +189,13 @@ export const useApiStorage = (initialEnabled = true, __list_all = false) => {
     processing,
 
     // @status:upload
-    uploadStatus,
+    uploadStatus: ps,
 
     // @toggle:api-enabled
     toggleEnabled,
 
     // @io
-    IO: ioevent_,
+    IO: watcher_IO.ID,
 
     // @alias
     loading: processing,

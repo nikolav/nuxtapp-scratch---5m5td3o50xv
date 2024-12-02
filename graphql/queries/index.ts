@@ -926,3 +926,32 @@ export const Q_reportsSearch = gql`
     )
   }
 `;
+
+// groupsByUser(uid: ID!): [Asset!]!
+export const Q_groupsByUser = gql`
+  query q_groupsByUser($uid: ID!) {
+    groupsByUser(uid: $uid) {
+      id
+      name
+      code
+      type
+      location
+      status
+      condition
+      data
+      notes
+      key
+      tags
+      author {
+        id
+        email
+        key
+        created_at
+        updated_at
+      }
+      docs
+      created_at
+      updated_at
+    }
+  }
+`;

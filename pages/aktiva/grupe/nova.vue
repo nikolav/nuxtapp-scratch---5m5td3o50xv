@@ -156,7 +156,7 @@ onMounted(() => {
         />
         <div class="__sizer space-y-2 mt-5" ref="ref_ykDJKZRhf6dq67Nae">
           <VTextField
-            v-model.trim="form.name.value"
+            v-model="form.name.value"
             autofocus
             clearable
             variant="underlined"
@@ -174,7 +174,7 @@ onMounted(() => {
           </VTextField>
 
           <VTextField
-            v-model.trim="form.location.value"
+            v-model="form.location.value"
             clearable
             variant="underlined"
             label="Lokacija"
@@ -220,7 +220,7 @@ onMounted(() => {
           </VSelect>
 
           <VTextarea
-            v-model.trim="form.notes.value"
+            v-model="form.notes.value"
             clearable
             variant="underlined"
             label="Opis"

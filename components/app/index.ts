@@ -13,6 +13,7 @@ export * from "./dom";
 export * from "./menu";
 export * from "./services";
 export * from "./utils";
+export * from "./nodata";
 
 export { default as VChipPlus } from "./v-chip-plus.vue";
 export { default as VBtnFilterClear } from "./vbtn-filter-clear.vue";

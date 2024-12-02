@@ -6,6 +6,7 @@ import {
   VBtnReset,
   VBtnSave,
   NuxtLinkAssetsFormExternal,
+  VEmptyStateNoData,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -166,7 +167,7 @@ const formSubmit = () => {
     <VCard flat>
       <template v-if="isEmpty(FIELDS)">
         <slot name="no-data">
-          <span> ⏳🚧 --no-data </span>
+          <VEmptyStateNoData class="opacity-50" />
         </slot>
       </template>
       <template v-else>

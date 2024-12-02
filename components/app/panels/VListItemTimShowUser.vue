@@ -1,7 +1,12 @@
 <script setup lang="ts">
+// 6248d232-008e-5e4d-affc-a63b95ff0049
 // ##imports
 import type { IUser, OrNoValue } from "@/types";
-import { VBadgeUserAvailability, VBtnShowLocation } from "@/components/app";
+import {
+  VBadgeUserAvailability,
+  VBtnShowLocation,
+  SpanTruncateCharsLength,
+} from "@/components/app";
 // ##config:const
 // ##config ##props
 const props = defineProps<{ user?: OrNoValue<IUser>; propsAvatar?: any }>();
@@ -63,11 +68,13 @@ const groups = computed(() => props.user?.groups || []);
       </span>
     </template>
     <VListItemTitle class="text-h6">
-      {{ calcDisplayName(user) }}
+      <h2>
+        <SpanTruncateCharsLength :text="calcDisplayName(user)" :length="12" />
+      </h2>
     </VListItemTitle>
     <VCardSubtitle
       v-if="!isEmpty(groups)"
-      class="ms-0 ps-0 d-flex items-center gap-1"
+      class="ms-0 ps-0 d-flex items-center gap-[2px] flex-wrap"
     >
       <VChip
         color="primary"
@@ -75,8 +82,9 @@ const groups = computed(() => props.user?.groups || []);
         size="small"
         v-for="g in groups"
         :key="g"
-        :text="g"
-      />
+      >
+        <SpanTruncateCharsLength :text="g" :length="20" />
+      </VChip>
     </VCardSubtitle>
   </VListItem>
 </template>

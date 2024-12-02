@@ -9,6 +9,7 @@ import {
   VCardTitleSectionStart,
   VBtnShowLocation,
   VDataIteratorListData,
+  ProvideUserGroups,
 } from "@/components/app";
 
 // ##config ##const
@@ -18,7 +19,7 @@ definePageMeta({
 });
 // ##utils
 const route = useRoute();
-const UID = computed(() => route.params.uid);
+const { uid: UID } = route.params;
 const { accountAttachments } = useTopics();
 // ##icons
 // ##refs ##flags
@@ -28,7 +29,7 @@ const {
   loading,
   //
   uid,
-  // user,
+  user,
   // profile,
   key: key$,
   firstName,
@@ -41,9 +42,9 @@ const {
   chatChannel: topicChatChannel,
   avatarImage: avatar,
   job,
-  groups,
+  // groups,
   employedAt,
-} = useQueryUserData(() => [UID.value]);
+} = useQueryUserData(UID);
 const { attachments, size: attachmentsSize } = useFirebaseStorageAttachments({
   ID: uid,
   KEY: accountAttachments,
@@ -66,6 +67,7 @@ useHead({ title: displayName });
       variant="text"
       rounded="0"
       elevation="0"
+      flat
       class="pb-12 *overflow-visible"
     >
       <!-- :text="displayName" -->
@@ -87,7 +89,7 @@ useHead({ title: displayName });
           </span>
         </template>
         <template #prepend>
-          <Iconx size="1rem" icon="user" class="opacity-30" />
+          <Iconx size="1.122rem" icon="user" class="opacity-20 ms-1" />
         </template>
         <template #actions>
           <VBtnTopicChatToggle :topic="topicChatChannel" variant="text" />
@@ -126,6 +128,23 @@ useHead({ title: displayName });
 
       <!-- @@size:all-fields -->
       <div class="__spacer__all_fields max-w-[592px] mx-auto">
+        <!-- @@field:groups -->
+        <ProvideUserGroups v-if="user" :user="user" v-slot="{ groups }">
+          <VCardText
+            v-if="!isEmpty(groups)"
+            class="__spacer d-inline-flex items-center flex-wrap gap-2"
+          >
+            <VChip
+              v-for="g in groups"
+              :to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
+              elevation="1"
+              color="info-darken-1"
+              size="small"
+              :key="g"
+              :text="g.name"
+            />
+          </VCardText>
+        </ProvideUserGroups>
         <VSpacer class="mt-5" />
         <VAvatarProfileImage
           :props-container="{ class: 'mx-auto' }"
@@ -219,19 +238,7 @@ useHead({ title: displayName });
             >
             </VTextField>
           </template>
-          <!-- @@field:groups -->
-          <template v-if="!isEmpty(groups)">
-            <VTextField
-              class="groups"
-              variant="plain"
-              readonly
-              label="Tim, grupa, odsek"
-              :model-value="
-                groups.map(startCase).join(`&nbsp;&nbsp;•&nbsp;&nbsp;`)
-              "
-            >
-            </VTextField>
-          </template>
+
           <!-- @@field:key -->
           <template v-if="key$">
             <VTextField

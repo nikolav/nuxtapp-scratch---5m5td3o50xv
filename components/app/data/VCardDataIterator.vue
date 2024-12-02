@@ -2,7 +2,11 @@
 // e66ca91d-8013-56a5-a9f4-61903e42b97d
 import { mergeProps } from "vue";
 import type { IAsset } from "@/types";
-import { VBadgeSelectedOfTotal, VBtnFilterClear } from "@/components/app";
+import {
+  VBadgeSelectedOfTotal,
+  VBtnFilterClear,
+  VEmptyStateNoData,
+} from "@/components/app";
 import { renderIcon } from "@/components/icons";
 
 // @config:const
@@ -359,7 +363,7 @@ watch(
       >
         <template #no-data>
           <slot name="no-data">
-            <p>no data</p>
+            <VEmptyStateNoData class="opacity-50" />
           </slot>
         </template>
         <template #default="{ items, isSelected, select }">

@@ -13,6 +13,7 @@ import {
   VDialogManageUsersTags,
   VListItemTimShowUser,
   VSheetPinCodeRequired,
+  VEmptyStateNoData,
 } from "@/components/app";
 
 definePageMeta({
@@ -36,6 +37,8 @@ const {
   APP_NAME,
   io: { IOEVENT_ACCOUNTS_UPDATED },
 } = useAppConfig();
+
+const { calcDisplayName } = useAuthUtils();
 const headers = [
   {
     title: "",
@@ -44,12 +47,7 @@ const headers = [
   {
     title: "Osoba",
     key: "fullname",
-    value: (node: any) =>
-      get(node, "profile.displayName", "") ||
-      [get(node, "profile.lastName", ""), get(node, "profile.firstName", "")]
-        .filter(Boolean)
-        .join(", ") ||
-      get(node, "email"),
+    value: calcDisplayName,
   },
   {
     title: "Grupe",
@@ -67,7 +65,6 @@ const iconSearch = renderIcon("search", {
 });
 
 // ##utils
-// const toUid = (u: any) => Number(u.id);
 const toUid = toIds;
 const ps = useProcessMonitor();
 
@@ -132,7 +129,6 @@ const disabledBtnAccountsRemove = computed(
 );
 
 // ##utils
-const { calcDisplayName } = useAuthUtils();
 const toggleToolbarSecondary = useToggleFlag();
 const placement_JRK4nyTV6J = usePanelPlacedViewport();
 
@@ -330,6 +326,9 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
         return-object
         class="CLASS--VDataTable--no-row-divider"
       >
+        <template #no-data>
+          <VEmptyStateNoData class="opacity-50" />
+        </template>
         <template #top>
           <!-- @@toolbar:1 -->
           <VToolbar
