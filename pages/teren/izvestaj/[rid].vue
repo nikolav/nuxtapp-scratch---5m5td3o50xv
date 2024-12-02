@@ -4,7 +4,7 @@
 // ##config ##props ##route ##attrs
 definePageMeta({
   layout: "default",
-  middleware: "redirect-teren-prikaz-params-rid-query-q",
+  middleware: "redirect-teren-detaljno-params-rid-query-q",
 });
 // ##schemas
 // ##utils
