@@ -188,7 +188,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
     <VToolbarPrimary
       text="Nov upitnik"
       route-back-name="aktiva-obrasci"
-      :props-title="{ class: 'text-start ms-4 text-body-1 font-italic' }"
+      :props-title="{ class: 'text-body-1 font-italic' }"
       :props-actions="{ class: 'pe-1' }"
     >
       <template #actions>

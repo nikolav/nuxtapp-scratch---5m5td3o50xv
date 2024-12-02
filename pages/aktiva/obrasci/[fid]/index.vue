@@ -2,7 +2,7 @@
 // ##imports
 import {
   VToolbarPrimary,
-  VBtnGroupTopicLikeDislike,
+  // VBtnGroupTopicLikeDislike,
   VCardTitleSectionStart,
   ProvideAssetsChildren,
 } from "@/components/app";
@@ -16,7 +16,6 @@ definePageMeta({
 const {
   db: {
     Assets: {
-      DigitalFormFieldTypes,
       type: { PEOPLE_GROUP_TEAM },
     },
   },
@@ -27,7 +26,7 @@ const form = computed(() => get(attrs, "route-data.form"));
 // ##schemas
 // ##utils
 const { ICONS_ASSETS_FORMS_type } = useIconsConfig();
-const { likesAssets } = useTopics();
+// const { likesAssets } = useTopics();
 const { calcDisplayName } = useAuthUtils();
 // ##icons
 // ##refs ##flags ##models
@@ -36,7 +35,7 @@ const { calcDisplayName } = useAuthUtils();
 const authorDisplayName = computed(() =>
   calcDisplayName(get(form.value, "author", ""))
 );
-const topicLikesAssetsForm_ = computed(() => likesAssets(form.value?.id));
+// const topicLikesAssetsForm_ = computed(() => likesAssets(form.value?.id));
 const fields = computed(() => get(form.value, "data.fields"));
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
@@ -82,7 +81,7 @@ useHead({ title: "📝 Obrasci" });
           </span>
           <VTooltip text="Autor" />
         </VChip>
-        <VBtnGroupTopicLikeDislike light :topic="topicLikesAssetsForm_" />
+        <!-- <VBtnGroupTopicLikeDislike light :topic="topicLikesAssetsForm_" /> -->
       </div>
       <div class="__spacer d-flex items-center gap-2">
         <ProvideAssetsChildren

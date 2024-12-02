@@ -84,7 +84,7 @@ useHead({ title: "Veza" });
         <VToolbarPrimary
           route-back-name="veza"
           text="Nov kanal"
-          :props-title="{ class: 'text-body-1' }"
+          :props-title="{ class: 'text-body-1 font-italic' }"
         >
           <template #prepend>
             <Iconx icon="headset" size="1.5rem" class="mx-1 opacity-20" />

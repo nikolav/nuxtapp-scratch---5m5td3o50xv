@@ -163,7 +163,7 @@ useHead({ title: "📝 Izveštaji | Popuni" });
     <VToolbarPrimary
       :text="form.name"
       route-back-name="teren-izvestaji"
-      :props-title="{ class: 'text-body-1 text-start font-italic' }"
+      :props-title="{ class: 'text-body-1 font-italic' }"
     >
       <template #prepend>
         <Iconx

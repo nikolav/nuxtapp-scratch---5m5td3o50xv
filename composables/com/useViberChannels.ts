@@ -28,7 +28,7 @@ export const useViberChannels = () => {
     });
   };
   return {
-    enabled: readonly(enabled),
+    enabled,
     send: {
       text: batchSendText,
     },

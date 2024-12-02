@@ -7,7 +7,7 @@ export const useCacheRedis = (CACHE_KEY?: any, enableWatchIO: any = true) => {
   } = useAppConfig();
   const { ioeventRedisCacheKey } = useTopics();
   const auth = useStoreApiAuth();
-  const cache_key = ref<any>();
+  const cache_key = ref();
   watchEffect(() => {
     cache_key.value = toValue(CACHE_KEY) || defaultCacheKey;
   });
@@ -54,11 +54,9 @@ export const useCacheRedis = (CACHE_KEY?: any, enableWatchIO: any = true) => {
       : undefined;
 
   // @io
-  const IOEvent = computed(() => ioeventRedisCacheKey(cache_key.value));
-  watchEffect(() =>
-    useIOEvent(toValue(enableWatchIO) ? IOEvent.value : "", reload)
+  const IO = computed(() =>
+    toValue(enableWatchIO) ? ioeventRedisCacheKey(cache_key.value) : ""
   );
-
   // @processing
   const processing = computed(() => loading.value || mutateLoading.value);
   //
@@ -69,7 +67,7 @@ export const useCacheRedis = (CACHE_KEY?: any, enableWatchIO: any = true) => {
     enabled,
     reload,
     processing,
-    IOEvent,
+    IO,
     // alias
     cache: store,
   };

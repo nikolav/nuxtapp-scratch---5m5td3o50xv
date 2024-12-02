@@ -32,12 +32,10 @@ const itemLinkTo = (itemP: any) => ({
   // external: true,
   target: "_blank",
 });
-const { categoryNodeByTag, categoryTagByAsset } = useCategoryAssets();
+const { categoryNode } = useCategoryAssets();
 // @@items-groups
 const productGrops = (p: any) =>
-  [get(categoryNodeByTag(categoryTagByAsset(p)), "model.title")].filter(
-    Boolean
-  );
+  [get(categoryNode(p), "model.title")].filter(Boolean);
 const getid = toIds;
 
 // ##utils
