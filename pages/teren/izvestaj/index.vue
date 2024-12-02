@@ -14,7 +14,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const { q } = route.query;
+const { q: rid } = route.query;
 
 const {
   urls: { appPublic },
@@ -24,7 +24,7 @@ const {
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
-const { reports } = useQueryReportsSearch("ids:public", () => [q]);
+const { reports } = useQueryReportsSearch("ids:public", () => [rid]);
 const report = computed(() => first(reports.value));
 // ##computed
 const form = computed(() => report.value?.asset);
