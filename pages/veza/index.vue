@@ -28,9 +28,11 @@ const ps = useProcessMonitor();
 // ##refs ##flags ##models
 const chatsSelected = ref();
 const toggleMessageCompose = useToggleFlag();
+const toggleMessageComposeViber = useToggleFlag();
 const toggleNotificationsSendSuccess = useToggleFlag();
 const toggleChatsDeletedSuccess = useToggleFlag();
 const resetIdMessage = useUniqueId();
+const resetIdMessageViber = useUniqueId();
 // ##data ##auth ##state
 // const auth = useStoreApiAuth();
 const {
@@ -69,6 +71,10 @@ const handleDelete = async (selection: any) => {
     ps.successful(() => {
       toggleChatsDeletedSuccess.on();
     });
+};
+const onMessageViber = async (message: any) => {
+  // pass
+  console.log({ "message:viber": message });
 };
 const onMessage = async (message: any) => {
   try {
@@ -126,6 +132,16 @@ useHead({ title: "Veza" });
       positioned
       :reset-id="resetIdMessage.ID.value"
     />
+    <VMenuComposeChatMessage
+      v-model="toggleMessageComposeViber.isActive.value"
+      :activator="undefined"
+      :attach="`.${BODY_ADD_CLASS}`"
+      topic="370d0032-88fa-56e8-9439-817580d02e72"
+      @message="onMessageViber"
+      positioned
+      :reset-id="resetIdMessageViber.ID.value"
+      viber
+    />
     <VCardDataIterator
       v-model="chatsSelected"
       :items="channels"
@@ -140,6 +156,8 @@ useHead({ title: "Veza" });
       }"
       :props-title="{ class: 'ms-3' }"
       :format-title="fmtTitle"
+      enabled-dots-menu
+      :props-dots-menu-icon="{ size: '1.5rem' }"
     >
       <template #list-item-append="{ item: channel_ }">
         <VBtnTopicChatToggle
@@ -157,6 +175,7 @@ useHead({ title: "Veza" });
               title: 'Obaveštenje',
               value: '04417230-4a5a-5f7f-b45e-1158f4b1c011',
               props: {
+                disabled: isEmpty(selection),
                 class: 'ms-4 text-body-1',
                 icon: {
                   icon: 'notification',
@@ -167,12 +186,26 @@ useHead({ title: "Veza" });
               },
             },
             {
+              title: 'Viber poruka',
+              value: '4d2c3003-8003-5860-9552-e65ddd623571',
+              props: {
+                class: 'ms-4 text-body-1',
+                icon: {
+                  icon: 'viber',
+                  size: '1.122rem',
+                  class: '*text-error opacity-20',
+                },
+                handle: toggleMessageComposeViber.on,
+              },
+            },
+            {
               type: 'divider',
             },
             {
               title: 'Obriši kanale',
               value: 'c8789474-64b2-544a-8edf-6c1c353ee853',
               props: {
+                disabled: isEmpty(selection),
                 class: 'ms-4 text-body-1',
                 icon: {
                   icon: 'trash',

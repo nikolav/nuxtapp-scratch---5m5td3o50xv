@@ -19,7 +19,7 @@
 </script>
 <template>
   <VEmptyState
-    class="component--VEmptyStateNoData"
+    class="component--VEmptyStateNoData text-primary-darken-3"
     title="Nema podataka."
     text="Trenutno nema stavki za prikaz."
   >

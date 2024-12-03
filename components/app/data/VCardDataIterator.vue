@@ -32,13 +32,16 @@ const props = withDefaults(
     propsSelection?: any;
     propsList?: any;
     propsListItem?: any;
-
+    //
     perPage?: number;
     reload?: any;
     //
     signalIdDeselect?: any;
     formatTitle?: any;
     hidePagination?: boolean;
+    //
+    enabledDotsMenu?: boolean;
+    propsDotsMenuIcon?: any;
   }>(),
   {
     itemTitle: "title",
@@ -252,12 +255,12 @@ watch(
         </VBtn>
         <VBtn
           v-if="$slots.menu"
-          :disabled="!someSelected"
+          :disabled="enabledDotsMenu ? false : !someSelected"
           density="comfortable"
           icon
           variant="text"
         >
-          <Icon name="mdi:dots-vertical" size="1.33rem" />
+          <Iconx icon="dots-v" size="1.33rem" v-bind="propsDotsMenuIcon" />
           <VMenu
             activator="parent"
             location="bottom end"
@@ -265,7 +268,11 @@ watch(
             :transition="DEFAULT_TRANSITION"
             v-bind="menuProps"
           >
-            <slot name="menu" :selection="itemsSelected">
+            <slot
+              name="menu"
+              :selection="itemsSelected"
+              :someSelected="someSelected"
+            >
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
             </slot>
           </VMenu>

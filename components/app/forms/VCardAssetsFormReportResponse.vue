@@ -48,19 +48,19 @@ const { ICONS_ASSETS_FORMS_type } = useIconsConfig();
       <template v-for="(formField, index) in fields" :key="formField.key">
         <template v-if="hasOwn(response, formField.data.question)">
           <VSpacer v-if="0 < index" class="mt-12" />
-          <h4 class="text-body-1 font-weight-medium">
-            <VBadge
-              :content="1 + index"
-              inline
-              class="opacity-50 align-text-bottom mx-2"
-            />
-            <span>{{ formField.data.question }}</span>
-          </h4>
-          <VCardText
-            v-if="descriptions && formField.data.description"
-            class="indent-2 text-body-1 text-disabled"
-          >
-            <p>
+          <VCardText>
+            <h4 class="text-body-1 font-weight-medium">
+              <VBadge
+                :content="1 + index"
+                inline
+                class="opacity-50 align-text-bottom mx-2"
+              />
+              <span>{{ formField.data.question }}</span>
+            </h4>
+            <p
+              v-if="descriptions && formField.data.description"
+              class="indent-2 text-body-1 text-disabled pa-2"
+            >
               <small>
                 {{ formField.data.description }}
               </small>

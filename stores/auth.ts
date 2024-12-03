@@ -1,3 +1,4 @@
+// 851eb7d1-e4bd-51e9-a533-ad904e8e7d25
 import { signOut } from "firebase/auth";
 import { auth as firebaseAuth } from "@/services/firebase";
 import type {

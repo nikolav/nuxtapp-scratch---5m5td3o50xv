@@ -16,8 +16,9 @@ const props = withDefaults(
     loading?: boolean;
     resetId?: any;
     topic?: any;
-    notification?: boolean;
     positioned?: boolean;
+    notification?: boolean;
+    viber?: boolean;
   }>(),
   {
     topic: "413c9264-5469-5c38-9e93-051eb180e065",
@@ -42,6 +43,7 @@ const schemaChatMessage = z.object({
 
 // ##icons
 // ##refs ##flags
+const viberChannelsSelected = ref();
 const menuIsActive = defineModel<any>();
 // ##data ##auth ##state
 const auth = useStoreApiAuth();
@@ -57,13 +59,25 @@ const { submit, form, valid, clear } = useFormDataFields(
     schema: schemaChatMessage,
     onSubmit: (data: any) => {
       // const msg = { ...data, uid: auth.uid, name: auth.displayName };
-      emit("message", data.message);
+      // emit("message", data.message);
+      emit(
+        "message",
+        props.viber
+          ? JSON.stringify({
+              ...data,
+              channels: viberChannelsSelected.value,
+            })
+          : data.message
+      );
       nextTick(clear);
     },
   }
 );
 const formReset = () => {
   form.message.value = undefined;
+  if (props.viber) {
+    viberChannelsSelected.value = undefined;
+  }
 };
 
 // ##watch
@@ -104,8 +118,26 @@ watch(() => props.resetId, formReset);
         class="top-1 end-1 z-[1]"
       />
       <VForm :disabled="loading" @submit.prevent="submit" autocomplete="off">
+        <VSelect
+          v-if="viber"
+          v-model="viberChannelsSelected"
+          width="75%"
+          color="primary-darken-1"
+          density="compact"
+          :items="['foo', 'bax', 'baz']"
+          variant="plain"
+          label="Viber kanali"
+          single-line
+          multiple
+          chips
+          closable-chips
+        >
+          <template #label="{ label }">
+            <small>{{ label }}...</small>
+          </template>
+        </VSelect>
         <VTextField
-          v-model.trim="auth.displayName"
+          v-model="auth.displayName"
           placeholder="Korisnik"
           variant="plain"
           class="opacity-75"
@@ -129,7 +161,7 @@ watch(() => props.resetId, formReset);
           <VSpacer />
           <VBtn
             type="submit"
-            :disabled="!valid"
+            :disabled="!valid || (viber && isEmpty(viberChannelsSelected))"
             size="large"
             rounded="pill"
             variant="elevated"

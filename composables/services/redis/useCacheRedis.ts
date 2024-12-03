@@ -1,6 +1,6 @@
 import type { OrNoValue, RecordJson } from "@/types";
 import { Q_cacheRedisGetCacheByKey, M_cacheRedisCommit } from "@/graphql";
-export const useCacheRedis = (CACHE_KEY?: any, enableWatchIO: any = true) => {
+export const useCacheRedis = (CACHE_KEY?: any, enabledWatchIO: any = true) => {
   const {
     redis: { defaultCacheKey },
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
@@ -55,7 +55,7 @@ export const useCacheRedis = (CACHE_KEY?: any, enableWatchIO: any = true) => {
 
   // @io
   const IO = computed(() =>
-    toValue(enableWatchIO) ? ioeventRedisCacheKey(cache_key.value) : ""
+    toValue(enabledWatchIO) ? ioeventRedisCacheKey(cache_key.value) : ""
   );
   // @processing
   const processing = computed(() => loading.value || mutateLoading.value);

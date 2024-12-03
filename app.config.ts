@@ -318,6 +318,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      viber: "jam:viber",
       empty: "ph:empty",
       barcode: "material-symbols:barcode",
       world: "tabler:world",
@@ -485,5 +486,9 @@ export default defineAppConfig({
     defaultCacheKey: "_main:2a7b484c-fc40-5d2f-b294-2e33b3b01afd",
     CACHE_KEY_ASSETS_ATTACHMENTS_prefix:
       "CACHE_KEY_ASSETS_ATTACHMENTS:qdSl6XmU1m:",
+  },
+  viber: {
+    VIBER_CHANNELS_CACHEID:
+      "VIBER_CHANNELS_CACHEID:415f3faf-08e0-5b1e-b0c6-4322c28504a2",
   },
 });

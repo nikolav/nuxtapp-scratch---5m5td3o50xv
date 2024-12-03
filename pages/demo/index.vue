@@ -5,7 +5,7 @@ import { Demo } from "@/components/dev";
 // ##config ##props ##route ##attrs
 definePageMeta({
   layout: "app-default",
-  // middleware: "access-debug",
+  middleware: "access-debug",
 });
 // ##schemas
 // ##utils
@@ -17,7 +17,7 @@ definePageMeta({
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "🚧@Demo" });
+useHead({ title: "🚧Demo" });
 // ##provide
 // ##io
 
@@ -25,7 +25,7 @@ useHead({ title: "🚧@Demo" });
 </script>
 <template>
   <section class="page--demo">
-    <h1>🚧</h1>
+    <Demo />
   </section>
 </template>
 <style lang="scss" scoped></style>

@@ -312,6 +312,7 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "jam:viber",
         "ph:empty",
         "tabler:world",
         "iconoir:page",

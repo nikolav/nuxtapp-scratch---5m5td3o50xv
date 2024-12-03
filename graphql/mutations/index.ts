@@ -357,3 +357,10 @@ export const M_reportsConfigurationTags = gql`
     reportsConfigurationTags(ids: $ids, config: $config)
   }
 `;
+
+// viberChannelSetupSetWebhook(url: String!, auth_token: String!): JsonData!
+export const M_viberChannelSetupSetWebhook = gql`
+  mutation m_viberChannelSetupSetWebhook($url: String!, $auth_token: String!) {
+    viberChannelSetupSetWebhook(url: $url, auth_token: $auth_token)
+  }
+`;
