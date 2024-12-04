@@ -1,5 +1,14 @@
 export const IMPORTS = [
   {
+    from: "lodash/includes",
+    imports: [
+      {
+        name: "default",
+        as: "includes",
+      },
+    ],
+  },
+  {
     from: "lodash/get",
     imports: [
       {
@@ -121,10 +130,10 @@ export const IMPORTS = [
     from: "lodash/keys",
     imports: [{ name: "default", as: "keys" }],
   },
-  // {
-  //   from: "lodash/isEqual",
-  //   imports: [{ name: "default", as: "isEqual" }],
-  // },
+  {
+    from: "lodash/isEqual",
+    imports: [{ name: "default", as: "isEqual" }],
+  },
   {
     from: "lodash/sample",
     imports: [{ name: "default", as: "sample" }],

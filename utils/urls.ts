@@ -14,7 +14,5 @@ export const publicUrlAssetProduct = (
     ? `${trim(host, "/")}/${trim(path, "/")}?q=${encodeURIComponent(p.id)}`
     : "";
 
-// [trim(host, "/"), trim(path, "/"), encodeURIComponent(p.id)].join("/")
-
 export const resourceUrl = (file_id: string = "") =>
   file_id ? `${URL_STORAGE}/${file_id}` : "";

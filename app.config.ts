@@ -318,6 +318,10 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "filter-off": "material-symbols:filter-alt-off-outline",
+      "folder-user": "material-symbols:folder-supervised-sharp",
+      lightning: "mdi:lightning-bolt",
+      filter: "material-symbols:filter-alt",
       viber: "jam:viber",
       empty: "ph:empty",
       barcode: "material-symbols:barcode",

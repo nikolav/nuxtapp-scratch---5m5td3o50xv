@@ -24,9 +24,10 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
 </script>
 <template>
   <VToolbar
+    flat
     :height="toolbarMainHeight"
-    class="component--VToolbarPrimary"
     color="primary"
+    class="component--VToolbarPrimary"
   >
     <template v-if="$slots.prepend" #prepend>
       <slot name="prepend" :routeBack="ROUTE_BACK" />
@@ -51,7 +52,7 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
     </template>
     <slot :text="text">
       <VToolbarTitle
-        class="text-center opacity-50 font-weight-light *bg-red"
+        class="text-center opacity-50 font-weight-light"
         v-bind="propsTitle"
       >
         <slot name="title" :text="text">

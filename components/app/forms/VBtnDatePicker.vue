@@ -10,9 +10,11 @@ defineOptions({
 const props = withDefaults(
   defineProps<{
     label?: any;
+    defaultNoValue?: string;
+    formatDisplayDate?: any;
     propsBtn?: any;
     propsContainer?: any;
-    defaultNoValue?: string;
+    propsMenu?: any;
   }>(),
   {
     defaultNoValue: "-izaberi datum-",
@@ -33,7 +35,9 @@ const Date_ = ref();
 // ##computed
 const displayDate = computed(() =>
   mDatePicked.value
-    ? mDatePicked.value.local().format("D. MMMM YYYY.")
+    ? props.formatDisplayDate
+      ? props.formatDisplayDate(mDatePicked.value)
+      : mDatePicked.value.local().format("D. MMMM YYYY.")
     : undefined
 );
 // ##forms ##helpers ##handlers
@@ -52,7 +56,7 @@ const dateSelected = () => {
 </script>
 <template>
   <span class="component--VBtnDatePicker grid_" v-bind="propsContainer">
-    <span class="label_">
+    <span v-if="label" class="label_">
       <slot name="label">
         <span class="ps-px opacity-50 text-caption">{{ label }}</span>
       </slot>
@@ -80,6 +84,7 @@ const dateSelected = () => {
           location="center"
           :transition="DEFAULT_TRANSITION"
           :close-on-content-click="false"
+          v-bind="propsMenu"
         >
           <VForm
             @submit.prevent="dateSelected"

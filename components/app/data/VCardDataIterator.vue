@@ -12,6 +12,9 @@ import { renderIcon } from "@/components/icons";
 // @config:const
 const DEFAULT_PER_PAGE = 6;
 // @config
+const emit = defineEmits<{
+  toolbarSecondaryClosed: [void];
+}>();
 defineOptions({
   inheritAttrs: false,
 });
@@ -19,11 +22,13 @@ const itemsSelected = defineModel<IAsset[] | undefined>();
 const props = withDefaults(
   defineProps<{
     items: any[];
+    // prop on data for title
     itemTitle?: string;
+    // prop on data for value
     itemValue?: any;
-    // route name @item
+    // fn; calc route name @item
     itemTo?: any;
-    // fn; get groups @item
+    // fn; calc groups @item
     itemGroups?: any;
 
     cardProps?: any;
@@ -34,9 +39,11 @@ const props = withDefaults(
     propsListItem?: any;
     //
     perPage?: number;
+    // fn; externaly pass data reload
     reload?: any;
     //
     signalIdDeselect?: any;
+    // fn; overide .itemTitle; calc item title
     formatTitle?: any;
     hidePagination?: boolean;
     //
@@ -119,6 +126,9 @@ const {
   perPage: props.perPage,
   data: itemsFilteredGroups,
 });
+watch(toggleToolbarSecondary.isActive, (isActive: boolean) => {
+  if (!isActive) emit("toolbarSecondaryClosed");
+});
 
 // @helpers
 const filterClear = () => {
@@ -150,6 +160,7 @@ watch(
 </script>
 <template>
   <VCard
+    flat
     class="component--VCardDataIterator"
     density="comfortable"
     rounded="0"
@@ -282,7 +293,7 @@ watch(
     <!-- @@toolbar:secondary -->
     <VToolbar
       v-else
-      color="primary-lighten-2"
+      color="primary-lighten-1"
       :height="toolbarMainHeight"
       floating
     >
@@ -316,6 +327,9 @@ watch(
         v-if="searchTerm || !isEmptyGroupsSelected"
         @click="filterClear"
       />
+      <!-- additional ui @secondary toolbar -->
+      <!-- for searches filters etc. -->
+      <slot name="toolbar-secondary-actions" />
       <!-- @@groups:select -->
       <VBtn v-if="0 < groupsAll?.length" icon density="comfortable">
         <Icon size="1.33rem" name="material-symbols:filter-list" />
@@ -357,6 +371,10 @@ watch(
         </VMenu>
       </VBtn>
     </VToolbar>
+    <!-- any additional ui above items -->
+    <div v-if="$slots.prepend" class="__spacer">
+      <slot name="prepend" />
+    </div>
     <!-- @@data -->
     <VCardText class="pa-0 ma-0">
       <VDataIterator

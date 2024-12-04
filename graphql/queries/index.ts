@@ -872,10 +872,10 @@ export const Q_assetsCount = gql`
   }
 `;
 
-// assetsFormsSubmissionsList: [Docs!]!
+// assetsFormsSubmissionsList(strategy: String, args: [JsonData!]): [Docs!]!
 export const Q_assetsFormsSubmissionsList = gql`
-  query q_assetsFormsSubmissionsList {
-    assetsFormsSubmissionsList {
+  query q_assetsFormsSubmissionsList($strategy: String, $args: [JsonData!]) {
+    assetsFormsSubmissionsList(strategy: $strategy, args: $args) {
       id
       key
       data

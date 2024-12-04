@@ -44,9 +44,11 @@ const {
       :max-width="212"
       v-bind="propsMenu"
     >
-      <VList v-bind="propsList">
-        <slot name="list-items" />
-      </VList>
+      <slot name="list">
+        <VList v-bind="propsList">
+          <slot name="list-items" />
+        </VList>
+      </slot>
     </VMenu>
   </VBtn>
 </template>

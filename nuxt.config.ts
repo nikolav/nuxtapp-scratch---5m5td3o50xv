@@ -312,6 +312,9 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "material-symbols:folder-supervised-sharp",
+        "mdi:lightning-bolt",
+        "material-symbols:filter-alt",
         "jam:viber",
         "ph:empty",
         "tabler:world",
