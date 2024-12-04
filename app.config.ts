@@ -488,7 +488,11 @@ export default defineAppConfig({
       "CACHE_KEY_ASSETS_ATTACHMENTS:qdSl6XmU1m:",
   },
   viber: {
+    URL_VIBER_API_DOCS:
+      "https://developers.viber.com/docs/tools/channels-post-api/",
     VIBER_CHANNELS_CACHEID:
       "VIBER_CHANNELS_CACHEID:415f3faf-08e0-5b1e-b0c6-4322c28504a2",
+    VIBER_CHANNELS_CACHEID_GLOBAL_CHANNELS:
+      "VIBER_CHANNELS_CACHEID_GLOBAL_CHANNELS:8ea2d58f-3f6c-5353-92ee-266bd44de1ec",
   },
 });

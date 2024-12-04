@@ -18,7 +18,7 @@ const props = withDefaults(
     topic?: any;
     positioned?: boolean;
     notification?: boolean;
-    viber?: boolean;
+    itemsViberChannels?: any;
   }>(),
   {
     topic: "413c9264-5469-5c38-9e93-051eb180e065",
@@ -28,7 +28,7 @@ const {
   app: { DEFAULT_TRANSITION },
 } = useAppConfig();
 const emit = defineEmits<{
-  (e: "message", msg: string): void;
+  message: [msg: string];
 }>();
 
 // ##utils
@@ -62,7 +62,7 @@ const { submit, form, valid, clear } = useFormDataFields(
       // emit("message", data.message);
       emit(
         "message",
-        props.viber
+        props.itemsViberChannels
           ? JSON.stringify({
               ...data,
               channels: viberChannelsSelected.value,
@@ -75,7 +75,7 @@ const { submit, form, valid, clear } = useFormDataFields(
 );
 const formReset = () => {
   form.message.value = undefined;
-  if (props.viber) {
+  if (props.itemsViberChannels) {
     viberChannelsSelected.value = undefined;
   }
 };
@@ -105,7 +105,7 @@ watch(() => props.resetId, formReset);
             '!top-[25%] -translate-y-[25%]',
             smAndUp ? '!start-1/2 -translate-x-1/2' : 'translate-x-[4%]',
           ]
-        : undefiend
+        : ''
     "
   >
     <VSheet :rounded="smAndUp ? 'lg ts-xl' : 'lg'" class="pa-3 ps-5">
@@ -119,12 +119,12 @@ watch(() => props.resetId, formReset);
       />
       <VForm :disabled="loading" @submit.prevent="submit" autocomplete="off">
         <VSelect
-          v-if="viber"
+          v-if="itemsViberChannels"
           v-model="viberChannelsSelected"
           width="75%"
           color="primary-darken-1"
           density="compact"
-          :items="['foo', 'bax', 'baz']"
+          :items="itemsViberChannels"
           variant="plain"
           label="Viber kanali"
           single-line
@@ -161,7 +161,9 @@ watch(() => props.resetId, formReset);
           <VSpacer />
           <VBtn
             type="submit"
-            :disabled="!valid || (viber && isEmpty(viberChannelsSelected))"
+            :disabled="
+              !valid || (itemsViberChannels && isEmpty(viberChannelsSelected))
+            "
             size="large"
             rounded="pill"
             variant="elevated"

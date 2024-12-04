@@ -30,10 +30,13 @@ const chatsSelected = ref();
 const toggleMessageCompose = useToggleFlag();
 const toggleMessageComposeViber = useToggleFlag();
 const toggleNotificationsSendSuccess = useToggleFlag();
+const toggleViberMessageSuccess = useToggleFlag();
 const toggleChatsDeletedSuccess = useToggleFlag();
 const resetIdMessage = useUniqueId();
 const resetIdMessageViber = useUniqueId();
 // ##data ##auth ##state
+const { users: usersGrouped } = useQueryUsersSearch("groups-shared");
+const clientViber = useViberChannels();
 // const auth = useStoreApiAuth();
 const {
   assets: channels,
@@ -46,6 +49,10 @@ const {
   responseOkChats,
 } = useMessagingNotification();
 // ##computed
+const channelsViberActive = computed(() =>
+  clientViber.utils.channelsAccess(usersGrouped.value)
+);
+
 // ##forms ##handlers ##helpers
 const toId = (node: any) => Number(node?.id);
 const itemTo = (ch: IAsset) => ({
@@ -72,9 +79,23 @@ const handleDelete = async (selection: any) => {
       toggleChatsDeletedSuccess.on();
     });
 };
-const onMessageViber = async (message: any) => {
-  // pass
-  console.log({ "message:viber": message });
+const onMessageViber = async (message: string) => {
+  const dd = JSON.parse(message);
+  await clientViber.send.text(
+    reduce(
+      dd.channels,
+      (d: any, channel: string) => {
+        d[channel] = clientViber.utils.messageFormat(dd.name, dd.message);
+        return d;
+      },
+      <any>{}
+    ),
+    () => {
+      // @success
+      toggleViberMessageSuccess.on();
+      toggleMessageComposeViber.off();
+    }
+  );
 };
 const onMessage = async (message: any) => {
   try {
@@ -114,11 +135,13 @@ const onMessage = async (message: any) => {
 useHead({ title: "Veza" });
 // ##provide
 // ##io
-
 // @@eos
 </script>
 <template>
   <section class="page--veza">
+    <VSnackbarSuccess v-model="toggleViberMessageSuccess.isActive.value">
+      <p>Poruka je uspešno poslata.</p>
+    </VSnackbarSuccess>
     <VSnackbarSuccess v-model="toggleNotificationsSendSuccess.isActive.value">
       <p>Obaveštenje je uspešno poslato.</p>
     </VSnackbarSuccess>
@@ -140,7 +163,7 @@ useHead({ title: "Veza" });
       @message="onMessageViber"
       positioned
       :reset-id="resetIdMessageViber.ID.value"
-      viber
+      :items-viber-channels="channelsViberActive"
     />
     <VCardDataIterator
       v-model="chatsSelected"

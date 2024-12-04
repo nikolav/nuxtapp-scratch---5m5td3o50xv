@@ -1,28 +1,30 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary } from "@/components/app";
+import { Dump } from "@/components/dev";
+import { VToolbarPrimary, VSheetCrudViberChannels } from "@/components/app";
 // ##config:const
+const PANEL_VALUE_viber = "viber";
 // ##config ##props
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
 
-const {
-  layout: { toolbarMainHeight },
-} = useAppConfig();
-
 // ##schemas
 // ##utils
+const signalIdDeselect = useUniqueId();
 // ##icons
 // ##refs ##flags ##models
+const channels = ref();
 const panelActive = useGlobalVariable(
-  "config:060a891b-8661-5c1d-8b5d-3810de953f0a"
+  "config:panelActive:060a891b-8661-5c1d-8b5d-3810de953f0a"
 );
 // ##data ##auth ##state
 // ##computed
-const sizeBtnToolbar = toolbarMainHeight - 2;
 // ##forms ##handlers ##helpers
+const onPanelsModelValue = (value: any) => {
+  if (value == PANEL_VALUE_viber) signalIdDeselect();
+};
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -51,43 +53,34 @@ useHead({ title: "Podešavanja" });
       rounded="0"
       variant="accordion"
       static
+      @update:model-value="onPanelsModelValue"
     >
-      <VExpansionPanel value="viber">
+      <VExpansionPanel :value="PANEL_VALUE_viber">
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>Viber kanali</em>
+            <VBadge
+              :model-value="!isEmpty(channels)"
+              inline
+              :content="len(channels)"
+              color="secondary"
+            >
+              <em class="me-2">Viber kanali</em>
+            </VBadge>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-0">
-          <VToolbarPrimary color="transparent" hide-default-close class="pe-3">
-            <template #default>
-              <VSpacer />
-              <div class="__spacer space-x-5">
-                <VBtn :size="sizeBtnToolbar" variant="plain" icon>
-                  <Iconx icon="$plus" />
-                </VBtn>
-                <VBtn :size="sizeBtnToolbar" variant="plain" icon color="error">
-                  <Iconx icon="$minus" />
-                </VBtn>
-              </div>
-            </template>
-          </VToolbarPrimary>
-          <VResponsive :height="192" class="overflow-y-auto">
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Cupiditate, sed esse sequi, ab repellendus nulla ducimus pariatur
-              corporis quas itaque, expedita doloremque voluptatem tenetur
-              ratione nesciunt reprehenderit aut illum adipisci.
-            </p>
-          </VResponsive>
+          <VSheetCrudViberChannels
+            v-model="channels"
+            :signal-id-deselect="signalIdDeselect.ID.value"
+          />
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel value="viber2">
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>config</em>
+            <em>config:B</em>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-2">
@@ -101,7 +94,7 @@ useHead({ title: "Podešavanja" });
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>config</em>
+            <em>config:C</em>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-2">
@@ -115,7 +108,7 @@ useHead({ title: "Podešavanja" });
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>config</em>
+            <em>config:D</em>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-2">

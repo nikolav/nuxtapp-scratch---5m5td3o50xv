@@ -5,7 +5,7 @@ import { type OptionsType } from "@fancyapps/ui/types/Fancybox/options";
 const { Fancybox } = fancyappsui;
 
 const DEFAULT_OPTIONS = {
-  mainClass: "!z-[2010]",
+  mainClass: "!z-[2422]",
   // showClass:
   // hideClass
   closeExisting: true,

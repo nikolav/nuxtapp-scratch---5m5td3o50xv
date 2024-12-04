@@ -32,7 +32,7 @@ const schemaGoogleCalendarConfig = z.object({
 const { assetsUpdated } = useTopics();
 const FIELDS = <Record<string, IConfigFields>>{
   shareable_link: {
-    label: "Link",
+    label: "Link za ažuriranje",
     required: true,
     props: {
       variant: "underlined",
@@ -40,7 +40,7 @@ const FIELDS = <Record<string, IConfigFields>>{
     },
   },
   public_url: {
-    label: "Javni url",
+    label: "Javni url za pregled",
     required: true,
     props: {
       variant: "underlined",
@@ -113,14 +113,14 @@ watchEffect(() => useIOEvent(() => assetsUpdated(gid.value), gReload));
         icon="$calendar"
       >
         <template #title>
-          <span>Podesi parametre kalendara za pregled</span>
+          <span>Kako da podesim parametre kalendara</span>
           <NuxtLink
             class="ms-1"
             :href="URL_CALENDAR_CONFIG_HELP"
             target="_blank"
           >
             <VBtn icon small variant="plain" color="info" density="comfortable">
-              <Iconx icon="help" size="1.5rem" />
+              <Iconx icon="help" size="1.82rem" />
             </VBtn>
           </NuxtLink>
         </template>

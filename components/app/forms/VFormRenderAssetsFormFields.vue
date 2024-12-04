@@ -115,6 +115,9 @@ const FIELDS_format = <Record<string, IConfigFields>>{
           text: "Da",
         },
         value: true,
+        props: {
+          color: "success-darken-1",
+        },
       },
       {
         title: {
@@ -122,6 +125,9 @@ const FIELDS_format = <Record<string, IConfigFields>>{
           text: "Ne",
         },
         value: false,
+        props: {
+          color: "error",
+        },
       },
     ],
   },
@@ -275,7 +281,7 @@ const formSubmit = () => {
                               : !isSelected
                           )
                         "
-                        :color="isSelected ? 'primary' : 'secondary'"
+                        :color="isSelected ? i.props.color : 'secondary'"
                         :variant="isSelected ? 'elevated' : 'flat'"
                         v-bind="node.propsBtn"
                       >

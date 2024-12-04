@@ -9,6 +9,8 @@ import {
   VBtnOpenGallery,
 } from "@/components/app";
 
+const DEFAULT_PRODUCTS_PER_PAGE = 25;
+
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
@@ -71,7 +73,7 @@ useHead({ title: "Roba" });
       item-value="id"
       :item-to="itemTo"
       :reload="reload"
-      :per-page="6"
+      :per-page="DEFAULT_PRODUCTS_PER_PAGE"
       :item-groups="productGrops"
       :card-props="{ disabled: processing }"
       :props-list-item="{ class: 'ps-2' }"

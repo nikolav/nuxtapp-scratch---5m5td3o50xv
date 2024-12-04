@@ -16,6 +16,8 @@ const props = defineProps<{
   external?: boolean;
   //
   disabledSkeletonLoader?: boolean;
+  //
+  signalIdDeselect?: any;
 }>();
 const selection = defineModel<IUser[]>();
 // ##utils
@@ -32,9 +34,18 @@ const showSelect = computed(() =>
   "show-select" in attrs ? attrs["show-select"] : true
 );
 // ##forms ##handlers ##helpers
+const selectionClear = () => {
+  selection.value = undefined;
+};
 const navigateExternal = async (url: string) =>
   await navigateTo(url, { open: { target: "_blank" } });
 // ##watch
+watch(
+  () => props.signalIdDeselect,
+  (ID) => {
+    if (ID) selectionClear();
+  }
+);
 // ##hooks ##lifecycle
 // ##head ##meta
 // ##provide

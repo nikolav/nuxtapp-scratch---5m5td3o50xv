@@ -8,3 +8,4 @@ export { default as VChipUserTag } from "./VChipUserTag.vue";
 export { default as VBtnUsersTagsAdd } from "./VBtnUsersTagsAdd.vue";
 export { default as VChipUserAvatar } from "./VChipUserAvatar.vue";
 export { default as ProvideUserGroups } from "./ProvideUserGroups.vue";
+export { default as ProvideUsersSharedGroups } from "./ProvideUsersSharedGroups.vue";
