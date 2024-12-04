@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { Demo } from "@/components/dev";
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({
@@ -25,7 +24,7 @@ useHead({ title: "🚧Demo" });
 </script>
 <template>
   <section class="page--demo">
-    <Demo />
+    <span>🚧</span>
   </section>
 </template>
 <style lang="scss" scoped></style>
