@@ -4,7 +4,7 @@
 // ##config ##props ##route ##attrs
 definePageMeta({
   layout: "app-default",
-  middleware: "access-debug",
+  // middleware: "access-debug",
 });
 // ##schemas
 // ##utils

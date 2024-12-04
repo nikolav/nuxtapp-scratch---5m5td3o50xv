@@ -23,7 +23,6 @@ useHead({ title: "O aplikaciji" });
   <section class="page--about">
     <NuxtLink
       href="https://github.com/nikolav/nuxtapp-scratch---5m5td3o50xv/tree/frikom-app"
-      external
       target="_blank"
     >
       <div class="d-flex justify-end">
