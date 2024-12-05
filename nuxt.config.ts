@@ -143,6 +143,10 @@ export default defineNuxtConfig({
 
     // toasts
     // "~/assets/styles/toasts.scss",
+
+    // quill
+    "quill/dist/quill.core.css",
+    "quill/dist/quill.snow.css",
   ],
 
   modules: [

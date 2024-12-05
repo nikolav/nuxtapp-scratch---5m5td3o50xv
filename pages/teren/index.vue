@@ -337,6 +337,12 @@ useHead({ title: "📝 Izveštaji" });
             </VBtnMenuItemPicker>
           </VToolbarItems>
         </VToolbarPrimary>
+        <VToolbarPrimary
+          flat
+          text="Predati izveštaji"
+          hide-default-close
+          :props-title="{ class: 'text-body-2 text-start font-italic' }"
+        />
       </template>
       <template #toolbar-secondary-actions>
         <VBtn
@@ -382,7 +388,11 @@ useHead({ title: "📝 Izveštaji" });
         />
       </template>
     </VCardDataIterator>
-    <VFabMain :to="{ name: 'teren-izvestaji' }" />
+    <VFabMain :to="{ name: 'teren-izvestaji' }">
+      <template #icon>
+        <Iconx size="1.52rem" icon="$edit" />
+      </template>
+    </VFabMain>
   </section>
 </template>
 <style lang="scss" scoped></style>

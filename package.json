@@ -49,6 +49,7 @@
     "nuxt": "^3.13.2",
     "pinia": "^2.2.4",
     "print-js": "^1.6.0",
+    "quill": "^2.0.3",
     "socket.io-client": "^4.8.0",
     "tree-model": "^1.0.7",
     "ufo": "^1.5.4",

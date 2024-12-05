@@ -107,7 +107,7 @@ watch(
       v-bind="propsMenu"
     >
       <slot name="list">
-        <VList return-object class="py-0 CLASS--5EMoYmQiC2" v-bind="propsList">
+        <VList class="py-0 CLASS--5EMoYmQiC2" v-bind="propsList">
           <slot name="list-items">
             <VListItem
               v-for="item in items"

@@ -122,11 +122,11 @@ watch(toggleSubmissionSuccess.isActive, (isActive) => {
             props: {
               size: "large",
               color: "success",
-              title: "👌🏻 Obrazac je uspešno sačuvan.",
+              title: "👌🏻 Obrazac je uspešno popunjen.",
               // text: "limited gently solve dead sunlight knowledge",
             },
             action: {
-              text: "📃 Pogledaj obrazac",
+              text: "📃 Pogledaj izveštaj.",
               to: {
                 name: "teren-rid-pregled-submission",
                 params: {

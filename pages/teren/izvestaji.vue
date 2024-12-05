@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // ##imports
-import { VCardDataIterator, VCardItemFormsSubmit } from "@/components/app";
+import {
+  VCardDataIterator,
+  VCardItemFormsSubmit,
+  VToolbarPrimary,
+} from "@/components/app";
 
 // ##config:const
 // ##config ##props
@@ -44,6 +48,14 @@ useHead({ title: "📃 Izveštaji | Izbor" });
       :per-page="-1"
       :reload="formsReload"
     >
+      <template #prepend>
+        <VToolbarPrimary
+          flat
+          text="Obrasci za popunjavanje"
+          hide-default-close
+          :props-title="{ class: 'text-body-2 text-center font-italic pe-3' }"
+        />
+      </template>
       <template #list-item="{ node }">
         <VCardItemFormsSubmit
           :disabled="!assetsIsActive(node.raw)"

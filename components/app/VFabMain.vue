@@ -11,6 +11,7 @@ const props = defineProps<{
 </script>
 <template>
   <VFab
+    size="large"
     absolute
     appear
     icon
@@ -18,7 +19,7 @@ const props = defineProps<{
     :class="[smAndUp ? 'end-20 bottom-6' : 'end-6 bottom-20']"
   >
     <slot name="icon">
-      <Iconx icon="$plus" v-bind="propsIcon" />
+      <Iconx size="large" icon="$plus" v-bind="propsIcon" />
     </slot>
   </VFab>
 </template>

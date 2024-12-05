@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
     rounded="pill"
     class="px-4"
     type="submit"
-    v-bind="$attrs"
   >
     <slot>
       <Iconx
