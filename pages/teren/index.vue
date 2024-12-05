@@ -258,7 +258,7 @@ useHead({ title: "📝 Izveštaji" });
           <VToolbarItems class="*bg-red grow justify-end pe-2">
             <VSpacer />
             <span
-              class="d-inline-flex items-center gap-1 px-1 me-2 -translate-y-px"
+              class="d-inline-flex items-center gap-px me-1 -translate-y-px"
             >
               <VBtnDatePicker
                 v-model="dfrom"
@@ -274,8 +274,8 @@ useHead({ title: "📝 Izveštaji" });
                 :props-menu="{
                   location: 'bottom center',
                 }"
+                :props-icon-expand="{ class: 'd-none' }"
               />
-              <small>-</small>
               <VBtnDatePicker
                 v-model="dto"
                 default-no-value="Do... 📅"
@@ -290,6 +290,7 @@ useHead({ title: "📝 Izveštaji" });
                 :props-menu="{
                   location: 'bottom center',
                 }"
+                :props-icon-expand="{ class: 'd-none' }"
               />
             </span>
             <!-- records timeset picker  -->
@@ -316,6 +317,7 @@ useHead({ title: "📝 Izveštaji" });
               icon
               density="default"
               variant="plain"
+              reset-strategy="all"
               :signal-id-selection-reset="signalIdFilterReset.ID.value"
             >
               <Iconx icon="user" size="1.22rem" />

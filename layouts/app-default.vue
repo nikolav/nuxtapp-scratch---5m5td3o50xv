@@ -182,7 +182,6 @@ const openDriveAttachmentsMain = async () =>
       rail
       permanent
       :class="[
-        'opacity-90',
         smAndUp ? 'pt-2' : undefined,
         smAndUp ? undefined : '*:flex *:justify-evenly',
       ]"

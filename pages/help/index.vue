@@ -24,7 +24,7 @@ useHead({ title: "Pomoć" });
 </script>
 <template>
   <section class="page--help-index">
-    <h1>🚧 @help:index</h1>
+    <h1>🚧</h1>
   </section>
 </template>
 <style lang="scss" scoped></style>

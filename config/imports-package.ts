@@ -67,6 +67,10 @@ export const IMPORTS = [
     imports: [{ name: "default", as: "union" }],
   },
   {
+    from: "lodash/unionBy",
+    imports: [{ name: "default", as: "unionBy" }],
+  },
+  {
     from: "lodash/sortBy",
     imports: [{ name: "default", as: "sortBy" }],
   },

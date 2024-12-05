@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ##imports
+import { renderIcon } from "@/components/icons";
 // ##config:const
 
 // ##config ##props ##route ##attrs
@@ -13,13 +14,21 @@ const props = withDefaults(
     //
     propsMenu?: any;
     propsList?: any;
+    propsListItem?: any;
+    propsListItemTitle?: any;
+    propsIconSelection?: any;
+    propsBtnActions?: any;
     //
     signalIdSelectionReset?: any;
+    // fn() | "all" | "none"
     resetStrategy?: any;
+    //
+    multiple?: boolean;
   }>(),
   {
-    itemTitle: (item: any) => get(item, "title", item),
-    itemValue: (item: any) => get(item, "id", item),
+    itemTitle: identity,
+    itemValue: identity,
+    resetStrategy: "none",
   }
 );
 
@@ -28,17 +37,42 @@ const {
 } = useAppConfig();
 // ##schemas
 // ##utils
+const itemsIndex_ = ref();
+const resetStrategies_ = <any>{
+  none: () => {
+    itemsIndex_.value = mItemsPicked.value = undefined;
+  },
+  all: () => {
+    itemsIndex_.value = mItemsPicked.value = map(props.items, props.itemValue);
+  },
+};
 // ##icons
+const iconCheckOn = renderIcon("check-on");
+const iconCheckOff = renderIcon("check-off");
 // ##refs ##flags ##models
+// cache items to commit later
 // ##data ##auth ##state
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
-const pickItems = (...items: any[]) => {
+const itemsCommit_ = (items: any, done_ = noop) => {
   mItemsPicked.value = map(items, props.itemValue);
+  nextTick(done_);
 };
+const isSelected_ = (node: any) =>
+  includes(itemsIndex_.value, props.itemValue(node));
+
+// takes list:items to select
+const pickItems = (items: any) => {
+  const values_ = map(items, props.itemValue);
+  itemsIndex_.value = some(values_, (v: any) => includes(itemsIndex_.value, v))
+    ? difference(itemsIndex_.value, values_)
+    : union(itemsIndex_.value, values_);
+};
+// custom list:items to select
 const selectionReset = () => {
-  if (!props.resetStrategy) {
-    pickItems(...props.items);
+  const s = String(props.resetStrategy);
+  if (s in resetStrategies_) {
+    resetStrategies_[s]();
     return;
   }
   mItemsPicked.value = props.resetStrategy();
@@ -66,23 +100,65 @@ watch(
       :transition="DEFAULT_TRANSITION"
       :offset="-12"
       :max-width="212"
+      :close-on-content-click="!multiple"
+      v-slot="{ isActive }"
       v-bind="propsMenu"
     >
       <slot name="list">
-        <VList return-object class="py-0" v-bind="propsList">
+        <VList return-object class="py-0 CLASS--5EMoYmQiC2" v-bind="propsList">
           <slot name="list-items">
             <VListItem
               v-for="item in items"
               :key="itemValue(item)"
               :title="itemTitle(item)"
-              @click="pickItems(item)"
-            />
+              @click="(multiple ? pickItems : itemsCommit_)([item])"
+              :class="[multiple ? 'ps-1' : '']"
+              v-bind="propsListItem"
+            >
+              <template #title="{ title }">
+                <VListItemTitle class="ps-1" v-bind="propsListItemTitle">{{
+                  title
+                }}</VListItemTitle>
+              </template>
+
+              <template v-if="multiple" #prepend>
+                <VCheckboxBtn
+                  :model-value="isSelected_(item)"
+                  color="primary"
+                  :true-icon="iconCheckOn"
+                  :false-icon="iconCheckOff"
+                  v-bind="propsIconSelection"
+                />
+              </template>
+            </VListItem>
           </slot>
         </VList>
+      </slot>
+      <slot v-if="multiple" name="actions">
+        <VBtn
+          @click="
+            itemsCommit_(itemsIndex_, () => {
+              isActive.value = false;
+            })
+          "
+          block
+          color="surface"
+          elevation="5"
+          class="mt-px"
+          v-bind="propsBtnActions"
+        >
+          <slot name="actions-text">
+            <span>ok</span>
+          </slot>
+        </VBtn>
       </slot>
     </VMenu>
   </VBtn>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
-<style lang="scss"></style>
+<style lang="scss">
+.CLASS--5EMoYmQiC2 .v-list-item__prepend .v-list-item__spacer {
+  width: 0 !important;
+}
+</style>
