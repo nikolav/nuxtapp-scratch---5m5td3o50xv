@@ -3,6 +3,9 @@
 import { renderIcon } from "@/components/icons";
 // ##config:const
 
+const ttl_default = (item: any) => item?.title ?? item;
+const val_default = (item: any) => item?.id ?? item;
+
 // ##config ##props ##route ##attrs
 const mItemsPicked = defineModel();
 const props = withDefaults(
@@ -26,8 +29,6 @@ const props = withDefaults(
     multiple?: boolean;
   }>(),
   {
-    itemTitle: identity,
-    itemValue: identity,
     resetStrategy: "none",
   }
 );
@@ -37,33 +38,34 @@ const {
 } = useAppConfig();
 // ##schemas
 // ##utils
+const ttl_ = (item: any) => (props.itemTitle ?? ttl_default)(item);
+const val_ = (item: any) => (props.itemValue ?? val_default)(item);
+// ##icons
+const iconCheckOn = renderIcon("check-on");
+const iconCheckOff = renderIcon("check-off");
+// ##refs ##flags ##models
+// cache items to commit later
 const itemsIndex_ = ref();
 const resetStrategies_ = <any>{
   none: () => {
     itemsIndex_.value = mItemsPicked.value = undefined;
   },
   all: () => {
-    itemsIndex_.value = mItemsPicked.value = map(props.items, props.itemValue);
+    itemsIndex_.value = mItemsPicked.value = map(props.items, val_);
   },
 };
-// ##icons
-const iconCheckOn = renderIcon("check-on");
-const iconCheckOff = renderIcon("check-off");
-// ##refs ##flags ##models
-// cache items to commit later
 // ##data ##auth ##state
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 const itemsCommit_ = (items: any, done_ = noop) => {
-  mItemsPicked.value = map(items, props.itemValue);
+  mItemsPicked.value = map(items, val_);
   nextTick(done_);
 };
-const isSelected_ = (node: any) =>
-  includes(itemsIndex_.value, props.itemValue(node));
+const isSelected_ = (node: any) => includes(itemsIndex_.value, val_(node));
 
 // takes list:items to select
 const pickItems = (items: any) => {
-  const values_ = map(items, props.itemValue);
+  const values_ = map(items, val_);
   itemsIndex_.value = some(values_, (v: any) => includes(itemsIndex_.value, v))
     ? difference(itemsIndex_.value, values_)
     : union(itemsIndex_.value, values_);
@@ -109,8 +111,8 @@ watch(
           <slot name="list-items">
             <VListItem
               v-for="item in items"
-              :key="itemValue(item)"
-              :title="itemTitle(item)"
+              :key="val_(item)"
+              :title="ttl_(item)"
               @click="(multiple ? pickItems : itemsCommit_)([item])"
               :class="[multiple ? 'ps-1' : '']"
               v-bind="propsListItem"

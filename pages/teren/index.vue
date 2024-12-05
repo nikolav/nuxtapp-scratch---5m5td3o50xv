@@ -326,11 +326,11 @@ useHead({ title: "📝 Izveštaji" });
             <VBtnMenuItemPicker
               v-model="filterUserGroups"
               :items="groupsFeature"
-              :item-value="identity"
               :item-title="startCase"
               icon
               density="default"
               variant="plain"
+              reset-strategy="all"
               :signal-id-selection-reset="signalIdFilterReset.ID.value"
             >
               <Iconx icon="folder-user" size="1.5rem" />
