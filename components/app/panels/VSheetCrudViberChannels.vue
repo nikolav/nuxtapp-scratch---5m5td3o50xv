@@ -48,7 +48,7 @@ watchEffect(() =>
 );
 
 // ##data ##auth ##state
-const auth = useStoreApiAuth();
+// const auth = useStoreApiAuth();
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 const clearSelection = () => {

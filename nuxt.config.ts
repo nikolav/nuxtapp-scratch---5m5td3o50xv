@@ -7,7 +7,7 @@ import {
   BASE_DIR,
   ENDPOINT_GRAPHQL,
   // URL_APP_PUBLIC,
-  PRODUCTION$,
+  // PRODUCTION$,
 } from "./config";
 import { trimEndBase } from "./utils/trim-end-base";
 
@@ -316,6 +316,19 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "tabler:clear-formatting",
+        "bi:feather",
+        "akar-icons:text-align-left",
+        "akar-icons:text-align-right",
+        "akar-icons:text-align-justified",
+        "akar-icons:text-align-center",
+        "ooui:list-bullet-ltr",
+        "flowbite:ordered-list-outline",
+        "material-symbols:format-size",
+        "bx:heading",
+        "material-symbols:format-underlined",
+        "material-symbols:format-italic",
+        "material-symbols:format-bold",
         "material-symbols:folder-supervised-sharp",
         "mdi:lightning-bolt",
         "material-symbols:filter-alt",

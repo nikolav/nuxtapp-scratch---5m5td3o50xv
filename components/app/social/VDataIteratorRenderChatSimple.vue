@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import { VSheetChatItemSimple } from "@/components/app";
+import { VSheetChatItemSimple, VEmptyStateNoData } from "@/components/app";
 // ##config
 const emit = defineEmits<{
   (e: "chatMessagesInit"): void;
@@ -30,7 +30,7 @@ useOnceMountedOn(chatSize, () => {
     :items-per-page="-1"
   >
     <template #no-data>
-      <pre>no chat data</pre>
+      <VEmptyStateNoData class="opacity-40" />
     </template>
     <template #default="{ items }">
       <div class="__spacer space-y-2" v-bind="propsContainer">

@@ -1,5 +1,7 @@
+// 7d5aa3ad-61c6-5d72-91e5-2c19dbd3e0aa
 import type { OrNoValue, IInputFileUpload } from "@/types";
 export const useFirebaseStorageAssetImages = (AID?: any) => {
+  // AID: asset .id|.key
   const aid = ref();
   const images = ref();
   const { firebasePathAssets } = useTopics();
@@ -33,6 +35,8 @@ export const useFirebaseStorageAssetImages = (AID?: any) => {
 
   return {
     id: aid,
+    key: aid,
+    // crud
     images,
     reload: imagesLoad,
     uploadAll,

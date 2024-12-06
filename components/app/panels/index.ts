@@ -8,3 +8,4 @@ export { default as VListItemTimShowUser } from "./VListItemTimShowUser.vue";
 export { default as VListItemDisplayGroup } from "./VListItemDisplayGroup.vue";
 export { default as VBtnPanelClose } from "./VBtnPanelClose.vue";
 export { default as VSheetCrudViberChannels } from "./VSheetCrudViberChannels.vue";
+export { default as VDialogPrimary } from "./VDialogPrimary.vue";
