@@ -318,6 +318,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "filter-category": "material-symbols:filter-list",
       "clear-formatting": "tabler:clear-formatting",
       feather: "bi:feather",
       "text-align-center": "akar-icons:text-align-center",

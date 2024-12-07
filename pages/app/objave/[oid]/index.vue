@@ -16,7 +16,9 @@ const pageTitle = computed(() => `📃 ${post.value?.name}`);
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
+const clientStorage = useFirebaseStorageAssetImages(() => post.value?.key);
 // ##computed
+const postImages = computed(() => clientStorage.images.value);
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
 // ##hooks ##lifecycle
@@ -29,8 +31,15 @@ useHead({ title: pageTitle });
 </script>
 <template>
   <section class="page--app-objave-oid-index">
-    <h1>🚧</h1>
-    <Dump :data="{ post }" />
+    <VImg
+      v-for="image in postImages"
+      :key="image"
+      :width="122"
+      :height="122"
+      :src="image"
+      cover
+    />
+    <Dump :data="{ images: postImages, post }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

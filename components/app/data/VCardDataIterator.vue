@@ -49,6 +49,9 @@ const props = withDefaults(
     //
     enabledDotsMenu?: boolean;
     propsDotsMenuIcon?: any;
+    //
+    // ski[] menu filter @toolbar:secondary, filter:categories
+    hideCategoriesAvailable?: boolean;
   }>(),
   {
     itemTitle: "title",
@@ -76,7 +79,7 @@ const searchTerm = ref();
 const groupsSelected = ref<string[]>();
 const isEmptyGroupsSelected = computed(() => isEmpty(groupsSelected.value));
 const groupSelectionMany = ref<string[]>([]);
-const groupsFromItems = (items: any[]) =>
+const groupsFromItems = (items: any) =>
   props.itemGroups
     ? sortBy(union(...map(items, props.itemGroups)), upperCase)
     : undefined;
@@ -284,7 +287,7 @@ watch(
               :selection="itemsSelected"
               :someSelected="someSelected"
             >
-              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+              <p>🚧 @menu</p>
             </slot>
           </VMenu>
         </VBtn>
@@ -331,8 +334,12 @@ watch(
       <!-- for searches filters etc. -->
       <slot name="toolbar-secondary-actions" />
       <!-- @@groups:select -->
-      <VBtn v-if="0 < groupsAll?.length" icon density="comfortable">
-        <Icon size="1.33rem" name="material-symbols:filter-list" />
+      <VBtn
+        v-if="!hideCategoriesAvailable && !isEmpty(groupsAll)"
+        icon
+        density="comfortable"
+      >
+        <Iconx size="1.33rem" icon="filter-category" />
         <VMenu activator="parent" location="bottom end">
           <VSheet density="compact">
             <VForm @submit.prevent="onSubmitApplyGroupFiler" autocomplete="off">
@@ -392,79 +399,91 @@ watch(
           </slot>
         </template>
         <template #default="{ items, isSelected, select }">
-          <VList
-            density="comfortable"
-            variant="text"
-            class="py-0"
-            v-bind="propsList"
+          <slot
+            name="items"
+            :items="items"
+            :select="select"
+            :isSelected="isSelected"
           >
-            <!-- @@list:item -->
-            <template v-for="(node, idx) in items" :key="it_val(node)">
-              <slot
-                name="list-item"
-                :node="node"
-                :i="idx"
-                :isSelected="isSelected"
-                :select="select"
-              >
-                <VListItem :value="it_val(node)" v-bind="propsListItem">
-                  <template #append="props_" v-if="$slots['list-item-append']">
-                    <slot
-                      name="list-item-append"
-                      v-bind="mergeProps(props_, { item: node.raw })"
-                    />
-                  </template>
-                  <template #prepend>
-                    <slot name="list-item-prepend">
-                      <VCheckboxBtn
-                        base-color="secondary-lighten-1"
-                        class="CLASS--VCheckboxBtn mx-0 scale-[122%]"
-                        @click.stop
-                        :model-value="isSelected(node)"
-                        @update:model-value="select([node], !isSelected(node))"
-                        density="compact"
-                        :false-icon="iconCheckOff"
-                        :true-icon="iconCheckOn"
-                        color="primary"
-                        v-bind="propsSelection"
-                      />
-                    </slot>
-                  </template>
-                  <template #title="props_">
-                    <slot
-                      name="title"
-                      v-bind="
-                        mergeProps(props_, {
-                          node,
-                          item: node.raw,
-                          isSelected,
-                          select,
-                        })
-                      "
+            <VList
+              density="comfortable"
+              variant="text"
+              class="py-0"
+              v-bind="propsList"
+            >
+              <!-- @@list:item -->
+              <template v-for="(node, idx) in items" :key="it_val(node)">
+                <slot
+                  name="list-item"
+                  :node="node"
+                  :i="idx"
+                  :isSelected="isSelected"
+                  :select="select"
+                >
+                  <VListItem :value="it_val(node)" v-bind="propsListItem">
+                    <template
+                      #append="props_"
+                      v-if="$slots['list-item-append']"
                     >
-                      <VListItemTitle
-                        class="ps-1 text-body-1"
-                        @click.stop="
-                          itemTo
-                            ? showItemPage(node.raw)
-                            : select([node], !isSelected(node))
+                      <slot
+                        name="list-item-append"
+                        v-bind="mergeProps(props_, { item: node.raw })"
+                      />
+                    </template>
+                    <template #prepend>
+                      <slot name="list-item-prepend">
+                        <VCheckboxBtn
+                          base-color="secondary-lighten-1"
+                          class="CLASS--VCheckboxBtn mx-0 scale-[122%]"
+                          @click.stop
+                          :model-value="isSelected(node)"
+                          @update:model-value="
+                            select([node], !isSelected(node))
+                          "
+                          density="compact"
+                          :false-icon="iconCheckOff"
+                          :true-icon="iconCheckOn"
+                          color="primary"
+                          v-bind="propsSelection"
+                        />
+                      </slot>
+                    </template>
+                    <template #title="props_">
+                      <slot
+                        name="title"
+                        v-bind="
+                          mergeProps(props_, {
+                            node,
+                            item: node.raw,
+                            isSelected,
+                            select,
+                          })
                         "
-                        v-bind="propsTitle"
                       >
-                        <slot
-                          name="list-item-title"
-                          :item="node.raw"
-                          :title="it_ttl(node, idx)"
+                        <VListItemTitle
+                          class="ps-1 text-body-1"
+                          @click.stop="
+                            itemTo
+                              ? showItemPage(node.raw)
+                              : select([node], !isSelected(node))
+                          "
+                          v-bind="propsTitle"
                         >
-                          <span>{{ it_ttl(node, idx) }}</span>
-                        </slot>
-                      </VListItemTitle>
-                    </slot>
-                  </template>
-                </VListItem>
-              </slot>
-            </template>
-          </VList>
+                          <slot
+                            name="list-item-title"
+                            :item="node.raw"
+                            :title="it_ttl(node, idx)"
+                          >
+                            <span>{{ it_ttl(node, idx) }}</span>
+                          </slot>
+                        </VListItemTitle>
+                      </slot>
+                    </template>
+                  </VListItem>
+                </slot>
+              </template>
+            </VList>
+          </slot>
         </template>
       </VDataIterator>
     </VCardText>

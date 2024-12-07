@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ##imports
+import { Dump } from "@/components/dev";
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({
@@ -8,14 +9,14 @@ definePageMeta({
 });
 
 const route = useRoute();
-const { oid: OID } = route.params;
+const oid = computed(() => Number(route.params.oid));
 // ##schemas
 // ##utils
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
-const enabled = computed(() => !!OID);
-const { assets: posts } = useQueryManageAssetsPosts(() => [OID], undefined, {
+const enabled = computed(() => !!oid.value);
+const { assets: posts } = useQueryManageAssetsPosts(() => [oid.value], false, {
   enabled,
 });
 const post = computed(() => first(posts.value));

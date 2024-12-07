@@ -11,7 +11,7 @@ const top = menu;
 const categories_select_menu = top
   .all((node: any) => isEmpty(node.children))
   .map((node: any) => ({
-    title: node.model.title,
+    ...node.model,
     value: node.model.key,
   }));
 
@@ -62,13 +62,15 @@ export const useCategoryAssets = () => {
   const groupsCategoriesFormAssetGroup = (node: any) =>
     [get(categoryNode(node, top_g), "model.title")].filter(Boolean);
 
-  const productsCategoriesFormAssetProduct = (node: any) =>
+  const productsCategoriesFromAssetProduct = (node: any) =>
     [get(categoryNode(node, top), "model.title")].filter(Boolean);
 
   const sitesLogoThumb = (node: any) =>
     get(categoryNode(node, top_s), "model.emoji", "");
 
   return {
+    CATEGORY_KEY_ASSETS_prefix,
+
     categoryNodeByTag,
     categoryTagByAsset,
     categoryNode,
@@ -85,7 +87,7 @@ export const useCategoryAssets = () => {
       menu,
       top,
       categories_select_menu,
-      itemCategories: productsCategoriesFormAssetProduct,
+      itemCategories: productsCategoriesFromAssetProduct,
     },
 
     // categories:groups

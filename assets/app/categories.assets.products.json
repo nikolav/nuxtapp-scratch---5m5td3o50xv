@@ -7,38 +7,45 @@
       {
         "title": "Impulsni sladoledi",
         "key": "__jx0VPVuhHdIIBbR",
-        "emoji": "🍡"
+        "emoji": "🍡",
+        "navImage": "/kategorije-slike/impulsi.png"
       },
       {
         "title": "Porodični sladoledi",
         "key": "__5dJ5Dzh32TR0I2Wv6M",
-        "emoji": "🍨"
+        "emoji": "🍨",
+        "navImage": "/kategorije-slike/porodicni.png"
       }
     ]
   },
   {
     "title": "Riba",
     "key": "__BkyHESjRJeCwBn",
-    "emoji": "🦈"
+    "emoji": "🦈",
+    "navImage": "/kategorije-slike/riba.png"
   },
   {
     "title": "Povrće i voće",
     "key": "__ybKZoC6f5",
-    "emoji": "🥔"
+    "emoji": "🥔",
+    "navImage": "/kategorije-slike/pv.jpg"
   },
   {
     "title": "Testo",
     "key": "__f0v1Uypl7YyJ1AKXE",
-    "emoji": "🥐"
+    "emoji": "🥐",
+    "navImage": "/kategorije-slike/testo.png"
   },
   {
     "title": "Mesni proizvodi",
     "key": "__TySKJO",
-    "emoji": "🥩"
+    "emoji": "🥩",
+    "navImage": "/kategorije-slike/meso.png"
   },
   {
     "title": "Gotova jela",
     "key": "__iQt2sQ",
-    "emoji": "🥣"
+    "emoji": "🥣",
+    "navImage": "/kategorije-slike/jela.jpg"
   }
 ]

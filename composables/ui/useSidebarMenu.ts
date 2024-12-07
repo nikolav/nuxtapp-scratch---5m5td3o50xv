@@ -11,13 +11,16 @@ export const useSidebarMenu = (
   );
   const refSubnav = useQuerySelector(`#${config.ID_subnav}`);
   const { height: sidebarMainHeight } = useElementSize(refSubnav);
-  const appBarTitle = computed(() =>
-    get(
-      navNodes.find((node) => String(route.name).startsWith(node.to)),
-      "title",
-      ""
-    )
-  );
+  const appBarTitle = computed(() => {
+    return (
+      get(route.meta, "@page.appBarTitle") ??
+      get(
+        navNodes.find((node) => String(route.name).startsWith(node.to)),
+        "title",
+        ""
+      )
+    );
+  });
 
   return {
     NAV,

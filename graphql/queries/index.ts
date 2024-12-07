@@ -650,6 +650,9 @@ export const Q_assetsList = gql`
     $aids_subs_only: [ID!]
     $aids_subs_type: String
     $children: Boolean
+    $category: String
+    $my_only: Boolean
+    $ordered: String
   ) {
     assetsList(
       aids: $aids
@@ -658,6 +661,9 @@ export const Q_assetsList = gql`
       aids_subs_only: $aids_subs_only
       aids_subs_type: $aids_subs_type
       children: $children
+      category: $category
+      my_only: $my_only
+      ordered: $ordered
     ) {
       id
       name

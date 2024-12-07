@@ -10,6 +10,7 @@ const props = withDefaults(
     showBadge?: boolean;
     hideIfEmpty?: boolean;
     propsBadge?: any;
+    propsIcon?: any;
   }>(),
   {
     showBadge: true,
@@ -45,7 +46,7 @@ const isEmptySLides = computed(() => isEmpty(props.slides));
             v-bind="$attrs"
           >
             <slot name="icon">
-              <Icon name="bi:images" size="1.22rem" />
+              <Icon name="bi:images" size="1.22rem" v-bind="propsIcon" />
             </slot>
           </VBtn>
         </VBadge>

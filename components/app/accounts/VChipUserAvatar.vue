@@ -2,7 +2,7 @@
 // ##imports
 // ##config:const
 // ##config ##props
-const props = defineProps<{ user: any; tooltip?: any }>();
+const props = defineProps<{ user: any; tooltip?: any; propsAvatar?: any }>();
 // ##schemas
 // ##utils
 const { calcDisplayName } = useAuthUtils();
@@ -32,7 +32,7 @@ const avatar = computed(() => get(props.user, "profile.avatarImage"));
     :to="{ name: 'tim-uid', params: { uid } }"
   >
     <template v-if="avatar" #prepend>
-      <VAvatar :image="avatar" size="1.33rem" />
+      <VAvatar :image="avatar" size="1.33rem" v-bind="propsAvatar" />
     </template>
     <VListItemTitle class="text-body-1 ms-2">{{ uname }}</VListItemTitle>
     <slot v-if="tooltip" name="tooltip" :tooltip="tooltip">

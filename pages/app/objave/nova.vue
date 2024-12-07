@@ -40,6 +40,7 @@ const schemaInputPost = z.object({
   }),
 });
 // ##utils
+const ps = useProcessMonitor();
 // rebuilds emitter editor@mount; old emitter gets gc-ed
 const ee$ = ref();
 const colors_ = listColorWheel_(19, 0.34);
@@ -47,7 +48,8 @@ const colors_ = listColorWheel_(19, 0.34);
 // const iconCheckOn = renderIcon("check-on", { class: "scale-[111%]" });
 // const iconCheckOff = renderIcon("check-off", { class: "scale-[111%]" });
 // ##refs ##flags ##models
-const assetAdded = ref();
+const togglePostCreatedSuccess = useToggleFlag();
+const lastPostAdded = ref();
 const ref_V99RIzVbQD = ref();
 const togglePostContentActive = useToggleFlag();
 const signalIdCleared = useUniqueId();
@@ -55,7 +57,7 @@ const imagesPicked = ref();
 // ##data ##auth ##state
 // asset.key @refs
 const clientStorage = useFirebaseStorageAssetImages(
-  () => assetAdded.value?.key
+  () => lastPostAdded.value?.key
 );
 // disable assets:fetch { enabled: false }
 const client = useQueryManageAssetsPosts(undefined, undefined, {
@@ -111,7 +113,46 @@ const form = useFormModel(
   {
     schema: schemaInputPost,
     onSubmit: async (data: any) => {
-      console.log({ data });
+      let res: any;
+      try {
+        ps.begin(() => {
+          lastPostAdded.value = undefined;
+          togglePostCreatedSuccess.off();
+        });
+        const post = reduce(
+          data,
+          (res: any, dd: any, field: string) => {
+            if (true === get(FIELDS_post[field], "@table:fields")) {
+              res[field] = dd;
+            }
+            if (true === get(FIELDS_post[field], "@table:data")) {
+              res.data[field] = dd;
+            }
+            return res;
+          },
+          <any>{ data: {} }
+        );
+        res = await client.commit(post);
+        if (
+          get(res, "data.assetsUpsert.error") ||
+          !get(res, "data.assetsUpsert.status.asset.id")
+        )
+          throw "post:create:error";
+        lastPostAdded.value = get(res, "data.assetsUpsert.status.asset");
+        // await ref@postAdded update
+        await nextTick();
+        if (!isEmpty(data["images-picked"])) {
+          await clientStorage.uploadAll(
+            map(data["images-picked"], (node: any) => node.file)
+          );
+        }
+      } catch (error) {
+        ps.setError(error);
+      } finally {
+        ps.done();
+      }
+      if (!ps.error.value) ps.successful(togglePostCreatedSuccess.on);
+      console.log("@debug", ps.error.value);
     },
   }
 );
@@ -120,11 +161,50 @@ const formClear = () => {
   form.clear();
   signalIdCleared();
 };
+// when navigating back to edited post
+//  load cached images @form.data.images-picked
+const defaultImages_ = computed(() =>
+  map(form.data["images-picked"].value || [], (node: any) => node.dataurl)
+);
 // ##watch
+watch(togglePostCreatedSuccess.isActive, (success: boolean) => {
+  if (success) {
+    navigateTo({
+      name: "status-message",
+      params: {
+        message: encodeURIComponent(
+          JSON.stringify({
+            props: {
+              size: "large",
+              color: "success",
+              title: `👌🏻 Članak je uspešno sačuvan. #${lastPostAdded.value?.id}`,
+              // text: "limited gently solve dead sunlight knowledge",
+            },
+            action: {
+              text: `📃 Otvori`,
+              to: {
+                name: "app-objave-oid",
+                params: {
+                  oid: lastPostAdded.value?.id,
+                },
+              },
+            },
+            icon: {
+              icon: "$success",
+              size: "10rem",
+              color: "success",
+              class: "",
+            },
+          })
+        ),
+      },
+    });
+    nextTick(formClear);
+  }
+});
 watch(togglePostContentActive.isActive, (isActive: boolean) => {
-  console.log("togglePostContentActive.isActive", { isActive });
   if (!isActive) {
-    // store current editor
+    // store current editor @editor:close
     ee$.value.emit("getContents:all", {
       handle: once((dd: any) => {
         form.data.content.value = dd;
@@ -135,12 +215,13 @@ watch(togglePostContentActive.isActive, (isActive: boolean) => {
 });
 // manual sync picked images with model
 watch(imagesPicked, () => {
-  form.data["images-picked"].value = imagesPicked.value;
+  form.data["images-picked"].value = [...(imagesPicked.value || [])];
 });
 // ##hooks ##lifecycle
 onMounted(() => {
   watchEffect(() => {
     if (!ref_V99RIzVbQD.value) return;
+    // @dom:access
     nextTick(() => {
       // @editor:init
       //  rebuild emitter; old got garb.collected
@@ -454,6 +535,12 @@ useHead({ title: "✨📃 Nov post" });
                   rounded: 'lg',
                 }"
                 :key-images-cleared="signalIdCleared.ID.value"
+                :default-images="defaultImages_"
+                @clear-manual="
+                  () => {
+                    form.data['images-picked'].value = undefined;
+                  }
+                "
               />
             </VResponsive>
           </template>

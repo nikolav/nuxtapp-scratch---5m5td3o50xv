@@ -1,4 +1,4 @@
-// 7d5aa3ad-61c6-5d72-91e5-2c19dbd3e0aa
+// fff3aa50-1a57-5f54-a29d-26c76b7589f5
 import type { OrNoValue, IInputFileUpload } from "@/types";
 export const useFirebaseStorageAssetImages = (AID?: any) => {
   // AID: asset .id|.key
@@ -28,9 +28,10 @@ export const useFirebaseStorageAssetImages = (AID?: any) => {
       )
     );
   };
-  watch(aid, async (ID) => {
-    if (!ID) return;
-    await imagesLoad();
+  watchEffect(async () => {
+    if (aid.value) {
+      await imagesLoad();
+    }
   });
 
   return {

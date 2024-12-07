@@ -5,6 +5,9 @@
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
+  "@page": {
+    appBarTitle: "x2",
+  },
 });
 // ##schemas
 // ##utils

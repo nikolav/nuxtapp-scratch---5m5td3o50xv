@@ -26,7 +26,9 @@ const { firebasePathAssets } = useTopics();
 const { upload: fbsUpload, rma: fbsRma } = useFirebaseStorage(() =>
   firebasePathAssets(AID.value)
 );
-const { commit } = useQueryManageAssetsProducts();
+const { commit } = useQueryManageAssetsProducts(undefined, undefined, {
+  enabled: false,
+});
 
 const pc = useProcessMonitor();
 const { watchProcessing } = useStoreAppProcessing();

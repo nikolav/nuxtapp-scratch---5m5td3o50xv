@@ -17,6 +17,9 @@ const props = withDefaults(
     defaultNoImage: "/no-image.jpg",
   }
 );
+const emit = defineEmits<{
+  clearManual: [void];
+}>();
 // { file:File, dataurl:string }[]
 const mImagesPicked_ = defineModel();
 const imagesPicked = computed({
@@ -100,7 +103,12 @@ const ref_IoNb44 = ref();
         </template>
         <template #append>
           <VBtn
-            @click="filesClear"
+            @click="
+              () => {
+                filesClear();
+                $emit('clearManual');
+              }
+            "
             icon
             size="small"
             color="error"
