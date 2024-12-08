@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { Dump } from "@/components/dev";
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({

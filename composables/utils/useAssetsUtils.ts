@@ -1,4 +1,4 @@
-// import type { IAsset } from "@/types";
+import type { IAsset } from "@/types";
 
 export const useAssetsUtils = () => {
   const {
@@ -8,6 +8,7 @@ export const useAssetsUtils = () => {
         tags: { TAG_ASSETS_SHAREABLE_GLOBALY },
       },
     },
+    urls: { appPublic },
   } = useAppConfig();
   const assetsIsActive = (a: any) => AssetsStatus.ACTIVE === a.status;
   const assetsPostsShareableNetworks = (a: any) =>
@@ -16,6 +17,13 @@ export const useAssetsUtils = () => {
     AssetsStatus.POSTS_BLOCKED === p?.status;
   const assetsPostActive = (p: any) => !p?.status;
   const assetsPostOpen = (p: any) => AssetsStatus.POSTS_OPEN === p?.status;
+  const assetsPostLinkShareable = (p: IAsset) =>
+    p?.id
+      ? `${trimEnd(appPublic, "/")}/app/objave/pregled?q=${encodeURIComponent(
+          p.id
+        )}`
+      : undefined;
+
   return {
     assetsIsActive,
     // posts
@@ -23,5 +31,6 @@ export const useAssetsUtils = () => {
     assetsPostBlocked,
     assetsPostActive,
     assetsPostOpen,
+    assetsPostLinkShareable,
   };
 };

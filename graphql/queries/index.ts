@@ -655,6 +655,8 @@ export const Q_assetsList = gql`
     $category: String
     $my_only: Boolean
     $ordered: String
+    $blacklist_tags: [String!]
+    $whitelist_tags: [String!]
   ) {
     assetsList(
       aids: $aids
@@ -666,6 +668,8 @@ export const Q_assetsList = gql`
       category: $category
       my_only: $my_only
       ordered: $ordered
+      blacklist_tags: $blacklist_tags
+      whitelist_tags: $whitelist_tags
     ) {
       id
       name

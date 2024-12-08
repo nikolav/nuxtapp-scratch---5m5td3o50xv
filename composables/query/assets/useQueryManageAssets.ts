@@ -60,16 +60,65 @@ export const useQueryManageAssets = (
     load: queryStart,
     refetch,
     loading,
+    onError,
+    onResult,
   } = useLazyQuery<{
     assetsList: IAsset[];
   }>(Q_assetsList, variables_, {
     pollInterval: STORAGE_QUERY_POLL_INTERVAL,
     ...OPTIONS,
   });
-  const { mutate: mutateAssetsUpsert, loading: loadingUpsert } =
-    useMutation(M_assetsUpsert);
+  const { mutate: mutateAssetsUpsert, loading: loadingUpsert } = useMutation(
+    M_assetsUpsert,
+    {
+      // update local asset cache
+      update: (cache, { data: { assetsUpsert } }) => {
+        if (!get(assetsUpsert, "error")) {
+          const created = true === get(assetsUpsert, "status.created");
+          if (created) {
+            // @cache assets inserts
+            const asset = get(assetsUpsert, "status.asset");
+            cache.modify({
+              fields: {
+                // prepend new asset
+                assetsPostsReadable: (cached: any = []) => [asset, ...cached],
+              },
+            });
+          } else {
+            const ID = get(assetsUpsert, "status.asset.id");
+            // @cache assets updates
+            cache.modify({
+              id: `Asset:${ID}`,
+              fields: {
+                status: (_statusCached: any) =>
+                  get(assetsUpsert, "status.asset.status"),
+              },
+            });
+          }
+        }
+      },
+    }
+  );
   const { mutate: mutateAssetsRemove, loading: loadingAssetsRemove } =
-    useMutation(M_assetsRemove);
+    useMutation(M_assetsRemove, {
+      update: (cache, { data: { assetsRemove } }) => {
+        if (!assetsRemove?.error) {
+          // map ids removed to apollo cache refs
+          //  122 > 'Asset:122'
+          const refsAidsRm = map(
+            get(assetsRemove, "status.assets_removed", []),
+            (ID: any) => `Asset:${ID}`
+          );
+          // skip nodes with removed refs
+          cache.modify({
+            fields: {
+              assetsPostsReadable: (cached: any) =>
+                filter(cached, (cc: any) => !includes(refsAidsRm, cc.__ref)),
+            },
+          });
+        }
+      },
+    });
   const { mutate: mutateGUConfig, loading: loadingGU } =
     useMutation(M_groupsGUConfigure);
   const { mutate: mutateAssetsAGConfig, loading: loadingAG } =
@@ -77,7 +126,35 @@ export const useQueryManageAssets = (
   const { mutate: mutateAssetsPatchData, loading: loadingPatch } =
     useMutation(M_assetsPatchData);
   const { mutate: mutateAssetsTagsManage, loading: loadingTagsManage } =
-    useMutation(M_assetsManageTags);
+    useMutation(M_assetsManageTags, {
+      // run local cache updates @success
+      update: (cache, { data: { assetsManageTags } }) => {
+        if (!get(assetsManageTags, "error")) {
+          const ID = get(assetsManageTags, "status.id");
+          cache.modify({
+            id: `Asset:${ID}`,
+            fields: {
+              tags: (tagsCached: any = []) => {
+                const tags_added_ = get(
+                  assetsManageTags,
+                  "status.tags_added",
+                  []
+                );
+                const tags_removed_ = get(
+                  assetsManageTags,
+                  "status.tags_removed",
+                  []
+                );
+                return difference(
+                  union(tagsCached, tags_added_),
+                  tags_removed_
+                );
+              },
+            },
+          });
+        }
+      },
+    });
 
   //
   const assets = computed(() => result.value?.assetsList || []);
@@ -146,6 +223,10 @@ export const useQueryManageAssets = (
     remove,
     reload,
     tags,
+    callback: {
+      onQueryError: onError,
+      onQueryResult: onResult,
+    },
     //
     commit_archive,
 

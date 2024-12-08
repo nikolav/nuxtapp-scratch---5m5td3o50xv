@@ -9,8 +9,9 @@ import {
   VBtnOpenGallery,
   VBtnDotsMenuList,
   VSnackbarSuccess,
+  VSheetPinCodeRequired,
 } from "@/components/app";
-import { partialRight } from "lodash";
+
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
 const props = defineProps<{
@@ -28,6 +29,7 @@ const {
       tags: { TAG_ASSETS_SHAREABLE_GLOBALY },
     },
   },
+  app: { BODY_ADD_CLASS },
 } = useAppConfig();
 // ##schemas
 // ##utils
@@ -37,6 +39,7 @@ const {
   assetsPostBlocked,
   assetsPostActive,
   assetsPostOpen,
+  assetsPostLinkShareable,
 } = useAssetsUtils();
 const { smAndUp } = useDisplay();
 const { chatAssets, likesAssets, ratingAssets } = useTopics();
@@ -44,6 +47,12 @@ const { topicWithTitle } = useGlobalVariableChatActive();
 const { $dd } = useNuxtApp();
 // ##icons
 // ##refs ##flags ##models
+// use global var to signal post remove success
+//  ..snackbar gets wiped out @component:rerender after cache update
+const flagPostRemovedSuccess = useGlobalFlag(
+  "post:removed:success:9d1eccf9-4bd4-53f3-a833-1b9f6ed63484"
+);
+const togglePromtActivePostDelete = useToggleFlag();
 const togglePostConfigSuccess = useToggleFlag();
 const uid = inject(key_UID);
 // ##data ##auth ##state
@@ -53,9 +62,10 @@ const client = useQueryManageAssetsPosts(() => [props.post?.id], undefined, {
   enabled: false,
 });
 // ##computed
-const shareable_ = computed(() => assetsPostsShareableNetworks(props.post));
 const blocked_ = computed(() => assetsPostBlocked(props.post));
 const active_ = computed(() => assetsPostActive(props.post));
+const shareable_ = computed(() => assetsPostsShareableNetworks(props.post));
+const shareableLink_ = computed(() => assetsPostLinkShareable(props.post));
 const open_ = computed(() => assetsPostOpen(props.post));
 const imagesPoster = computed(() => sample(clientStorage.images.value));
 const postChatTopic = computed(() =>
@@ -82,7 +92,7 @@ const MENU_items = [
       ),
   },
   {
-    title: "Post aktivan",
+    title: "Aktivan post",
     value: "active",
     "title-small": "vide moje grupe",
     emoji: "🟢",
@@ -92,7 +102,7 @@ const MENU_items = [
     title: "Otvoren post",
     "title-small": "vide svi korisnici",
     value: "open",
-    emoji: "🏨",
+    emoji: "🏢",
     handle: async () =>
       await client.commit({ status: AssetsStatus.POSTS_OPEN }, props.post.id),
   },
@@ -105,6 +115,7 @@ const MENU_items = [
   {
     title: "Deljiv na mrežama",
     "title-small": "",
+    value: "shared",
     emoji: "🌐",
     handle: async () =>
       await client.tags(props.post.id, {
@@ -114,6 +125,7 @@ const MENU_items = [
   {
     title: "Blokiraj javni pristup",
     "title-small": "",
+    value: "shared-off",
     emoji: "🚫",
     handle: async () =>
       await client.tags(props.post.id, {
@@ -129,12 +141,14 @@ const MENU_items = [
   {
     title: "Obriši post",
     "title-small": "",
+    value: "delete",
     icon: {
       icon: "trash",
       size: "1.122rem",
       class: "text-error opacity-50 me-1",
     },
     props: {},
+    handle: togglePromtActivePostDelete.on,
   },
 ];
 const emojiStatus = computed(() => {
@@ -150,6 +164,10 @@ const emojiStatus = computed(() => {
 const handleManagePost = async (node: any) => {
   // data.assetsUpsert.error
   // data.assetsManageTags.error
+  if ("delete" === node?.value) {
+    // custom strategy for deletes
+    return node.handle();
+  }
   try {
     ps.begin(togglePostConfigSuccess.off);
     const res = await node.handle();
@@ -171,6 +189,33 @@ const handleManagePost = async (node: any) => {
       togglePostConfigSuccess.on();
     });
 };
+const handlePostDelete = async () => {
+  try {
+    ps.begin();
+    // remove record
+    const res = await client.remove(props.post.id);
+    if (get(res, "data.assetsRemove.error")) throw "@error --posts-rm";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value) {
+    ps.successful(async () => {
+      togglePromtActivePostDelete.off();
+      nextTick(() => {
+        flagPostRemovedSuccess.value = true;
+      });
+      try {
+        // @success remove images from firebase
+        await clientStorage.rma();
+      } catch (error) {
+        console.debug(error);
+      }
+    });
+  }
+  console.debug("@debug:post:remove", ps.error.value);
+};
 
 // ##watch
 // ##hooks ##lifecycle
@@ -182,6 +227,42 @@ const handleManagePost = async (node: any) => {
 </script>
 <template>
   <VCard rounded="lg">
+    <VSnackbarSuccess v-model="flagPostRemovedSuccess">
+      <p>Post je uspešno obrisan.</p>
+    </VSnackbarSuccess>
+    <VMenu
+      v-model="togglePromtActivePostDelete.isActive.value"
+      :activator="undefined"
+      :attach="`.${BODY_ADD_CLASS}`"
+      location="center center"
+      :close-on-content-click="false"
+      class="justify-center items-center"
+    >
+      <VSheetPinCodeRequired :min-width="278" message="Pin za brisanje posta:">
+        <template #actions="{ pin, text }">
+          <span class="d-flex flex-col">
+            <VBtn
+              @click="handlePostDelete"
+              :disabled="pin != text"
+              :max-width="164"
+              :height="40"
+              variant="tonal"
+              color="error"
+              rounded="pill"
+              class="mx-auto px-3"
+            >
+              <template #prepend>
+                <Iconx icon="trash" size="1.122rem" class="" />
+              </template>
+              <span>Obriši post</span>
+            </VBtn>
+            <em class="mt-1 text-sm text-truncate text-error opacity-50">{{
+              post?.name
+            }}</em>
+          </span>
+        </template>
+      </VSheetPinCodeRequired>
+    </VMenu>
     <VSnackbarSuccess v-model="togglePostConfigSuccess.isActive.value">
       <p><strong class="me-1">👍🏻</strong> Post je uspešno ažuriran.</p>
     </VSnackbarSuccess>
@@ -257,7 +338,9 @@ const handleManagePost = async (node: any) => {
       <VRatingTopicRating :small="!smAndUp" :topic="topicPostsRating" />
     </VCardTitle>
     <VCardTitle class="overflow-visible ps-2">
-      <span class="d-inline-flex items-center translate-y-[2px] opacity-50 align-top">
+      <span
+        class="d-inline-flex items-center translate-y-[2px] opacity-50 align-top"
+      >
         <Iconx
           v-if="shareable_"
           icon="world"
@@ -282,12 +365,17 @@ const handleManagePost = async (node: any) => {
     </VCardText>
     <VCardActions class="ps-5 pb-4">
       <VBtnGroupTopicLikeDislike :topic="topicPostLikes" light />
-
+      <NuxtLink v-if="shareable_" :href="shareableLink_" target="_blank">
+        <VBtn icon variant="plain">
+          <Iconx icon="external-link" size="1.22rem" />
+        </VBtn>
+      </NuxtLink>
+      <VSpacer />
       <VBtnTopicChatToggle
         color="on-surface"
         :topic="postChatTopic"
         :props-icon="{ size: '1.44rem' }"
-        class="ms-auto opacity-50"
+        class="*ms-auto opacity-50"
       />
     </VCardActions>
   </VCard>
