@@ -102,6 +102,7 @@ useFirebaseCloudMessaging({
   },
 });
 
+// TOPIC_CHAT_ACTIVE_main:oYgQb3SHdQiLpHO1Y0cv
 // @@eos
 </script>
 <template>
@@ -154,5 +155,15 @@ useFirebaseCloudMessaging({
   background-repeat: no-repeat !important;
   background-size: 102% !important;
   background-position: center 9% !important;
+}
+
+// center menus @viewport
+.CLASS--VMenu-centered-viewport {
+  position: fixed;
+  justify-content: center;
+  .v-overlay__content {
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 </style>

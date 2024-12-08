@@ -19,11 +19,11 @@ const {
     creds: true,
   },
   {
+    schema: authLoginCreds,
     onSubmit: async (data) => {
       const [email, password] = get(data, "creds", "").split(":");
       await auth.login({ email, password });
     },
-    schema: authLoginCreds,
   }
 );
 
@@ -40,7 +40,7 @@ onUnmounted(() => {
 // @@eos
 </script>
 <template>
-  <VForm id="ID--WtXCbXD" @submit.prevent="authSubmit" autocomplete="off">
+  <VForm id="ID--WtXCbXD" @submit.prevent="authSubmit">
     <VTextField
       center-affix
       autofocus
@@ -48,7 +48,7 @@ onUnmounted(() => {
       rounded="s-pill"
       variant="solo-filled"
       name="creds"
-      v-model.trim="form.creds.value"
+      v-model="form.creds.value"
       placeholder="korisnik@email.com:lozinka"
       clearable
       :type="toggleIsHiddenPassword.isActive.value ? 'password' : 'text'"

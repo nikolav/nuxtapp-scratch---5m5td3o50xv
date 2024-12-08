@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { type Dayjs } from "dayjs";
-import { type OrNoValue } from "@/types";
 import { VBtnTopicChatToggle, VToolbarPrimary } from "@/components/app";
 
 definePageMeta({
@@ -8,16 +7,16 @@ definePageMeta({
   middleware: "authorized",
 });
 
-const { calcDisplayName } = useAuthUtils();
 const auth = useStoreApiAuth();
-const diplayName$ = computed(() => calcDisplayName(auth.user$));
-
 // @utils
-// store:pull
+const { topicWithTitle } = useGlobalVariableChatActive();
+const { calcDisplayName } = useAuthUtils();
 const { chatUserChannel } = useTopics();
+// store:pull
 const topicUserChannel = computed(() =>
-  [chatUserChannel(auth.uid), "--title", kebabCase(auth.displayName)].join(" ")
+  topicWithTitle(chatUserChannel(auth.uid), auth.displayName)
 );
+const diplayName$ = computed(() => calcDisplayName(auth.user$));
 
 // @head
 useHead({

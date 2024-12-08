@@ -9,7 +9,7 @@ import {
   VFabMain,
   VSnackbarSuccess,
 } from "@/components/app";
-import { Dump } from "@/components/dev";
+
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -26,13 +26,11 @@ const schemaSearchNotEmpty = z.object({
 // ##utils
 const { smAndUp } = useDisplay();
 const attrs = useAttrs();
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
-const g = computed(() => routeData.value?.g);
+const g = computed(() => get(attrs, "route-data.g"));
 const gid = computed(() => g.value?.id);
 // const gname = computed(() => g.value?.name);
 
 const { calcDisplayName } = useAuthUtils();
-const toId = (node: any) => (null != node ? Number(node.id) : undefined);
 
 // ##icons
 // ##refs ##flags ##models
@@ -58,7 +56,7 @@ const routeBackTo = computed(() => ({
   params: { gid: gid.value },
 }));
 const uidsSelected = computed(() =>
-  isEmpty(mUsersSelected.value) ? [] : map(mUsersSelected.value, toId)
+  isEmpty(mUsersSelected.value) ? [] : map(mUsersSelected.value, toIds)
 );
 const gConfiguration = computed<OrNoValue<RecordJson>>(() =>
   gid.value && 0 < uidsSelected.value.length
@@ -74,8 +72,8 @@ const form = useFormModel(
     search: {},
   },
   {
-    model: { search: "" },
     schema: schemaSearchNotEmpty,
+    model: { search: "" },
     onSubmit: (d: any) => {
       q.value = get(d, "search", "");
     },
@@ -127,9 +125,9 @@ useHead({ title: "Dodaj članove" });
         floating
       >
         <template #default>
-          <VForm @submit.prevent="form.submit" autocomplete="off" class="grow">
+          <VForm @submit.prevent="form.submit" class="grow">
             <VTextField
-              v-model.trim="form.data.search.value"
+              v-model="form.data.search.value"
               density="compact"
               rounded="pill"
               variant="underlined"

@@ -10,6 +10,7 @@ import {
   VBtnShowLocation,
   VDataIteratorListData,
   ProvideUserGroups,
+  ProvideAssetsGroupAvatar,
 } from "@/components/app";
 
 // ##config ##const
@@ -17,6 +18,10 @@ definePageMeta({
   middleware: "authorized",
   layout: "app-default",
 });
+
+const {
+  app: { DEFAULT_NO_IMAGE_AVAILABLE },
+} = useAppConfig();
 // ##utils
 const route = useRoute();
 const { uid: UID } = route.params;
@@ -134,15 +139,20 @@ useHead({ title: displayName });
             v-if="!isEmpty(groups)"
             class="__spacer d-inline-flex items-center flex-wrap gap-2"
           >
-            <VChip
-              v-for="g in groups"
-              :to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
-              elevation="1"
-              color="info-darken-1"
-              size="small"
-              :key="g"
-              :text="g.name"
-            />
+            <template v-for="g in groups" :key="g.id">
+              <ProvideAssetsGroupAvatar :gid="g.id" v-slot="{ avatarImage }">
+                <VChip
+                  link
+                  :to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
+                  elevation="1"
+                  color="info"
+                  :prepend-avatar="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+                  size="large"
+                >
+                  {{ g.name }}
+                </VChip>
+              </ProvideAssetsGroupAvatar>
+            </template>
           </VCardText>
         </ProvideUserGroups>
         <VSpacer class="mt-5" />

@@ -18,7 +18,6 @@ definePageMeta({
 const attrs = useAttrs();
 const g = computed(() => get(attrs, "route-data.g", <any>{}));
 const gid = computed(() => g.value?.id);
-const gname = computed(() => g.value?.name);
 const enabled = computed(() => !!gid.value);
 
 const {
@@ -45,7 +44,7 @@ const { assets: matchedForms } = useQueryAssetsSearch(qsearch, DIGITAL_FORM);
 const { formsFGConfig } = useQueryManageAssets(
   undefined,
   () => [gid.value],
-  true,
+  undefined,
   { enabled }
 );
 
@@ -111,7 +110,7 @@ useHead({ title: "Obrasci" });
     >
       <template #title>
         <VTextField
-          v-model.trim="searchText"
+          v-model="searchText"
           variant="underlined"
           density="compact"
           rounded="pill"

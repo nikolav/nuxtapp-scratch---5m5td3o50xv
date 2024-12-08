@@ -37,10 +37,20 @@ export const schemaAuthData = z.object({
   // @computed
   admin: z.boolean(),
   approved: z.boolean(),
+  default: z.boolean(),
   email_verified: z.boolean(),
   external: z.boolean(),
   manager: z.boolean(),
-  default: z.boolean(),
+  // groups: z.optional(z.array(z.string())),
+  // groups: {id: ID!, name:string}[]
+  groups: z.optional(
+    z.array(
+      z.object({
+        id: z.coerce.number(),
+        name: z.string(),
+      })
+    )
+  ),
   // @ts
   created_at: z.string(),
   updated_at: z.string(),

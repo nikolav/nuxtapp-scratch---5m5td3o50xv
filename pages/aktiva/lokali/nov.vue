@@ -119,7 +119,7 @@ useHead({ title: "✨🏪 Nov lokal" });
           <template v-for="(item, field) in FIELDS" :key="field">
             <VTextField
               v-if="!item.type"
-              v-model.trim="form.data[field].value"
+              v-model="form.data[field].value"
               autofocus
               variant="underlined"
               hide-details
@@ -127,9 +127,9 @@ useHead({ title: "✨🏪 Nov lokal" });
             >
               <template #prepend-inner>
                 <Iconx
-                  :size="item.icon.size"
-                  :icon="item.icon.name"
-                  v-bind="item.icon.props"
+                  :size="item.icon?.size"
+                  :icon="item.icon?.name"
+                  v-bind="item.icon?.props"
                 />
               </template>
               <template #label>
@@ -148,9 +148,9 @@ useHead({ title: "✨🏪 Nov lokal" });
             >
               <template #prepend-inner>
                 <Iconx
-                  :icon="item.icon.name"
-                  :size="item.icon.size"
-                  v-bind="item.icon.props"
+                  :icon="item.icon?.name"
+                  :size="item.icon?.size"
+                  v-bind="item.icon?.props"
                 />
               </template>
             </VTextarea>
@@ -174,9 +174,9 @@ useHead({ title: "✨🏪 Nov lokal" });
               </template>
               <template #label>
                 <Iconx
-                  :icon="item.icon.name"
-                  :size="item.icon.size"
-                  v-bind="item.icon.props"
+                  :icon="item.icon?.name"
+                  :size="item.icon?.size"
+                  v-bind="item.icon?.props"
                 />
                 <span>
                   {{ item.label }}

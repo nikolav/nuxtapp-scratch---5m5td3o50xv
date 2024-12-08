@@ -151,7 +151,7 @@ const { width: WSELECT } = useElementSize(ref_9yvgmhpVs9DnAXGuV5Hm);
               <VCol sm="6">
                 <div class="__sizer" ref="ref_9yvgmhpVs9DnAXGuV5Hm">
                   <VTextField
-                    v-model.trim="form.name.value"
+                    v-model="form.name.value"
                     autofocus
                     clearable
                     variant="underlined"
@@ -199,7 +199,7 @@ const { width: WSELECT } = useElementSize(ref_9yvgmhpVs9DnAXGuV5Hm);
                     </template>
                   </VSelect>
                   <VTextField
-                    v-model.trim="form.code.value"
+                    v-model="form.code.value"
                     clearable
                     variant="underlined"
                     label="Šifra"
@@ -241,7 +241,7 @@ const { width: WSELECT } = useElementSize(ref_9yvgmhpVs9DnAXGuV5Hm);
                     </template>
                   </VTextField>
                   <VTextarea
-                    v-model.trim="form.notes.value"
+                    v-model="form.notes.value"
                     clearable
                     variant="underlined"
                     label="Opis"

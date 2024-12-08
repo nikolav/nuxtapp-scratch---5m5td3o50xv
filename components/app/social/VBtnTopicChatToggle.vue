@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { Iconx } from "@/components/icons";
 // ##config
 defineOptions({
   inheritAttrs: false,
@@ -16,11 +15,7 @@ const props = defineProps<{
 const { TOPIC_CHAT_ACTIVE_main } = useTopics();
 // ##icons
 // ##refs ##flags
-const {
-  topic: topicCurrent,
-  isActive,
-  topicSet,
-} = useGlobalVariableChatActive();
+const { isActive, topicSet } = useGlobalVariableChatActive();
 // ##data ##auth ##state
 // ##computed
 // ##forms ##helpers ##handlers

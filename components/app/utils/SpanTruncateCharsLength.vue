@@ -6,6 +6,7 @@ const props = withDefaults(
   {
     length: 10,
     elipsis: "...",
+    text: "",
   }
 );
 // ##config ##props ##route ##attrs
@@ -37,7 +38,9 @@ const text_ = computed(
 </script>
 <template>
   <span class="component--SpanTruncateCharsLength">
-    {{ text_ }}
+    <slot :text="text_">
+      {{ text_ }}
+    </slot>
   </span>
 </template>
 <style lang="scss" scoped></style>

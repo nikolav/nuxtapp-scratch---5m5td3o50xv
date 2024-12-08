@@ -242,6 +242,8 @@ onMounted(() => {
           data: q.getContents(),
           // drop *blanks replace, single space 4searching
           text: trim(String(q.getText() || "").replace(/\s+/g, " ")),
+          // @previews v-bind:html
+          html: q.getSemanticHTML(),
         });
       });
       ee.on("getContents", ({ handle }) => {

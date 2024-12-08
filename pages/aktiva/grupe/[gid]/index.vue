@@ -22,10 +22,9 @@ const {
   },
 } = useAppConfig();
 // ##utils
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
-const g = computed(() => routeData.value?.g);
-const gid = computed(() => routeData.value?.gid);
-const gname = computed(() => routeData.value?.gname);
+const g = computed(() => get(attrs, "route-data.g"));
+const gid = computed(() => g.value?.id);
+const gname = computed(() => g.value?.name);
 const gkey = computed(() => g.value?.key);
 
 const {
@@ -236,7 +235,7 @@ useHead({ title: gname });
               </VSelect>
               <VTextarea
                 v-if="'textarea' == item?.type"
-                v-model.trim="form.data[field].value"
+                v-model="form.data[field].value"
                 clearable
                 variant="underlined"
                 :label="item.label"

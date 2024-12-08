@@ -72,6 +72,8 @@ export default defineAppConfig({
   },
   //
   key: {
+    CACHE_KEY_CHATS_LATEST_MESSAGES:
+      "chatsLastMessagesByTopic:81dad28d-c0d8-5a8f-8292-4b2927cbb8fc",
     TOPIC_ASSETS_FORMS_REPORT_CHAT_prefix:
       "TOPIC_ASSETS_FORMS_REPORT_CHAT:36eb36f6-7947-5774-b175-76cdca6cd6fc:",
     TOPIC_ASSETS_FORMS_REPORT_LIKES_prefix:

@@ -5,7 +5,7 @@ import { schemaPasswordsMatch } from "@/schemas";
 
 // config, utils
 const cardMaxWidth = 392;
-const TIMEOUT_REDIRECT_LOGOUT = 5123;
+const TIMEOUT_REDIRECT_LOGOUT = 5122;
 const {
   app: { TOOLTIPS_OPEN_DELAY },
   layout: { toolbarMainHeight },
@@ -119,7 +119,7 @@ watch(
           <VTextField
             :type="inputType"
             density="comfortable"
-            v-model.trim="form.password1.value"
+            v-model="form.password1.value"
             label="Lozinka"
             variant="outlined"
             center-affix
@@ -149,7 +149,7 @@ watch(
           <VTextField
             :type="inputType"
             density="comfortable"
-            v-model.trim="form.password2.value"
+            v-model="form.password2.value"
             label="Lozinka ponovo"
             variant="outlined"
             center-affix

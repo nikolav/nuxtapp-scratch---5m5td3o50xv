@@ -20,7 +20,6 @@ const attrs = useAttrs();
 const gReload = get(attrs, "route-data.gReload");
 const g = computed(() => get(attrs, "route-data.g", <any>{}));
 const gid = computed(() => g.value?.id);
-const gname = computed(() => g.value?.name);
 const enabled = computed(() => !!gid.value);
 
 // ##schemas
@@ -130,7 +129,7 @@ watchEffect(() => useIOEvent(() => assetsUpdated(gid.value), gReload));
           <VCardText>
             <template v-for="(item, field) in FIELDS" :key="field">
               <VTextField
-                v-model.trim="form.data[field].value"
+                v-model="form.data[field].value"
                 :label="item.label"
                 v-bind="item.props"
               >

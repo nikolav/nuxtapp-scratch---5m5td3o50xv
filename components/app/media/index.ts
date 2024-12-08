@@ -6,3 +6,4 @@ export { default as ProvideAssetImages } from "./ProvideAssetImages.vue";
 export { default as VImgPickerSingle } from "./VImgPickerSingle.vue";
 export { default as ProvideAssetsGroupAvatar } from "./ProvideAssetsGroupAvatar.vue";
 export { default as VImgImagesPickerDefaut } from "./VImgImagesPickerDefaut.vue";
+export { default as PRenderHtml } from "./PRenderHtml.vue";

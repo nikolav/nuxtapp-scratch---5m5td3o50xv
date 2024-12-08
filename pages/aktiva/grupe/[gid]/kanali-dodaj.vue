@@ -16,9 +16,9 @@ definePageMeta({
 });
 
 const attrs = useAttrs();
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
+const gid = computed(() => get(attrs, "route-data.gid"));
 // const g = computed(() => routeData.value?.g);
-const gid = computed(() => routeData.value?.gid);
+// const gid = computed(() => routeData.value?.gid);
 // const gname = computed(() => routeData.value?.gname);
 const enabled = computed(() => !!gid.value);
 
@@ -106,7 +106,7 @@ useHead({ title: "Kanali" });
     >
       <template #title>
         <VTextField
-          v-model.trim="searchText"
+          v-model="searchText"
           variant="underlined"
           density="compact"
           rounded="pill"

@@ -10,9 +10,14 @@ import {
   VBtnDotsMenuList,
   VSnackbarSuccess,
   VSheetPinCodeRequired,
+  VDialogPrimary,
+  PRenderHtml,
+  SpanTruncateCharsLength,
 } from "@/components/app";
 
 // ##config:const
+// attach vmenu to this card-id for easy placement
+const cardID = `ID--${idGen()}`;
 // ##config ##props ##route ##attrs ##form-fields
 const props = defineProps<{
   post?: any;
@@ -29,7 +34,6 @@ const {
       tags: { TAG_ASSETS_SHAREABLE_GLOBALY },
     },
   },
-  app: { BODY_ADD_CLASS },
 } = useAppConfig();
 // ##schemas
 // ##utils
@@ -47,15 +51,19 @@ const { topicWithTitle } = useGlobalVariableChatActive();
 const { $dd } = useNuxtApp();
 // ##icons
 // ##refs ##flags ##models
+const keyChatName = computed(() => chatAssets(props.post?.key));
+
 // use global var to signal post remove success
 //  ..snackbar gets wiped out @component:rerender after cache update
 const flagPostRemovedSuccess = useGlobalFlag(
   "post:removed:success:9d1eccf9-4bd4-53f3-a833-1b9f6ed63484"
 );
+const toggleDialogPreviewContent = useToggleFlag();
 const togglePromtActivePostDelete = useToggleFlag();
 const togglePostConfigSuccess = useToggleFlag();
 const uid = inject(key_UID);
 // ##data ##auth ##state
+const clientCache = useCacheRedis(keyChatName);
 const clientStorage = useFirebaseStorageAssetImages(() => props.post?.key);
 // load api; dont send query
 const client = useQueryManageAssetsPosts(() => [props.post?.id], undefined, {
@@ -69,7 +77,7 @@ const shareableLink_ = computed(() => assetsPostLinkShareable(props.post));
 const open_ = computed(() => assetsPostOpen(props.post));
 const imagesPoster = computed(() => sample(clientStorage.images.value));
 const postChatTopic = computed(() =>
-  topicWithTitle(chatAssets(props.post?.key), props.post?.name)
+  topicWithTitle(keyChatName.value, props.post?.name)
 );
 const topicPostLikes = computed(() => likesAssets(props.post?.key));
 const topicPostsRating = computed(() => ratingAssets(props.post?.key));
@@ -77,6 +85,12 @@ const postImagesSlides = computed(() =>
   map(clientStorage.images.value, (src: string) => ({
     src,
   }))
+);
+const postChatlastMessage = computed(() =>
+  get(clientCache.store.value, "message.data.message")
+);
+const postChatlastMessageSenderName = computed(() =>
+  get(clientCache.store.value, "message.data.name")
 );
 // ##forms ##handlers ##helpers ##small-utils
 const MENU_items = [
@@ -218,6 +232,7 @@ const handlePostDelete = async () => {
 };
 
 // ##watch
+watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
 // ##hooks ##lifecycle
 // ##head ##meta
 // ##provide
@@ -226,15 +241,20 @@ const handlePostDelete = async () => {
 // @@eos
 </script>
 <template>
-  <VCard rounded="lg">
+  <VCard rounded="lg" class="component--VCardPost" :id="cardID">
+    <VDialogPrimary v-model="toggleDialogPreviewContent.isActive.value">
+      <VSheet>
+        <VSpacer class="mt-12" />
+        <PRenderHtml :html="post?.data.content.html" class="prose" />
+      </VSheet>
+    </VDialogPrimary>
     <VSnackbarSuccess v-model="flagPostRemovedSuccess">
       <p>Post je uspešno obrisan.</p>
     </VSnackbarSuccess>
     <VMenu
       v-model="togglePromtActivePostDelete.isActive.value"
       :activator="undefined"
-      :attach="`.${BODY_ADD_CLASS}`"
-      location="center center"
+      :attach="`#${cardID}`"
       :close-on-content-click="false"
       class="justify-center items-center"
     >
@@ -349,21 +369,19 @@ const handlePostDelete = async () => {
         />
         <em v-if="emojiStatus" class="z-[1] text-sm">{{ emojiStatus }}</em>
       </span>
-      <NuxtLink
-        :to="{ name: 'app-objave-oid', params: { oid: post?.id } }"
-        class="ps-1"
+      <a
+        @click.prevent.stop="toggleDialogPreviewContent.on"
+        class="link--prominent text-primary-darken-1 ps-1"
       >
-        <a class="link--prominent text-primary-darken-1">
-          {{ post?.id }} -- {{ post?.name }}
-        </a>
-      </NuxtLink>
+        {{ post?.id }} -- {{ post?.name }}
+      </a>
     </VCardTitle>
     <VCardText class="!prose indent-2">
       <p class="line-clamp-3">
         {{ get(post, "data.content.text") }}
       </p>
     </VCardText>
-    <VCardActions class="ps-5 pb-4">
+    <VCardActions class="ps-5" :class="[postChatlastMessage ? 'pb-10' : '']">
       <VBtnGroupTopicLikeDislike :topic="topicPostLikes" light />
       <NuxtLink v-if="shareable_" :href="shareableLink_" target="_blank">
         <VBtn icon variant="plain">
@@ -371,12 +389,32 @@ const handlePostDelete = async () => {
         </VBtn>
       </NuxtLink>
       <VSpacer />
-      <VBtnTopicChatToggle
-        color="on-surface"
-        :topic="postChatTopic"
-        :props-icon="{ size: '1.44rem' }"
-        class="*ms-auto opacity-50"
-      />
+      <span
+        class="position-relative d-flex flex-col items-end overflow-visible"
+      >
+        <VBtnTopicChatToggle
+          color="on-surface"
+          :topic="postChatTopic"
+          :props-icon="{ size: '1.44rem' }"
+          class="*ms-auto opacity-50"
+        />
+        <span
+          v-if="postChatlastMessage"
+          class="items-end d-flex flex-col text-medium-emphasis font-italic pe-4 position-absolute -bottom-7"
+        >
+          <SpanTruncateCharsLength
+            :length="33"
+            :text="postChatlastMessage"
+            class="whitespace-nowrap"
+            v-slot="{ text }"
+          >
+            <small>{{ text }}</small>
+          </SpanTruncateCharsLength>
+          <small class="whitespace-nowrap">{{
+            postChatlastMessageSenderName
+          }}</small>
+        </span>
+      </span>
     </VCardActions>
   </VCard>
 </template>

@@ -16,6 +16,7 @@ export type TOrPromise<T = any> = T | Promise<T>;
 export interface IDoc<T = TDocData> {
   id?: number | undefined;
   data: T;
+  key?: string | undefined;
   created_at?: string | undefined;
   updated_at?: string | undefined;
 }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // ##imports
 // import { Dump } from "@/components/dev";
-import { Iconx } from "@/components/icons";
 import {
   VSheetHeaderBodyFooter,
   VBtnGroupTopicLikeDislike,
@@ -39,16 +38,16 @@ const ownsMessage = computed(() => uid?.value == props.item?.data.uid);
 <template>
   <VSheetHeaderBodyFooter
     :item="item"
-    rounded
+    rounded="lg"
     :elevation="ownsMessage ? 3 : 1"
     class="component--VSheetChatItemSimple pa-2"
     :props-header="{ class: 'align-baseline' }"
-    :props-footer="{ class: 'd-flex justify-end gap-0' }"
+    :props-footer="{ class: 'd-flex justify-end gap-0 mt-1' }"
     :props-body="{ class: 'prose' }"
     :color="ownsMessage ? 'primary-lighten-5' : undefined"
   >
     <template #append>
-      <span class="d-flex items-start gap-2">
+      <span class="d-flex items-start gap-3">
         <VBtnGroupTopicLikeDislike
           :topic="topicLikesDocChatMessage"
           small
@@ -96,16 +95,16 @@ const ownsMessage = computed(() => uid?.value == props.item?.data.uid);
       </span>
     </template>
     <template #title="{ item }">
-      <span class="font-italic opacity-75 ps-1">{{ item.data.name }}</span>
+      <span class="font-italic opacity-75 ps-2">{{ item.data.name }}</span>
     </template>
     <template #body="{ item }">
-      <p>
+      <p class="text-body-1 ps-1">
         {{ item.data.message }}
       </p>
     </template>
     <template #footer="{ item }">
       <pre
-        class="opacity-50"
+        class="opacity-50 font-italic"
       ><small>{{ $dd.utc(item.created_at).fromNow(true) }}</small></pre>
     </template>
   </VSheetHeaderBodyFooter>

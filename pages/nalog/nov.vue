@@ -16,8 +16,11 @@ definePageMeta({
 });
 
 const {
-  layout: { toolbarMainHeight },
-  app: { TOOLTIPS_OPEN_DELAY, DEFAULT_TRANSITION },
+  // layout: { toolbarMainHeight },
+  app: {
+    // TOOLTIPS_OPEN_DELAY,
+    DEFAULT_TRANSITION,
+  },
 } = useAppConfig();
 
 // @ref
@@ -115,7 +118,7 @@ onMounted(() => {
           <!-- @@lozinka -->
           <VTextField
             rounded="pill"
-            v-model.trim="form.password.value"
+            v-model="form.password.value"
             variant="solo-filled"
             label="Lozinka *"
             :type="togglePasswordIsVisible.isActive.value ? 'text' : 'password'"

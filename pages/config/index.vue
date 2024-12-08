@@ -80,7 +80,7 @@ useHead({ title: "Podešavanja" });
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>config:B</em>
+            <em>🚧 config:B</em>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-2">
@@ -94,7 +94,7 @@ useHead({ title: "Podešavanja" });
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>config:C</em>
+            <em>🚧 config:C</em>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-2">
@@ -108,7 +108,7 @@ useHead({ title: "Podešavanja" });
         <VExpansionPanelTitle class="ps-2">
           <span class="d-flex items-center">
             <Iconx icon="viber" size="1.22rem" class="opacity-20 me-3 pa-0" />
-            <em>config:D</em>
+            <em>🚧 config:D</em>
           </span>
         </VExpansionPanelTitle>
         <VExpansionPanelText class="*:!p-2">

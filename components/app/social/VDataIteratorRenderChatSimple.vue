@@ -33,7 +33,7 @@ useOnceMountedOn(chatSize, () => {
       <VEmptyStateNoData class="opacity-40" />
     </template>
     <template #default="{ items }">
-      <div class="__spacer space-y-2" v-bind="propsContainer">
+      <div class="__spacer space-y-4" v-bind="propsContainer">
         <template v-for="node in items" :key="id_(node)">
           <VSheetChatItemSimple
             :remove="() => remove(id_(node))"

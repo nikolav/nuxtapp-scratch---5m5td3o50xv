@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import { type Dayjs } from "dayjs";
-import { type OrNoValue } from "@/types";
+import type { OrNoValue } from "@/types";
 import {
   VSheetPinCodeRequired,
   VBtnUpdateProfileImage,
   VSelectAvailabilityPicker,
-  VBtnTopicChatToggle,
+  // VBtnTopicChatToggle,
   VBtnDatePicker,
+  ProvideAssetsGroupAvatar,
 } from "@/components/app";
 
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
+
+const {
+  app: { DEFAULT_NO_IMAGE_AVAILABLE },
+} = useAppConfig();
 
 const auth = useStoreApiAuth();
 const emailVerified = computed(() => get(auth.user$, "email_verified"));
@@ -21,6 +26,7 @@ const displayLocation$ = computed(() =>
 );
 const email$ = computed(() => get(auth.user$, "email"));
 const key$ = computed(() => get(auth.user$, "key"));
+const ugroups$ = computed(() => get(auth.user$, "groups", []));
 
 const FIELDS = [
   // @@.1
@@ -51,7 +57,7 @@ const { form, submit, valid } = useFormDataFields(
   FIELDS.reduce((accum, field) => {
     accum[field] = true;
     return accum;
-  }, <Record<string, boolean>>{}),
+  }, <any>{}),
 
   {
     onSubmit: async (data: any) => {
@@ -92,10 +98,6 @@ const restoreFormFieldsFromStore = () => {
       "employed_at" != field ? val : val ? $dd.utc(val) : undefined;
   });
 };
-const { chatUserChannel } = useTopics();
-const topicUserChannel = computed(() =>
-  [chatUserChannel(auth.uid), "--title", kebabCase(auth.displayName)].join(" ")
-);
 
 // @watch
 onMounted(() => {
@@ -117,6 +119,27 @@ onMounted(() => {
     <VForm @submit.prevent="submit" autocomplete="off">
       <VCard rounded="0" variant="text">
         <VCardText class="max-w-[345px] mx-auto">
+          <span
+            v-if="!isEmpty(ugroups$)"
+            class="d-flex items-center g-2 flex-wrap"
+          >
+            <!-- @@ -->
+            <template v-for="ug in ugroups$" :key="ug.name">
+              <ProvideAssetsGroupAvatar :gid="ug.id" v-slot="{ avatarImage }">
+                <VChip
+                  link
+                  :to="{ name: 'aktiva-grupe-gid', params: { gid: ug.id } }"
+                  elevation="1"
+                  color="info"
+                  :prepend-avatar="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+                  size="large"
+                >
+                  {{ ug.name }}
+                </VChip>
+              </ProvideAssetsGroupAvatar>
+            </template>
+          </span>
+          <VSpacer class="mt-5" />
           <VRow justify="center" class="translate-y-1">
             <VBtnUpdateProfileImage />
           </VRow>
@@ -126,19 +149,19 @@ onMounted(() => {
             <VSelectAvailabilityPicker />
 
             <VTextField
-              v-model.trim="form.firstName.value"
+              v-model="form.firstName.value"
               density="comfortable"
               label="Ime"
               variant="underlined"
             />
             <VTextField
-              v-model.trim="form.lastName.value"
+              v-model="form.lastName.value"
               density="comfortable"
               label="Prezime"
               variant="underlined"
             />
             <VTextField
-              v-model.trim="form.phone.value"
+              v-model="form.phone.value"
               density="comfortable"
               label="Telefon"
               variant="underlined"
@@ -152,13 +175,13 @@ onMounted(() => {
               variant="underlined"
             />
             <VTextField
-              v-model.trim="form.address.value"
+              v-model="form.address.value"
               density="comfortable"
               label="Adresa stanovanja"
               variant="underlined"
             />
             <VTextField
-              v-model.trim="form.job.value"
+              v-model="form.job.value"
               density="comfortable"
               label="Naziv radnog mesta"
               variant="underlined"
@@ -173,7 +196,7 @@ onMounted(() => {
 
             <VSpacer class="mt-8" />
             <VTextField
-              v-model.trim="form.displayName.value"
+              v-model="form.displayName.value"
               density="comfortable"
               label="Korisničko ime"
               variant="underlined"
@@ -188,7 +211,7 @@ onMounted(() => {
             <VSlideYReverseTransition>
               <VTextField
                 v-if="toggleDisplayLocation.isActive.value"
-                v-model.trim="form.displayLocation.value"
+                v-model="form.displayLocation.value"
                 density="comfortable"
                 variant="underlined"
                 single-line
