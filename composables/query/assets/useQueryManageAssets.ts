@@ -7,6 +7,7 @@ import {
   M_groupsGUConfigure,
   M_assetsAGConfig,
   M_assetsPatchData,
+  M_assetsManageTags,
 } from "@/graphql";
 import { schemaHasFieldName as sHasName } from "@/schemas";
 // @@useQueryManageAssets
@@ -75,6 +76,8 @@ export const useQueryManageAssets = (
     useMutation(M_assetsAGConfig);
   const { mutate: mutateAssetsPatchData, loading: loadingPatch } =
     useMutation(M_assetsPatchData);
+  const { mutate: mutateAssetsTagsManage, loading: loadingTagsManage } =
+    useMutation(M_assetsManageTags);
 
   //
   const assets = computed(() => result.value?.assetsList || []);
@@ -104,9 +107,12 @@ export const useQueryManageAssets = (
     await assetsAGConfig(cgConfig, DIGITAL_CHAT);
   const formsFGConfig = async (fgConfig: any) =>
     await assetsAGConfig(fgConfig, DIGITAL_FORM);
-
   const assetsPatchData = async (aid: any, patch: any) =>
     await mutateAssetsPatchData({ aid, patch });
+  // configure asset tags
+  //  assetsManageTags(aid: ID!, config: JsonData!): JsonData!
+  const tags = async (aid: any, config: any) =>
+    await mutateAssetsTagsManage({ aid, config });
 
   const { watchProcessing } = useStoreAppProcessing();
   const processing = computed(
@@ -116,14 +122,16 @@ export const useQueryManageAssets = (
       loadingAssetsRemove.value ||
       loadingGU.value ||
       loadingAG.value ||
-      loadingPatch.value
+      loadingPatch.value ||
+      loadingTagsManage.value
   );
   watchProcessing(processing);
 
   useOnceMountedOn(true, () => queryStart());
 
-  const ioevent = computed(() => type.value || "");
-  watchEffect(() => useIOEvent(ioevent.value, reload));
+  const IO_any = computed(() => some([type.value]));
+  // const ioevent = computed(() => type.value || "");
+  // watchEffect(() => useIOEvent(ioevent.value, reload));
 
   return {
     // @refs
@@ -137,6 +145,7 @@ export const useQueryManageAssets = (
     commit,
     remove,
     reload,
+    tags,
     //
     commit_archive,
 
@@ -152,5 +161,8 @@ export const useQueryManageAssets = (
 
     // @flags
     processing,
+
+    //
+    IO: IO_any,
   };
 };

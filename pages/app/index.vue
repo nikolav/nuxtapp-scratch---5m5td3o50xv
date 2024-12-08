@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { Dump } from "@/components/dev";
 import { VFabMain, VCardDataIterator, VCardPost } from "@/components/app";
 import { renderIcon } from "@/components/icons";
 // ##config:const
@@ -12,6 +11,7 @@ definePageMeta({
 });
 // ##schemas
 // ##utils
+const uid = inject(key_UID);
 // ##icons
 const iconCheckOn = renderIcon("check-on");
 const iconCheckOff = renderIcon("check-off");
@@ -21,22 +21,17 @@ const iconCheckOff = renderIcon("check-off");
 const onlyMyPosts = useGlobalVariable(
   "posts:my-only:854f930b-f2c2-5e86-ad20-6c87c3ac22a6"
 );
-const enabled = computed(() => true);
-const client = useQueryManageAssetsPosts(
-  // get all posts
-  undefined,
-  // lookup groups; skip if search:my-only
-  () => (onlyMyPosts.value ? false : undefined),
-  // query options
-  {
-    enabled,
-  },
-  // flags
-  {
-    my_only: onlyMyPosts,
-    ordered: "date_desc",
-  }
+
+const client = useQueryAssetsPostsReadable();
+const { watchProcessing } = useStoreAppProcessing();
+watchProcessing(() => client.loading.value);
+
+const posts_ = computed(() =>
+  onlyMyPosts.value
+    ? filter(client.posts.value, (p: any) => uid?.value == p.author_id)
+    : client.posts.value
 );
+
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
@@ -51,7 +46,7 @@ useHead({ title: "👷🏻‍♂️ Frikom teren ", titleTemplate: "" });
 <template>
   <section class="page--dashboard">
     <VCardDataIterator
-      :items="client.assets.value"
+      :items="posts_"
       :per-page="20"
       :reload="client.reload"
       enabled-dots-menu

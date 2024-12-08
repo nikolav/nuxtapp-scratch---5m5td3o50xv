@@ -9,6 +9,24 @@ export const IMPORTS = [
     ],
   },
   {
+    from: "lodash/partial",
+    imports: [
+      {
+        name: "default",
+        as: "partial",
+      },
+    ],
+  },
+  {
+    from: "lodash/partialRight",
+    imports: [
+      {
+        name: "default",
+        as: "partialRight",
+      },
+    ],
+  },
+  {
     from: "lodash/get",
     imports: [
       {

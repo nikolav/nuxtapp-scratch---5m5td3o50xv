@@ -360,8 +360,16 @@ export const M_reportsConfigurationTags = gql`
 
 // viberChannelSetupSetWebhook(url: String!, auth_token: String!, is_global: Boolean): JsonData!
 export const M_viberChannelSetupSetWebhook = gql`
-  mutation m_viberChannelSetupSetWebhook($url: String!, $auth_token: String!, $is_global: Boolean) {
-    viberChannelSetupSetWebhook(url: $url, auth_token: $auth_token, is_global: $is_global)
+  mutation m_viberChannelSetupSetWebhook(
+    $url: String!
+    $auth_token: String!
+    $is_global: Boolean
+  ) {
+    viberChannelSetupSetWebhook(
+      url: $url
+      auth_token: $auth_token
+      is_global: $is_global
+    )
   }
 `;
 
@@ -369,5 +377,12 @@ export const M_viberChannelSetupSetWebhook = gql`
 export const M_viberChannelSetupChannelsDrop = gql`
   mutation m_viberChannelSetupChannelsDrop($channelNames: [String!]) {
     viberChannelSetupChannelsDrop(channelNames: $channelNames)
+  }
+`;
+
+// assetsManageTags(aid: ID!, config: JsonData!): JsonData!
+export const M_assetsManageTags = gql`
+  mutation m_assetsManageTags($aid: ID!, $config: JsonData!) {
+    assetsManageTags(aid: $aid, config: $config)
   }
 `;

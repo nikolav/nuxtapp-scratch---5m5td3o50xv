@@ -285,6 +285,7 @@ export interface IAsset {
   data?: Record<string, any> | undefined;
   notes?: string | undefined;
   key?: string | undefined;
+  author_id?: number | undefined;
 
   tags?: string[] | undefined;
   author?: IUser | undefined;

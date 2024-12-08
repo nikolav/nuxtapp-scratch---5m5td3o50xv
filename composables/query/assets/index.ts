@@ -9,3 +9,4 @@ export { useQueryManageAssetsPosts } from "./useQueryManageAssetsPosts";
 export { useQueryAssetsSearch } from "./useQueryAssetsSearch";
 export { useQueryAssetsCount } from "./useQueryAssetsCount";
 export { useQueryAssetsFormsSubmissionsSearch } from "./useQueryAssetsFormsSubmissionsSearch";
+export { useQueryAssetsPostsReadable } from "./useQueryAssetsPostsReadable";

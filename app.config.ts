@@ -36,6 +36,7 @@ export default defineAppConfig({
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
+    SCROLL_TOP_BTN_YTRESHOLD: 892,
     ROUTE_NAME_REDIRECT_AUTHENTICATED: "aktiva",
     BODY_ADD_CLASS: "BODY--zV2igS18CKTkOoaMREwt",
     DEFAULT_NO_IMAGE_AVAILABLE,
@@ -318,6 +319,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "carret-up": "streamline:interface-arrows-button-up-arrow-up-keyboard",
       "filter-category": "material-symbols:filter-list",
       "clear-formatting": "tabler:clear-formatting",
       feather: "bi:feather",
@@ -469,7 +471,13 @@ export default defineAppConfig({
       },
     },
     Assets: {
+      tags: {
+        TAG_ASSETS_SHAREABLE_GLOBALY:
+          "TAG_ASSETS_SHAREABLE:de0fe927-a79e-505a-8d0c-9cbff5e3ef10",
+      },
       AssetsStatus: {
+        POSTS_BLOCKED: "POSTS_BLOCKED:UcAMV",
+        POSTS_OPEN: "POSTS_OPEN:luIlZa5",
         ACTIVE: "ACTIVE:YjCrzsLhGtiE4f3ffO",
         ARCHIVED: "ARCHIVED:zfbooZxI5IXQmbZIZ",
         CANCELED: "CANCELED:2whyBKhy6vv98bPcsUNc",

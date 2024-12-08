@@ -2,7 +2,7 @@
 // ##imports
 import { type MessagePayload } from "firebase/messaging";
 import { SpinnerAppProcessing } from "@/components/ui";
-import { VNavigationDrawerChatActive } from "@/components/app";
+import { VNavigationDrawerChatActive, VBtnWScrollTop } from "@/components/app";
 // ##config ##const
 const {
   app: { LOGOUT_RELOAD_PATH, BODY_ADD_CLASS },
@@ -28,6 +28,8 @@ const auth = useStoreApiAuth();
 // ##computed
 // ##forms ##helpers ##handlers
 // ##watch
+const { isActive: isYAndUp, scrollTop: wScrollTop } = useWindowScrollYAndUp();
+
 // onAuthStatus
 watch(
   () => auth.isAuthenticated$,
@@ -119,6 +121,11 @@ useFirebaseCloudMessaging({
     <!-- @@status -->
     <NuxtLoadingIndicator color="red" />
     <SpinnerAppProcessing :opacity="0.81" />
+
+    <!-- @@scroll-top:btn -->
+    <VFadeTransition>
+      <VBtnWScrollTop @click="wScrollTop" v-if="isYAndUp" />
+    </VFadeTransition>
   </VApp>
 </template>
 <style lang="scss" scoped></style>

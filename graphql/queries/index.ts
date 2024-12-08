@@ -552,6 +552,7 @@ export const Q_productsList = gql`
       data
       notes
       key
+      author_id
       users {
         id
         email
@@ -603,6 +604,7 @@ export const Q_groupsList = gql`
       data
       notes
       key
+      author_id
       users {
         id
         email
@@ -675,6 +677,7 @@ export const Q_assetsList = gql`
       data
       notes
       key
+      author_id
       tags
       author {
         id
@@ -833,6 +836,7 @@ export const Q_assetsSearchQ = gql`
       data
       notes
       key
+      author_id
       tags
       author {
         id
@@ -897,6 +901,7 @@ export const Q_assetsFormsSubmissionsList = gql`
         data
         notes
         key
+        author_id
         tags
       }
       user {
@@ -947,6 +952,7 @@ export const Q_groupsByUser = gql`
       data
       notes
       key
+      author_id
       tags
       author {
         id
@@ -961,3 +967,57 @@ export const Q_groupsByUser = gql`
     }
   }
 `;
+
+// assetsPostsReadable(uids: [ID!]): [Asset!]!
+export const Q_assetsPostsReadable = gql`
+  query q_assetsPostsReadable($uids: [ID!]) {
+    assetsPostsReadable(uids: $uids) {
+      id
+      name
+      code
+      type
+      location
+      status
+      condition
+      data
+      notes
+      key
+      author_id
+      tags
+      author {
+        id
+        email
+        profile
+        key
+        is_approved
+        is_manager
+        is_admin
+        is_external
+        is_available
+        tags
+        groups
+        created_at
+        updated_at
+      }
+      users {
+        id
+        email
+        profile
+        key
+        is_approved
+        is_manager
+        is_admin
+        is_external
+        is_available
+        tags
+        groups
+        created_at
+        updated_at
+      }
+      docs
+      created_at
+      updated_at
+    }
+  }
+`;
+
