@@ -12,7 +12,7 @@ const { current } = useTheme();
 // ##refs ##flags ##models
 // ##data ##auth ##state
 // ##computed
-const primary_ = computed(() => current.value.colors.primary);
+const primary_ = computed(() => get(current.value, "colors.primary", "blue"));
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
 // ##hooks ##lifecycle
@@ -29,10 +29,6 @@ const primary_ = computed(() => current.value.colors.primary);
 <style module></style>
 <style lang="scss">
 .component--PRenderHtml {
-  //
-  h1 {
-    margin-top: 3.33rem;
-  }
   em {
     font-style: italic;
   }

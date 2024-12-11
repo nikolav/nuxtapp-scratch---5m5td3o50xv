@@ -1,7 +1,13 @@
 <script setup lang="ts">
 // ##imports
-import { VFabMain, VCardDataIterator, VCardPost } from "@/components/app";
+import {
+  VFabMain,
+  VCardDataIterator,
+  VCardPost,
+  VBtnTriggerVisible,
+} from "@/components/app";
 import { renderIcon } from "@/components/icons";
+
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({
@@ -16,38 +22,79 @@ const uid = inject(key_UID);
 const iconCheckOn = renderIcon("check-on");
 const iconCheckOff = renderIcon("check-off");
 // ##refs ##flags ##models
+const toggleBtnVisibleActive = useToggleFlag();
 // ##data ##auth ##state
 
 const onlyMyPosts = useGlobalVariable(
   "posts:my-only:854f930b-f2c2-5e86-ad20-6c87c3ac22a6"
 );
 
-const client = useQueryAssetsPostsReadable();
+const page = 1;
+const per_page = 3;
+const page$ = ref(page);
+// load first page
+const client = useQueryAssetsPostsReadable({ page, per_page });
+// load more pages
+const clientMorePosts_ = useQueryAssetsPostsReadable(
+  () => ({
+    page: page$.value,
+    per_page,
+  }),
+  () => 1 < page$.value
+);
 const { watchProcessing } = useStoreAppProcessing();
 watchProcessing(() => client.loading.value);
 
-const posts_ = computed(() =>
+const posts = ref();
+const postsMore = ref();
+const postsFiltered = computed(() =>
   onlyMyPosts.value
-    ? filter(client.posts.value, (p: any) => uid?.value == p.author_id)
-    : client.posts.value
+    ? filter(posts.value, (p: any) => uid?.value == p.author_id)
+    : posts.value
 );
+const postsInitial = computed(() => client.posts.value);
+const postsMoreBatch = computed(() => clientMorePosts_.posts.value);
+watchEffect(() => {
+  posts.value = unionBy(postsInitial.value, postsMore.value, "id");
+});
+watchEffect(() => {
+  if (!isEmpty(postsMoreBatch.value)) {
+    postsMore.value = compact(cat(postsMore.value, postsMoreBatch.value));
+  }
+});
 
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
+onMounted(() => {
+  watchEffect(() => {
+    toggleBtnVisibleActive.isActive.value = !isEmpty(posts.value);
+  });
+});
+
 // ##hooks ##lifecycle
 // ##head ##meta
 useHead({ title: "👷🏻‍♂️ Frikom teren ", titleTemplate: "" });
 // ##provide
 // ##io
 
+const {
+  app: { EVENT_CACHE_ASSET_UPDATED },
+} = useAppConfig();
+const { $emitter } = useNuxtApp();
+$emitter.on(EVENT_CACHE_ASSET_UPDATED, (asset: any) => {
+  postsMore.value = map(postsMore.value, (p: any) =>
+    asset.id == p.id ? assign({}, p, asset) : p
+  );
+});
+
 // @@eos
 </script>
 <template>
   <section class="page--dashboard">
     <VCardDataIterator
-      :items="posts_"
-      :per-page="20"
+      :items="postsFiltered"
+      :per-page="-1"
       :reload="client.reload"
       enabled-dots-menu
       hide-categories-available
@@ -73,6 +120,11 @@ useHead({ title: "👷🏻‍♂️ Frikom teren ", titleTemplate: "" });
           <template v-for="(node, i) in items" :key="node.raw.id">
             <VSpacer v-if="0 < i" class="mt-4" />
             <VCardPost
+              @removed="
+                ({ id }) => {
+                  posts = filter(posts, (p) => id != p.id);
+                }
+              "
               :post="node.raw"
               :i="i"
               :select="(flag) => select([node], flag)"
@@ -82,14 +134,27 @@ useHead({ title: "👷🏻‍♂️ Frikom teren ", titleTemplate: "" });
         </VResponsive>
       </template>
     </VCardDataIterator>
+    <VBtnTriggerVisible
+      block
+      @visible="page$ += 1"
+      :is-active="toggleBtnVisibleActive.isActive.value"
+      class="mt-16"
+      variant="plain"
+      color="on-surface"
+      >•</VBtnTriggerVisible
+    >
     <VFabMain
       color="surface"
-      elevation="5"
-      size="large"
+      elevation="10"
+      size="x-large"
       :to="{ name: 'app-objave-nova' }"
     >
       <template #icon>
-        <strong class="text-xl rotate-3"><pre>📃</pre></strong>
+        <Iconx
+          size="1.75rem"
+          icon="icons-local:posts-add"
+          class="-rotate-3 text-primary-darken-1"
+        />
       </template>
     </VFabMain>
     <VSpacer class="mt-32" />

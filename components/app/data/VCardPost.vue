@@ -19,6 +19,9 @@ import {
 // attach vmenu to this card-id for easy placement
 const cardID = `ID--${idGen()}`;
 // ##config ##props ##route ##attrs ##form-fields
+const emit = defineEmits<{
+  removed: [post: any];
+}>();
 const props = defineProps<{
   post?: any;
   i?: any;
@@ -217,6 +220,7 @@ const handlePostDelete = async () => {
   if (!ps.error.value) {
     ps.successful(async () => {
       togglePromtActivePostDelete.off();
+      emit("removed", props.post);
       nextTick(() => {
         flagPostRemovedSuccess.value = true;
       });
@@ -245,7 +249,9 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
     <VDialogPrimary v-model="toggleDialogPreviewContent.isActive.value">
       <VSheet>
         <VSpacer class="mt-12" />
-        <PRenderHtml :html="post?.data.content.html" class="prose" />
+        <VCardText>
+          <PRenderHtml :html="post?.data.content.html" class="prose" />
+        </VCardText>
       </VSheet>
     </VDialogPrimary>
     <VSnackbarSuccess v-model="flagPostRemovedSuccess">
@@ -373,7 +379,7 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
         @click.prevent.stop="toggleDialogPreviewContent.on"
         class="link--prominent text-primary-darken-1 ps-1"
       >
-        {{ post?.id }} -- {{ post?.name }}
+        :{{ post?.id }} {{ post?.name }}
       </a>
     </VCardTitle>
     <VCardText class="!prose indent-2">

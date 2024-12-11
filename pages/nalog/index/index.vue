@@ -116,29 +116,29 @@ onMounted(() => {
 </script>
 <template>
   <section class="page--nalog-index">
-    <VForm @submit.prevent="submit" autocomplete="off">
+    <VForm @submit.prevent="submit">
       <VCard rounded="0" variant="text">
+        <div
+          v-if="!isEmpty(ugroups$)"
+          class="d-flex items-center gap-2 flex-wrap pa-2"
+        >
+          <!-- @@ -->
+          <template v-for="ug in ugroups$" :key="ug.name">
+            <ProvideAssetsGroupAvatar :gid="ug.id" v-slot="{ avatarImage }">
+              <VChip
+                link
+                :to="{ name: 'aktiva-grupe-gid', params: { gid: ug.id } }"
+                elevation="1"
+                color="info"
+                :prepend-avatar="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+                size="large"
+              >
+                {{ ug.name }}
+              </VChip>
+            </ProvideAssetsGroupAvatar>
+          </template>
+        </div>
         <VCardText class="max-w-[345px] mx-auto">
-          <span
-            v-if="!isEmpty(ugroups$)"
-            class="d-flex items-center g-2 flex-wrap"
-          >
-            <!-- @@ -->
-            <template v-for="ug in ugroups$" :key="ug.name">
-              <ProvideAssetsGroupAvatar :gid="ug.id" v-slot="{ avatarImage }">
-                <VChip
-                  link
-                  :to="{ name: 'aktiva-grupe-gid', params: { gid: ug.id } }"
-                  elevation="1"
-                  color="info"
-                  :prepend-avatar="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
-                  size="large"
-                >
-                  {{ ug.name }}
-                </VChip>
-              </ProvideAssetsGroupAvatar>
-            </template>
-          </span>
           <VSpacer class="mt-5" />
           <VRow justify="center" class="translate-y-1">
             <VBtnUpdateProfileImage />

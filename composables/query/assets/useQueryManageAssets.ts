@@ -18,6 +18,7 @@ export const useQueryManageAssets = (
   OPTIONS?: any,
   VARS_ADDITIONAL?: any
 ) => {
+  const { $emitter } = useNuxtApp();
   const type = ref();
   watchEffect(() => {
     type.value = toValue(ASSETS_TYPE);
@@ -53,6 +54,7 @@ export const useQueryManageAssets = (
         type: { DIGITAL_FORM, PHYSICAL_STORE, DIGITAL_CHAT },
       },
     },
+    app: { EVENT_CACHE_ASSET_UPDATED },
   } = useAppConfig();
 
   const {
@@ -85,7 +87,8 @@ export const useQueryManageAssets = (
               },
             });
           } else {
-            const ID = get(assetsUpsert, "status.asset.id");
+            const assetNew_ = get(assetsUpsert, "status.asset");
+            const ID = assetNew_?.id;
             // @cache assets updates
             cache.modify({
               id: `Asset:${ID}`,
@@ -94,6 +97,7 @@ export const useQueryManageAssets = (
                   get(assetsUpsert, "status.asset.status"),
               },
             });
+            $emitter.emit(EVENT_CACHE_ASSET_UPDATED, assetNew_);
           }
         }
       },
@@ -130,7 +134,8 @@ export const useQueryManageAssets = (
       // run local cache updates @success
       update: (cache, { data: { assetsManageTags } }) => {
         if (!get(assetsManageTags, "error")) {
-          const ID = get(assetsManageTags, "status.id");
+          const assetConfigured_ = get(assetsManageTags, "status.asset");
+          const ID = assetConfigured_?.id;
           cache.modify({
             id: `Asset:${ID}`,
             fields: {
@@ -152,6 +157,7 @@ export const useQueryManageAssets = (
               },
             },
           });
+          $emitter.emit(EVENT_CACHE_ASSET_UPDATED, assetConfigured_);
         }
       },
     });

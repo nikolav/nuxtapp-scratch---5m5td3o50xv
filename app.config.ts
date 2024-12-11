@@ -36,6 +36,8 @@ export default defineAppConfig({
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
+    EVENT_CACHE_ASSET_UPDATED:
+      "assets:query-cache:updated:adfc72da-6478-52fb-9e94-b35f4d23aaaa",
     SCROLL_TOP_BTN_YTRESHOLD: 892,
     ROUTE_NAME_REDIRECT_AUTHENTICATED: "aktiva",
     BODY_ADD_CLASS: "BODY--zV2igS18CKTkOoaMREwt",

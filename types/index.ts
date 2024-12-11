@@ -20,12 +20,6 @@ export interface IDoc<T = TDocData> {
   created_at?: string | undefined;
   updated_at?: string | undefined;
 }
-export interface IDocDataUsers {
-  email: string;
-  password: string;
-}
-
-export type TAuthUser = OrNull<{ id: number; email: string }>;
 
 export interface IAuthCreds {
   email: string;
@@ -97,49 +91,8 @@ export interface IThemeToggle {
   themeToggle: (mode?: string | undefined) => void;
 }
 
-export interface IAuthData {
-  id: number;
-  email: string;
-}
-
-// export type TChartDataBar<TData = Record<string, any>[]> = ChartData<
-//   "bar",
-//   TData
-// >;
-
-export interface IDocDataChat {
-  name: string;
-  comment: string;
-}
-
 export interface IAppData<T = any> {
   [key: string]: T;
-}
-
-export type TVoid = () => void;
-
-export interface IDocDataTask {
-  title: string;
-  completedAt: OrNull<Date>;
-  href?: string | undefined;
-  description?: string | undefined;
-}
-
-export type TBaseAuthProfile = Record<string, any>;
-export interface IAuthProfile extends TBaseAuthProfile {
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  displayName?: string | undefined;
-  phone?: string | undefined;
-  address?: string | undefined;
-  avatar?: IStorageFileDataSaved;
-  businessName?: string | undefined;
-  about?: string | undefined;
-  facebook?: string | undefined;
-  instagram?: string | undefined;
-  googleCalendarEditPageLink?: string | undefined;
-  googleCalendarEmbedLink?: string | undefined;
-  authProvider?: Record<string, any>;
 }
 
 export interface IUser {
@@ -154,68 +107,6 @@ export interface IUser {
   email_verified?: boolean;
   tags?: string[];
   groups?: string[];
-  products?: OrNoValue<IProduct[]>;
-  posts?: OrNoValue<IPost[]>;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface IProduct {
-  id: number;
-  user_id: number;
-  name: string;
-  price?: OrNoValue<number>;
-  price_history: { day: string; price: number }[];
-  stock?: OrNoValue<number>;
-  stockType?: OrNoValue<string>;
-  onSale?: OrNoValue<boolean>;
-  description?: OrNoValue<string>;
-  tags?: OrNoValue<string[]>;
-  user?: OrNoValue<IUser>;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface IProductData {
-  name?: string | undefined;
-  category?: string | undefined;
-  price?: number | undefined;
-  stock?: number | undefined;
-  stockType?: string | undefined;
-  onSale?: boolean | undefined;
-  description?: string | undefined;
-}
-
-export interface IOrder {
-  id: number;
-  user_id: number;
-  code?: OrNoValue<string>;
-  description?: OrNoValue<string>;
-  completed?: OrNoValue<boolean>;
-  canceled?: OrNoValue<boolean>;
-  status: OrNoValue<number>;
-  delivery_at: string;
-  created_at: string;
-  updated_at: string;
-}
-export interface IOrderReceived extends IOrder {}
-export interface IOrderPlaced extends IOrder {
-  products?: IOrdersProducts[];
-}
-
-export interface IOrdersProducts {
-  id: number;
-  name: string;
-  amount: number;
-  user_id: number;
-  user?: IUser;
-  price?: OrNoValue<number>;
-  price_history: { day: string; price: number }[];
-  stock?: OrNoValue<number>;
-  stockType?: OrNoValue<string>;
-  onSale?: OrNoValue<boolean>;
-  description?: OrNoValue<string>;
-  tags: string[];
   created_at: string;
   updated_at: string;
 }
@@ -225,29 +116,10 @@ export type TGravatars = Record<
   { src?: OrNoValue<string>; enabled?: OrNoValue<boolean> }
 >;
 
-export type TDataLikesDislikesStore = Record<string, number>;
-
 export interface IDataRating {
   [topic: string]: {
     [key: string]: number;
   };
-}
-
-export interface IPost {
-  id: number;
-  title: string;
-  content: string;
-  user_id: number;
-  user?: IAuthData;
-  tags?: string[];
-  docs?: Record<string, any>[];
-  created_at: string;
-  updated_at: string;
-}
-
-export interface IPostInputData {
-  title?: string;
-  content?: string;
 }
 
 export interface IInputSendMail {
@@ -312,14 +184,6 @@ export interface ITopicChatMessage {
   message: string;
 }
 
-export interface IAssetsAttachments {
-  key: string;
-  type: string;
-  name: string;
-  dataurl: string;
-  size: number;
-  uploaded_at: number;
-}
 export interface IFileSizeUnit {
   size: string;
   unit: string;

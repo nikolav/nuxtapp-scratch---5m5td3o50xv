@@ -1,5 +1,23 @@
 export const IMPORTS = [
   {
+    from: "lodash/findIndex",
+    imports: [
+      {
+        name: "default",
+        as: "findIndex",
+      },
+    ],
+  },
+  {
+    from: "lodash/compact",
+    imports: [
+      {
+        name: "default",
+        as: "compact",
+      },
+    ],
+  },
+  {
     from: "lodash/includes",
     imports: [
       {

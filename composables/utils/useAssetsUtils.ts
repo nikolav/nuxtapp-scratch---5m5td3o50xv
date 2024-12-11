@@ -20,7 +20,7 @@ export const useAssetsUtils = () => {
   const assetsPostLinkShareable = (p: IAsset) =>
     p?.id
       ? `${trimEnd(appPublic, "/")}/app/objave/pregled?q=${encodeURIComponent(
-          p.id
+          p.key!
         )}`
       : undefined;
 

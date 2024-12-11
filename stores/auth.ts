@@ -39,6 +39,7 @@ export const useStoreApiAuth = defineStore("auth", () => {
     initOnMounted: true,
   });
 
+  const qenabled = computed(() => !!token$.value);
   const {
     data: user$,
     refresh: authDataReload,
@@ -63,9 +64,9 @@ export const useStoreApiAuth = defineStore("auth", () => {
   });
   const reload = async () => await authDataReload();
 
+  const initialized$ = useOnceMountedOn(qenabled, authDataStart);
   const uid = computed(() => get(user$.value, "id"));
   const profile = computed(() => get(user$.value, "profile") || {});
-  const initialized$ = useOnceMountedOn(true, authDataStart);
   const isAuth$ = computed(() => schemaAuthData.safeParse(user$.value).success);
   const isAdmin$ = computed(
     () => isAuth$.value && true === get(user$.value, "admin")
@@ -90,7 +91,10 @@ export const useStoreApiAuth = defineStore("auth", () => {
 
   // token.apollo --sync
   watchEffect(async () => {
-    if (token$.value) await onLoginApollo(token$.value);
+    // @3rd.param {boolean} skipResetStore
+    //  If `false`, Resets your entire store by clearing out your cache and 
+    //   then re-executing all of your active queries.
+    if (token$.value) await onLoginApollo(token$.value, undefined, true);
   });
 
   const { calcDisplayName: calcDisplayNameOnNoStorage } = useAuthUtils();

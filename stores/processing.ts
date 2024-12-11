@@ -5,7 +5,7 @@ export const useStoreAppProcessing = defineStore("appProcessing", () => {
   const processing = useGlobalFlag(APP_PROCESSING);
   const watchAll$ = ref<any[]>([]);
   const addWatch = (...args: any[]) => {
-    watchAll$.value.push(...args);
+    watchAll$.value.push(...(args || []));
   };
   const unwatch = (...args: any[]) => {
     pullAll(watchAll$.value, args);

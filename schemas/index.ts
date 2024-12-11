@@ -43,14 +43,14 @@ export const schemaAuthData = z.object({
   manager: z.boolean(),
   // groups: z.optional(z.array(z.string())),
   // groups: {id: ID!, name:string}[]
-  groups: z.optional(
-    z.array(
+  groups: z
+    .array(
       z.object({
         id: z.coerce.number(),
         name: z.string(),
       })
     )
-  ),
+    .nullish(),
   // @ts
   created_at: z.string(),
   updated_at: z.string(),
@@ -89,3 +89,8 @@ export const schemaFileInfo = z
     ...omit(d, "lastModified"),
     updated_at: d.lastModified,
   }));
+
+export const schemaPaginationInput = z.object({
+  page: z.coerce.number().gt(0),
+  per_page: z.coerce.number().gt(0),
+});

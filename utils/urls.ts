@@ -14,5 +14,10 @@ export const publicUrlAssetProduct = (
     ? `${trim(host, "/")}/${trim(path, "/")}?q=${encodeURIComponent(p.id)}`
     : "";
 
+export const publicUrlAsset = (a: any, path: string, host = URL_APP_PUBLIC) =>
+  a
+    ? `${trim(host, "/")}/${trim(path, "/")}?q=${encodeURIComponent(a.key)}`
+    : "";
+
 export const resourceUrl = (file_id: string = "") =>
   file_id ? `${URL_STORAGE}/${file_id}` : "";
