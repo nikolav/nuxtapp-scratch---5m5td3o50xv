@@ -101,7 +101,7 @@ const MENU_items = [
     title: "Blokiran post",
     value: "blocked",
     "title-small": "vidim samo ja",
-    emoji: "⛔",
+    emoji: "🔴",
     handle: async () =>
       await client.commit(
         { status: AssetsStatus.POSTS_BLOCKED },
@@ -119,7 +119,7 @@ const MENU_items = [
     title: "Otvoren post",
     "title-small": "vide svi korisnici",
     value: "open",
-    emoji: "🏢",
+    emoji: "🏨",
     handle: async () =>
       await client.commit({ status: AssetsStatus.POSTS_OPEN }, props.post.id),
   },
@@ -143,7 +143,7 @@ const MENU_items = [
     title: "Blokiraj javni pristup",
     "title-small": "",
     value: "shared-off",
-    emoji: "🚫",
+    emoji: "⛔",
     handle: async () =>
       await client.tags(props.post.id, {
         [TAG_ASSETS_SHAREABLE_GLOBALY]: false,

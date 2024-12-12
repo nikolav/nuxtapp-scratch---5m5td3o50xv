@@ -106,13 +106,24 @@ const FIELDS = <Record<string, IConfigFields>>{
   },
 };
 const form = useFormModel("e79d7d31-c0a7-508b-b150-1f7d656f1937", FIELDS, {
-  schema: schemaInputPost,
+  // schema: schemaInputPost,
   model: post,
   onSubmit: async (_data: any) => {
     try {
       ps.begin(togglePostUpdateSuccess.off);
+      const hasImages_ = !isEmpty(imagesPicked.value);
+      const updates_ = form.diff.value;
+      if (
+        !some([
+          // has field data
+          schemaInputPost.safeParse(updates_).success,
+          // has images
+          hasImages_,
+        ])
+      )
+        throw "@error:posts:update:ccOvNTJpDTyd6";
       const patch = transform(
-        form.diff.value,
+        updates_,
         (res: any, val: any, field: string) => {
           if (true === get(FIELDS, `${field}['@table:fields']`)) {
             res[field] = val;
@@ -123,18 +134,26 @@ const form = useFormModel("e79d7d31-c0a7-508b-b150-1f7d656f1937", FIELDS, {
         },
         <any>{}
       );
-      if (isEmpty(patch)) return;
-      // commit patch --no-merge
-      const res = await client.commit(patch, oid.value, false);
-      if (!get(res, "data.assetsUpsert.status.asset.id"))
-        throw "posts:update:error:2W7cIPc1D";
-      // update post images @fbs
+      if (!isEmpty(patch)) {
+        // commit patch --no-merge
+        const res = await client.commit(patch, oid.value, false);
+        if (!get(res, "data.assetsUpsert.status.asset.id"))
+          throw "posts:update:error:2W7cIPc1D";
+      }
+      if (hasImages_) {
+        // update post images @fbs; drop* old, put* new
+        await clientStorage.rma();
+        await clientStorage.uploadAll(
+          map(imagesPicked.value, (node: any) => node.file)
+        );
+      }
     } catch (error) {
       ps.setError(error);
     } finally {
       ps.done();
     }
     if (!ps.error.value) ps.successful(togglePostUpdateSuccess.on);
+    console.debug("@debug:posts:update:XEhK3t", ps.error.value);
   },
 });
 const defaultImages_ = computed(() => postImages.value);
