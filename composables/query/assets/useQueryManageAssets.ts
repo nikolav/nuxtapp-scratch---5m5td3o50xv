@@ -54,7 +54,7 @@ export const useQueryManageAssets = (
         type: { DIGITAL_FORM, PHYSICAL_STORE, DIGITAL_CHAT },
       },
     },
-    app: { EVENT_CACHE_ASSET_UPDATED },
+    app: { EVENT_CACHE_ASSET_UPDATED, EVENT_CACHE_ASSETS_REMOVED },
   } = useAppConfig();
 
   const {
@@ -109,17 +109,14 @@ export const useQueryManageAssets = (
         if (!assetsRemove?.error) {
           // map ids removed to apollo cache refs
           //  122 > 'Asset:122'
-          const refsAidsRm = map(
-            get(assetsRemove, "status.assets_removed", []),
-            (ID: any) => `Asset:${ID}`
-          );
-          // skip nodes with removed refs
-          cache.modify({
-            fields: {
-              assetsPostsReadable: (cached: any) =>
-                filter(cached, (cc: any) => !includes(refsAidsRm, cc.__ref)),
-            },
+          const ids_removed = get(assetsRemove, "status.assets_removed", []);
+          each(ids_removed, (id: any) => {
+            cache.modify({
+              id: cache.identify({ __typename: "Asset", id }),
+              fields: (_cached, details) => details.DELETE,
+            });
           });
+          $emitter.emit(EVENT_CACHE_ASSETS_REMOVED, ids_removed);
         }
       },
     });

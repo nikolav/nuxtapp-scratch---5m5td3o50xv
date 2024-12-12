@@ -379,7 +379,7 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
         @click.prevent.stop="toggleDialogPreviewContent.on"
         class="link--prominent text-primary-darken-1 ps-1"
       >
-        :{{ post?.id }} {{ post?.name }}
+        :{{ post?.id }}|{{ post?.name }}
       </a>
     </VCardTitle>
     <VCardText class="!prose indent-2">

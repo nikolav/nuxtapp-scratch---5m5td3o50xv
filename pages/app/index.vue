@@ -29,22 +29,31 @@ const onlyMyPosts = useGlobalVariable(
   "posts:my-only:854f930b-f2c2-5e86-ad20-6c87c3ac22a6"
 );
 
+// select post dates to load:more
+const otd$ = ref();
 const page = 1;
 const per_page = 3;
-const page$ = ref(page);
 // load first page
 const client = useQueryAssetsPostsReadable({ page, per_page });
-// load more pages
+// load more posts older than last post
 const clientMorePosts_ = useQueryAssetsPostsReadable(
+  undefined,
   () => ({
-    page: page$.value,
-    per_page,
+    strategy: "older_than",
+    args: {
+      older_than: otd$.value,
+    },
+    limit: per_page,
   }),
-  () => 1 < page$.value
+  () => !!otd$.value
 );
 const { watchProcessing } = useStoreAppProcessing();
 watchProcessing(() => client.loading.value);
 
+const asset_keys_ignore = useGlobalVariable(
+  "asset_keys_ignore:b47a4912-dd6c-5e7f-8451-be54fc2be6d3",
+  <any>{}
+);
 const posts = ref();
 const postsMore = ref();
 const postsFiltered = computed(() =>
@@ -55,7 +64,10 @@ const postsFiltered = computed(() =>
 const postsInitial = computed(() => client.posts.value);
 const postsMoreBatch = computed(() => clientMorePosts_.posts.value);
 watchEffect(() => {
-  posts.value = unionBy(postsInitial.value, postsMore.value, "id");
+  posts.value = filter(
+    unionBy(postsInitial.value, postsMore.value, "id"),
+    (p: any) => !(p.key in asset_keys_ignore.value)
+  );
 });
 watchEffect(() => {
   if (!isEmpty(postsMoreBatch.value)) {
@@ -65,6 +77,11 @@ watchEffect(() => {
 
 // ##computed
 // ##forms ##handlers ##helpers ##small-utils
+const otdNext = () => {
+  otd$.value = minBy(posts.value, (p: any) =>
+    new Date(p.created_at).getTime()
+  )?.created_at;
+};
 // ##watch
 onMounted(() => {
   watchEffect(() => {
@@ -77,14 +94,32 @@ onMounted(() => {
 useHead({ title: "👷🏻‍♂️ Frikom teren ", titleTemplate: "" });
 // ##provide
 // ##io
-
+// listen query-cache-update events to update display list
 const {
-  app: { EVENT_CACHE_ASSET_UPDATED },
+  app: { EVENT_CACHE_ASSET_UPDATED, EVENT_CACHE_ASSETS_REMOVED },
 } = useAppConfig();
 const { $emitter } = useNuxtApp();
+// update display list:more
 $emitter.on(EVENT_CACHE_ASSET_UPDATED, (asset: any) => {
   postsMore.value = map(postsMore.value, (p: any) =>
     asset.id == p.id ? assign({}, p, asset) : p
+  );
+});
+// add removed post .key-s to skip list
+$emitter.on(EVENT_CACHE_ASSETS_REMOVED, (ids: any) => {
+  assign(
+    asset_keys_ignore.value,
+    reduce(
+      ids,
+      (res: any, id: any) => {
+        const key_ = find(posts.value, (p: any) => id == p.id)?.key;
+        if (key_) {
+          res[key_] = true;
+        }
+        return res;
+      },
+      <any>{}
+    )
   );
 });
 
@@ -136,7 +171,7 @@ $emitter.on(EVENT_CACHE_ASSET_UPDATED, (asset: any) => {
     </VCardDataIterator>
     <VBtnTriggerVisible
       block
-      @visible="page$ += 1"
+      @visible="otdNext"
       :is-active="toggleBtnVisibleActive.isActive.value"
       class="mt-16"
       variant="plain"

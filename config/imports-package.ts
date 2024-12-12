@@ -1,5 +1,23 @@
 export const IMPORTS = [
   {
+    from: "lodash/minBy",
+    imports: [
+      {
+        name: "default",
+        as: "minBy",
+      },
+    ],
+  },
+  {
+    from: "lodash/maxBy",
+    imports: [
+      {
+        name: "default",
+        as: "maxBy",
+      },
+    ],
+  },
+  {
     from: "lodash/findIndex",
     imports: [
       {

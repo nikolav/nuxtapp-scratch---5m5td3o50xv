@@ -94,3 +94,8 @@ export const schemaPaginationInput = z.object({
   page: z.coerce.number().gt(0),
   per_page: z.coerce.number().gt(0),
 });
+export const schemaAssetsRowsInput = z.object({
+  strategy: z.string(),
+  args: z.any(),
+  limit: z.coerce.number().gt(0),
+});

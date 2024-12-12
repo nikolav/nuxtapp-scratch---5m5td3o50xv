@@ -38,6 +38,8 @@ export default defineAppConfig({
   app: {
     EVENT_CACHE_ASSET_UPDATED:
       "assets:query-cache:updated:adfc72da-6478-52fb-9e94-b35f4d23aaaa",
+    EVENT_CACHE_ASSETS_REMOVED:
+      "assets:query-cache:removed:9f3b3355-c3e8-5d04-b9dc-282d44ac2242",
     SCROLL_TOP_BTN_YTRESHOLD: 892,
     ROUTE_NAME_REDIRECT_AUTHENTICATED: "aktiva",
     BODY_ADD_CLASS: "BODY--zV2igS18CKTkOoaMREwt",

@@ -430,10 +430,10 @@ export const Q_groupsByUser = gql`
   }
 `;
 
-// assetsPostsReadable(uids: [ID!], pagination: JsonData): [Asset!]!
+// assetsPostsReadable(uids: [ID!], pagination: JsonData, assets_rows: JsonData): [Asset!]!
 export const Q_assetsPostsReadable = gql`
-  query q_assetsPostsReadable($uids: [ID!], $pagination: JsonData) {
-    assetsPostsReadable(uids: $uids, pagination: $pagination) {
+  query q_assetsPostsReadable($uids: [ID!], $pagination: JsonData, $assets_rows: JsonData) {
+    assetsPostsReadable(uids: $uids, pagination: $pagination, assets_rows: $assets_rows) {
       id
       name
       code
