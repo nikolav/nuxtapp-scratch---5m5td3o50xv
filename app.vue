@@ -166,4 +166,18 @@ useFirebaseCloudMessaging({
     transform: translateY(-50%);
   }
 }
+
+.CLASS--VList-item-spacer-none {
+  .v-list-item__prepend {
+    .v-list-item__spacer {
+      width: 0 !important;
+    }
+  }
+}
+
+.CLASS--quill-container {
+  p {
+    margin-top: 1.5rem;
+  }
+}
 </style>

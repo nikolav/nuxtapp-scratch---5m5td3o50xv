@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // ##imports
 import { z } from "zod";
-import chroma from "chroma-js";
 import Quill from "quill";
 import EE from "eventemitter3";
 import type { IConfigFields } from "@/types";
@@ -22,16 +21,6 @@ definePageMeta({
   middleware: "authorized",
 });
 
-const listColorWheel_ = (count = 12, lightness = 0.33, start = "#ff0000") => [
-  { c: "", key: ":default" },
-  ...Array.from({ length: count }, (_c, i) => ({
-    c: chroma(start)
-      .set("hsl.h", (360 / count) * i)
-      .set("hsl.l", lightness)
-      .hex(),
-    key: String(i),
-  })),
-];
 // ##schemas
 const schemaInputPost = z.object({
   name: z.string().trim().min(1),
@@ -43,7 +32,7 @@ const schemaInputPost = z.object({
 const ps = useProcessMonitor();
 // rebuilds emitter editor@mount; old emitter gets gc-ed
 const ee$ = ref();
-const colors_ = listColorWheel_(19, 0.34);
+const colors_ = listColorWheel(19, 0.34);
 // ##icons
 // const iconCheckOn = renderIcon("check-on", { class: "scale-[111%]" });
 // const iconCheckOff = renderIcon("check-off", { class: "scale-[111%]" });
@@ -468,7 +457,7 @@ useHead({ title: "✨📃 Nov post" });
               <section
                 id="ID--oML9n5YAdp7"
                 ref="ref_V99RIzVbQD"
-                class="border-0 ma-0"
+                class="CLASS--quill-container border-0 ma-0 prose"
               />
             </ClientOnly>
             <VSpacer class="mt-12" />

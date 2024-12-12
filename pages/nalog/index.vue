@@ -5,6 +5,9 @@ import { VBtnTopicChatToggle, VToolbarPrimary } from "@/components/app";
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
+  "@page": {
+    appBarTitle: "Moj nalog",
+  },
 });
 
 const auth = useStoreApiAuth();

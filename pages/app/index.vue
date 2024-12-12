@@ -14,6 +14,9 @@ definePageMeta({
   scrollToTop: false,
   layout: "app-default",
   middleware: "authorized",
+  "@page": {
+    appBarTitle: "Postovi",
+  },
 });
 // ##schemas
 // ##utils

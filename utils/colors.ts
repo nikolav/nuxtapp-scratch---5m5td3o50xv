@@ -1,4 +1,4 @@
-// import chroma from "chroma-js";
+import chroma from "chroma-js";
 
 // interface IInputColorWheel {
 //   count: number;
@@ -21,4 +21,17 @@
 //   ...(config?.append || []),
 // ];
 
-export {};
+export const listColorWheel = (
+  count = 12,
+  lightness = 0.33,
+  start = "#ff0000"
+) => [
+  { c: "", key: ":default" },
+  ...Array.from({ length: count }, (_c, i) => ({
+    c: chroma(start)
+      .set("hsl.h", (360 / count) * i)
+      .set("hsl.l", lightness)
+      .hex(),
+    key: String(i),
+  })),
+];

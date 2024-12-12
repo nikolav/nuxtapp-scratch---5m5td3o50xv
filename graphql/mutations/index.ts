@@ -111,10 +111,10 @@ export const M_assetsRemove = gql`
   }
 `;
 
-// assetsUpsert(fields: JsonData!, aid: ID): JsonData!
+// assetsUpsert(fields: JsonData!, aid: ID, merge_field_data: Boolean): JsonData!
 export const M_assetsUpsert = gql`
-  mutation m_assetsUpsert($fields: JsonData!, $aid: ID) {
-    assetsUpsert(fields: $fields, aid: $aid)
+  mutation m_assetsUpsert($fields: JsonData!, $aid: ID, $merge_field_data: Boolean) {
+    assetsUpsert(fields: $fields, aid: $aid, merge_field_data: $merge_field_data)
   }
 `;
 

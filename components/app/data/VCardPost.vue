@@ -156,6 +156,23 @@ const MENU_items = [
     },
   },
   {
+    title: "Ažuriraj post",
+    value: "update",
+    icon: {
+      icon: "$edit",
+      size: "1.22rem",
+      class: "opacity-50 me-1",
+    },
+    props: {
+      to: {
+        name: "app-objave-oid",
+        params: { oid: props.post?.id },
+      },
+    },
+    handle_custom: true,
+    handle: noop,
+  },
+  {
     title: "Obriši post",
     "title-small": "",
     value: "delete",
@@ -165,6 +182,7 @@ const MENU_items = [
       class: "text-error opacity-50 me-1",
     },
     props: {},
+    handle_custom: true,
     handle: togglePromtActivePostDelete.on,
   },
 ];
@@ -181,8 +199,9 @@ const emojiStatus = computed(() => {
 const handleManagePost = async (node: any) => {
   // data.assetsUpsert.error
   // data.assetsManageTags.error
-  if ("delete" === node?.value) {
-    // custom strategy for deletes
+  // if (includes(["update", "delete"], node?.value)) {
+  if (true === node?.handle_custom) {
+    // custom strategy for deletes/updates
     return node.handle();
   }
   try {
@@ -317,7 +336,12 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
           class="ms-2"
         >
           <template #list>
-            <VList activatable elevation="5" rounded>
+            <VList
+              activatable
+              elevation="5"
+              rounded
+              class="CLASS--VList-item-spacer-none"
+            >
               <template v-for="node in MENU_items" :key="node.title">
                 <VDivider v-if="'divider' == node.type" v-bind="node.props" />
                 <VListItem

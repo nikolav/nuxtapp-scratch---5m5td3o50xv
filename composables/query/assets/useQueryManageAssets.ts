@@ -10,6 +10,22 @@ import {
   M_assetsManageTags,
 } from "@/graphql";
 import { schemaHasFieldName as sHasName } from "@/schemas";
+
+const FIELDS_updatable = <any>{
+  // "id",
+  name: 1,
+  code: 1,
+  // "type",
+  location: 1,
+  status: 1,
+  condition: 1,
+  notes: 1,
+  data: 1,
+  // "key",
+  // "author_id",
+  // "created_at",
+  // "updated_at",
+};
 // @@useQueryManageAssets
 export const useQueryManageAssets = (
   ASSETS_TYPE?: any,
@@ -87,17 +103,28 @@ export const useQueryManageAssets = (
               },
             });
           } else {
-            const assetNew_ = get(assetsUpsert, "status.asset");
-            const ID = assetNew_?.id;
+            const assetPatched_ = get(assetsUpsert, "status.asset");
             // @cache assets updates
             cache.modify({
-              id: `Asset:${ID}`,
-              fields: {
-                status: (_statusCached: any) =>
-                  get(assetsUpsert, "status.asset.status"),
+              id: cache.identify({
+                __typename: "Asset",
+                id: assetPatched_?.id,
+              }),
+              // fields: {
+              //   status: (_statusCached: any) =>
+              //     get(assetsUpsert, "status.asset.status"),
+              // },
+              fields: (current, details) => {
+                if (details.fieldName in FIELDS_updatable) {
+                  return get(
+                    assetsUpsert,
+                    `status.asset['${details.fieldName}']`
+                  );
+                }
+                return current;
               },
             });
-            $emitter.emit(EVENT_CACHE_ASSET_UPDATED, assetNew_);
+            $emitter.emit(EVENT_CACHE_ASSET_UPDATED, assetPatched_);
           }
         }
       },
@@ -134,7 +161,7 @@ export const useQueryManageAssets = (
           const assetConfigured_ = get(assetsManageTags, "status.asset");
           const ID = assetConfigured_?.id;
           cache.modify({
-            id: `Asset:${ID}`,
+            id: cache.identify({ __typename: "Asset", id: ID }),
             fields: {
               tags: (tagsCached: any = []) => {
                 const tags_added_ = get(
@@ -163,12 +190,13 @@ export const useQueryManageAssets = (
   const assets = computed(() => result.value?.assetsList || []);
   const length = computed(() => assets.value.length);
   const reload = async () => await refetch();
-  const commit = async (fields: any, aid?: any) =>
+  const commit = async (fields: any, aid?: any, merge_field_data = true) =>
     await mutateAssetsUpsert({
       fields: assign({}, aid ? fields : sHasName.passthrough().parse(fields), {
         type: type.value,
       }),
       aid,
+      merge_field_data,
     });
   const commit_archive = async (aid: any, flag = true) =>
     await commit({ status: flag ? AssetsStatus.ARCHIVED : null }, aid);
