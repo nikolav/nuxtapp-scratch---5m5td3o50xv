@@ -23,6 +23,12 @@
       "title": "Obrasci",
       "size": "1.44rem",
       "to": "aktiva-obrasci"
+    },
+    {
+      "icon": "truck-fast",
+      "title": "Distribucija",
+      "size": "1.72rem",
+      "to": "aktiva-distribucija"
     }
   ]
 }

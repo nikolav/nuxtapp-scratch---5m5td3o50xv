@@ -316,6 +316,7 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "mdi:truck-fast",
         "streamline:interface-arrows-button-up-arrow-up-keyboard",
         "tabler:clear-formatting",
         "bi:feather",

@@ -7,9 +7,10 @@ const props = withDefaults(
     dividerStart?: boolean;
     text?: any;
     onClose?: any;
+    hideDefaultClose?: boolean;
     propsTitle?: any;
     propsActions?: any;
-    hideDefaultClose?: boolean;
+    propsBtnClose?: any;
   }>(),
   {
     routeBackName: "aktiva-proizvodi",
@@ -46,6 +47,7 @@ const ROUTE_BACK = props.routeBackTo || { name: props.routeBackName };
             icon="$close"
             variant="plain"
             density="comfortable"
+            v-bind="propsBtnClose"
           />
         </slot>
       </template>

@@ -13,7 +13,7 @@ import {
   VSnackbarSuccess,
 } from "@/components/app";
 import type { IConfigFields } from "@/types";
-import { deepEqual } from "assert";
+
 // ##config:const
 const DEFAULT_imagePickerHeight = 192;
 // ##config ##props ##route ##attrs
@@ -30,13 +30,6 @@ const post = computed(() => get(attrs, "route-data.post"));
 const pageTitle = computed(() => `📃 ${post.value?.name}`);
 const oid = computed(() => post.value?.id);
 // ##schemas
-const schemaInputPost = z.object({
-  name: z.string().trim().min(1),
-  content: z.object({
-    text: z.string().trim().min(1),
-  }),
-});
-
 // ##utils
 const ps = useProcessMonitor();
 const ee$ = ref();
@@ -113,14 +106,7 @@ const form = useFormModel("e79d7d31-c0a7-508b-b150-1f7d656f1937", FIELDS, {
       ps.begin(togglePostUpdateSuccess.off);
       const hasImages_ = !isEmpty(imagesPicked.value);
       const updates_ = form.diff.value;
-      if (
-        !some([
-          // has field data
-          schemaInputPost.safeParse(updates_).success,
-          // has images
-          hasImages_,
-        ])
-      )
+      if (!(!isEmpty(updates_) || hasImages_))
         throw "@error:posts:update:ccOvNTJpDTyd6";
       const patch = transform(
         updates_,

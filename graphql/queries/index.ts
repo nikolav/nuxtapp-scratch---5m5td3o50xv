@@ -432,8 +432,16 @@ export const Q_groupsByUser = gql`
 
 // assetsPostsReadable(uids: [ID!], pagination: JsonData, assets_rows: JsonData): [Asset!]!
 export const Q_assetsPostsReadable = gql`
-  query q_assetsPostsReadable($uids: [ID!], $pagination: JsonData, $assets_rows: JsonData) {
-    assetsPostsReadable(uids: $uids, pagination: $pagination, assets_rows: $assets_rows) {
+  query q_assetsPostsReadable(
+    $uids: [ID!]
+    $pagination: JsonData
+    $assets_rows: JsonData
+  ) {
+    assetsPostsReadable(
+      uids: $uids
+      pagination: $pagination
+      assets_rows: $assets_rows
+    ) {
       id
       name
       code
@@ -480,5 +488,18 @@ export const Q_assetsPostsReadable = gql`
       created_at
       updated_at
     }
+  }
+`;
+
+// googleapisPlacesNearby(location: JsonData!, next_page_token: String): JsonData!
+export const Q_googleapisPlacesNearby = gql`
+  query q_googleapisPlacesNearby(
+    $location: JsonData!
+    $next_page_token: String
+  ) {
+    googleapisPlacesNearby(
+      location: $location
+      next_page_token: $next_page_token
+    )
   }
 `;

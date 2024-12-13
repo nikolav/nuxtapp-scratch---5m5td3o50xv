@@ -113,8 +113,16 @@ export const M_assetsRemove = gql`
 
 // assetsUpsert(fields: JsonData!, aid: ID, merge_field_data: Boolean): JsonData!
 export const M_assetsUpsert = gql`
-  mutation m_assetsUpsert($fields: JsonData!, $aid: ID, $merge_field_data: Boolean) {
-    assetsUpsert(fields: $fields, aid: $aid, merge_field_data: $merge_field_data)
+  mutation m_assetsUpsert(
+    $fields: JsonData!
+    $aid: ID
+    $merge_field_data: Boolean
+  ) {
+    assetsUpsert(
+      fields: $fields
+      aid: $aid
+      merge_field_data: $merge_field_data
+    )
   }
 `;
 
@@ -234,5 +242,12 @@ export const M_viberChannelSetupChannelsDrop = gql`
 export const M_assetsManageTags = gql`
   mutation m_assetsManageTags($aid: ID!, $config: JsonData!) {
     assetsManageTags(aid: $aid, config: $config)
+  }
+`;
+
+// commsDeliveryStatusPublish(site: JsonData!): JsonData!
+export const M_commsDeliveryStatusPublish = gql`
+  mutation m_commsDeliveryStatusPublish($site: JsonData!) {
+    commsDeliveryStatusPublish(site: $site)
   }
 `;

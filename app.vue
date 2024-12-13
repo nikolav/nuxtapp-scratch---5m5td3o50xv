@@ -6,7 +6,7 @@ import { VNavigationDrawerChatActive, VBtnWScrollTop } from "@/components/app";
 // ##config ##const
 const {
   app: { LOGOUT_RELOAD_PATH, BODY_ADD_CLASS },
-  vars: { FLAG_SHOW_AUTH_BACKGROUND },
+  vars: { FLAG_SHOW_AUTH_BACKGROUND, FLAG_SHOW_AKTIVA_DISTRIBUCIJA_BG },
   re: { ROUTE_NAMES_SKIP_REDIRECT_APP_ON_AUTHENTICATED },
 } = useAppConfig();
 
@@ -23,6 +23,7 @@ const {
 // ##icons
 // ##refs ##flags
 const authBgActive = useState(FLAG_SHOW_AUTH_BACKGROUND);
+const showBgAktivaDistribucija = useState(FLAG_SHOW_AKTIVA_DISTRIBUCIJA_BG);
 // ##data ##auth ##state
 const auth = useStoreApiAuth();
 // ##computed
@@ -110,7 +111,12 @@ useFirebaseCloudMessaging({
     class="component--appMain"
     ref="ref_appMain"
     :theme="theme"
-    :class="[authBgActive ? 'v-app--authBgActive' : undefined]"
+    :class="[
+      authBgActive ? 'v-app--authBgActive' : '',
+      showBgAktivaDistribucija
+        ? 'CLASS--332e1723-3b28-5bc4-b8fe-1630194b3a00'
+        : '',
+    ]"
   >
     <!-- @@overlays -->
     <VNavigationDrawerChatActive />
@@ -179,5 +185,10 @@ useFirebaseCloudMessaging({
   p {
     margin-top: 1.5rem;
   }
+}
+.component--appMain.CLASS--332e1723-3b28-5bc4-b8fe-1630194b3a00 {
+  background-image: url("/bg--aktiva-distribucija.png") !important;
+  object-fit: cover !important;
+  background-position: 0 49% !important;
 }
 </style>

@@ -5,9 +5,15 @@ import { VBtnPanelClose } from "@/components/app";
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
 const mIsActive = defineModel<boolean>();
-const props = defineProps<{
-  propsBtnClose?: any;
-}>();
+const props = withDefaults(
+  defineProps<{
+    propsBtnClose?: any;
+    showClose: boolean;
+  }>(),
+  {
+    showClose: true,
+  }
+);
 
 const {
   app: { BODY_ADD_CLASS, DEFAULT_TRANSITION },
@@ -42,6 +48,7 @@ const { smAndUp } = useDisplay();
     v-slot="{ isActive }"
   >
     <VBtnPanelClose
+      v-if="showClose"
       @click="
         () => {
           isActive.value = false;

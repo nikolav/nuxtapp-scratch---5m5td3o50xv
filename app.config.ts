@@ -33,6 +33,8 @@ export default defineAppConfig({
     password: "korisnik@nikolav.rs",
   },
   vars: {
+    FLAG_SHOW_AKTIVA_DISTRIBUCIJA_BG:
+      "FLAG_SHOW_AKTIVA_DISTRIBUCIJA_BG:2a885645-97b3-5d03-b563-48cb66aa3759",
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
@@ -271,6 +273,7 @@ export default defineAppConfig({
       /^aktiva-proizvodi-detaljno/,
       /^teren-izvestaj/,
       /^app-objave-pregled/,
+      /^aktiva-distribucija/,
     ],
   },
   SEO: {
@@ -326,6 +329,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "truck-fast": "mdi:truck-fast",
       "carret-up": "streamline:interface-arrows-button-up-arrow-up-keyboard",
       "filter-category": "material-symbols:filter-list",
       "clear-formatting": "tabler:clear-formatting",
