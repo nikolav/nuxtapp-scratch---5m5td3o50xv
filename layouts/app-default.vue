@@ -59,7 +59,13 @@ const openDriveAttachmentsMain = async () =>
           class: 'translate-x-[2px]',
         }"
       />
-      <VBtn size="large" density="comfortable" icon variant="plain">
+      <VBtn
+        :disabled="!auth.isAuthenticated$"
+        size="large"
+        density="comfortable"
+        icon
+        variant="plain"
+      >
         <Iconx size="1.55rem" icon="dots-v" />
         <VMenu
           :transition="DEFAULT_TRANSITION"
@@ -191,6 +197,7 @@ const openDriveAttachmentsMain = async () =>
     <VMain>
       <slot />
     </VMain>
+    <VSpacer class="mt-32" />
   </section>
 </template>
 <style lang="scss" scoped></style>
