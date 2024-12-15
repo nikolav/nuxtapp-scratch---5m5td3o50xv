@@ -22,6 +22,7 @@ const {
   },
 } = useAppConfig();
 // ##utils
+const { resized } = useResizeImage();
 const g = computed(() => get(attrs, "route-data.g"));
 const gid = computed(() => g.value?.id);
 const gname = computed(() => g.value?.name);
@@ -120,7 +121,12 @@ const form = useFormModel(
             !get(
               await fbsAvatarUpload({
                 avatarImage: {
-                  file: avatarImagePicked.value.file,
+                  // @@
+                  // file: avatarImagePicked.value.file,
+                  file: blobToFile(
+                    await resized(avatarImagePicked.value.file, 400, 300),
+                    "avatarImage"
+                  ),
                   name: "avatarImage",
                 },
               }),

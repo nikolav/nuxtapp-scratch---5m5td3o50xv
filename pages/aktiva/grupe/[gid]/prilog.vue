@@ -9,6 +9,7 @@ definePageMeta({
   middleware: "authorized",
 });
 // ##utils
+const { resized } = useResizeImage();
 const attrs = useAttrs();
 const { open: openAttachmentsAdd, onChange: onChangeAttachments } =
   useFileDialog({ multiple: true });
@@ -34,6 +35,7 @@ const routeBackTo = computed(() => ({
   name: "aktiva-grupe-gid",
   params: { gid: gid.value },
 }));
+const totImages = computed(() => len(images.value));
 
 // ##forms ##handlers ##helpers
 const itemTitle = (url: string, i: number) => `${i + 1}) ${urlFilename(url)}`;
@@ -55,7 +57,15 @@ watch(attachments, async (attachments) => {
   let res;
   try {
     ps.begin();
-    res = await fbsUploadCollection(attachments);
+    res = await fbsUploadCollection(
+      await Promise.all(
+        map(attachments, async (file: any) =>
+          (await isImageBlob(file))
+            ? blobToFile(await resized(file), file.name)
+            : file
+        )
+      )
+    );
   } catch (error) {
     ps.setError(error);
     // pass
@@ -94,10 +104,10 @@ useHead({ title: `Prilog | ${gname.value}` });
             <Iconx class="opacity-50" size="1.22rem" icon="$file" />
             <span>{{ text }}</span>
             <VBadge
-              v-if="0 < ccSize"
+              v-if="0 < totImages"
               color="primary-darken-1"
               inline
-              :content="ccSize"
+              :content="totImages"
               class="d-inline ms-n1"
             />
           </span>
@@ -133,7 +143,7 @@ useHead({ title: `Prilog | ${gname.value}` });
     >
       <template #list-item-append="{ item: url_ }">
         <VBtn
-          @click.stop="fileDrop(url_)"
+          @click.stop="fileDrop(String(url_))"
           color="error"
           icon
           variant="plain"

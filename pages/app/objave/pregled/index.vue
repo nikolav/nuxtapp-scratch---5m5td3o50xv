@@ -180,7 +180,7 @@ useHead({ title: pageTitle });
                   <VBtnGroupTopicLikeDislike :topic="topicLikesAsset" />
                 </div>
               </section>
-              <section class="__spacer mt-4 ps-12">
+              <section class="__spacer mt-4 ps-4">
                 <VChipUserAvatar
                   v-if="post?.author"
                   :props-avatar="{ size: 'large', class: 'ms-1' }"
@@ -191,7 +191,7 @@ useHead({ title: pageTitle });
               </section>
               <!-- @@text -->
               <section
-                class="__spacer indent-4 pa-5"
+                class="__spacer indent-4"
                 :class="[smAndUp ? 'prose-lg' : 'prose']"
               >
                 <VCardText>

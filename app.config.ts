@@ -38,6 +38,10 @@ export default defineAppConfig({
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
+    imageResize: {
+      width: (16 / 9) * 512,
+      height: 512,
+    },
     EVENT_CACHE_ASSET_UPDATED:
       "assets:query-cache:updated:adfc72da-6478-52fb-9e94-b35f4d23aaaa",
     EVENT_CACHE_ASSETS_REMOVED:

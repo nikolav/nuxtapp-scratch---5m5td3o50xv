@@ -22,6 +22,7 @@ const FIELDS_RECORD = ["name", "location", "notes"];
 const FIELDS_RECORD_wcategory = [...FIELDS_RECORD, "category"];
 
 // ##utils
+const { resized } = useResizeImage();
 const schemaInputAssetGroup = z.object({
   name: z.string().trim().min(1),
   category: z.string(),
@@ -82,7 +83,10 @@ const {
             !get(
               await fbsUpload({
                 avatarImage: {
-                  file: avatarImage.value.file,
+                  file: blobToFile(
+                    await resized(avatarImage.value.file, 400, 300),
+                    "avatarImage"
+                  ),
                   name: "avatarImage",
                 },
               }),

@@ -9,6 +9,7 @@ definePageMeta({
 });
 // ##schemas
 // ##utils
+const { resized } = useResizeImage();
 const attrs = useAttrs();
 const { open: accountAttachmentsOpen, onChange: attachmentsOnChange } =
   useFileDialog({ multiple: true });
@@ -55,7 +56,15 @@ watch(attachmentsCommit, async (attachments: File[]) => {
   if (!isEmpty(attachments)) {
     try {
       ps.begin();
-      res = await uploadAll(attachments);
+      res = await uploadAll(
+        await Promise.all(
+          map(attachments, async (file: any) =>
+            (await isImageBlob(file))
+              ? blobToFile(await resized(file), file.name)
+              : file
+          )
+        )
+      );
     } catch (error) {
       ps.setError(error);
     } finally {

@@ -17,7 +17,7 @@ export const useCacheRedisAssetsAttachments = (
     transform(
       cc.cache.value,
       (res: any, node: any) => {
-        if (node && keys.value.includes(node.key)) {
+        if (includes(keys.value, node?.key)) {
           res[node.key] = node;
         }
       },

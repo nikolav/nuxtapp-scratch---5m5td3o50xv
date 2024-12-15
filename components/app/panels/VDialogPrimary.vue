@@ -4,11 +4,11 @@ import { useDisplay } from "vuetify";
 import { VBtnPanelClose } from "@/components/app";
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
-const mIsActive = defineModel<boolean>();
+const mIsActive = defineModel<any>();
 const props = withDefaults(
   defineProps<{
     propsBtnClose?: any;
-    showClose: boolean;
+    showClose?: boolean;
   }>(),
   {
     showClose: true,

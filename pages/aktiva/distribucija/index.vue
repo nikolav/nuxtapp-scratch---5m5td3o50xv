@@ -173,7 +173,7 @@ useHead({ title: "🚛 Isporuka" });
         </VCardText>
       </VCard>
     </VDialogPrimary>
-    <VSpacer class="mt-[4.625rem]" />
+    <VSpacer class="mt-[2.8125rem]" />
     <p class="text-center prose-lg text-medium-emphasis">
       Obavesti najbliži tim o isporuci:
     </p>

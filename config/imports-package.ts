@@ -1,5 +1,23 @@
 export const IMPORTS = [
   {
+    from: "lodash/toPairs",
+    imports: [
+      {
+        name: "default",
+        as: "toPairs",
+      },
+    ],
+  },
+  {
+    from: "lodash/fromPairs",
+    imports: [
+      {
+        name: "default",
+        as: "fromPairs",
+      },
+    ],
+  },
+  {
     from: "lodash/minBy",
     imports: [
       {

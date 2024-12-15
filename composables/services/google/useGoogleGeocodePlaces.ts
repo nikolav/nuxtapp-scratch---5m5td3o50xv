@@ -23,6 +23,7 @@ export const useGoogleGeocodePlaces = (
     },
     {
       enabled: qenabled,
+      fetchPolicy: "cache-and-network",
     }
   );
   const places = computed(() =>

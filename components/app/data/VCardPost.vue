@@ -317,7 +317,8 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
           :user="post?.author"
           variant="elevated"
           color="surface"
-          :props-avatar="{ size: '1.44rem' }"
+          :props-avatar="{ size: '1.66rem' }"
+          class="ps-1"
         />
         <VSpacer />
         <VChip

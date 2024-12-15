@@ -29,6 +29,7 @@ const schemaInputPost = z.object({
   }),
 });
 // ##utils
+const { resized } = useResizeImage();
 const ps = useProcessMonitor();
 // rebuilds emitter editor@mount; old emitter gets gc-ed
 const ee$ = ref();
@@ -132,7 +133,12 @@ const form = useFormModel(
         await nextTick();
         if (!isEmpty(data["images-picked"])) {
           await clientStorage.uploadAll(
-            map(data["images-picked"], (node: any) => node.file)
+            // map(data["images-picked"], (node: any) => node.file)
+            await Promise.all(
+              map(data["images-picked"], async (node: any) =>
+                blobToFile(await resized(node.file), node.file.name)
+              )
+            )
           );
         }
       } catch (error) {

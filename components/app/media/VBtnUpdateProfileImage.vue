@@ -31,6 +31,7 @@ const {
 const uploadedImage = ref();
 
 // utils
+const { resized } = useResizeImage();
 const { files: filesPicked, open: fileDialogOpen } = useFileDialog({
   accept: "image/*",
   multiple: false,
@@ -57,7 +58,11 @@ watch(imageSelected, async (imageAvatar) => {
     pc.begin();
     url = get(
       await upload({
-        avatarImage: { file: imageAvatar, name: `avatarImage` },
+        // avatarImage: { file: imageAvatar, name: `avatarImage` },
+        avatarImage: {
+          file: blobToFile(await resized(imageAvatar, 400, 300), "avatarImage"),
+          name: "avatarImage",
+        },
       }),
       "0.avatarImage"
     );

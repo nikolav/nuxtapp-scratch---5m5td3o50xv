@@ -22,6 +22,7 @@ const toggleSuccessCommit = useToggleFlag();
 const imagesPicked = ref();
 const AID = ref();
 
+const { resized } = useResizeImage();
 const { firebasePathAssets } = useTopics();
 const { upload: fbsUpload, rma: fbsRma } = useFirebaseStorage(() =>
   firebasePathAssets(AID.value)
@@ -69,9 +70,13 @@ const {
         if (!isEmpty(imagesPicked.value)) {
           await fbsUpload(
             reduce(
-              imagesPicked.value,
-              (accum: any, item: any) => {
-                accum[item.file.name] = { file: item.file };
+              await Promise.all(
+                map(imagesPicked.value, async (item: any) =>
+                  blobToFile(await resized(item.file), item.file.name)
+                )
+              ),
+              (accum: any, file: any) => {
+                accum[file.name] = { file };
                 return accum;
               },
               <Record<string, any>>{}

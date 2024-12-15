@@ -31,6 +31,7 @@ const pageTitle = computed(() => `📃 ${post.value?.name}`);
 const oid = computed(() => post.value?.id);
 // ##schemas
 // ##utils
+const { resized } = useResizeImage();
 const ps = useProcessMonitor();
 const ee$ = ref();
 const colors_ = listColorWheel(19, 0.34);
@@ -130,7 +131,11 @@ const form = useFormModel("e79d7d31-c0a7-508b-b150-1f7d656f1937", FIELDS, {
         // update post images @fbs; drop* old, put* new
         await clientStorage.rma();
         await clientStorage.uploadAll(
-          map(imagesPicked.value, (node: any) => node.file)
+          await Promise.all(
+            map(imagesPicked.value, async (node: any) =>
+              blobToFile(await resized(node.file), node.file.name)
+            )
+          )
         );
       }
     } catch (error) {

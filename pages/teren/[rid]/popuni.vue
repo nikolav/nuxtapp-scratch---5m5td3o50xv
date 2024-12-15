@@ -5,10 +5,9 @@ import {
   VToolbarPrimary,
   // VSnackbarSuccess,
 } from "@/components/app";
+import type { IInputFileUpload } from "@/types";
 
 // ##config:const
-const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_routeName = "teren-izvestaji";
-const DEFAULT_SUBMISSION_SUCCESS_REDIRECT_timeout = 3450;
 // ##config ##props
 definePageMeta({
   layout: "app-default",
@@ -20,6 +19,7 @@ const form = computed(() => get(attrs, "route-data.form", {}));
 
 // ##schemas
 // ##utils
+const { resized } = useResizeImage();
 const { watchProcessing } = useStoreAppProcessing();
 const ps = useProcessMonitor();
 const { assetsFormsSubmissionAttachmentsPath } = usePathUtils();
@@ -85,9 +85,24 @@ const formSubmit = async (data: any) => {
       <any>{}
     );
     const upl = await Promise.all(
-      map(attachmentsByQuestion, async (files: any, q: string) => ({
-        [q]: flatten(map(await upload(files), values)),
-      }))
+      map(attachmentsByQuestion, async (files: any, q: string) => {
+        const files_ = fromPairs(
+          await Promise.all(
+            map(toPairs(files), async ([name, node]: any) => [
+              name,
+              (await isImageBlob(node.file))
+                ? {
+                    ...node,
+                    file: blobToFile(await resized(node.file), name),
+                  }
+                : node,
+            ])
+          )
+        );
+        return {
+          [q]: flatten(map(await upload(<IInputFileUpload>files_), values)),
+        };
+      })
     );
     each(upl, (qlinks: any) => {
       assign(dd, qlinks);

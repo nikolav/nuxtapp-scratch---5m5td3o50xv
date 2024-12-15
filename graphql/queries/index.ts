@@ -337,10 +337,10 @@ export const Q_assetsSearchQ = gql`
   }
 `;
 
-// assetsCount(asset_type: String!, own: Boolean): JsonData!
+// assetsCount(asset_type: String!, own: Boolean, category: String): JsonData!
 export const Q_assetsCount = gql`
-  query q_assetsCount($asset_type: String!, $own: Boolean) {
-    assetsCount(asset_type: $asset_type, own: $own)
+  query q_assetsCount($asset_type: String!, $own: Boolean, $category: String) {
+    assetsCount(asset_type: $asset_type, own: $own, category: $category)
   }
 `;
 

@@ -34,6 +34,7 @@ const {
 } = useAppConfig();
 const ON_DELETE_REDIRECT_TIMEOUT = 3122;
 // ##utils
+const { resized } = useResizeImage();
 const { categories_select_menu } = useCategoryAssets();
 const { mdAndUp } = useDisplay();
 const route = useRoute();
@@ -169,12 +170,14 @@ const { form, submit: formSubmit } = useFormDataFields(
           await rmaDropAssetImages();
           await upload(
             reduce(
-              newProductImagesPicked.value,
-              (d: any, node: any) => {
-                if (node.file) {
-                  d[node.file.name] = {
-                    file: node.file,
-                  };
+              await Promise.all(
+                map(newProductImagesPicked.value, async (node: any) =>
+                  blobToFile(await resized(node.file), node.file.name)
+                )
+              ),
+              (d: any, file: any) => {
+                if (file) {
+                  d[file.name] = { file };
                 }
                 return d;
               },

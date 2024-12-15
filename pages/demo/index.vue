@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import EE from "eventemitter3";
+import { Dump } from "@/components/dev";
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({
@@ -9,10 +9,6 @@ definePageMeta({
 });
 // ##schemas
 // ##utils
-const $emitter = new EE();
-$emitter.on("foo", (...args: any[]) => {
-  console.log({ "foo:args": args });
-});
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
@@ -24,12 +20,39 @@ $emitter.on("foo", (...args: any[]) => {
 useHead({ title: "🚧Demo" });
 // ##provide
 // ##io
+
+const { resized } = useResizeImage();
+const { open, onChange } = useFileDialog({
+  accept: "image/*",
+  multiple: false,
+});
+const cache = useCacheRedisAssetsAttachments("foo");
+
+onChange(async (files) => {
+  const file = first(files);
+  console.log({ file });
+  if (file) {
+    const d = await cache.attachmentMake(
+      blobToFile(await resized(file), file.name)
+    );
+    console.log({ d });
+    console.log({
+      res: await cache.commit({
+        [d.key]: d,
+      }),
+    });
+  }
+});
+
 // @@eos
 </script>
 <template>
   <section class="page--demo">
     <h1>🚧</h1>
-    <VBtn @click="$emitter.emit('foo', 122)">ok </VBtn>
+    <VBtn @click="open()">ok</VBtn>
+    <VBtn @click="cache.remove('d')">rm:d</VBtn>
+    <VBtn @click="cache.reload">reload</VBtn>
+    <Dump :data="{ keys: cache.keys.value, files: cache.files.value }" />
   </section>
 </template>
 <style lang="scss" scoped></style>
