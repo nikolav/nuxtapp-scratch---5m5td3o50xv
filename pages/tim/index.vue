@@ -19,6 +19,10 @@ import {
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
+  "@page": {
+    appClass: "bg-transparent",
+    bodyClass: "CLASS--21225bf8-1f99-51ff-8f0f-f5f9c72639a2",
+  },
 });
 
 // @config
@@ -324,7 +328,7 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
         color="primary"
         density="comfortable"
         return-object
-        class="CLASS--VDataTable--no-row-divider"
+        class="CLASS--VDataTable--no-row-divider bg-transparent"
       >
         <template #no-data>
           <VEmptyStateNoData class="opacity-50" />
@@ -605,7 +609,12 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
         <!-- render row --custom-strategy -->
         <template #item="{ internalItem, item, isSelected, toggleSelect }">
           <div class="__spacer my-3 ms-1">
-            <VListItemTimShowUser :user="item" :props-avatar="{ size: 54 }">
+            <VListItemTimShowUser
+              :user="item"
+              :props-avatar="{ size: 54 }"
+              elevation="1"
+              class="bg-surface"
+            >
               <template #selection>
                 <VCheckboxBtn
                   class="px-0 mx-0 ms-1 scale-[122%] *-translate-y-px"

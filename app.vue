@@ -219,4 +219,11 @@ useFirebaseCloudMessaging({
   background-size: 133% !important;
   background-position: 30% -69% !important;
 }
+.CLASS--21225bf8-1f99-51ff-8f0f-f5f9c72639a2 {
+  background-image: url("/assets/bg-tim.png") !important;
+  background-repeat: no-repeat !important;
+  // object-fit: cover !important;
+  background-size: cover !important;
+  background-position: 57% 9% !important;
+}
 </style>
