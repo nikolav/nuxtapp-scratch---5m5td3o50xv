@@ -25,7 +25,7 @@ defineOptions({
     id="ID--UfHxSA"
     color="surface"
     size="large"
-    class="position-fixed !z-[1005] bottom-16 left-1/2 -translate-x-[50%] origin-center opacity-85"
+    class="position-fixed !z-[1005] bottom-28 left-1/2 -translate-x-[50%] origin-center opacity-85"
   >
     <VBtn :app="false" icon elevation="5" color="surface" v-bind="$attrs">
       <Iconx icon="carret-up" size="1.55rem" />

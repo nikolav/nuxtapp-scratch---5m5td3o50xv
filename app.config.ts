@@ -38,6 +38,7 @@ export default defineAppConfig({
     FLAG_SHOW_AUTH_BACKGROUND: "0hrfFp7OeZWPQ7wE",
   },
   app: {
+    DEFAULT_NO_USER_IMAGE_AVAILABLE: "/assets/user-unknown.png",
     imageResize: {
       width: (16 / 9) * 512,
       height: 512,
@@ -278,6 +279,7 @@ export default defineAppConfig({
       /^teren-izvestaj/,
       /^app-objave-pregled/,
       /^aktiva-distribucija/,
+      /^teren-popuni-javni-izvestaj/,
     ],
   },
   SEO: {

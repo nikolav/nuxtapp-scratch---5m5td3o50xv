@@ -14,6 +14,10 @@ import { ssrContextKey } from "vue";
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
+  "@page": {
+    appClass: "bg-transparent",
+    bodyClass: "CLASS--1826dd05-b3c4-51a0-b6b6-3589840fab22",
+  },
 });
 
 const {
@@ -31,7 +35,7 @@ const MENU_items = <any[]>[
     icon: {
       icon: "world",
       size: "1.33rem",
-      class: "text-success-darken-1 opacity-75",
+      class: "text-primary opacity-30 -rotate-3",
     },
     handle: async (selection: any) =>
       await handleReportsConfig({ tags: { [SHAREABLE]: true } }, selection),
@@ -41,9 +45,10 @@ const MENU_items = <any[]>[
     title: "Blokiraj javni pristup",
     value: "1660bf16-aa8f-52c5-9dbd-d37652eabfb1",
     icon: {
-      icon: "$minus",
-      size: "1.33rem",
-      class: "text-error opacity-75",
+      emoji: "⛔",
+      // icon: "$minus",
+      size: "1.22rem",
+      class: "text-error opacity-50",
     },
     handle: async (selection: any) =>
       await handleReportsConfig({ tags: { [SHAREABLE]: false } }, selection),
@@ -58,7 +63,7 @@ const MENU_items = <any[]>[
     value: "f4a3073f-d961-58eb-9f31-b3be81c7a4ac",
     icon: {
       icon: "trash",
-      size: "1.122rem",
+      size: "1.22rem",
       class: "text-error opacity-50",
     },
     handle: async (selection: any) => {
@@ -79,7 +84,9 @@ const MENU_items = <any[]>[
           nextTick(reload);
         });
     },
-    props: {},
+    props: {
+      class: "mt-1",
+    },
   },
 ];
 // ##schemas
@@ -236,8 +243,9 @@ useHead({ title: "📝 Izveštaji" });
       :per-page="-1"
       :reload="reload"
       hide-pagination
-      :props-list="{ class: 'py-0' }"
       :signal-id-deselect="signalIdDeselect.ID.value"
+      :props-list="{ class: 'py-0 bg-transparent' }"
+      :props-dots-menu-icon="{ size: '1.5rem' }"
       @toolbar-secondary-closed="toggleActiveSearchAdvanced.off"
     >
       <template #prepend>
@@ -370,7 +378,10 @@ useHead({ title: "📝 Izveštaji" });
               v-bind="item.props"
             >
               <template #prepend>
-                <Iconx v-bind="item.icon" />
+                <span v-if="item.icon?.emoji" v-bind="item.icon">{{
+                  item.icon.emoji
+                }}</span>
+                <Iconx v-else v-bind="item.icon" />
               </template>
               <span>{{ item.title }}</span>
             </VListItem>
@@ -393,6 +404,7 @@ useHead({ title: "📝 Izveštaji" });
         <Iconx size="1.52rem" icon="$edit" />
       </template>
     </VFabMain>
+    <VSpacer class="mt-32" />
   </section>
 </template>
 <style lang="scss" scoped></style>

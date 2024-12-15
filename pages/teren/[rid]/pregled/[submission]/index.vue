@@ -7,6 +7,7 @@ import {
   VBtnTopicChatToggle,
   VCardAssetsFormReportResponse,
   SpanTruncateCharsLength,
+  VChipAssetAvatar,
 } from "@/components/app";
 
 // ##config:const
@@ -36,7 +37,6 @@ const { reports } = useQueryReportsSearch("ids", () => [submissionId]);
 // ##computed
 const report = computed(() => first(reports.value));
 const submId = computed(() => report.value?.id);
-const response = computed(() => get(report.value, "data.response"));
 const user = computed(() => report.value?.user);
 const pageTitle = computed(() => `📝 Izveštaj | #${submId.value}`);
 const publicUrl = computed(() => reportsPublicUrl(report.value));
@@ -94,24 +94,28 @@ useHead({ title: pageTitle });
     </VToolbarPrimary>
     <div class="__spacer __report-preview--B4YbGy5bNziDLe">
       <VCardText class="__spacer d-flex items-center">
-        <VChipUserAvatar :user="user" />
+        <VChipUserAvatar
+          :user="user"
+          :props-avatar="{ size: '2.75rem' }"
+          size="x-large"
+          class="ps-0"
+        />
         <VSpacer />
         <VBtnGroupTopicLikeDislike light :topic="topicReportsLikes" />
       </VCardText>
       <VDivider class="mt-10 mb-4 border-opacity-100 mx-auto" length="50%" />
       <div class="__spacer d-flex items-center justify-between ps-4 pe-2">
-        <VChip
-          link
-          :to="{ name: 'aktiva-obrasci-fid', params: { fid } }"
-          size="small"
-          elevation="1"
-          color="primary"
+        <VChipAssetAvatar
+          :asset="form"
+          :item-to="{ name: 'aktiva-obrasci-fid', params: { fid } }"
+          size="default"
         >
-          <template #prepend>
-            <small class="me-1">📝</small>
+          <template #avatar>
+            <span class="me-2">📝</span>
           </template>
           <SpanTruncateCharsLength :text="form?.name || ''" :length="22" />
-        </VChip>
+        </VChipAssetAvatar>
+
         <small class="text-xs opacity-40 *font-mono font-italic">{{
           $dd.utc(report?.created_at).format("D. MMM YYYY.")
         }}</small>

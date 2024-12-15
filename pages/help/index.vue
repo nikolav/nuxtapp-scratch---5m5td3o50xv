@@ -7,6 +7,7 @@ definePageMeta({
   middleware: "authorized",
   "@page": {
     appBarTitle: "x2",
+    appClass: "",
   },
 });
 // ##schemas

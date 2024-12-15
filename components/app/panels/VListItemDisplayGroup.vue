@@ -40,7 +40,7 @@ const g = computed(() => get(props.node, "raw", {}));
 <template>
   <VListItem link class="component--VListItemDisplayGroup ma-0 pa-2">
     <template #prepend>
-      <ProvideAssetsGroupAvatar :gid="g.id" v-slot="{ avatarImage }">
+      <ProvideAssetsGroupAvatar :gid="g.key" v-slot="{ avatarImage }">
         <VAvatar
           :image="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
           size="54"

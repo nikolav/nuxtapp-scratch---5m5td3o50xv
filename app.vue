@@ -27,6 +27,16 @@ const showBgAktivaDistribucija = useState(FLAG_SHOW_AKTIVA_DISTRIBUCIJA_BG);
 // ##data ##auth ##state
 const auth = useStoreApiAuth();
 // ##computed
+const addAppClass = computed(() => get(route.meta, "@page.appClass", ""));
+const addBodyClass = computed(() => get(route.meta, "@page.bodyClass", ""));
+const addHtmlClass = computed(() => get(route.meta, "@page.htmlClass", ""));
+const bodyAttrs = computed(() => ({
+  class: `${BODY_ADD_CLASS} ${addBodyClass.value}`,
+}));
+const htmlAttrs = computed(() => ({
+  class: `${addHtmlClass.value}`,
+}));
+
 // ##forms ##helpers ##handlers
 // ##watch
 const { isActive: isYAndUp, scrollTop: wScrollTop } = useWindowScrollYAndUp();
@@ -73,7 +83,8 @@ watch(
 // ##head ##meta
 useHead({
   titleTemplate: (ttl: any) => `${ttl ? ttl + " | " : ""} frikom:teren`,
-  bodyAttrs: { class: BODY_ADD_CLASS },
+  bodyAttrs,
+  htmlAttrs,
 });
 useSeoMeta({
   title: "NuxtApp",
@@ -116,6 +127,7 @@ useFirebaseCloudMessaging({
       showBgAktivaDistribucija
         ? 'CLASS--332e1723-3b28-5bc4-b8fe-1630194b3a00'
         : '',
+      addAppClass,
     ]"
   >
     <!-- @@overlays -->
@@ -190,5 +202,21 @@ useFirebaseCloudMessaging({
   background-image: url("/bg--aktiva-distribucija.png") !important;
   object-fit: cover !important;
   background-position: 0 49% !important;
+}
+
+// dynamic classes, select @pages
+.CLASS--f6b8cb17-1a95-5506-a6ac-bc03f09a1a3d {
+  background-image: url("/assets/bg--forms-folder.png") !important;
+  background-repeat: no-repeat !important;
+  object-fit: cover !important;
+  background-size: cover !important;
+  // background-position: 0 49% !important;
+}
+.CLASS--1826dd05-b3c4-51a0-b6b6-3589840fab22 {
+  background-image: url("/assets/bg--reports-submited.png") !important;
+  background-repeat: no-repeat !important;
+  object-fit: cover !important;
+  background-size: 133% !important;
+  background-position: 30% -69% !important;
 }
 </style>

@@ -44,9 +44,9 @@ const fieldsHasChanges = ref(false);
 // ##data ##auth ##state
 const { commit } = useQueryManageAssetsGroups();
 const { avatarImage, reload: avatarReload } =
-  useFirebaseStorageAssetsGroupAvatar(gid);
+  useFirebaseStorageAssetsGroupAvatar(gkey);
 const { upload: fbsAvatarUpload } = useFirebaseStorage(() =>
-  firebasePathAssetsAvatars(gid.value)
+  firebasePathAssetsAvatars(gkey.value)
 );
 // ##computed
 const { width: WSELECT } = useElementSize(ref_SreFtqedZsqOqer);

@@ -7,7 +7,8 @@ import {
   VSelectAvailabilityPicker,
   // VBtnTopicChatToggle,
   VBtnDatePicker,
-  ProvideAssetsGroupAvatar,
+  VChipAssetAvatar,
+  ProvideUserGroups,
 } from "@/components/app";
 
 definePageMeta({
@@ -26,7 +27,6 @@ const displayLocation$ = computed(() =>
 );
 const email$ = computed(() => get(auth.user$, "email"));
 const key$ = computed(() => get(auth.user$, "key"));
-const ugroups$ = computed(() => get(auth.user$, "groups", []));
 
 const FIELDS = [
   // @@.1
@@ -118,26 +118,20 @@ onMounted(() => {
   <section class="page--nalog-index">
     <VForm @submit.prevent="submit">
       <VCard rounded="0" variant="text">
-        <div
-          v-if="!isEmpty(ugroups$)"
-          class="d-flex items-center gap-2 flex-wrap pa-2"
-        >
-          <!-- @@ -->
-          <template v-for="ug in ugroups$" :key="ug.name">
-            <ProvideAssetsGroupAvatar :gid="ug.id" v-slot="{ avatarImage }">
-              <VChip
-                link
-                :to="{ name: 'aktiva-grupe-gid', params: { gid: ug.id } }"
-                elevation="1"
-                color="info"
-                :prepend-avatar="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
-                size="large"
-              >
-                {{ ug.name }}
-              </VChip>
-            </ProvideAssetsGroupAvatar>
-          </template>
-        </div>
+        <!-- @@ -->
+        <ProvideUserGroups :user="auth.user$" v-slot="{ groups }">
+          <div
+            v-if="!isEmpty(groups)"
+            class="d-flex items-center gap-2 flex-wrap pa-2"
+          >
+            <VChipAssetAvatar
+              v-for="g in groups"
+              :key="g.key"
+              :asset="g"
+              :item-to="{ name: 'aktiva-grupe-gid', params: { gid: g?.id } }"
+            />
+          </div>
+        </ProvideUserGroups>
         <VCardText class="max-w-[345px] mx-auto">
           <VSpacer class="mt-5" />
           <VRow justify="center" class="translate-y-1">

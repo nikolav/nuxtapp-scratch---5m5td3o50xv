@@ -11,6 +11,7 @@ import {
   VBtnGroupTopicLikeDislike,
   ProvideAssetsChildren,
   VSheetHeaderBodyFooter,
+  VChipAssetAvatar,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -81,7 +82,6 @@ const form = useFormModel(
     },
   }
 );
-const itemTitle = (g: IAsset) => startCase(g.name);
 const itemTo = (g: IAsset) => ({
   name: "aktiva-grupe-gid",
   params: { gid: g.id },
@@ -109,24 +109,23 @@ useHead({ title: sname });
     <!-- @@chips:groups -->
     <VSheetHeaderBodyFooter elevation="0" rounded="0" class="pa-2">
       <template #body>
-        <VCardText
-          class="__spacer *pa-2 d-flex *justify-center items-center flex-wrap gap-2"
+        <ProvideAssetsChildren
+          :asset="site"
+          :type="PEOPLE_GROUP_TEAM"
+          v-slot="{ assets: groups }"
         >
-          <ProvideAssetsChildren
-            :asset="site"
-            :type="PEOPLE_GROUP_TEAM"
-            v-slot="{ assets: chAssets }"
+          <VCardText
+            v-if="!isEmpty(groups)"
+            class="__spacer px-0 ps-1 d-flex items-center flex-wrap gap-2"
           >
-            <VChip
-              v-for="g in chAssets"
-              color="info-darken-1"
-              elevation="1"
-              :key="g.id"
-              :text="itemTitle(g)"
-              :to="itemTo(g)"
+            <VChipAssetAvatar
+              v-for="g in groups"
+              :key="g.key"
+              :asset="g"
+              :item-to="itemTo(g)"
             />
-          </ProvideAssetsChildren>
-        </VCardText>
+          </VCardText>
+        </ProvideAssetsChildren>
       </template>
     </VSheetHeaderBodyFooter>
     <VSpacer class="mt-3" />

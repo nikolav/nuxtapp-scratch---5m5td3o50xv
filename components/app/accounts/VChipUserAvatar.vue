@@ -3,6 +3,9 @@
 // ##config:const
 // ##config ##props
 const props = defineProps<{ user: any; tooltip?: any; propsAvatar?: any }>();
+const {
+  app: { DEFAULT_NO_USER_IMAGE_AVAILABLE },
+} = useAppConfig();
 // ##schemas
 // ##utils
 const { calcDisplayName } = useAuthUtils();
@@ -12,7 +15,9 @@ const { calcDisplayName } = useAuthUtils();
 // ##computed
 const uname = computed(() => calcDisplayName(props.user) || "");
 const uid = computed(() => props.user?.id || 0);
-const avatar = computed(() => get(props.user, "profile.avatarImage"));
+const avatar = computed(() =>
+  get(props.user, "profile.avatarImage", DEFAULT_NO_USER_IMAGE_AVAILABLE)
+);
 // ##forms ##handlers ##helpers ##small-utils
 // ##watch
 // ##hooks ##lifecycle

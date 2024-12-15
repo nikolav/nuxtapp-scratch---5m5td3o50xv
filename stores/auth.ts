@@ -39,6 +39,10 @@ export const useStoreApiAuth = defineStore("auth", () => {
     initOnMounted: true,
   });
 
+  const tokenPutDefault = () => {
+    token$.value = TOKEN_DEFAULT;
+  };
+
   const qenabled = computed(() => !!token$.value);
   const {
     data: user$,
@@ -92,7 +96,7 @@ export const useStoreApiAuth = defineStore("auth", () => {
   // token.apollo --sync
   watchEffect(async () => {
     // @3rd.param {boolean} skipResetStore
-    //  If `false`, Resets your entire store by clearing out your cache and 
+    //  If `false`, Resets your entire store by clearing out your cache and
     //   then re-executing all of your active queries.
     if (token$.value) await onLoginApollo(token$.value, undefined, true);
   });
@@ -165,7 +169,8 @@ export const useStoreApiAuth = defineStore("auth", () => {
           if (response.ok) {
             // logout success, cache cleared server side,
             //  set token invalid
-            token$.value = "";
+            // token$.value = "";
+            tokenPutDefault();
             psAuth.successful();
 
             // clear fb auth
@@ -211,8 +216,6 @@ export const useStoreApiAuth = defineStore("auth", () => {
     tokenPut: (t: string) => {
       token$.value = schemaJwt.parse(t);
     },
-    tokenPutDefault: () => {
-      token$.value = TOKEN_DEFAULT;
-    },
+    tokenPutDefault,
   };
 });

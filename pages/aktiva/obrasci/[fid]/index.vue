@@ -2,9 +2,10 @@
 // ##imports
 import {
   VToolbarPrimary,
-  // VBtnGroupTopicLikeDislike,
   VCardTitleSectionStart,
   ProvideAssetsChildren,
+  VChipUserAvatar,
+  VChipAssetAvatar,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -27,14 +28,10 @@ const form = computed(() => get(attrs, "route-data.form"));
 // ##utils
 const { ICONS_ASSETS_FORMS_type } = useIconsConfig();
 // const { likesAssets } = useTopics();
-const { calcDisplayName } = useAuthUtils();
 // ##icons
 // ##refs ##flags ##models
 // ##data ##auth ##state
 // ##computed
-const authorDisplayName = computed(() =>
-  calcDisplayName(get(form.value, "author", ""))
-);
 // const topicLikesAssetsForm_ = computed(() => likesAssets(form.value?.id));
 const fields = computed(() => get(form.value, "data.fields"));
 // ##forms ##handlers ##helpers ##small-utils
@@ -68,20 +65,13 @@ useHead({ title: "📝 Obrasci" });
 
     <VCardText class="__spacer pa-5 space-y-12">
       <div class="__spacer d-flex items-center justify-between">
-        <VChip
-          v-if="authorDisplayName"
-          :to="{ name: 'tim-uid', params: { uid: form.author.id } }"
-          color="primary"
-          variant="tonal"
-          elevation="1"
-        >
-          <span class="d-flex items-center gap-1">
-            <strong>🤴🏻</strong>
-            <span>{{ authorDisplayName }}</span>
-          </span>
-          <VTooltip text="Autor" />
-        </VChip>
-        <!-- <VBtnGroupTopicLikeDislike light :topic="topicLikesAssetsForm_" /> -->
+        <VChipUserAvatar
+          v-if="form?.author"
+          :user="form.author"
+          class="ps-0"
+          :props-avatar="{ size: '2rem' }"
+          tooltip="Autor"
+        />
       </div>
       <div class="__spacer d-flex items-center gap-2">
         <ProvideAssetsChildren
@@ -89,14 +79,11 @@ useHead({ title: "📝 Obrasci" });
           :type="PEOPLE_GROUP_TEAM"
           v-slot="{ assets: groups }"
         >
-          <VChip
+          <VChipAssetAvatar
             v-for="g in groups"
             :key="g.key"
-            :text="startCase(g.name)"
-            color="info"
-            elevation="1"
-            size="small"
-            :to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
+            :asset="g"
+            :item-to="{ name: 'aktiva-grupe-gid', params: { gid: g?.id } }"
           />
         </ProvideAssetsChildren>
       </div>

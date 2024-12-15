@@ -8,6 +8,7 @@ import {
   VSnackbarSuccess,
   // VBtnTopicChatToggle,
   ProvideAssetsChildren,
+  VChipAssetAvatar,
 } from "@/components/app";
 import type { IAsset } from "@/types";
 // ##config:const
@@ -84,24 +85,23 @@ useHead({ title: "Veza" });
     <VSnackbarSuccess v-model="toggleChannelUpdateSuccess.isActive.value">
       <p>Kanal je uspešno ažuriran.</p>
     </VSnackbarSuccess>
-    <VCardText
-      class="__spacer d-flex flex-wrap items-center justify-start gap-2"
+    <ProvideAssetsChildren
+      :asset="channel"
+      :type="PEOPLE_GROUP_TEAM"
+      v-slot="{ assets: groups }"
     >
-      <ProvideAssetsChildren
-        :asset="channel"
-        :type="PEOPLE_GROUP_TEAM"
-        v-slot="{ assets: chAssetsG }"
+      <VCardText
+        v-if="!isEmpty(groups)"
+        class="__spacer d-flex flex-wrap items-center justify-start gap-2 px-0 ps-1"
       >
-        <VChip
-          v-for="g in chAssetsG"
-          :key="g.id"
-          :text="startCase(g.name)"
-          color="info-darken-1"
-          elevation="1"
-          :to="itemTo(g)"
+        <VChipAssetAvatar
+          v-for="g in groups"
+          :key="g.key"
+          :asset="g"
+          :item-to="itemTo(g)"
         />
-      </ProvideAssetsChildren>
-    </VCardText>
+      </VCardText>
+    </ProvideAssetsChildren>
     <VForm @submit.prevent="form.submit">
       <VCard variant="text" elevation="0" rounded="0">
         <VCardText class="space-y-3 mt-2">

@@ -10,7 +10,7 @@ import {
   VBtnShowLocation,
   VDataIteratorListData,
   ProvideUserGroups,
-  ProvideAssetsGroupAvatar,
+  VChipAssetAvatar,
 } from "@/components/app";
 
 // ##config ##const
@@ -19,12 +19,9 @@ definePageMeta({
   layout: "app-default",
 });
 
-const {
-  app: { DEFAULT_NO_IMAGE_AVAILABLE },
-} = useAppConfig();
 // ##utils
 const route = useRoute();
-const { uid: UID } = route.params;
+const UID = computed(() => route.params?.uid);
 const { accountAttachments } = useTopics();
 // ##icons
 // ##refs ##flags
@@ -139,20 +136,12 @@ useHead({ title: displayName });
             v-if="!isEmpty(groups)"
             class="__spacer d-inline-flex items-center flex-wrap gap-2"
           >
-            <template v-for="g in groups" :key="g.id">
-              <ProvideAssetsGroupAvatar :gid="g.id" v-slot="{ avatarImage }">
-                <VChip
-                  link
-                  :to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
-                  elevation="1"
-                  color="info"
-                  :prepend-avatar="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
-                  size="large"
-                >
-                  {{ g.name }}
-                </VChip>
-              </ProvideAssetsGroupAvatar>
-            </template>
+            <VChipAssetAvatar
+              v-for="g in groups"
+              :key="g.key"
+              :asset="g"
+              :item-to="{ name: 'aktiva-grupe-gid', params: { gid: g.id } }"
+            />
           </VCardText>
         </ProvideUserGroups>
         <VSpacer class="mt-5" />

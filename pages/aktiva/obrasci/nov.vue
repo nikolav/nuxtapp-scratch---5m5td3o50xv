@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// 02ca166b-9f1a-5c30-8a9d-11566b1d2b64
 // ##imports
 import {
   VToolbarPrimary,
@@ -276,8 +277,16 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
           class="justify-center"
           :class="[isEmpty(mFormFields) ? 'mt-0 pt-0' : 'mt-5']"
         >
-          <VBtn icon variant="tonal" color="primary">
-            <Iconx icon="$plus" size="1.75rem" />
+          <VBtn
+            @click="toggleDrawerPreviewActive.on"
+            icon
+            variant="plain"
+            size="large"
+          >
+            <Iconx icon="eye" size="1.22rem" class="opacity-75" />
+          </VBtn>
+          <VBtn icon variant="tonal" color="primary" size="large" elevation="1">
+            <Iconx icon="$plus" size="1.88rem" />
             <VTooltip text="Dodaj pitanje" />
             <!-- ##menu -->
             <VMenu
@@ -356,7 +365,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
         </VCardActions>
         <VCardActions class="justify-around mt-16">
           <VBtnReset @click="formClearAll" :props-icon="{ class: 'me-2' }" />
-          <VBtnSave type="submit" variant="elevated" />
+          <VBtnSave type="submit" variant="elevated" size="x-large" />
         </VCardActions>
       </VCard>
     </VForm>
