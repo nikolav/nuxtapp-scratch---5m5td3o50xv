@@ -3,13 +3,10 @@ import { useDisplay } from "vuetify";
 import type { IUser, OrNoValue } from "@/types";
 import { renderIcon, Iconx } from "@/components/icons";
 import {
-  // VChipPlus,
   VBtnFilterClear,
   VFabMain,
-  // VBadgeUserAvailability,
-  // VBtnShowLocation,
   VMenuComposeChatMessage,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VDialogManageUsersTags,
   VListItemTimShowUser,
   VSheetPinCodeRequired,
@@ -43,23 +40,23 @@ const {
 } = useAppConfig();
 
 const { calcDisplayName } = useAuthUtils();
-const headers = [
-  {
-    title: "",
-    key: "data-table-select",
-  },
-  {
-    title: "Osoba",
-    key: "fullname",
-    value: calcDisplayName,
-  },
-  {
-    title: "Grupe",
-    key: "groups",
-    value: (node: any) => get(node, "groups", []).join(", "),
-    sortable: false,
-  },
-];
+// const headers = [
+//   {
+//     title: "",
+//     key: "data-table-select",
+//   },
+//   {
+//     title: "Osoba",
+//     key: "fullname",
+//     value: calcDisplayName,
+//   },
+//   {
+//     title: "Grupe",
+//     key: "groups",
+//     value: (node: any) => get(node, "groups", []).join(", "),
+//     sortable: false,
+//   },
+// ];
 
 // @icons
 const iconCheckOff = renderIcon("check-off");
@@ -205,11 +202,8 @@ const handleAccountOnRemove = async () => {
     ps.done();
   }
   if (!ps.error.value)
-    ps.successful(() => {
-      // usersSelectAllOff();
-      toggleMenuPinCodeRequiredOnAccountRemove.off();
-    });
-  console.log({ error: ps.error.value });
+    ps.successful(toggleMenuPinCodeRequiredOnAccountRemove.off);
+  console.log("@debug", ps.error.value);
 };
 
 // @watch
@@ -301,24 +295,29 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
       :width="smAndUp ? 395 : '92%'"
       topic="notification@tim"
     />
-    <VSnackbarSuccess v-model="toggleMessageManyPosted.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleMessageManyPosted.isActive.value"
+    >
       <span>Poruka je uspešno poslata.</span>
-    </VSnackbarSuccess>
-    <VSnackbarSuccess v-model="toggleNotificationPosted.isActive.value">
+    </VSnackbarMain>
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleNotificationPosted.isActive.value"
+    >
       <p>Obaveštenje je uspešno poslato.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VDialogManageUsersTags
       :key="uidsSelectedKEY.ID.value"
       v-model:uids="uidsSelected"
       v-model="toggleDialogUsersTagsIsActive.isActive.value"
     />
-    <VCard id="ID--P8jDb" density="comfortable" variant="text" rounded="0">
+    <VCard id="ID--P8jDb" density="comfortable" variant="text" rounded="0" flat>
       <!-- # https://vuetifyjs.com/en/components/data-tables/basics/#items -->
       <VDataTable
-        id="ID--1QknrimP7"
         v-model="selection"
+        id="ID--1QknrimP7"
         @update:model-value="onModelValueDataTable"
-        :headers="headers"
         :items="usersFilteredGroups"
         :search="usersDataFilter"
         :items-per-page="-1"
@@ -432,8 +431,13 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
               <VIcon icon="$loading" />
             </VBtn>
             <!-- @@dots coommands:rest -->
-            <VBtn density="comfortable" icon variant="text">
-              <Icon name="mdi:dots-vertical" size="1.35rem" />
+            <VBtn
+              :disabled="!somePicked"
+              density="comfortable"
+              icon
+              variant="text"
+            >
+              <Iconx icon="dots-v" size="1.5rem" />
               <!-- @@commands:menu -->
               <VMenu
                 activator="parent"
@@ -611,7 +615,7 @@ useIOEvent(IOEVENT_ACCOUNTS_UPDATED, reloadUsers);
           <div class="__spacer my-3 ms-1">
             <VListItemTimShowUser
               :user="item"
-              :props-avatar="{ size: 54 }"
+              :props-avatar="{ size: 51 }"
               elevation="1"
               class="bg-surface"
             >

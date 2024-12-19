@@ -4,13 +4,11 @@ import { URL_PRODUCT_PREVIEW_HOST } from "@/config";
 import type { IAsset } from "@/types";
 import {
   VFabMain,
-  VCardDataIterator,
   ProvideAssetImages,
   VBtnOpenGallery,
   NavProductCategories,
+  VEmptyStateNoData,
 } from "@/components/app";
-
-const DEFAULT_PRODUCTS_PER_PAGE = 25;
 
 definePageMeta({
   layout: "app-default",
@@ -39,8 +37,6 @@ const category = computed(() =>
 const enabled = computed(() => !!category.value);
 
 const { smAndUp } = useDisplay();
-
-const productsSelected = ref();
 
 const {
   assets: products,
@@ -86,7 +82,7 @@ useOnceMountedOn(
   }
 );
 // ## helpers
-const fmtTitle = (p: IAsset) => startCase(p.name);
+const formatTitle = (p: IAsset) => startCase(p.name);
 // ##head
 useHead({ title: "Roba" });
 
@@ -97,85 +93,89 @@ useHead({ title: "Roba" });
     <template v-if="!enabled">
       <NavProductCategories />
     </template>
-    <VCardDataIterator
+    <VCard
       v-else
-      v-model="productsSelected"
-      :items="products"
-      item-title="name"
-      item-value="id"
-      :item-to="itemTo"
-      :reload="reload"
-      :per-page="DEFAULT_PRODUCTS_PER_PAGE"
-      :item-groups="null"
-      :card-props="{ disabled: processing }"
-      :props-list-item="{ class: 'ps-2' }"
-      :format-title="fmtTitle"
-      hide-categories-available
-      enabled-dots-menu
-      :props-dots-menu-icon="{ size: '1.5rem' }"
-      :menu-props="{ offset: -22 }"
+      flat
+      variant="text"
+      rounded="0"
+      elevation="0"
+      :disabled="processing"
     >
-      <template #menu>
-        <!-- render nav, category picker -->
-        <VList>
-          <VListItem
+      <VToolbar density="comfortable" color="surface" class="pa-0">
+        <VSheet
+          class="grow p-0 !ps-[2px] justify-between d-flex mx-auto"
+          max-width="512"
+        >
+          <VBtn
             v-for="node in categories_p"
-            :key="node.value"
+            :key="node.title"
+            icon
             :to="{
               name: 'aktiva-proizvodi',
               query: {
                 'robna-grupa': kebabCase(node.title),
               },
             }"
-            :active="false"
+            :variant="
+              category_slug == kebabCase(node.title) ? 'tonal' : 'plain'
+            "
+            size="small"
+            color="primary"
+            class="!text-[100%]"
+            >{{ node.emoji }}</VBtn
           >
-            <template #prepend>
-              <pre>{{ node.emoji }}</pre>
-            </template>
-            <VListItemTitle class="ps-4">
-              <span>
-                {{ node.title }}
-              </span>
-            </VListItemTitle>
-          </VListItem>
-        </VList>
-      </template>
-
-      <template #list-item-title="{ item, title }">
-        <span class="d-inline-flex items-center translate-y-[2px]">
-          <!-- @@btn:assets:images -->
-          <ProvideAssetImages :aid="toIds(item)" v-slot="{ images }">
-            <VBtnOpenGallery
-              :hide-if-empty="true"
-              :slides="images.map((src) => ({ src }))"
-              :show-badge="false"
-              variant="text"
-              color="secondary"
-              density="comfortable"
-              class="pa-0 ma-0 ms-1"
-            />
-          </ProvideAssetImages>
-          <NuxtLink v-bind="itemLinkTo(item)">
-            <VBtn
-              @click.stop
-              icon
-              variant="text"
-              size="small"
-              density="comfortable"
-              color="secondary"
-              class="ms-2"
-            >
-              <Iconx
-                icon="tabler:external-link"
-                size="1.33rem"
-                class="*-translate-y-px"
+        </VSheet>
+      </VToolbar>
+      <VDivider class="border-opacity-100 mx-auto" length="66%" />
+      <VSpacer class="mt-3" />
+      <VEmptyStateNoData v-if="isEmpty(products)" class="opacity-50" />
+      <VList v-else variant="text" activatable density="compact" class="py-0">
+        <VListItem
+          v-for="item in products"
+          :key="item.key"
+          class="ps-2 pe-1"
+          :to="itemTo(item)"
+        >
+          <template #append>
+            <NuxtLink v-bind="itemLinkTo(item)">
+              <VBtn
+                @click.stop
+                icon
+                variant="text"
+                size="small"
+                density="comfortable"
+                color="secondary"
+                class="ms-2"
+              >
+                <Iconx
+                  icon="tabler:external-link"
+                  size="1.22rem"
+                  class="*-translate-y-px"
+                />
+              </VBtn>
+            </NuxtLink>
+          </template>
+          <span class="d-inline-flex items-center *translate-y-[2px]">
+            <!-- @@btn:assets:images -->
+            <ProvideAssetImages :aid="toIds(item)" v-slot="{ images }">
+              <VBtnOpenGallery
+                :hide-if-empty="true"
+                :slides="images.map((src) => ({ src }))"
+                :show-badge="false"
+                variant="text"
+                color="secondary"
+                density="comfortable"
+                class="pa-0 ma-0 ms-1"
               />
-            </VBtn>
-          </NuxtLink>
-          <span class="ps-4">{{ title }}</span>
-        </span>
-      </template>
-    </VCardDataIterator>
+            </ProvideAssetImages>
+            <VListItemTitle class="ps-3 text-body-1">
+              {{ formatTitle(item) }}
+            </VListItemTitle>
+          </span>
+        </VListItem>
+      </VList>
+    </VCard>
+
     <VFabMain
       :class="[smAndUp ? '-translate-x-12' : '-translate-y-8 translate-x-2']"
       :to="{ name: 'aktiva-proizvodi-nov' }"

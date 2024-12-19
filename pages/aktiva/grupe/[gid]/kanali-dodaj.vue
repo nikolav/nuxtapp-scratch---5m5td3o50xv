@@ -3,10 +3,9 @@
 import { useDisplay } from "vuetify";
 import type { IAsset } from "@/types";
 import {
-  VToolbarSecondary,
   VDataIteratorListData,
   VFabMain,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -16,11 +15,8 @@ definePageMeta({
 });
 
 const attrs = useAttrs();
-const gid = computed(() => get(attrs, "route-data.gid"));
-// const g = computed(() => routeData.value?.g);
-// const gid = computed(() => routeData.value?.gid);
-// const gname = computed(() => routeData.value?.gname);
-const enabled = computed(() => !!gid.value);
+const g = computed(() => get(attrs, "route-data.g"));
+const gid = computed(() => g.value?.id);
 
 const {
   app: { SEARCH_DEBOUNCE_DELAY_longer },
@@ -47,9 +43,9 @@ const toggleChannelCGSuccess = useToggleFlag();
 const { assets: matchedChannels } = useQueryAssetsSearch(qsearch, DIGITAL_CHAT);
 const { channelsCGConfig } = useQueryManageAssets(
   undefined,
-  () => [gid.value],
-  true,
-  { enabled }
+  undefined,
+  undefined,
+  { enabled: false }
 );
 // ##computed
 const someChannelsSelected = computed(() => !isEmpty(channelsSelected.value));
@@ -97,44 +93,40 @@ useHead({ title: "Kanali" });
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-kanali-dodaj">
-    <VSnackbarSuccess v-model="toggleChannelCGSuccess.isActive.value">
-      <p>Grupa je uspešno ažurirana.</p>
-    </VSnackbarSuccess>
-    <VToolbarSecondary
-      :route-back-to="{ name: 'aktiva-grupe-gid-kanali', params: { gid } }"
-      :props-title="{ class: '*bg-red grow ma-0 pa-s' }"
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleChannelCGSuccess.isActive.value"
     >
-      <template #title>
-        <VTextField
-          v-model="searchText"
-          variant="underlined"
-          density="compact"
-          rounded="pill"
-          placeholder="Traži kanal..."
-          hide-details
-          single-line
-          clearable
-          autofocus
-          class="grow ma-0 pa-0 mb-2 px-2 text-body-2"
-        >
-          <template #prepend-inner>
-            <Iconx
-              size="1.122rem"
-              class="opacity-20 translate-y-px me-1"
-              icon="search"
-            /> </template
-        ></VTextField>
-      </template>
-    </VToolbarSecondary>
+      <p>Grupa je uspešno ažurirana.</p>
+    </VSnackbarMain>
+    <div class="__spacer mt-2 px-5">
+      <VTextField
+        v-model="searchText"
+        variant="underlined"
+        placeholder="Traži kanal..."
+        clearable
+        autofocus
+      >
+        <template #append-inner>
+          <Iconx size="1.22rem" icon="link" class="mt-1 opacity-20" />
+        </template>
+        <template #prepend-inner>
+          <Iconx
+            size="1.22rem"
+            class="opacity-20 translate-y-px me-1"
+            icon="search"
+          /> </template
+      ></VTextField>
+    </div>
+    <VSpacer class="mt-2" />
     <VDataIteratorListData
       v-model="channelsSelected"
       :items="matchedChannels"
       :item-title="itemTitle"
       :item-to="itemTo"
       :disabled-skeleton-loader="!qsearch"
-      :props-list="{ density: 'compact', class: 'py-0 ps-0' }"
-      :props-list-item="{ class: 'ms-0 *ps-4' }"
-      :props-list-item-title="{ class: 'ps-0 ms-2' }"
+      :props-list="{ class: 'py-0' }"
+      :props-list-item-title="{ class: 'ps-3' }"
     />
     <VFabMain
       v-if="someChannelsSelected"

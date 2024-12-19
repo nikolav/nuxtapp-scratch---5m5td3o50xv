@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import { ProvideAssetsGroupAvatar, VBtnMenuListItems } from "@/components/app";
+import { ProvideAssetsGroupAvatar } from "@/components/app";
 import { renderIcon } from "@/components/icons";
 // ##config:const
 // ##config ##props
@@ -19,8 +19,6 @@ const {
 } = useAppConfig();
 // ##schemas
 // ##utils
-const { showUserScreen } = useNavigationUtils();
-const { calcDisplayName } = useAuthUtils();
 // ##icons
 const iconCheckOff = renderIcon("mdi:checkbox-blank-circle-outline");
 const iconCheckOn = renderIcon("mdi:checkbox-marked-circle");
@@ -28,6 +26,7 @@ const iconCheckOn = renderIcon("mdi:checkbox-marked-circle");
 // ##data ##auth ##state
 // ##computed
 const g = computed(() => get(props.node, "raw", {}));
+const users = computed(() => get(g.value, "users", []));
 // ##forms ##handlers ##helpers
 // ##watch
 // ##hooks ##lifecycle
@@ -41,34 +40,27 @@ const g = computed(() => get(props.node, "raw", {}));
   <VListItem link class="component--VListItemDisplayGroup ma-0 pa-2">
     <template #prepend>
       <ProvideAssetsGroupAvatar :gid="g.key" v-slot="{ avatarImage }">
-        <VAvatar
-          :image="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
-          size="54"
-          v-bind="propsAvatar"
-        />
+        <VBadge
+          :model-value="!isEmpty(users)"
+          :content="users.length"
+          color="info"
+          location="bottom end"
+          offset-x="5"
+          offset-y="7"
+        >
+          <VAvatar
+            :image="avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+            size="54"
+            v-bind="propsAvatar"
+          />
+        </VBadge>
       </ProvideAssetsGroupAvatar>
     </template>
     <template #append>
       <span class="d-flex items-center gap-3">
-        <VBtnMenuListItems
-          @click.stop.prevent
-          :items="get(g, 'users')"
-          :props-avatar="{ color: 'info-darken-1' }"
-        >
-          <template #title="{ item }">
-            <a
-              class="link--prominent text-primary-darken-1"
-              @click.stop="showUserScreen(item.id)"
-            >
-              <span>
-                {{ calcDisplayName(item) }}
-              </span>
-            </a>
-          </template>
-        </VBtnMenuListItems>
         <VCheckboxBtn
           base-color="secondary-lighten-1"
-          class="CLASS--VCheckboxBtn mx-0 scale-[122%]"
+          class="CLASS--VCheckboxBtn mx-0 scale-[133%]"
           @click.stop
           :model-value="isSelected(node)"
           @update:model-value="select([node], !isSelected(node))"

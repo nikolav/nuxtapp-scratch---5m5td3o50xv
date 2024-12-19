@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { Dump } from "@/components/dev";
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({
@@ -24,9 +23,7 @@ useHead({ title: "🚧Demo" });
 // @@eos
 </script>
 <template>
-  <section class="page--demo">
-    <h1>🚧</h1>
-  </section>
+  <section class="page--demo"></section>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

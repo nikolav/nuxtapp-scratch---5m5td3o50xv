@@ -8,7 +8,7 @@ defineOptions({
   inheritAttrs: false,
 });
 const props = defineProps<{
-  submission?: OrNoValue<IDocs>;
+  submission?: any;
   i: number;
   select: any;
   isSelected: any;
@@ -76,7 +76,7 @@ const itemTo = (s: any) => ({
       <template #prepend>
         <VAvatar
           size="51"
-          :image="profile?.avatarImage || DEFAULT_NO_IMAGE_AVAILABLE"
+          :image="`${profile?.avatarImage || DEFAULT_NO_IMAGE_AVAILABLE}`"
         />
       </template>
       <VCardTitle class="text-body-1 *indent-1">

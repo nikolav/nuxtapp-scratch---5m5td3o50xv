@@ -17,10 +17,8 @@ const {
   },
 } = useAppConfig();
 const attrs = useAttrs();
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
-const g = computed(() => routeData.value?.g);
-const gid = computed(() => routeData.value?.gid);
-const gname = computed(() => routeData.value?.gname);
+const g = computed(() => get(attrs, "route-data.g"));
+const gid = computed(() => g.value?.id);
 
 // ##schemas
 // ##utils
@@ -72,10 +70,6 @@ const configurationCGUnassign = computed(() =>
     : undefined
 );
 // ##forms ##handlers ##helpers
-const itemTo = computed(() => ({
-  name: "aktiva-grupe-gid",
-  params: { gid: gid.value },
-}));
 const itemTitle = (c: IAsset) => startCase(c.name);
 const itemToCH = (c: IAsset) => ({ name: "veza-cid", params: { cid: c.id } });
 const clearCHSelection = () => {
@@ -109,11 +103,7 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-kanal">
-    <VToolbarSecondary
-      :route-back-to="itemTo"
-      text="Kanali"
-      :props-title="{ class: 'text-start text-body-1 ms-3' }"
-    >
+    <VToolbarSecondary text="🔊 Kanali">
       <template #actions>
         <VBtn
           :to="{ name: 'aktiva-grupe-gid-kanali-dodaj', params: { gid } }"
@@ -121,7 +111,6 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
           variant="text"
         >
           <Iconx icon="$plus" />
-          <VTooltip text="Pridruži kanal" />
         </VBtn>
         <VBtn
           @click="cgConfigureUnassign"
@@ -130,35 +119,33 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
           variant="text"
         >
           <Iconx icon="$minus" />
-          <VTooltip text="Izbaci kanale" />
         </VBtn>
-        <VBtn @click="reload" icon variant="plain" density="comfortable">
+        <VBtn @click="reload" icon variant="plain">
           <Iconx icon="$loading" size="1.122rem" />
         </VBtn>
       </template>
       <template #title="{ text }">
-        <span class="d-flex items-center gap-3">
-          <span>🔊</span>
-          <VBadge
-            :model-value="0 < sizeChannelsOnly"
-            inline
-            :content="sizeChannelsOnly"
-            color="primary-darken-1"
-          >
-            <span class="me-1">{{ text }}</span>
-          </VBadge>
-        </span>
+        <VBadge
+          :model-value="0 < sizeChannelsOnly"
+          inline
+          :content="sizeChannelsOnly"
+          color="primary-darken-1"
+        >
+          <span class="me-1">{{ text }}</span>
+        </VBadge>
       </template>
     </VToolbarSecondary>
+    <VSpacer class="mt-3" />
     <VDataIteratorListData
       v-model="chSelection"
       :items="channels"
       :item-title="itemTitle"
       :item-to="itemToCH"
       disabled-skeleton-loader
-      :props-list="{ density: 'compact', class: 'py-0' }"
-      :props-list-item="{ class: '*ps-4 ms-0' }"
-      :props-list-item-title="{ class: 'ps-0 ms-2' }"
+      :props-list="{ class: 'py-0' }"
+      :props-list-item="{ class: 'mt-2' }"
+      :props-list-item-title="{ class: 'ps-3' }"
+      :props-selection-check="{ class: 'scale-[112%]' }"
     />
   </section>
 </template>

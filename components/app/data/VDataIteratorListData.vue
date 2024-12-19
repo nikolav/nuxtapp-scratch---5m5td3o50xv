@@ -70,7 +70,7 @@ watch(
         </div>
       </slot>
     </template>
-    <template #default="{ items, toggleSelect }">
+    <template #default="{ items, toggleSelect, isSelected }">
       <VList v-bind="propsList">
         <template v-for="(node, idx) in items" :key="it_val(node)">
           <slot name="list-item" :item="node.raw" :i="idx">
@@ -84,17 +84,24 @@ watch(
               v-bind="propsListItem"
             >
               <template v-if="showSelect" #prepend>
-                <VCheckboxBtn
-                  density="comfortable"
-                  color="primary"
-                  @click.stop="toggleSelect(node)"
-                  :false-icon="iconCheckOff"
-                  :true-icon="iconCheckOn"
-                  v-bind="propsSelectionCheck"
-                />
+                <slot name="list-item-prepend" :item="node.raw">
+                  <VCheckboxBtn
+                    density="comfortable"
+                    color="primary"
+                    @click.stop="toggleSelect(node)"
+                    :false-icon="iconCheckOff"
+                    :true-icon="iconCheckOn"
+                    v-bind="propsSelectionCheck"
+                  />
+                </slot>
               </template>
               <template v-if="$slots['list-item-append']" #append>
-                <slot name="list-item-append" :item="node.raw" />
+                <slot
+                  name="list-item-append"
+                  :item="node.raw"
+                  :isSelected="isSelected([node])"
+                  :toggleSelect="() => toggleSelect(node)"
+                />
               </template>
               <template #title>
                 <VListItemTitle v-bind="propsListItemTitle">

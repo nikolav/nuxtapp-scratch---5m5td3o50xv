@@ -1,23 +1,25 @@
 <script setup lang="ts">
 // ##imports
+import { renderIcon } from "@/components/icons";
 import { useDisplay } from "vuetify";
 import { z } from "zod";
 import type { OrNoValue, RecordJson } from "@/types";
 import {
-  VToolbarPrimary,
   VDataIteratorListData,
   VFabMain,
-  VSnackbarSuccess,
+  VSnackbarMain,
+  VAvatarProfileImage,
 } from "@/components/app";
 
 // ##config:const
+const DEFAULT_q_limit = 10;
 // ##config ##props
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
 const {
-  app: { SEARCH_DEBOUNCE_DELAY_longer },
+  app: { SEARCH_DEBOUNCE_DELAY_longer, DEFAULT_NO_USER_IMAGE_AVAILABLE },
 } = useAppConfig();
 // ##schemas
 const schemaSearchNotEmpty = z.object({
@@ -28,33 +30,30 @@ const { smAndUp } = useDisplay();
 const attrs = useAttrs();
 const g = computed(() => get(attrs, "route-data.g"));
 const gid = computed(() => g.value?.id);
-// const gname = computed(() => g.value?.name);
 
 const { calcDisplayName } = useAuthUtils();
 
 // ##icons
+const iconCheckOn = renderIcon("check-on", {});
+const iconCheckOff = renderIcon("check-off", {});
 // ##refs ##flags ##models
 const mUsersSelected = ref();
 const q = ref("");
-const vars_q = computed(() => ({ q: q.value, limit: 10 }));
+const vars_q = computed(() => ({ q: q.value, limit: DEFAULT_q_limit }));
 const enabled_q = computed(() => !!q.value);
-const enabled_g = computed(() => !!gid.value);
+// const enabled_g = computed(() => !!gid.value);
 const toggleUGConfigStatus = useToggleFlag();
 // ##data ##auth ##state
 //   group({'+22': [1, 2], '-3': [5], '+3': [45]})
 const { group: groupsConfig } = useQueryManageAssetsGroups(
-  () => [gid.value],
   undefined,
-  { enabled: enabled_g }
+  undefined,
+  { enabled: false }
 );
 const { users: users_q } = useQueryUsersSearch("q", vars_q, {
   enabled: enabled_q,
 });
 // ##computed
-const routeBackTo = computed(() => ({
-  name: "aktiva-grupe-gid-uredi-clanove",
-  params: { gid: gid.value },
-}));
 const uidsSelected = computed(() =>
   isEmpty(mUsersSelected.value) ? [] : map(mUsersSelected.value, toIds)
 );
@@ -112,65 +111,64 @@ useHead({ title: "Dodaj članove" });
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-dodaj-clanove">
-    <VSnackbarSuccess v-model="toggleUGConfigStatus.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleUGConfigStatus.isActive.value"
+    >
       <p>Grupa je uspešno ažurirana.</p>
-    </VSnackbarSuccess>
-    <div class="__spacer pt-1 px-2">
-      <VToolbarPrimary
-        :route-back-to="routeBackTo"
-        rounded="pill"
-        color="primary-lighten-1"
-        :divider-start="false"
-        :props-title="{ class: 'text-body-2 text-start ms-2' }"
-        floating
-      >
-        <template #default>
-          <VForm @submit.prevent="form.submit" class="grow">
-            <VTextField
-              v-model="form.data.search.value"
-              density="compact"
-              rounded="pill"
-              variant="underlined"
-              placeholder="Traži korisnike..."
-              hide-details
-              single-line
-              clearable
-              autofocus
-              class="ma-0 pa-0 pb-2 px-2 text-body-2"
-            >
-              <template #prepend-inner>
-                <Iconx
-                  size="1.22rem"
-                  class="opacity-20 translate-y-px me-1"
-                  icon="search"
-                />
-              </template>
-            </VTextField>
-          </VForm>
-        </template>
-        <template #prepend>
-          <VBtn
-            :to="routeBackTo"
-            size="small"
-            density="comfortable"
-            icon
-            variant="plain"
-          >
-            <Iconx icon="$prev" size="large" />
-          </VBtn>
-        </template>
-      </VToolbarPrimary>
-      <VDataIteratorListData
-        v-model="mUsersSelected"
-        :items="users_q"
-        :item-title="calcDisplayName"
-        :item-to="itemTo"
-        :props-list="{ density: 'compact', class: '*py-0' }"
-        :props-list-item="{ class: '*ps-1' }"
-        :props-list-item-title="{ class: 'ps-4' }"
-        :disabled-skeleton-loader="!enabled_q"
-      />
+    </VSnackbarMain>
+    <div class="__spacer mt-2 px-5">
+      <VForm @submit.prevent="form.submit">
+        <VTextField
+          v-model="form.data.search.value"
+          variant="underlined"
+          placeholder="Traži korisnike..."
+          clearable
+          autofocus
+        >
+          <template #append-inner>
+            <Iconx size="1.22rem" icon="link" class="mt-1 opacity-20" />
+          </template>
+          <template #prepend-inner>
+            <Iconx
+              size="1.22rem"
+              class="opacity-20 translate-y-px me-1"
+              icon="search"
+            />
+          </template>
+        </VTextField>
+      </VForm>
     </div>
+    <VDataIteratorListData
+      v-model="mUsersSelected"
+      :items="users_q"
+      :item-title="calcDisplayName"
+      :item-to="itemTo"
+      :props-list="{ class: '*py-0' }"
+      :props-list-item="{ class: '*ps-1 mt-2' }"
+      :props-list-item-title="{ class: 'ps-4' }"
+      :disabled-skeleton-loader="!enabled_q"
+    >
+      <template #list-item-prepend="{ item: user }">
+        <VAvatarProfileImage
+          :padding="2"
+          :size="51"
+          :image="user?.profile?.avatarImage || DEFAULT_NO_USER_IMAGE_AVAILABLE"
+        />
+      </template>
+      <template #list-item-append="{ isSelected, toggleSelect }">
+        <VCheckboxBtn
+          :model-value="isSelected"
+          @click.stop="toggleSelect(node)"
+          :false-icon="iconCheckOff"
+          :true-icon="iconCheckOn"
+          density="comfortable"
+          color="primary"
+          class="scale-[112%]"
+        />
+      </template>
+    </VDataIteratorListData>
+
     <VFabMain
       v-if="!isEmpty(gConfiguration)"
       :class="[smAndUp ? '-translate-x-12' : '-translate-y-8 translate-x-2']"

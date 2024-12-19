@@ -1,19 +1,24 @@
 <script setup lang="ts">
 // ##imports
+import { renderIcon } from "@/components/icons";
 import {
-  VToolbarPrimary,
   VDataIteratorListData,
-  VSnackbarSuccess,
+  VSnackbarMain,
+  VToolbarSecondary,
+  VAvatarProfileImage,
 } from "@/components/app";
 // ##config ##const
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
+
+const {
+  app: { DEFAULT_NO_USER_IMAGE_AVAILABLE },
+} = useAppConfig();
 // ##utils
 const attrs = useAttrs();
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
-const g = computed(() => routeData.value?.g);
+const g = computed(() => get(attrs, "route-data.g", <any>{}));
 const gid = computed(() => g.value?.id);
 const gname = computed(() => g.value?.name);
 const qenabled_g = computed(() => !!gid.value);
@@ -21,11 +26,12 @@ const vars_g = computed(() => ({ gids: [gid.value] }));
 
 const { calcDisplayName } = useAuthUtils();
 const itemTo = (user: any) => ({ name: "tim-uid", params: { uid: user?.id } });
-const toId = (node: any) => Number(node.id);
 
 const { assetsUGConfigured } = useTopics();
 
 // ##icons
+const iconCheckOn = renderIcon("check-on", {});
+const iconCheckOff = renderIcon("check-off", {});
 // ##refs ##flags ##models
 const mSelectionUsers = ref();
 const toggleUGConfigStatus = useToggleFlag();
@@ -38,15 +44,15 @@ const { users: users_g, reload: usersQueryReload } = useQueryUsersSearch(
   }
 );
 const { group: groupsConfig } = useQueryManageAssetsGroups(
-  () => [gid.value],
   undefined,
-  { enabled: qenabled_g }
+  undefined,
+  { enabled: false }
 );
 // ##computed
 const ttl = computed(() => `Ažuriraj članove: ${gname.value}`);
 const size_g = computed(() => len(users_g.value));
 const uids_selected = computed<number[]>(() =>
-  isEmpty(mSelectionUsers.value) ? [] : map(mSelectionUsers.value, toId)
+  isEmpty(mSelectionUsers.value) ? [] : map(mSelectionUsers.value, toIds)
 );
 const ugConfigure = computed(() =>
   gid.value && 0 < uids_selected.value.length
@@ -56,10 +62,6 @@ const ugConfigure = computed(() =>
     : undefined
 );
 // const members = computed(() => g.value?.users || []);
-const routeBackTo = computed(() => ({
-  name: "aktiva-grupe-gid",
-  params: { gid: gid.value },
-}));
 // ##forms ##helpers ##handlers
 const configure_ug_remove = async () => {
   if (
@@ -79,91 +81,84 @@ watch(users_g, () => {
 useHead({ title: ttl });
 // ##provide
 // ##io
-const ioevent_ug = computed(() => assetsUGConfigured(gid.value));
-watchEffect(() => useIOEvent(ioevent_ug.value, usersQueryReload));
+watchEffect(() =>
+  useIOEvent(() => assetsUGConfigured(gid.value), usersQueryReload)
+);
 
 // @@eos
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-uredi-clanove">
-    <VSnackbarSuccess v-model="toggleUGConfigStatus.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleUGConfigStatus.isActive.value"
+    >
       <p>Grupa je uspešno ažurirana.</p>
-    </VSnackbarSuccess>
-    <div class="__spacer pt-1 px-2">
-      <VToolbarPrimary
-        text="Članovi"
-        :route-back-to="routeBackTo"
-        rounded="pill"
-        color="primary-lighten-1"
-        :divider-start="false"
-        :props-title="{ class: 'text-body-1 text-start ms-2' }"
-      >
-        <template #title="{ text }">
-          <span class="d-flex items-center gap-3">
-            <span>🧑🏻</span>
-            <VBadge
-              :model-value="0 < size_g"
-              :content="size_g"
-              inline
-              color="primary-darken-2"
-            >
-              <span class="me-1">{{ text }}</span>
-            </VBadge>
-          </span>
-        </template>
-        <template #prepend>
-          <VBtn
-            :to="routeBackTo"
-            size="small"
-            density="comfortable"
-            icon
-            variant="plain"
-          >
-            <Iconx icon="$prev" size="large" />
-          </VBtn>
-        </template>
-        <template #actions>
-          <VBtn
-            :to="{
-              name: 'aktiva-grupe-gid-dodaj-clanove',
-              params: { gid },
-            }"
-            icon
-            variant="text"
-          >
-            <Iconx icon="$plus" />
-            <VTooltip text="Dodaj članove u grupu" />
-          </VBtn>
-          <VBtn
-            @click="configure_ug_remove"
-            :disabled="isEmpty(ugConfigure)"
-            icon
-            variant="text"
-          >
-            <Iconx icon="$minus" />
-            <VTooltip text="Izbaci iz grupe" />
-          </VBtn>
-          <VBtn
-            @click="usersQueryReload"
-            icon
-            density="comfortable"
-            variant="plain"
-            size="small"
-            class="ms-1"
-          >
-            <Iconx icon="$loading" />
-          </VBtn>
-        </template>
-      </VToolbarPrimary>
-    </div>
+    </VSnackbarMain>
+    <VToolbarSecondary
+      text="🧑🏻 Članovi"
+    >
+      <template #title="{ text }">
+        <VBadge
+          :model-value="0 < size_g"
+          :content="size_g"
+          inline
+          color="primary-darken-2"
+        >
+          <span class="me-1">{{ text }}</span>
+        </VBadge>
+      </template>
+      <template #actions>
+        <VBtn
+          :to="{
+            name: 'aktiva-grupe-gid-dodaj-clanove',
+            params: { gid },
+          }"
+          icon
+          variant="text"
+        >
+          <Iconx icon="$plus" />
+        </VBtn>
+        <VBtn
+          @click="configure_ug_remove"
+          :disabled="isEmpty(ugConfigure)"
+          icon
+          variant="text"
+        >
+          <Iconx icon="$minus" />
+        </VBtn>
+        <VBtn @click="usersQueryReload" icon variant="plain">
+          <Iconx icon="$loading" size="1.122rem" />
+        </VBtn>
+      </template>
+    </VToolbarSecondary>
     <VDataIteratorListData
       v-model="mSelectionUsers"
       :items="users_g"
       :item-title="calcDisplayName"
       :item-to="itemTo"
-      :props-list-item="{ class: '*ps-1' }"
+      :props-list-item="{ class: '*ps-1 mt-2' }"
       :props-list-item-title="{ class: 'ps-4' }"
-    />
+    >
+      <template #list-item-prepend="{ item: user }">
+        <VAvatarProfileImage
+          :padding="2"
+          :size="54"
+          :image="user?.profile?.avatarImage || DEFAULT_NO_USER_IMAGE_AVAILABLE"
+        />
+      </template>
+      <template #list-item-append="{ isSelected, toggleSelect }">
+        <VCheckboxBtn
+          :model-value="isSelected"
+          @click.stop="toggleSelect(node)"
+          :false-icon="iconCheckOff"
+          :true-icon="iconCheckOn"
+          density="comfortable"
+          color="primary"
+          class="scale-[112%]"
+        />
+      </template>
+    </VDataIteratorListData>
   </section>
 </template>
 <style lang="scss" scoped></style>

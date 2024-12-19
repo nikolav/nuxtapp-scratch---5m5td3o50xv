@@ -6,7 +6,7 @@ import {
   VFabMain,
   VCardDataIterator,
   VMenuComposeChatMessage,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VListItemDisplayGroup,
 } from "@/components/app";
 definePageMeta({
@@ -44,7 +44,7 @@ const { notificationSend, responseOk: notificationResponseOk } =
   useMessagingNotification();
 
 // @forms @helpers
-const toId = (node: any) => Number(node?.id);
+const toId = toIds;
 const itemTo = (item: any) => ({
   name: "aktiva-grupe-gid",
   params: { gid: item?.id },
@@ -122,15 +122,24 @@ useHead({ title: "Grupe" });
 </script>
 <template>
   <section class="page--aktiva-grupe">
-    <VSnackbarSuccess v-model="toggleGroupRemovedSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleGroupRemovedSuccess.isActive.value"
+    >
       <span>Grupe su uspešno ažurirane.</span>
-    </VSnackbarSuccess>
-    <VSnackbarSuccess v-model="toggleGroupMessageSuccess.isActive.value">
+    </VSnackbarMain>
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleGroupMessageSuccess.isActive.value"
+    >
       <span>Poruka je uspešno poslata.</span>
-    </VSnackbarSuccess>
-    <VSnackbarSuccess v-model="toggleGroupNotificationSuccess.isActive.value">
+    </VSnackbarMain>
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleGroupNotificationSuccess.isActive.value"
+    >
       <span>Obaveštenje je uspešno poslato.</span>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VMenuComposeChatMessage
       v-model="toggleMenuActiveMessages.isActive.value"
       :activator="undefined"
@@ -166,6 +175,7 @@ useHead({ title: "Grupe" });
       :props-title="{ class: 'ps-3 *pt-1' }"
       :props-selection="{ class: '-translate-y-[2px]' }"
       :props-list-item="{ class: 'ps-2' }"
+      :props-dots-menu-icon="{ size: '1.5rem' }"
       :signal-id-deselect="sigID_deselect.ID.value"
       :format-title="fmtTitle"
     >
@@ -174,7 +184,7 @@ useHead({ title: "Grupe" });
           <VListItemDisplayGroup
             :to="itemTo(props_.node.raw)"
             rounded="s-pill"
-            :props-avatar="{ size: 48 }"
+            :props-avatar="{ size: 52 }"
             :props-title="{ class: 'text-h6' }"
             v-bind="props_"
           />

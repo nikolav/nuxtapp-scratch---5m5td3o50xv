@@ -8,7 +8,7 @@ import {
   VRatingTopicRating,
   VBtnOpenGallery,
   VBtnDotsMenuList,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VSheetPinCodeRequired,
   VDialogPrimary,
   PRenderHtml,
@@ -25,8 +25,6 @@ const emit = defineEmits<{
 const props = defineProps<{
   post?: any;
   i?: any;
-  select?: any;
-  isSelected?: boolean;
 }>();
 
 const {
@@ -273,9 +271,9 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
         </VCardText>
       </VSheet>
     </VDialogPrimary>
-    <VSnackbarSuccess v-model="flagPostRemovedSuccess">
+    <VSnackbarMain color="success-darken-1" v-model="flagPostRemovedSuccess">
       <p>Post je uspešno obrisan.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VMenu
       v-model="togglePromtActivePostDelete.isActive.value"
       :activator="undefined"
@@ -301,16 +299,19 @@ watchEffect(() => useIOEvent(() => clientCache.IO.value, clientCache.reload));
               </template>
               <span>Obriši post</span>
             </VBtn>
-            <em class="mt-1 text-sm text-truncate text-error opacity-50">{{
-              post?.name
-            }}</em>
+            <em class="mt-1 text-sm text-error opacity-50">
+              <SpanTruncateCharsLength :text="post?.name" :length="24" />
+            </em>
           </span>
         </template>
       </VSheetPinCodeRequired>
     </VMenu>
-    <VSnackbarSuccess v-model="togglePostConfigSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="togglePostConfigSuccess.isActive.value"
+    >
       <p><strong class="me-1">👍🏻</strong> Post je uspešno ažuriran.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VImg cover :height="192" :src="imagesPoster || DEFAULT_NO_IMAGE_AVAILABLE">
       <div class="__spacer d-flex flex-wrap items-center pa-2">
         <VChipUserAvatar

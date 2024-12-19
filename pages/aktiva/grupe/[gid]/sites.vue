@@ -1,11 +1,13 @@
 <script setup lang="ts">
 // ##imports
+import { renderIcon } from "@/components/icons";
 import {
-  VToolbarPrimary,
+  VToolbarSecondary,
   VDataIteratorListData,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 import type { IAsset } from "@/types";
+
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -18,19 +20,23 @@ const {
       type: { PEOPLE_GROUP_TEAM },
     },
   },
+  app: { DEFAULT_NO_IMAGE_AVAILABLE },
 } = useAppConfig();
 // ##schemas
 // ##utils
+const {
+  sites: { logo: siteLogo },
+} = useCategoryAssets();
 const attrs = useAttrs();
 const ps = useProcessMonitor();
 const { assetsConfigured } = useTopics();
 // ##icons
+const iconCheckOn = renderIcon("check-on", {});
+const iconCheckOff = renderIcon("check-off", {});
 // ##refs ##flags ##models
-const routeData = computed(() => get(attrs, "route-data"));
+const g = computed(() => get(attrs, "route-data.g"));
+const gid = computed(() => g.value?.id);
 const toggleSitesSGConfigSuccess = useToggleFlag();
-// const g = computed(() => get(routeData.value, "g"));
-const gid = computed(() => get(routeData.value, "gid"));
-// const gname = computed(() => get(routeData.value, "gname"));
 const selectionSites = ref();
 // ##data ##auth ##state
 // assetsList(
@@ -63,13 +69,8 @@ const {
   })
 );
 // ##computed
-const routeBackTo = computed(() => ({
-  name: "aktiva-grupe-gid",
-  params: { gid: gid.value },
-}));
-const noSelection = computed(() => isEmpty(selectionSites.value));
 const configurationSGUnassign = computed(() =>
-  noSelection.value
+  isEmpty(selectionSites.value)
     ? undefined
     : {
         [`${map(selectionSites.value, (s: IAsset) => `-${s.id}`).join(" ")}`]: [
@@ -116,73 +117,71 @@ watchEffect(() => useIOEvent(() => assetsConfigured(gid.value), reload));
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-sites">
-    <VSnackbarSuccess v-model="toggleSitesSGConfigSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleSitesSGConfigSuccess.isActive.value"
+    >
       <p>Grupa je uspešno ažurirana.</p>
-    </VSnackbarSuccess>
-    <div class="__spacer mt-1 mx-2">
-      <VToolbarPrimary
-        text="Lokali"
-        color="primary-lighten-1"
-        rounded="pill"
-        :route-back-to="routeBackTo"
-        :props-title="{ class: 'text-body-1 text-start ms-3' }"
-        :divider-start="false"
-      >
-        <template #title="{ text: text_ }">
-          <span class="d-inline-flex items-center gap-3">
-            <span>🏬</span>
-
-            <VBadge
-              :model-value="0 < sizeSitesOnly"
-              color="primary-darken-1"
-              :content="sizeSitesOnly"
-              inline
-              location="end"
-            >
-              <span class="pe-1">{{ text_ }}</span>
-            </VBadge>
-          </span>
-        </template>
-        <template #prepend>
-          <VBtn :to="routeBackTo" density="comfortable" icon variant="plain">
-            <Iconx size="1.55rem" icon="$prev" />
-          </VBtn>
-        </template>
-        <template #actions>
-          <VBtn
-            :to="{ name: 'aktiva-grupe-gid-lokali', params: { gid } }"
-            icon
-            variant="text"
-          >
-            <Iconx icon="$plus" />
-            <VTooltip text="Pridruži nov lokal" />
-          </VBtn>
-          <VBtn
-            @click="sgConfigureUnassign"
-            :disabled="noSelection"
-            icon
-            variant="text"
-          >
-            <Iconx icon="$minus" />
-            <VTooltip text="Izbaci lokale" />
-          </VBtn>
-          <VBtn @click="reload" icon density="comfortable" variant="plain">
-            <Iconx size="1.122rem" icon="$loading" />
-          </VBtn>
-        </template>
-      </VToolbarPrimary>
-    </div>
-    <div class="__spacer">
-      <VDataIteratorListData
-        v-model="selectionSites"
-        :items="sites"
-        :item-title="itemTitle"
-        :item-to="itemTo"
-        :props-list="{ density: 'compact', class: 'py-0 pt-1' }"
-        :props-list-item-title="{ class: 'ms-2' }"
-        disabled-skeleton-loader
-      />
-    </div>
+    </VSnackbarMain>
+    <VToolbarSecondary text="🏪 Lokali">
+      <template #title="{ text: text_ }">
+        <VBadge
+          :model-value="0 < sizeSitesOnly"
+          color="primary-darken-1"
+          :content="sizeSitesOnly"
+          inline
+          location="end"
+        >
+          <span class="pe-1">{{ text_ }}</span>
+        </VBadge>
+      </template>
+      <template #actions>
+        <VBtn
+          :to="{ name: 'aktiva-grupe-gid-lokali', params: { gid } }"
+          icon
+          variant="text"
+        >
+          <Iconx icon="$plus" />
+        </VBtn>
+        <VBtn
+          @click="sgConfigureUnassign"
+          :disabled="isEmpty(selectionSites)"
+          icon
+          variant="text"
+        >
+          <Iconx icon="$minus" />
+        </VBtn>
+        <VBtn @click="reload" icon variant="plain">
+          <Iconx size="1.122rem" icon="$loading" />
+        </VBtn>
+      </template>
+    </VToolbarSecondary>
+    <VSpacer class="mt-3" />
+    <VDataIteratorListData
+      v-model="selectionSites"
+      :items="sites"
+      :item-title="itemTitle"
+      :item-to="itemTo"
+      :props-list="{ class: 'py-0' }"
+      :props-list-item="{ class: 'mt-2' }"
+      :props-list-item-title="{ class: 'ps-2' }"
+      disabled-skeleton-loader
+    >
+      <template #list-item-prepend="{ item: site }">
+        <VAvatar :image="siteLogo(site) || DEFAULT_NO_IMAGE_AVAILABLE" />
+      </template>
+      <template #list-item-append="{ isSelected, toggleSelect }">
+        <VCheckboxBtn
+          :model-value="isSelected"
+          @click.stop="toggleSelect(node)"
+          :false-icon="iconCheckOff"
+          :true-icon="iconCheckOn"
+          density="comfortable"
+          color="primary"
+          class="scale-[112%]"
+        />
+      </template>
+    </VDataIteratorListData>
   </section>
 </template>
 <style lang="scss" scoped></style>

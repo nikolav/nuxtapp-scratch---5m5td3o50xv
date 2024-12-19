@@ -3,7 +3,7 @@
 import type { IAsset, IConfigFields } from "@/types";
 import {
   VImgPickerSingle,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VBtnSave,
   VBtnReset,
 } from "@/components/app";
@@ -167,9 +167,12 @@ useHead({ title: gname });
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-index">
-    <VSnackbarSuccess v-model="toggleAssetUpdateSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleAssetUpdateSuccess.isActive.value"
+    >
       <p>Grupa je uspešno ažurirana.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VForm @submit.prevent="form.submit" autocomplete="off">
       <VCard variant="text" rounded="0">
         <div class="__spacer d-flex justify-center mt-3">

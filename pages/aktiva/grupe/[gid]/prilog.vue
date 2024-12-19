@@ -1,88 +1,83 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary, VDataIteratorListData } from "@/components/app";
+import { z } from "zod";
+import type { IConfigFields } from "@/types";
 
 // ##config:const
+const LINK_HELP_SHARE_FOLDERS_DRIVE =
+  "https://support.google.com/drive/answer/7166529?hl=en&co=GENIE.Platform%3DDesktop#zippy=%2Cshare-with-specific-people";
 // ##config ##props
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
 // ##utils
-const { resized } = useResizeImage();
-const attrs = useAttrs();
-const { open: openAttachmentsAdd, onChange: onChangeAttachments } =
-  useFileDialog({ multiple: true });
 const ps = useProcessMonitor();
+const attrs = useAttrs();
+// ##schemas
+const schemaInputLink = z.object({
+  link_share_folder: z.string(),
+});
 // ##icons
 // ##refs ##flags ##models
-const routeData = computed(() => get(attrs, "route-data", <any>{}));
-const g = computed(() => routeData.value?.g);
+const g = computed(() => get(attrs, "route-data.g"));
 const gid = computed(() => g.value?.id);
-const gname = computed(() => g.value?.name);
-const attachments = ref<File[]>();
+const sharedFolder = computed(() => get(g.value, "data.link_share_folder"));
 
 // ##data ##auth ##state
-const {
-  images,
-  uploadCollection: fbsUploadCollection,
-  reload,
-  rm,
-} = useFirebaseStorageAssetImages(gid);
-
-// ##computed
-const routeBackTo = computed(() => ({
-  name: "aktiva-grupe-gid",
-  params: { gid: gid.value },
-}));
-const totImages = computed(() => len(images.value));
-
+const { commit } = useQueryManageAssetsGroups(undefined, undefined, {
+  enabled: false,
+});
 // ##forms ##handlers ##helpers
-const itemTitle = (url: string, i: number) => `${i + 1}) ${urlFilename(url)}`;
-const fileDrop = async (url: string) => {
-  try {
-    ps.begin();
-    await rm(urlFilename(url));
-  } catch (error) {
-    ps.setError(error);
-    // pass
-  } finally {
-    ps.done();
-  }
-  if (!ps.error.value) ps.successful(reload);
+const FIELDS = <Record<string, IConfigFields>>{
+  link_share_folder: {
+    required: true,
+    "@table:data": true,
+    label: "Koristi ovaj deljeni folder",
+    icon: {
+      icon: "google-drive",
+      size: "1.122rem",
+      class: "mt-1 opacity-20 mx-1",
+    },
+    props: {
+      class: "grow",
+    },
+  },
 };
+
+const form = useFormModel("0f76693f-75dc-52d3-9222-b0ef0fb9eecd", FIELDS, {
+  schema: schemaInputLink,
+  onSubmit: async (data: any) => {
+    try {
+      ps.begin();
+      const dd = reduce(
+        FIELDS,
+        (res: any, item: IConfigFields, field: string) => {
+          if (field in data) {
+            if (item["@table:data"]) {
+              assign(res.data, { [field]: data[field] });
+            }
+          }
+          return res;
+        },
+        <any>{ data: {} }
+      );
+      if (get(await commit(dd, gid.value), "data.assetsUpsert.error"))
+        throw "@error:mnEUl6";
+    } catch (error) {
+      ps.setError(error);
+    } finally {
+      ps.done();
+    }
+    if (!ps.error.value)
+      ps.successful(() => {
+        // @success
+      });
+  },
+});
 // ##watch
-watch(attachments, async (attachments) => {
-  if (isEmpty(attachments)) return;
-  let res;
-  try {
-    ps.begin();
-    res = await fbsUploadCollection(
-      await Promise.all(
-        map(attachments, async (file: any) =>
-          (await isImageBlob(file))
-            ? blobToFile(await resized(file), file.name)
-            : file
-        )
-      )
-    );
-  } catch (error) {
-    ps.setError(error);
-    // pass
-  } finally {
-    ps.done();
-  }
-  if (!ps.error.value && !isEmpty(res)) ps.successful(reload);
-});
-
 // ##hooks ##lifecycle
-onChangeAttachments(async (files) => {
-  attachments.value = Array.from(files || []);
-});
-onMounted(reload);
-
 // ##head ##meta
-useHead({ title: `Prilog | ${gname.value}` });
 // ##provide
 // ##io
 
@@ -90,69 +85,79 @@ useHead({ title: `Prilog | ${gname.value}` });
 </script>
 <template>
   <section class="page--aktiva-grupe-gid-prilog">
-    <div class="__spacer pt-1 px-2">
-      <VToolbarPrimary
-        text="Prilog"
-        rounded="pill"
-        color="primary-lighten-1"
-        :route-back-to="routeBackTo"
-        :props-title="{ class: 'text-body-1 text-start' }"
-        :divider-start="false"
-      >
-        <template #title="{ text }">
-          <span class="d-inline-flex items-center gap-x-3 translate-y-[3px]">
-            <Iconx class="opacity-50" size="1.22rem" icon="$file" />
-            <span>{{ text }}</span>
-            <VBadge
-              v-if="0 < totImages"
-              color="primary-darken-1"
-              inline
-              :content="totImages"
-              class="d-inline ms-n1"
-            />
-          </span>
-        </template>
-        <template #prepend>
-          <VBtn
-            :to="routeBackTo"
-            icon
-            variant="plain"
-            size="small"
-            density="comfortable"
-          >
-            <Iconx size="1.5rem" icon="$prev" />
-          </VBtn>
-        </template>
-        <template #actions>
-          <VBtn @click="openAttachmentsAdd()" icon variant="text">
-            <Iconx size="1.33rem" icon="upload" />
-          </VBtn>
-          <VBtn @click="reload" size="small" icon variant="plain">
-            <Iconx size="1.122rem" icon="$loading" />
-          </VBtn>
-        </template>
-      </VToolbarPrimary>
-    </div>
-    <VDataIteratorListData
-      :show-select="false"
-      :items="images"
-      :item-title="itemTitle"
-      :item-url="identity"
-      external
-      disabled-skeleton-loader
-    >
-      <template #list-item-append="{ item: url_ }">
-        <VBtn
-          @click.stop="fileDrop(String(url_))"
-          color="error"
-          icon
-          variant="plain"
-          size="small"
-        >
-          <Iconx size="1.122rem" icon="trash" />
-        </VBtn>
+    <VEmptyState v-if="!sharedFolder" title="Deljeni folder nije podešen">
+      <template #media>
+        <Iconx size="10rem" icon="folder-wrench" class="text-error-lighten-1" />
       </template>
-    </VDataIteratorListData>
+      <template #text>
+        <p class="mt-3">
+          Kako da delim google drive folder sa korisnicima
+          <VBtn
+            icon
+            color="info"
+            density="comfortable"
+            variant="text"
+            tag="a"
+            :href="LINK_HELP_SHARE_FOLDERS_DRIVE"
+            target="_blank"
+          >
+            <Iconx icon="help" size="1.33rem" />
+          </VBtn>
+        </p>
+      </template>
+    </VEmptyState>
+    <VEmptyState v-else>
+      <NuxtLink :href="sharedFolder" target="_blank">
+        <VBtn icon size="7.22rem" variant="tonal">
+          <VBadge color="transparent" location="top end" offset-y="12">
+            <Iconx icon="folder" size="5rem" />
+            <template #badge>
+              <VAvatar
+                color="primary-lighten-1"
+                density="comfortable"
+                size="small"
+              >
+                <Iconx size="1.122rem" icon="external-link" />
+              </VAvatar>
+            </template>
+          </VBadge>
+        </VBtn>
+      </NuxtLink>
+    </VEmptyState>
+    <VSpacer class="mt-5" />
+    <VForm @submit.prevent="form.submit" class="pa-3">
+      <div class="__spacer">
+        <template v-for="(item, field) in FIELDS" :key="field">
+          <VTextField
+            v-if="null == item.type"
+            v-model="form.data[field].value"
+            :label="item.label"
+            variant="underlined"
+            clearable
+            v-bind="item.props"
+          >
+            <template #prepend-inner>
+              <Iconx v-bind="item.icon" />
+            </template>
+            <template #label="{ label }">
+              <span>{{ label }}</span>
+              <span v-if="item.required" class="text-error"> *</span>
+            </template>
+          </VTextField>
+        </template>
+        <VCardActions class="pe-3">
+          <VSpacer />
+          <VBtn
+            variant="tonal"
+            elevation="1"
+            size="large"
+            rounded="pill"
+            type="submit"
+            >ok</VBtn
+          >
+        </VCardActions>
+      </div>
+    </VForm>
   </section>
 </template>
 <style lang="scss" scoped></style>

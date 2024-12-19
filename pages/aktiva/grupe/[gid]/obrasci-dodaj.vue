@@ -2,10 +2,9 @@
 // ##imports
 import type { IAsset } from "@/types";
 import {
-  VToolbarSecondary,
   VDataIteratorListData,
   VFabMain,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 
 // ##config:const
@@ -100,45 +99,41 @@ useHead({ title: "Obrasci" });
 </script>
 <template>
   <section class="page--aktiva-obrasci-gid-obrasci-dodaj">
-    <VSnackbarSuccess v-model="toggleFGConfigSuccess.isActive.value">
-      <p>Grupa je uspešno ažurirana.</p>
-    </VSnackbarSuccess>
-
-    <VToolbarSecondary
-      :route-back-to="{ name: 'aktiva-grupe-gid-obrasci', params: { gid } }"
-      :props-title="{ class: '*bg-red grow ma-0 pa-s' }"
+    <VSnackbarMain
+      class="success-darken-1"
+      v-model="toggleFGConfigSuccess.isActive.value"
     >
-      <template #title>
-        <VTextField
-          v-model="searchText"
-          variant="underlined"
-          density="compact"
-          rounded="pill"
-          placeholder="Traži obrazac..."
-          hide-details
-          single-line
-          clearable
-          autofocus
-          class="grow ma-0 pa-0 mb-2 px-2 text-body-2"
-        >
-          <template #prepend-inner>
-            <Iconx
-              size="1.122rem"
-              class="opacity-20 translate-y-px me-1"
-              icon="search"
-            /> </template
-        ></VTextField>
-      </template>
-    </VToolbarSecondary>
+      <p>Grupa je uspešno ažurirana.</p>
+    </VSnackbarMain>
+
+    <div class="__spacer mt-2 px-5">
+      <VTextField
+        v-model="searchText"
+        variant="underlined"
+        placeholder="Traži obrazac..."
+        clearable
+        autofocus
+      >
+        <template #append-inner>
+          <Iconx size="1.22rem" icon="link" class="mt-1 opacity-20" />
+        </template>
+        <template #prepend-inner>
+          <Iconx
+            size="1.122rem"
+            class="opacity-20 translate-y-px me-1"
+            icon="search"
+          /> </template
+      ></VTextField>
+    </div>
+    <VSpacer class="mt-3" />
     <VDataIteratorListData
       v-model="formsSelected"
       :items="matchedForms"
       :item-title="itemTitle"
       :item-to="itemTo"
       :disabled-skeleton-loader="!qsearch"
-      :props-list="{ density: 'compact', class: 'py-0 ps-0' }"
-      :props-list-item="{ class: 'ms-0 *ps-4' }"
-      :props-list-item-title="{ class: 'ps-0 ms-2' }"
+      :props-list="{ class: 'py-0' }"
+      :props-list-item-title="{ class: 'ps-3' }"
     />
     <VFabMain
       v-if="someFormsSelected"
@@ -153,4 +148,12 @@ useHead({ title: "Obrasci" });
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
-<style lang="scss"></style>
+<style lang="scss">
+.page--aktiva-obrasci-gid-obrasci-dodaj .v-field__input {
+  @include placeholder-with-prefix {
+    font-style: italic;
+    font-size: 0.95rem;
+    opacity: 0.33;
+  }
+}
+</style>

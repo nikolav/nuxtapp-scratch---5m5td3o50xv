@@ -335,6 +335,8 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "google-drive": "mdi:google-drive",
+      "folder-wrench": "mdi:folder-wrench",
       "truck-fast": "mdi:truck-fast",
       "carret-up": "streamline:interface-arrows-button-up-arrow-up-keyboard",
       "filter-category": "material-symbols:filter-list",

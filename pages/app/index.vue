@@ -1,12 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import {
-  VFabMain,
-  VCardDataIterator,
-  VCardPost,
-  VBtnTriggerVisible,
-} from "@/components/app";
-import { renderIcon } from "@/components/icons";
+import { VCardPost, VBtnTriggerVisible, VFabMain } from "@/components/app";
 
 // ##config:const
 // ##config ##props ##route ##attrs
@@ -22,8 +16,6 @@ definePageMeta({
 // ##utils
 const uid = inject(key_UID);
 // ##icons
-const iconCheckOn = renderIcon("check-on");
-const iconCheckOff = renderIcon("check-off");
 // ##refs ##flags ##models
 const toggleBtnVisibleActive = useToggleFlag();
 // ##data ##auth ##state
@@ -130,48 +122,20 @@ $emitter.on(EVENT_CACHE_ASSETS_REMOVED, (ids: any) => {
 </script>
 <template>
   <section class="page--dashboard">
-    <VCardDataIterator
-      :items="postsFiltered"
-      :per-page="-1"
-      :reload="client.reload"
-      enabled-dots-menu
-      hide-categories-available
-      :props-dots-menu-icon="{ size: '1.5rem' }"
-    >
-      <template #menu>
-        <VList>
-          <VListItem @click="onlyMyPosts = !onlyMyPosts" class="ps-2">
-            <template #prepend>
-              <VCheckboxBtn
-                color="primary"
-                :false-icon="iconCheckOff"
-                :true-icon="iconCheckOn"
-                :model-value="onlyMyPosts"
-              />
-            </template>
-            <VListItemTitle class="ps-2">Moji postovi</VListItemTitle>
-          </VListItem>
-        </VList>
-      </template>
-      <template #items="{ items, select, isSelected }">
-        <VResponsive class="__spacer pa-2 mx-auto pt-3" :max-width="456">
-          <template v-for="(node, i) in items" :key="node.raw.id">
-            <VSpacer v-if="0 < i" class="mt-4" />
-            <VCardPost
-              @removed="
-                ({ id }) => {
-                  posts = filter(posts, (p) => id != p.id);
-                }
-              "
-              :post="node.raw"
-              :i="i"
-              :select="(flag) => select([node], flag)"
-              :isSelected="isSelected([node])"
-            />
-          </template>
-        </VResponsive>
-      </template>
-    </VCardDataIterator>
+    <VResponsive class="__spacer pa-2 mx-auto pt-3" :max-width="512">
+      <VCardPost
+        v-for="(node, i) in postsFiltered"
+        :key="node.key"
+        @removed="
+          ({ id }) => {
+            posts = filter(posts, (p) => id != p.id);
+          }
+        "
+        :post="node"
+        :i="i"
+        :class="[0 < i ? 'mt-4' : '']"
+      />
+    </VResponsive>
     <VBtnTriggerVisible
       block
       @visible="otdNext"

@@ -8,7 +8,7 @@ import {
   VBtnMenuItemPicker,
   VBtnDatePicker,
 } from "@/components/app";
-import { ssrContextKey } from "vue";
+
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -215,8 +215,8 @@ watch([dfrom, dto], ([dfrom, dto]) => {
   if (!dto.isAfter(dfrom)) return;
   datetimeFilterStrategy.value = ["date-range"];
   datetimeFilterArgs.value = [
-    dfrom.local().add(-1, "d").endOf("d").unix(),
-    dto.local().add(1, "d").startOf("d").unix(),
+    dfrom.local().startOf("d").unix(),
+    dto.local().endOf("d").unix(),
   ];
 });
 // ##hooks ##lifecycle

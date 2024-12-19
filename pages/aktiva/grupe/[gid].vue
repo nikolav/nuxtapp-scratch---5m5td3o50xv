@@ -1,5 +1,7 @@
 <script setup lang="ts">
+// 86ef32ec-f9e2-5988-9dc7-bd77a9665ab3
 // ##imports
+import { useDisplay } from "vuetify";
 import {
   VToolbarPrimary,
   VBtnTopicChatToggle,
@@ -11,28 +13,103 @@ definePageMeta({
   layout: "app-default",
   middleware: "authorized",
 });
-const {
-  app: { TOOLTIPS_OPEN_DELAY },
-} = useAppConfig();
 // ##utils
+const { width: VW } = useDisplay();
 const route = useRoute();
+const GID = computed(() => route.params.gid);
+const enabled = computed(() => !!GID.value);
 const { chatAssets } = useTopics();
 const { topicWithTitle } = useGlobalVariableChatActive();
 // ##icons
 // ##refs ##flags
-const watchKEY_onMessage = useUniqueId();
 // ##data ##auth ##state
-const { assets: groups, reload: gReload } = useQueryManageAssetsGroups(() => [route.params.gid]);
+const { assets: groups, reload: gReload } = useQueryManageAssetsGroups(
+  () => [GID.value],
+  undefined,
+  { enabled }
+);
 // ##computed
 const g = computed(() => first(groups.value));
 const gid = computed(() => g.value?.id);
+// const gkey = computed(() => g.value?.key);
 const gname = computed(() => g.value?.name || "");
-// const members = computed(() => g.value?.users || []);
 const topicGroupChat = computed(() =>
   topicWithTitle(chatAssets(gid.value), gname.value)
 );
 
 // ##forms ##helpers ##handlers
+const MENU = [
+  {
+    value: "_info",
+    to: { name: "aktiva-grupe-gid", params: { gid: gid.value } },
+    icon: {
+      icon: "$info",
+      size: "1.22rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
+    value: "users",
+    to: { name: "aktiva-grupe-gid-uredi-clanove", params: { gid: gid.value } },
+    icon: {
+      icon: "account-cog",
+      size: "1.5rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
+    value: "sites",
+    to: { name: "aktiva-grupe-gid-sites", params: { gid: gid.value } },
+    icon: {
+      icon: "storefront",
+      size: "1.33rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
+    value: "forms",
+    to: { name: "aktiva-grupe-gid-obrasci", params: { gid: gid.value } },
+    icon: {
+      icon: "$iconAppCogFill",
+      size: "1.22rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
+    value: "chats",
+    to: { name: "aktiva-grupe-gid-kanali", params: { gid: gid.value } },
+    icon: {
+      icon: "headset",
+      size: "1.42rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
+    value: "cal",
+    to: { name: "aktiva-grupe-gid-kalendar", params: { gid: gid.value } },
+    icon: {
+      icon: "$calendar",
+      size: "1.42rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
+    value: "files",
+    to: { name: "aktiva-grupe-gid-prilog", params: { gid: gid.value } },
+    icon: {
+      icon: "folder-open-outline",
+      size: "1.42rem",
+      class: "",
+    },
+    props: {},
+  },
+];
 // ##watch
 // ##hooks:lifecycle
 // ##head ##meta
@@ -43,128 +120,37 @@ const topicGroupChat = computed(() =>
 <template>
   <section class="page--aktiva-grupe-gid">
     <VToolbarPrimary
-      :props-actions="{ class: 'pe-2' }"
-      :props-title="{
-        class: 'ms-3 text-start text-body-1 font-italic',
-      }"
-      :text="g?.name"
+      :props-title="{ class: 'text-start ms-0 opacity-90' }"
       route-back-name="aktiva-grupe"
+      hide-default-close
+      class="py-[2px]"
     >
-      <template #prepend>
-        <Iconx
-          class="opacity-20 mx-1 ms-2"
-          size="1.33rem"
-          icon="people-groups"
-        />
-      </template>
-      <template #actions>
-        <VBtn
-          :to="{ name: 'aktiva-grupe-gid-uredi-clanove', params: { gid } }"
-          density="comfortable"
-          icon
-          variant="text"
-          size="large"
+      <template #title>
+        <VSheet
+          color="transparent"
+          class="ma-0 pa-0 grow d-flex justify-between items-center"
         >
-          <Iconx class="ms-1" size="1.61rem" icon="account-cog" />
-          <VTooltip text="Ažuriraj članove" />
-        </VBtn>
-        <VBtnDotsMenuList
-          :props-icon="{ size: '1.5rem' }"
-          :props-list="{ class: '*pe-2 py-0', id: 'ID--UHBFcD8MGgeMNNVG' }"
-        >
-          <template #list-items>
-            <VListItem :class="LIST_ITEM_CLASSES" @click="watchKEY_onMessage">
-              <template #prepend>
-                <VBtnTopicChatToggle
-                  density="comfortable"
-                  variant="plain"
-                  color="on-surface"
-                  class="opacity-40"
-                  :topic="topicGroupChat"
-                  :watch-key="watchKEY_onMessage.ID.value"
-                />
-              </template>
-              <VListItemTitle class="ms-1">
-                <span>Poruke</span>
-              </VListItemTitle>
-            </VListItem>
-            <VListItem
-              link
-              :class="LIST_ITEM_CLASSES"
-              :to="{ name: 'aktiva-grupe-gid-kalendar', params: { gid } }"
-            >
-              <template #prepend>
-                <Iconx class="opacity-30 mx-2" size="1.5rem" icon="$calendar" />
-              </template>
-              <VListItemTitle class="ms-2">
-                <span>Kalendar</span>
-              </VListItemTitle>
-            </VListItem>
-            <VListItem
-              link
-              :class="LIST_ITEM_CLASSES"
-              :to="{ name: 'aktiva-grupe-gid-sites', params: { gid } }"
-            >
-              <template #prepend>
-                <Iconx
-                  class="opacity-30 mx-2"
-                  size="1.5rem"
-                  icon="storefront"
-                />
-              </template>
-              <VListItemTitle class="ms-2">
-                <span>Lokali</span>
-              </VListItemTitle>
-            </VListItem>
-            <VListItem
-              link
-              :class="LIST_ITEM_CLASSES"
-              :to="{ name: 'aktiva-grupe-gid-kanali', params: { gid } }"
-            >
-              <template #prepend>
-                <Iconx class="opacity-30 mx-2" size="1.5rem" icon="headset" />
-              </template>
-              <VListItemTitle class="ms-2">
-                <span>Kanali</span>
-              </VListItemTitle>
-            </VListItem>
-            <VListItem
-              link
-              :class="LIST_ITEM_CLASSES"
-              :to="{ name: 'aktiva-grupe-gid-obrasci', params: { gid } }"
-            >
-              <template #prepend>
-                <Iconx
-                  class="opacity-30 mx-2"
-                  size="1.33rem"
-                  icon="$iconAppCogFill"
-                />
-              </template>
-              <VListItemTitle class="ms-2 translate-x-[2px]">
-                <span>Obrasci</span>
-              </VListItemTitle>
-            </VListItem>
-            <VListItem
-              link
-              :class="LIST_ITEM_CLASSES"
-              :to="{ name: 'aktiva-grupe-gid-prilog', params: { gid } }"
-            >
-              <template #prepend>
-                <Iconx
-                  class="opacity-30 mx-2"
-                  size="1.5rem"
-                  icon="folder-open-outline"
-                />
-              </template>
-              <VListItemTitle class="ms-2">
-                <span>Prilog</span>
-              </VListItemTitle>
-            </VListItem>
-          </template>
-        </VBtnDotsMenuList>
+          <VBtn
+            v-for="item in MENU"
+            :key="item.value"
+            :to="item.to"
+            icon
+            variant="plain"
+            size="small"
+            :density="333 < VW ? undefined : 'comfortable'"
+            v-bind="item.props"
+          >
+            <Iconx v-bind="item.icon" />
+          </VBtn>
+          <VBtnTopicChatToggle
+            size="small"
+            variant="plain"
+            :topic="topicGroupChat"
+          />
+        </VSheet>
       </template>
     </VToolbarPrimary>
-    <NuxtPage :route-data="{ g, gid, gname, gReload }" />
+    <NuxtPage :route-data="{ g }" />
   </section>
 </template>
 <style lang="scss" scoped></style>
