@@ -8,17 +8,14 @@ const {
   app: { LOGOUT_RELOAD_PATH, BODY_ADD_CLASS },
   vars: { FLAG_SHOW_AUTH_BACKGROUND, FLAG_SHOW_AKTIVA_DISTRIBUCIJA_BG },
   re: { ROUTE_NAMES_SKIP_REDIRECT_APP_ON_AUTHENTICATED },
+  theme: { DEFAULT: DEFAULT_theme },
 } = useAppConfig();
-
 // ##utils
 const route = useRoute();
 const skipRedirectToAppOnAuthenticated = (routeName: any) =>
   some(ROUTE_NAMES_SKIP_REDIRECT_APP_ON_AUTHENTICATED, (re: RegExp) =>
     String(routeName).match(re)
   );
-const {
-  $theme: { theme },
-} = useNuxtApp();
 
 // ##icons
 // ##refs ##flags
@@ -121,7 +118,7 @@ useFirebaseCloudMessaging({
   <VApp
     class="component--appMain"
     ref="ref_appMain"
-    :theme="theme"
+    :theme="DEFAULT_theme"
     :class="[
       authBgActive ? 'v-app--authBgActive' : '',
       showBgAktivaDistribucija

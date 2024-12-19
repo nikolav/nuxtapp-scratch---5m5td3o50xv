@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarSecondary, VDataIteratorListData } from "@/components/app";
+import {
+  VToolbarSecondary,
+  VDataIteratorListData,
+  VEmptyStateNoData,
+} from "@/components/app";
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -66,10 +70,9 @@ useHead({ title: "Prilog" });
 <template>
   <section class="page--aktiva-lokali-sid-prilog">
     <VToolbarSecondary
-      :route-back-to="{ name: 'aktiva-lokali-sid', params: { sid } }"
       text="Prilog"
-      :props-title="{ class: 'text-body-1 text-start font-italic' }"
-      :props-actions="{ class: 'pe-1' }"
+      :props-title="{ class: 'ms-0 ps-2 text-start font-italic' }"
+      color="surface"
     >
       <template #title="{ text }">
         <VBadge
@@ -82,35 +85,45 @@ useHead({ title: "Prilog" });
         </VBadge>
       </template>
       <template #actions>
-        <VBtn @click="open()" icon variant="text">
+        <VBtn color="primary-darken-1" @click="open()" icon variant="text">
           <Iconx icon="upload" size="1.44rem" />
         </VBtn>
-        <VBtn @click="reload" icon variant="plain" density="comfortable">
+        <VBtn
+          color="primary-darken-1"
+          @click="reload"
+          icon
+          variant="plain"
+          density="comfortable"
+        >
           <Iconx icon="$loading" size="1.122rem" />
         </VBtn>
       </template>
     </VToolbarSecondary>
-    <VDataIteratorListData
-      :items="attachments"
-      :item-url="identity"
-      external
-      :item-title="itemTitle"
-      :show-select="false"
-      disabled-skeleton-loader
-      :props-list="{ density: 'compact', class: 'py-0' }"
-    >
-      <template #list-item-append="{ item: url_ }">
-        <VBtn
-          @click.stop="attachmentDrop(url_)"
-          icon
-          density="comfortable"
-          color="error"
-          variant="plain"
-        >
-          <Iconx size="1.122rem" icon="trash" />
-        </VBtn>
-      </template>
-    </VDataIteratorListData>
+    <VEmptyStateNoData v-if="isEmpty(attachments)" class="opacity-40" />
+    <template v-else>
+      <VSpacer class="mt-3" />
+      <VDataIteratorListData
+        :items="attachments"
+        :item-url="identity"
+        external
+        :item-title="itemTitle"
+        :show-select="false"
+        disabled-skeleton-loader
+        :props-list="{ density: 'compact', class: 'py-0' }"
+      >
+        <template #list-item-append="{ item: url_ }">
+          <VBtn
+            @click.stop="attachmentDrop(url_)"
+            icon
+            density="comfortable"
+            color="error"
+            variant="plain"
+          >
+            <Iconx size="1.122rem" icon="trash" />
+          </VBtn>
+        </template>
+      </VDataIteratorListData>
+    </template>
   </section>
 </template>
 <style lang="scss" scoped></style>

@@ -117,12 +117,13 @@ useHead({ title: "Lokali" });
       :item-to="itemLinkToSite"
       :item-groups="sitesItemGroups"
       :reload="sitesReload"
-      :props-list-item="{ class: 'ms-0 ps-2' }"
-      :props-title="{ class: 'ms-2 ps-0' }"
-      :props-selection="{ class: '-translate-y-px' }"
       :format-title="fmtTitle"
       :items-per-page="-1"
       hide-pagination
+      :props-list-item="{ class: 'ms-0 ps-2' }"
+      :props-title="{ class: 'ms-2 ps-0' }"
+      :props-selection="{ class: '-translate-y-px' }"
+      :props-dots-menu-icon="{ size: '1.5rem' }"
     >
       <template #menu>
         <VList
