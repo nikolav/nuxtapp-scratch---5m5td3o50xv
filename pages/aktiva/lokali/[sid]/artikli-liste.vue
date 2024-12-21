@@ -34,7 +34,7 @@ useHead({ title: "📄 Artikli, liste" });
 </script>
 <template>
   <section class="page--aktiva-lokali-sid-artikli-liste">
-    <VToolbarSecondary text="📄 Liste">
+    <VToolbarSecondary text="📄 Artikli">
       <template #title="{ text }">{{ text }}</template>
       <template #actions>
         <VBtn color="primary-darken-1" @click="noop" icon variant="text">
