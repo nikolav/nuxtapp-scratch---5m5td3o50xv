@@ -1,3 +1,5 @@
+
+// 37b936e3-6ea8-59b3-90de-40fdadc214d6
 import {
   Q_googleapisPlacesNearby,
   M_commsDeliveryStatusPublish,
@@ -23,7 +25,7 @@ export const useGoogleGeocodePlaces = (
     },
     {
       enabled: qenabled,
-      fetchPolicy: "cache-and-network",
+      // fetchPolicy: "cache-and-network",
     }
   );
   const places = computed(() =>

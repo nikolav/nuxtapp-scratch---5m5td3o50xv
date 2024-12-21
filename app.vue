@@ -199,6 +199,7 @@ useFirebaseCloudMessaging({
   background-image: url("/bg--aktiva-distribucija.png") !important;
   object-fit: cover !important;
   background-position: 0 49% !important;
+  background-repeat: no-repeat !important;
 }
 
 // dynamic classes, select @pages

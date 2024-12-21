@@ -14,12 +14,16 @@ const {
 } = useAppConfig();
 
 const route = useRoute();
-const sid = computed(() => get(route.params, "sid"));
+const sid = computed(() => route.params?.sid);
+const qenabled = computed(() => !!sid.value);
 
 const { assets } = useQueryManageAssets(
   PHYSICAL_STORE,
   () => [sid.value],
-  false
+  false,
+  {
+    enabled: qenabled,
+  }
 );
 const site = computed(() => first(assets.value));
 const skey = computed(() => site.value?.key);

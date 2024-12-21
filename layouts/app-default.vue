@@ -24,13 +24,15 @@ const openDriveAttachmentsMain = async () =>
   <section class="layout--appDefault">
     <VAppBar elevation="1" density="comfortable">
       <!-- @@logo -->
+      <!-- icon="$iconFrikomLogo" -->
+      <!-- icon="icons-local:logo-nikolavrs" -->
       <template #prepend>
         <NuxtLink :to="{ name: 'index' }">
-          <VIcon
-            class="ms-2 -rotate-[3deg]"
-            :class="[smAndUp ? undefined : 'scale-[91%]']"
-            size="4.55rem"
+          <Iconx
             icon="$iconFrikomLogo"
+            class="ms-2 -rotate-1 *text-error-darken-1"
+            :class="[smAndUp ? undefined : 'scale-[91%]']"
+            size="4.22rem"
           />
         </NuxtLink>
       </template>
