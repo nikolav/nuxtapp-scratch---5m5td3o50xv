@@ -46,7 +46,18 @@ const topicChatAssetSite = computed(
       class="ma-0 pa-0"
     >
       <template #actions>
-        <VBtnTopicChatToggle :topic="topicChatAssetSite" />
+        <VBtnTopicChatToggle
+          density="comfortable"
+          :topic="topicChatAssetSite"
+        />
+        <VBtn
+          :to="{ name: 'aktiva-lokali-sid-artikli-liste', params: { sid } }"
+          icon
+          variant="plain"
+          density="comfortable"
+        >
+          <Iconx icon="list-outline" size="1.22rem" />
+        </VBtn>
         <VBtn
           :to="{ name: 'aktiva-lokali-sid-prilog', params: { sid } }"
           icon

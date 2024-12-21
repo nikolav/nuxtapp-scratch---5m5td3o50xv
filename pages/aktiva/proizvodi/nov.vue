@@ -3,7 +3,7 @@ import { URL_PRODUCT_PREVIEW_HOST } from "@/config";
 import {
   VToolbarPrimary,
   VImgImagesPicker,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VBtnSave,
   VBtnReset,
 } from "@/components/app";
@@ -120,13 +120,16 @@ const { width: WSELECT } = useElementSize(ref_9yvgmhpVs9DnAXGuV5Hm);
 </script>
 <template>
   <section class="page--aktiva-prodizvodi-nov">
-    <VSnackbarSuccess v-model="toggleSuccessCommit.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleSuccessCommit.isActive.value"
+    >
       <NuxtLink v-bind="toPreview">
         <a class="text-decoration-underline text-body-1 underline-offset-[6px]"
           >📄 Proizvod je uspešno sačuvan.
         </a>
       </NuxtLink>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VForm @submit.prevent="submit" autocomplete="off">
       <VCard :disabled="pc.processing.value" variant="text" rounded="0">
         <VToolbarPrimary

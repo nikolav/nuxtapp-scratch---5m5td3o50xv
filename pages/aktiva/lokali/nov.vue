@@ -6,7 +6,7 @@ import {
   VToolbarPrimary,
   VBtnSave,
   VBtnReset,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 import { FIELDS_ASSETS_SITES as FIELDS } from "@/config/forms";
 // ##config:const
@@ -93,13 +93,16 @@ useHead({ title: "✨🏪 Nov lokal" });
 </script>
 <template>
   <section class="page--aktiva-lokali-nov">
-    <VSnackbarSuccess v-model="toggleAssetsSitesCommitSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleAssetsSitesCommitSuccess.isActive.value"
+    >
       <NuxtLink
         :to="{ name: 'aktiva-lokali-sid', params: { sid: siteAdded.id } }"
       >
         <p class="link--prominent">🏪 Lokal je uspešno sačuvan.</p>
       </NuxtLink>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VToolbarPrimary
       text="Ulistaj lokal"
       route-back-name="aktiva-lokali"

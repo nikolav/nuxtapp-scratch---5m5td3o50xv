@@ -1,10 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import {
-  VFormRenderAssetsFormFields,
-  VToolbarPrimary,
-  // VSnackbarSuccess,
-} from "@/components/app";
+import { VFormRenderAssetsFormFields, VToolbarPrimary } from "@/components/app";
 import type { IInputFileUpload } from "@/types";
 
 // ##config:const
@@ -172,9 +168,6 @@ useHead({ title: "📝 Izveštaji | Popuni" });
 </script>
 <template>
   <section class="page--teren-rid-popuni">
-    <!-- <VSnackbarSuccess v-model="toggleSubmissionSuccess.isActive.value">
-      <p>Obrazac je uspešno poslat.</p>
-    </VSnackbarSuccess> -->
     <VToolbarPrimary
       :text="form.name"
       route-back-name="teren-izvestaji"

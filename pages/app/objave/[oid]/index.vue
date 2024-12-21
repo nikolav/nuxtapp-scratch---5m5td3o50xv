@@ -10,7 +10,7 @@ import {
   VImgImagesPickerDefaut,
   VDialogPrimary,
   VTextFieldPromptBasic,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 import type { IConfigFields } from "@/types";
 
@@ -252,9 +252,12 @@ useHead({ title: pageTitle });
 </script>
 <template>
   <section class="page--app-objave-oid-index">
-    <VSnackbarSuccess v-model="togglePostUpdateSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="togglePostUpdateSuccess.isActive.value"
+    >
       <p>Post je uspešno ažuriran.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VToolbarPrimary
       :props-title="{ class: 'text-body-1 text-start' }"
       :text="post?.name"

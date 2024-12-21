@@ -316,6 +316,7 @@ export default defineNuxtConfig({
     clientBundle: {
       // list of icons to include in the client bundle
       icons: [
+        "material-symbols:list-alt-outline",
         "mdi:google-drive",
         "mdi:folder-wrench",
         "mdi:truck-fast",

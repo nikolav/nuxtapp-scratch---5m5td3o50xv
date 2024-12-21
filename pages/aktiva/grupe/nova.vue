@@ -6,7 +6,7 @@ import {
   VImgPickerSingle,
   VBtnReset,
   VBtnSave,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VToolbarPrimary,
 } from "@/components/app";
 import { Iconx } from "@/components/icons";
@@ -125,13 +125,16 @@ onMounted(() => {
 </script>
 <template>
   <section class="page--aktiva-grupe-nova">
-    <VSnackbarSuccess v-model="toggleSuccessCommit.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleSuccessCommit.isActive.value"
+    >
       <NuxtLink :to="{ name: 'aktiva-grupe-gid', params: { gid: new_GID } }">
         <a class="text-decoration-underline text-body-1 underline-offset-[6px]"
           >📄 Grupa je uspešno sačuvana.
         </a>
       </NuxtLink>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
 
     <VCard variant="text" rounded="0" elevation="0" class="__spacer pa-0 ma-0">
       <VToolbarPrimary

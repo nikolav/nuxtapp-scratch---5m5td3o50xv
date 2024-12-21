@@ -5,7 +5,7 @@ import {
   VCardDataIterator,
   VBtnTopicChatToggle,
   VMenuComposeChatMessage,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 import type { IAsset } from "@/types";
 
@@ -139,12 +139,18 @@ useHead({ title: "Veza" });
 </script>
 <template>
   <section class="page--veza">
-    <VSnackbarSuccess v-model="toggleViberMessageSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleViberMessageSuccess.isActive.value"
+    >
       <p>Poruka je uspešno poslata.</p>
-    </VSnackbarSuccess>
-    <VSnackbarSuccess v-model="toggleNotificationsSendSuccess.isActive.value">
+    </VSnackbarMain>
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleNotificationsSendSuccess.isActive.value"
+    >
       <p>Obaveštenje je uspešno poslato.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VMenuComposeChatMessage
       v-model="toggleMessageCompose.isActive.value"
       :activator="undefined"

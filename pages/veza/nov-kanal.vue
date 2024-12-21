@@ -6,7 +6,7 @@ import {
   VToolbarPrimary,
   VBtnReset,
   VBtnSave,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 // ##config:const
 // ##config ##props
@@ -74,11 +74,14 @@ useHead({ title: "Veza" });
 </script>
 <template>
   <section class="page--veza-nov-kanal">
-    <VSnackbarSuccess v-model="toggleChannelAddSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleChannelAddSuccess.isActive.value"
+    >
       <NuxtLink :to="toLastInsertAssetChannel">
         <p class="link--prominent">📡&nbsp; Kanal uspešno dodat.</p>
       </NuxtLink>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VForm @submit.prevent="form.submit" autocomplete="off">
       <VCard variant="text" elevation="0" rounded="0">
         <VToolbarPrimary

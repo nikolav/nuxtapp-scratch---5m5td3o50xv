@@ -30,9 +30,9 @@ const openDriveAttachmentsMain = async () =>
         <NuxtLink :to="{ name: 'index' }">
           <Iconx
             icon="$iconFrikomLogo"
-            class="ms-2 -rotate-1 *text-error-darken-1"
+            class="ms-2 -rotate-2 *text-error-darken-1"
             :class="[smAndUp ? undefined : 'scale-[91%]']"
-            size="4.22rem"
+            size="3.92rem"
           />
         </NuxtLink>
       </template>

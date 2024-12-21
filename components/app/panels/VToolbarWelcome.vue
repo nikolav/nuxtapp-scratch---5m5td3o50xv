@@ -3,7 +3,7 @@
 import {
   VToolbarPrimary,
   VBtnDotsMenuList,
-  VSnackbarSuccess,
+  VSnackbarMain,
 } from "@/components/app";
 // ##config:const
 const {
@@ -62,9 +62,12 @@ onChange(async (files) => {
 </script>
 <template>
   <section class="component--VToolbarWelcome">
-    <VSnackbarSuccess v-model="toggleUploadSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleUploadSuccess.isActive.value"
+    >
       <p>👍🏻&nbsp; Prilog je uspešno sačuvan.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VToolbarPrimary
       elevation="1"
       color="transparent"

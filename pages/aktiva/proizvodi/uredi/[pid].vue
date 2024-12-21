@@ -8,7 +8,7 @@ import {
   VToolbarPrimary,
   // VImgImagesPicker,
   VImgImagesPickerDefaut,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VBtnSave,
   VBtnReset,
   VSheetPinCodeRequired,
@@ -270,12 +270,18 @@ const onAssetRemove = async (pinEqText: boolean) => {
 </script>
 <template>
   <section class="page--aktiva-proizvodi-uredi-pid">
-    <VSnackbarSuccess v-model="toggleUpdateSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleUpdateSuccess.isActive.value"
+    >
       <span>Proizvod je uspešno ažuriran.</span>
-    </VSnackbarSuccess>
-    <VSnackbarSuccess v-model="toggleAssetRemovedSuccess.isActive.value">
+    </VSnackbarMain>
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleAssetRemovedSuccess.isActive.value"
+    >
       <span>Proizvod je uspešno obrisan.</span>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VForm @submit.prevent="formSubmit" autocomplete="off">
       <VCard variant="text" rounded="0">
         <!-- @@toolbar:primary -->

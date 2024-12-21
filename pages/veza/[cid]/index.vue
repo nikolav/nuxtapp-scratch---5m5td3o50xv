@@ -5,7 +5,7 @@ import { FIELDS_ASSETS_CHANNELS as FIELDS } from "@/config/forms";
 import {
   VBtnSave,
   VBtnReset,
-  VSnackbarSuccess,
+  VSnackbarMain,
   // VBtnTopicChatToggle,
   ProvideAssetsChildren,
   VChipAssetAvatar,
@@ -82,9 +82,12 @@ useHead({ title: "Veza" });
 </script>
 <template>
   <section class="page--veza-cid-index">
-    <VSnackbarSuccess v-model="toggleChannelUpdateSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleChannelUpdateSuccess.isActive.value"
+    >
       <p>Kanal je uspešno ažuriran.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <ProvideAssetsChildren
       :asset="channel"
       :type="PEOPLE_GROUP_TEAM"

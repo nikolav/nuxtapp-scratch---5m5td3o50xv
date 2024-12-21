@@ -5,7 +5,7 @@ import {
   schemaAuthCredentialsWithPolicies,
 } from "@/schemas";
 import {
-  VSnackbarSuccess,
+  VSnackbarMain,
   VSheetPinCodeRequired,
   VToolbarPrimary,
 } from "@/components/app";
@@ -82,12 +82,13 @@ onMounted(() => {
 </script>
 <template>
   <section class="page--nalog-nov">
-    <VSnackbarSuccess
+    <VSnackbarMain
       v-model="toggleAccountCreated.isActive.value"
       id="ID--5fA7vgMWtjbmH"
+      color="success-darken-1"
     >
       Nalog je uspešno sačuvan.
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VForm @submit.prevent autocomplete="off">
       <VCard rounded="t-0" variant="text">
         <VToolbarPrimary

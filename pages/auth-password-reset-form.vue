@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
-import { VBtnToggleVisible, VSnackbarSuccess } from "@/components/app";
+import { VBtnToggleVisible, VSnackbarMain } from "@/components/app";
 import { schemaPasswordsMatch } from "@/schemas";
 
 // config, utils
@@ -71,12 +71,13 @@ watch(
     class="page--auth-password-reset-form d-flex justify-center items-center"
     :style="`height: calc(${VHeight}px - 1px);`"
   >
-    <VSnackbarSuccess
-      :timeout="TIMEOUT_REDIRECT_LOGOUT"
+    <VSnackbarMain
       v-model="passwordResetAccountID"
+      :timeout="TIMEOUT_REDIRECT_LOGOUT"
+      color="success-darken-1"
     >
       <span>Lozinka je uspešno obnovljena.</span>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <VForm @submit.prevent="submitPasswordReset" autocomplete="off">
       <VCard
         rounded="t-lg"

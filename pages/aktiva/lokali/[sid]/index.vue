@@ -6,7 +6,7 @@ import type { IAsset } from "@/types";
 import {
   VBtnSave,
   VBtnReset,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VRatingTopicRating,
   VBtnGroupTopicLikeDislike,
   ProvideAssetsChildren,
@@ -98,9 +98,12 @@ useHead({ title: sname });
 </script>
 <template>
   <section class="page--aktiva-lokali-sid-index">
-    <VSnackbarSuccess v-model="toggleAssetsSitesUpdateSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleAssetsSitesUpdateSuccess.isActive.value"
+    >
       <p>Lokal je uspešno ažuriran.</p>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
     <!-- @@social -->
     <div class="__spacer pt-3 pe-1 d-flex items-center justify-between">
       <VRatingTopicRating :topic="topicRatingSites" small />

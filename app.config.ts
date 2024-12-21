@@ -335,6 +335,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "list-outline": "material-symbols:list-alt-outline",
       "google-drive": "mdi:google-drive",
       "folder-wrench": "mdi:folder-wrench",
       "truck-fast": "mdi:truck-fast",

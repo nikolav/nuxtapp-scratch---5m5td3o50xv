@@ -7,7 +7,7 @@ import {
   VBtnReset,
   VCardAssetsDigitalFormField,
   VCardTitleSectionStart,
-  VSnackbarSuccess,
+  VSnackbarMain,
   VBtnPanelClose,
   VFormRenderAssetsFormFields,
 } from "@/components/app";
@@ -173,7 +173,10 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
       </div>
     </VNavigationDrawer>
 
-    <VSnackbarSuccess v-model="toggleFormCreatedSuccess.isActive.value">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleFormCreatedSuccess.isActive.value"
+    >
       <NuxtLink
         :to="{
           name: 'aktiva-obrasci-fid',
@@ -184,7 +187,7 @@ const itemadd = (type = DigitalFormFieldTypes.TEXT) => {
           <p>📝&nbsp; Obrazac je uspešno sačuvan.</p>
         </a>
       </NuxtLink>
-    </VSnackbarSuccess>
+    </VSnackbarMain>
 
     <VToolbarPrimary
       text="Nov upitnik"
