@@ -236,3 +236,23 @@ export interface IDocs {
   created_at: string;
   updated_at: string;
 }
+
+export interface IOrders {
+  id: number;
+  key?: OrNoValue<string>;
+  status?: OrNoValue<string>;
+  data?: OrNoValue<RecordJson>;
+  notes?: OrNoValue<string>;
+
+  author_id?: OrNoValue<number>;
+  site_id?: OrNoValue<number>;
+  
+  author?: OrNoValue<IUser>;
+  site?: OrNoValue<IAsset>;
+  tags?: OrNoValue<string[]>;
+  products?: OrNoValue<IAsset[]>;
+
+  created_at?: OrNoValue<string>;
+  updated_at?: OrNoValue<string>;
+}
+

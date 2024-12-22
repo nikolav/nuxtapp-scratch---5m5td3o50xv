@@ -51,7 +51,7 @@ const topicChatAssetSite = computed(
           :topic="topicChatAssetSite"
         />
         <VBtn
-          :to="{ name: 'aktiva-lokali-sid-artikli-liste', params: { sid } }"
+          :to="{ name: 'aktiva-lokali-sid-katalog', params: { sid } }"
           icon
           variant="plain"
           density="comfortable"

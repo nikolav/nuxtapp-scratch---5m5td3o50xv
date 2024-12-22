@@ -503,3 +503,28 @@ export const Q_googleapisPlacesNearby = gql`
     )
   }
 `;
+
+// assetsAssetsSitesOrders(sid: ID!): [Orders!]!
+export const Q_assetsAssetsSitesOrders = gql`
+  query q_assetsAssetsSitesOrders($sid: ID!) {
+    assetsAssetsSitesOrders(sid: $sid) {
+      id
+      key
+      status
+      data
+      notes
+      author_id
+      site_id
+      tags
+      author {
+        id
+        email
+      }
+      products {
+        id
+      }
+      created_at
+      updated_at
+    }
+  }
+`;
