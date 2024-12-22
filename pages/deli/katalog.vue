@@ -88,7 +88,7 @@ const summed = (items: any) =>
         />
       </template>
     </VToolbarPrimary>
-    <VSheet class="d-flex items-center justify-between pa-4 gap-1 flex-wrap">
+    <VSheet class="d-flex items-center justify-between pa-2 gap-1 flex-wrap">
       <VChipAssetAvatar
         :asset="site"
         :item-to="{ name: 'aktiva-lokali-sid', params: { sid } }"
@@ -104,7 +104,6 @@ const summed = (items: any) =>
     </VSheet>
     <VEmptyStateNoData v-if="isEmpty(items)" class="opacity-40" />
     <template v-else>
-      <VDivider length="66%" class="border-opacity-100 mx-auto mt-5" />
       <div class="__spacer space-y-6 mt-8">
         <template v-for="node in menu_p" :key="node.title">
           <VCard
@@ -134,7 +133,7 @@ const summed = (items: any) =>
                   <tr>
                     <th class="h-auto pb-1 ps-3">Proizvod</th>
                     <th class="h-auto pb-1">Barkod</th>
-                    <th class="text-end h-auto pb-1 pe-0">Kom.</th>
+                    <th class="text-end h-auto pb-1 pe-0">#</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -144,13 +143,17 @@ const summed = (items: any) =>
                     ]"
                     :key="product.key"
                   >
-                    <td class="ps-2 pt-1 h-auto">{{ product.name }}</td>
-                    <td class="h-auto">
-                      <small>
+                    <td class="!border-0 h-auto pa-0 ps-1 pt-2">
+                      {{ product.name }}
+                    </td>
+                    <td class="!border-0 h-auto pa-0 pt-2">
+                      <small class="opacity-50 font-weight-thin">
                         {{ product?.data?.barcode || "-" }}
                       </small>
                     </td>
-                    <td class="text-end mx-0 px-0 h-auto">{{ amount }}</td>
+                    <td class="!border-0 text-end pa-0 pt-2 h-auto w-4">
+                      {{ amount }}
+                    </td>
                   </tr>
                 </tbody>
               </VTable>

@@ -17,6 +17,7 @@
 <template>
   <section class="layout--defaut">
     <slot />
+    <VSpacer class="mt-32" />
   </section>
 </template>
 <style lang="scss" scoped></style>

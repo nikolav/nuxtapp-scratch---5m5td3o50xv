@@ -38,12 +38,13 @@ const avatarImage = ref();
 const ref_ykDJKZRhf6dq67Nae = ref();
 const avatarResetID = useUniqueId();
 const new_GID = ref();
+const new_GKEY = ref();
 const toggleSuccessCommit = useToggleFlag();
 // ##data ##auth ##state
 const { commit } = useQueryManageAssetsGroups();
 const { firebasePathAssetsAvatars } = useTopics();
 const { upload: fbsUpload } = useFirebaseStorage(() =>
-  firebasePathAssetsAvatars(new_GID.value)
+  firebasePathAssetsAvatars(new_GKEY.value)
 );
 
 // ##computed
@@ -66,17 +67,17 @@ const {
   {
     schema: schemaInputAssetGroup,
     onSubmit: async (data) => {
+      let assetNew: any;
       new_GID.value = undefined;
-      toggleSuccessCommit.off();
-      pc.begin();
+      pc.begin(toggleSuccessCommit.off);
       try {
         const d = assign(pick(data, FIELDS_RECORD_wcategory), {
           data: omit(data, FIELDS_RECORD_wcategory),
         });
-        new_GID.value = get(
-          await commit(d),
-          "data.assetsUpsert.status.asset.id"
-        );
+        // new_GID.value = get(
+        assetNew = get(await commit(d), "data.assetsUpsert.status.asset");
+        new_GID.value = assetNew?.id;
+        new_GKEY.value = assetNew?.key;
         if (!new_GID.value) throw "--no-asset-saved";
         if (avatarImage.value) {
           if (

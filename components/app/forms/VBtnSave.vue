@@ -1,9 +1,12 @@
 <script setup lang="ts">
 // ##imports
 // ##config
-const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
-  text: "Sačuvaj",
-});
+const props = withDefaults(
+  defineProps<{ propsIcon?: any; text?: any; propsText?: any }>(),
+  {
+    text: "Sačuvaj",
+  }
+);
 // ##utils
 // ##icons
 // ##refs ##flags
@@ -24,6 +27,9 @@ const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
     class="px-4"
     type="submit"
   >
+    <template v-if="$slots.append" #append>
+      <slot name="append" />
+    </template>
     <slot>
       <Iconx
         class="opacity-40 me-2"
@@ -31,7 +37,7 @@ const props = withDefaults(defineProps<{ propsIcon?: any; text?: any }>(), {
         icon="save"
         v-bind="propsIcon"
       />
-      <span>{{ text }}</span>
+      <span v-bind="propsText">{{ text }}</span>
     </slot>
   </VBtn>
 </template>

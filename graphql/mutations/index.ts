@@ -251,3 +251,11 @@ export const M_commsDeliveryStatusPublish = gql`
     commsDeliveryStatusPublish(site: $site)
   }
 `;
+
+// catalogOrderAdd(sid: ID!, items: JsonData!): JsonData!
+export const M_catalogOrderAdd = gql`
+  mutation m_catalogOrderAdd($sid: ID!, $items: JsonData!) {
+    catalogOrderAdd(sid: $sid, items: $items)
+  }
+`;
+

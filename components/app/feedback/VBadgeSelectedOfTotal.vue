@@ -4,12 +4,12 @@ defineOptions({
   inheritAttrs: false,
 });
 const model = defineModel();
-const props = defineProps<{ length: string | number }>();
+const props = defineProps<{ length: string | number; propsContainer?: any }>();
 
 // @@eos
 </script>
 <template>
-  <span class="component--VBadgeSelectedOfTotal">
+  <span class="component--VBadgeSelectedOfTotal" v-bind="propsContainer">
     <slot name="prepend" :length="length" :value="model">
       <small class="prepend opacity-50"> {{ model }} </small>
     </slot>

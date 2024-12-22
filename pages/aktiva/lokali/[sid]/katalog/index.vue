@@ -87,7 +87,7 @@ useHead({ title: "📄 Katalog, liste" });
       disabled-skeleton-loader
       :props-list="{ class: 'CLASS--VList-item-spacer-none' }"
       :props-list-item-title="{ class: 'ps-0' }"
-      :props-list-item="{ class: 'ps-2' }"
+      :props-list-item="{ class: 'ps-1' }"
       :props-selection-check="{ class: '!mx-0 !px-0', density: 'compact' }"
     >
       <template #list-item-title="{ item: order }">
@@ -106,7 +106,7 @@ useHead({ title: "📄 Katalog, liste" });
           :props-avatar="{ size: 31 }"
           :user="get(order, 'author')"
           class="ps-0"
-          :class="[smAndUp ? '' : '!max-w-[155px]']"
+          :class="[smAndUp ? '' : '!max-w-[122px]']"
         />
       </template>
     </VDataIteratorListData>
