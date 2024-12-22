@@ -1,5 +1,23 @@
 export const IMPORTS = [
   {
+    from: "lodash/groupBy",
+    imports: [
+      {
+        name: "default",
+        as: "groupBy",
+      },
+    ],
+  },
+  {
+    from: "lodash/orderBy",
+    imports: [
+      {
+        name: "default",
+        as: "orderBy",
+      },
+    ],
+  },
+  {
     from: "lodash/toPairs",
     imports: [
       {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // ##imports
-import { Dump } from "@/components/dev";
 import {
   VToolbarPrimary,
   VChipUserAvatar,
   VChipAssetAvatar,
   VEmptyStateNoData,
+  VBadgeSelectedOfTotal,
 } from "@/components/app";
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
@@ -27,7 +27,7 @@ const ooid = computed(() => route.query?.q);
 // ##utils
 const {
   sites: { logo: siteThumb },
-  products: { itemCategories },
+  products: { itemCategories, categories_select_menu: menu_p },
 } = useCategoryAssets();
 const { $dd } = useNuxtApp();
 // ##icons
@@ -38,10 +38,25 @@ const site = computed(() => order.value?.site);
 // ##computed
 const sid = computed(() => toIds(site.value));
 const productsCount = computed(() => len(order.value?.products) || 0);
+const productsByCategory = computed(() =>
+  isEmpty(items.value)
+    ? {}
+    : groupBy(
+        sortBy(items.value, (item: any) =>
+          lowerCase(get(item, "product.name"))
+        ),
+        (item: any) => first(itemCategories(item.product))
+      )
+);
+const amountsSummedAll = computed(() =>
+  reduce(items.value, (res: number, item: any) => res + Number(item.amount), 0)
+);
 // ##forms ##handlers ##helpers ##small-utils
 const orderCreatedAt = computed(() =>
   order.value ? $dd.utc(order.value.created_at).format("D. MMM YYYY.") : ""
 );
+const summed = (items: any) =>
+  reduce(items, (r: number, item: any) => r + Number(item.amount), 0);
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -67,39 +82,83 @@ const orderCreatedAt = computed(() =>
         <Iconx icon="list-outline" size="1.33rem" class="ms-1 opacity-20" />
       </template>
       <template #append>
-        <VBadge
-          :model-value="0 < productsCount"
-          inline
-          :content="productsCount"
-          color="primary-lighten-1"
+        <VBadgeSelectedOfTotal
+          :model-value="productsCount"
+          :length="amountsSummedAll"
         />
       </template>
     </VToolbarPrimary>
-    <VSheet class="d-flex items-center justify-between pa-1 gap-1">
+    <VSheet class="d-flex items-center justify-between pa-4 gap-1 flex-wrap">
       <VChipAssetAvatar
         :asset="site"
         :item-to="{ name: 'aktiva-lokali-sid', params: { sid } }"
         :prepend-avatar="siteThumb(site)"
         size="large"
-        class="!max-w-[144px]"
       />
       <VChipUserAvatar
         :user="order?.author"
         :props-avatar="{ size: 33 }"
         size="large"
-        class="ps-1 !max-w-[144px]"
+        class="ps-1"
       />
     </VSheet>
-    <VEmptyStateNoData v-if="isEmpty(items)" />
+    <VEmptyStateNoData v-if="isEmpty(items)" class="opacity-40" />
     <template v-else>
-      <VDivider length="66%" class="border-opacity-100 mx-auto my-5" />
-      <VList>
-        <VListItem v-for="node in items" :key="node.product.key">
-          {{ itemCategories(node.product) }}
-        </VListItem>
-      </VList>
+      <VDivider length="66%" class="border-opacity-100 mx-auto mt-5" />
+      <div class="__spacer space-y-6 mt-8">
+        <template v-for="node in menu_p" :key="node.title">
+          <VCard
+            v-if="node.title in productsByCategory"
+            flat
+            elevation="0"
+            rounded="0"
+          >
+            <VCardItem class="pe-3">
+              <template #append>
+                <VBadgeSelectedOfTotal
+                  :model-value="len(productsByCategory[node.title])"
+                  :length="summed(productsByCategory[node.title])"
+                  color="secondary-lighten-2"
+                />
+              </template>
+              <template #prepend>
+                <span class="opacity-50">{{ node.emoji }}</span>
+              </template>
+              <VCardTitle>
+                <span class="ps-2">{{ node.title }}</span>
+              </VCardTitle>
+            </VCardItem>
+            <VCardText class="px-2">
+              <VTable>
+                <thead class="text-xs font-italic opacity-40">
+                  <tr>
+                    <th class="h-auto pb-1 ps-3">Proizvod</th>
+                    <th class="h-auto pb-1">Barkod</th>
+                    <th class="text-end h-auto pb-1 pe-0">Kom.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="{ amount, product } in productsByCategory[
+                      node.title
+                    ]"
+                    :key="product.key"
+                  >
+                    <td class="ps-2 pt-1 h-auto">{{ product.name }}</td>
+                    <td class="h-auto">
+                      <small>
+                        {{ product?.data?.barcode || "-" }}
+                      </small>
+                    </td>
+                    <td class="text-end mx-0 px-0 h-auto">{{ amount }}</td>
+                  </tr>
+                </tbody>
+              </VTable>
+            </VCardText>
+          </VCard>
+        </template>
+      </div>
     </template>
-    <Dump :data="{ site, order, items }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

@@ -58,7 +58,12 @@ useHead({ title: "📄 Katalog, liste" });
         <span>{{ text }}</span>
       </template>
       <template #actions>
-        <VBtn color="primary-darken-1" @click="noop" icon variant="text">
+        <VBtn
+          :to="{ name: 'aktiva-lokali-sid-katalog-nov', params: { sid } }"
+          color="primary-darken-1"
+          icon
+          variant="text"
+        >
           <Iconx icon="$plus" size="1.44rem" />
         </VBtn>
         <VBtn
@@ -101,7 +106,7 @@ useHead({ title: "📄 Katalog, liste" });
           :props-avatar="{ size: 31 }"
           :user="get(order, 'author')"
           class="ps-0"
-          :class="[smAndUp ? '' : '!max-w-[122px]']"
+          :class="[smAndUp ? '' : '!max-w-[155px]']"
         />
       </template>
     </VDataIteratorListData>
