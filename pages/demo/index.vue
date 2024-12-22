@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ##imports
-import { Dump } from "@/components/dev";
 // ##config:const
 // ##config ##props ##route ##attrs
 definePageMeta({
@@ -21,14 +20,11 @@ useHead({ title: "🚧Demo" });
 // ##provide
 // ##io
 
-const { orders } = useQuerySiteOrders(7);
-
 // @@eos
 </script>
 <template>
   <section class="page--demo">
     <h1>🚧</h1>
-    <Dump :data="{ orders }" />
   </section>
 </template>
 <style lang="scss" scoped></style>

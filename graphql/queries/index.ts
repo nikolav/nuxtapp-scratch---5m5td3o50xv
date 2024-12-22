@@ -99,6 +99,7 @@ export const Q_users = gql`
   }
 `;
 
+// @@
 // assetsList(aids: [ID!], type: String, own: Boolean, aids_subs_only: [ID!], aids_subs_type: String, children: Boolean): [Asset!]!
 export const Q_assetsList = gql`
   query q_assetsList(
@@ -519,12 +520,95 @@ export const Q_assetsAssetsSitesOrders = gql`
       author {
         id
         email
+        profile
+        key
+        is_approved
+        is_manager
+        is_admin
+        is_external
+        is_available
+        tags
+        groups
+        created_at
+        updated_at
       }
       products {
         id
       }
       created_at
       updated_at
+    }
+  }
+`;
+
+// ordersProductsAmounts(ooid: ID!): OrderItems!
+export const Q_ordersProductsAmounts = gql`
+  query q_ordersProductsAmounts($ooid: ID!) {
+    ordersProductsAmounts(ooid: $ooid) {
+      order {
+        id
+        key
+        status
+        data
+        notes
+        author_id
+        site_id
+        tags
+        products {
+          id
+        }
+        author {
+          id
+          email
+          profile
+          key
+          is_approved
+          is_manager
+          is_admin
+          is_external
+          is_available
+          tags
+          groups
+          created_at
+          updated_at
+        }
+        site {
+          id
+          name
+          code
+          type
+          location
+          status
+          condition
+          data
+          notes
+          key
+          tags
+          docs
+          created_at
+          updated_at
+        }
+        created_at
+        updated_at
+      }
+      items {
+        amount
+        product {
+          id
+          name
+          code
+          type
+          location
+          status
+          condition
+          data
+          notes
+          key
+          tags
+          created_at
+          updated_at
+        }
+      }
     }
   }
 `;

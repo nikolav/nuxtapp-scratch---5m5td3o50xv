@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import type { IUser } from "@/types";
+// import type { IUser } from "@/types";
 import { renderIcon } from "@/components/icons";
 // ##config:const
 // ##config ##props
@@ -19,7 +19,8 @@ const props = defineProps<{
   //
   signalIdDeselect?: any;
 }>();
-const selection = defineModel<IUser[]>();
+// const selection = defineModel<IUser[]>();
+const selection = defineModel<any[]>();
 // ##utils
 const attrs = useAttrs();
 const it_val = (item: any) => get(item, `raw.${attrs["item-value"] || "id"}`);

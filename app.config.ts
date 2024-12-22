@@ -280,6 +280,7 @@ export default defineAppConfig({
       /^app-objave-pregled/,
       /^aktiva-distribucija/,
       /^teren-popuni-javni-izvestaj/,
+      /^deli/,
     ],
   },
   SEO: {

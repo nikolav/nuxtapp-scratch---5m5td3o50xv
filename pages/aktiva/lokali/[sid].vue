@@ -56,7 +56,7 @@ const topicChatAssetSite = computed(
           variant="plain"
           density="comfortable"
         >
-          <Iconx icon="list-outline" size="1.22rem" />
+          <Iconx icon="list-outline" size="1.33rem" />
         </VBtn>
         <VBtn
           :to="{ name: 'aktiva-lokali-sid-prilog', params: { sid } }"

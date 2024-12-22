@@ -1,6 +1,11 @@
 <script setup lang="ts">
 // ##imports
-import { VCardPost, VBtnTriggerVisible, VFabMain } from "@/components/app";
+import {
+  VCardPost,
+  VBtnTriggerVisible,
+  VFabMain,
+  VEmptyStateNoData,
+} from "@/components/app";
 
 // ##config:const
 // ##config ##props ##route ##attrs
@@ -122,29 +127,32 @@ $emitter.on(EVENT_CACHE_ASSETS_REMOVED, (ids: any) => {
 </script>
 <template>
   <section class="page--dashboard">
-    <VResponsive class="__spacer pa-2 mx-auto pt-3" :max-width="512">
-      <VCardPost
-        v-for="(node, i) in postsFiltered"
-        :key="node.key"
-        @removed="
-          ({ id }) => {
-            posts = filter(posts, (p) => id != p.id);
-          }
-        "
-        :post="node"
-        :i="i"
-        :class="[0 < i ? 'mt-4' : '']"
-      />
-    </VResponsive>
-    <VBtnTriggerVisible
-      block
-      @visible="otdNext"
-      :is-active="toggleBtnVisibleActive.isActive.value"
-      class="mt-16"
-      variant="plain"
-      color="on-surface"
-      >•</VBtnTriggerVisible
-    >
+    <VEmptyStateNoData v-if="isEmpty(postsFiltered)" class="opacity-40" />
+    <template v-else>
+      <VResponsive class="__spacer pa-2 mx-auto pt-3" :max-width="512">
+        <VCardPost
+          v-for="(node, i) in postsFiltered"
+          :key="node.key"
+          @removed="
+            ({ id }) => {
+              posts = filter(posts, (p) => id != p.id);
+            }
+          "
+          :post="node"
+          :i="i"
+          :class="[0 < i ? 'mt-4' : '']"
+        />
+      </VResponsive>
+      <VBtnTriggerVisible
+        block
+        @visible="otdNext"
+        :is-active="toggleBtnVisibleActive.isActive.value"
+        class="mt-16"
+        variant="plain"
+        color="on-surface"
+        >•</VBtnTriggerVisible
+      >
+    </template>
     <VFabMain
       color="surface"
       elevation="10"
