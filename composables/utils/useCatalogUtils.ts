@@ -1,4 +1,11 @@
 export const useCatalogUtils = () => {
-  // const {} = useAppConfig();
-  return {};
+  const {
+    db: {
+      Orders: {
+        OrdersTags: { SHAREABLE },
+      },
+    },
+  } = useAppConfig();
+  const isShareable = (order: any) => includes(order?.tags, SHAREABLE);
+  return { SHAREABLE, isShareable };
 };

@@ -122,7 +122,7 @@ useHead({ title: "✨ Katalog" });
     >
       <p>Katalog proizvoda je uspešno dodat.</p>
     </VSnackbarMain>
-    <VForm @submit.prevent="onSubmit">
+    <VForm @submit.prevent>
       <VCard
         :disabled="processing || ps.processing.value"
         flat
@@ -180,24 +180,26 @@ useHead({ title: "✨ Katalog" });
           </VTable>
         </VCardText>
         <VCardActions class="justify-center">
-          <VBtnSave
-            size="x-large"
-            :disabled="isEmpty(catalog_)"
-            type="submit"
-            variant="elevated"
-            text="Pošalji"
-            :props-icon="{ icon: '$complete', size: '1.75rem' }"
-            :props-text="{ class: 'ps-1' }"
-          >
-            <template #append>
+          <Teleport to="body">
+            <VFab
+              @click="onSubmit"
+              :disabled="isEmpty(catalog_) || processing || ps.processing.value"
+              size="x-large"
+              rounded="pill"
+              location="bottom end"
+              prepend-icon="$complete"
+              class="pe-0"
+              app
+            >
+              <span>Pošalji</span>
               <VBadgeSelectedOfTotal
                 v-if="0 < len(catalog_)"
                 :model-value="len(catalog_)"
                 :length="summedValues(catalog_)"
-                :props-container="{ class: 'ms-1' }"
+                :props-container="{ class: 'ms-4' }"
               />
-            </template>
-          </VBtnSave>
+            </VFab>
+          </Teleport>
         </VCardActions>
       </VCard>
     </VForm>

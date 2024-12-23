@@ -26,23 +26,23 @@ const site = computed(() => get(attrs, "route-data.site"));
 const sid = computed(() => site.value?.id);
 // ##schemas
 // ##utils
+const { isShareable, SHAREABLE } = useCatalogUtils();
 const { smAndUp } = useDisplay();
 const { $dd } = useNuxtApp();
 // ##icons
 // ##refs ##flags ##models ##globals
+const signalIdDeselect = useUniqueId();
 const toggleCatalogRmSuccess = useToggleFlag();
 const ps = useProcessMonitor();
 const mOrdersSelection = ref();
 // ##data ##auth ##state
-const { catalogRemove } = useMutationCatalog();
+const { catalogRemove, catalogConfigTags } = useMutationCatalog();
 const { orders, reload } = useQuerySiteOrders(sid);
 // ##computed
 const someSelected = computed(() => !isEmpty(mOrdersSelection.value));
 const productsCount = (order: any) => len(order?.products) || 0;
 // ##forms ##handlers ##helpers ##small-utils
-const mSetSelectionNone = () => {
-  mOrdersSelection.value = undefined;
-};
+const mSetSelectionNone = signalIdDeselect;
 const itemTo = (order: any) => ({
   name: "deli-katalog",
   query: {
@@ -71,8 +71,36 @@ const onDeleteCatalog = async () => {
       // @success:rm
       mSetSelectionNone();
       toggleCatalogRmSuccess.on();
-      nextTick(reload);
+      reload();
     });
+};
+const onManageCatalogTags = async (config: any) => {
+  if (isEmpty(mOrdersSelection.value)) return;
+  if (isEmpty(config)) return;
+  try {
+    if (
+      some(
+        await Promise.all(
+          map(
+            mOrdersSelection.value,
+            async (order: any) => await catalogConfigTags(toIds(order), config)
+          )
+        ),
+        (r: any) => get(r, "data.catalogManageTags.error")
+      )
+    )
+      throw "@error:catalog-tags:kYEw6kt2M0";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      mSetSelectionNone();
+      reload();
+    });
+  console.log("@debug", ps.error.value);
 };
 // ##watch
 // ##hooks ##lifecycle
@@ -105,6 +133,20 @@ useHead({ title: "📄 Katalog, liste" });
           <Iconx icon="$plus" size="1.44rem" />
         </VBtn>
         <VBtn
+          @click="() => onManageCatalogTags.call(null, { [SHAREABLE]: true })"
+          :disabled="!someSelected"
+          icon
+        >
+          <span>🌐</span>
+        </VBtn>
+        <VBtn
+          @click="() => onManageCatalogTags.call(null, { [SHAREABLE]: false })"
+          :disabled="!someSelected"
+          icon
+        >
+          <span>⛔</span>
+        </VBtn>
+        <VBtn
           @click="onDeleteCatalog"
           color="error"
           :disabled="!someSelected"
@@ -135,6 +177,7 @@ useHead({ title: "📄 Katalog, liste" });
       :props-list-item-title="{ class: 'ps-0' }"
       :props-list-item="{ class: 'ps-1' }"
       :props-selection-check="{ class: '!mx-0 !px-0', density: 'compact' }"
+      :signal-id-deselect="signalIdDeselect.ID.value"
     >
       <template #list-item-title="{ item: order }">
         <VBadge
@@ -145,7 +188,16 @@ useHead({ title: "📄 Katalog, liste" });
         >
           <small class="opacity-50 me-1">#{{ toIds(order) }}</small>
         </VBadge>
-        <span>{{ itemTitle(order) }}</span>
+        <VBadge color="transparent" inline :model-value="isShareable(order)">
+          <template #badge>
+            <Iconx
+              size="1rem"
+              icon="world"
+              class="text-info opacity-40 -rotate-3"
+            />
+          </template>
+          <span>{{ itemTitle(order) }}</span>
+        </VBadge>
       </template>
       <template #list-item-append="{ item: order }">
         <VChipUserAvatar

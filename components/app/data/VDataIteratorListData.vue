@@ -90,6 +90,7 @@ watch(
                     density="comfortable"
                     color="primary"
                     @click.stop="toggleSelect(node)"
+                    :model-value="isSelected(node)"
                     :false-icon="iconCheckOff"
                     :true-icon="iconCheckOn"
                     v-bind="propsSelectionCheck"
