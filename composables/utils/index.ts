@@ -12,3 +12,4 @@ export { useWindowOpenDataUrl } from "./useWindowOpenDataUrl";
 export { usePathUtils } from "./usePathUtils";
 export { useAssetsUtils } from "./useAssetsUtils";
 export { useReportsUtils } from "./useReportsUtils";
+export { useCatalogUtils } from "./useCatalogUtils";

@@ -6,6 +6,7 @@ import {
   VDataIteratorListData,
   VEmptyStateNoData,
   VChipUserAvatar,
+  VSnackbarMain,
 } from "@/components/app";
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
@@ -29,12 +30,19 @@ const { smAndUp } = useDisplay();
 const { $dd } = useNuxtApp();
 // ##icons
 // ##refs ##flags ##models ##globals
+const toggleCatalogRmSuccess = useToggleFlag();
+const ps = useProcessMonitor();
 const mOrdersSelection = ref();
 // ##data ##auth ##state
+const { catalogRemove } = useMutationCatalog();
 const { orders, reload } = useQuerySiteOrders(sid);
 // ##computed
+const someSelected = computed(() => !isEmpty(mOrdersSelection.value));
 const productsCount = (order: any) => len(order?.products) || 0;
 // ##forms ##handlers ##helpers ##small-utils
+const mSetSelectionNone = () => {
+  mOrdersSelection.value = undefined;
+};
 const itemTo = (order: any) => ({
   name: "deli-katalog",
   query: {
@@ -42,6 +50,30 @@ const itemTo = (order: any) => ({
   },
 });
 const itemTitle = (order: any) => $dd.utc(order?.created_at).format("D/M/YY.");
+const onDeleteCatalog = async () => {
+  if (isEmpty(mOrdersSelection.value)) return;
+  try {
+    ps.begin(toggleCatalogRmSuccess.off);
+    if (
+      get(
+        await catalogRemove(map(mOrdersSelection.value, toIds)),
+        "data.catalogOrderRemove.error"
+      )
+    )
+      throw "@error:catalog-rm:LqI6j6d4rTeNQjYS6tnB";
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      // @success:rm
+      mSetSelectionNone();
+      toggleCatalogRmSuccess.on();
+      nextTick(reload);
+    });
+};
 // ##watch
 // ##hooks ##lifecycle
 // ##head ##meta
@@ -53,6 +85,12 @@ useHead({ title: "📄 Katalog, liste" });
 </script>
 <template>
   <section class="page--aktiva-lokali-sid-katalog">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleCatalogRmSuccess.isActive.value"
+    >
+      <p>Katalog je uspešno obrisan.</p>
+    </VSnackbarMain>
     <VToolbarSecondary text="📄 Katalog">
       <template #title="{ text }">
         <span>{{ text }}</span>
@@ -65,6 +103,14 @@ useHead({ title: "📄 Katalog, liste" });
           variant="text"
         >
           <Iconx icon="$plus" size="1.44rem" />
+        </VBtn>
+        <VBtn
+          @click="onDeleteCatalog"
+          color="error"
+          :disabled="!someSelected"
+          icon
+        >
+          <Iconx icon="trash" size="1.122rem" />
         </VBtn>
         <VBtn
           color="primary-darken-1"

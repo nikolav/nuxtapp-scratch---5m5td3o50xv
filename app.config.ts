@@ -486,6 +486,12 @@ export default defineAppConfig({
     // },
   },
   db: {
+    Orders: {
+      OrdersTags: {
+        SHAREABLE:
+          "TAG_ORDERS_SHAREABLE_GLOBALY:61cde3f6-cdf8-5769-bf11-93b91f4ff49d",
+      },
+    },
     Docs: {
       DocsTags: {
         SHAREABLE: "DocsTags:SHAREABLE:muSvm4x5",

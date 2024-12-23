@@ -259,3 +259,17 @@ export const M_catalogOrderAdd = gql`
   }
 `;
 
+// catalogOrderRemove(ids: [ID!]!): JsonData!
+export const M_catalogOrderRemove = gql`
+  mutation m_catalogOrderRemove($ids: [ID!]!) {
+    catalogOrderRemove(ids: $ids)
+  }
+`;
+
+// catalogManageTags(id: ID!, config: JsonData!): JsonData!
+export const M_catalogManageTags = gql`
+  mutation m_catalogManageTags($id: ID!, $config: JsonData!) {
+    catalogManageTags(id: $id, config: $config)
+  }
+`;
+
