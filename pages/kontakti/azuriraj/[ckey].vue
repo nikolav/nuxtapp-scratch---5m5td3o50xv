@@ -42,7 +42,7 @@ const model = computed(() => d.value?.data);
 const FIELDS_contacts = <Record<string, IConfigFields>>{
   name: {
     required: true,
-    label: "Naziv",
+    label: "Kontakt, ime",
     icon: {
       icon: "tag",
       size: "1.22rem",

@@ -37,7 +37,7 @@ const { commit } = useDocsContacts();
 const FIELDS_new_contact = <Record<string, IConfigFields>>{
   name: {
     required: true,
-    label: "Naziv, ime",
+    label: "Kontakt, ime",
     icon: {
       icon: "tag",
       size: "1.22rem",
