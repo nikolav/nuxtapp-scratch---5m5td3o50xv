@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // ##imports
-import { VToolbarPrimary, VDataIteratorListData } from "@/components/app";
+import {
+  VToolbarPrimary,
+  VDataIteratorListData,
+  VToolbarSecondary,
+} from "@/components/app";
 // ##config:const
 // ##config ##props
 definePageMeta({
@@ -86,35 +90,20 @@ useHead({ title: () => `Prilog | ${displayName$.value}` });
 </script>
 <template>
   <section class="page--nalog-prilog">
-    <div class="__spacer ma-1">
-      <VToolbarPrimary
-        color="primary-lighten-1"
-        text="Prilog"
-        rounded="pill"
-        :props-title="{ class: 'text-body-1 font-italic' }"
-        :divider-start="false"
-        route-back-name="nalog-index"
-      >
-        <template #prepend>
-          <VBtn
-            :to="{ name: 'nalog-index' }"
-            icon
-            density="comfortable"
-            variant="plain"
-          >
-            <Iconx size="1.55rem" icon="$prev" />
-          </VBtn>
-        </template>
-        <template #actions>
-          <VBtn icon @click="accountAttachmentsOpen()">
-            <Iconx icon="upload" size="1.33rem" />
-          </VBtn>
-          <VBtn icon @click="reload" size="small" variant="plain">
-            <Iconx icon="$loading" size="1.122rem" />
-          </VBtn>
-        </template>
-      </VToolbarPrimary>
-    </div>
+    <VToolbarSecondary
+      text="Prilog"
+      color="transparent"
+      :props-title="{ class: 'text-start ms-0 ps-3 text-body-1 font-italic' }"
+    >
+      <template #actions>
+        <VBtn color="primary" icon @click="accountAttachmentsOpen()">
+          <Iconx icon="upload" size="1.33rem" />
+        </VBtn>
+        <VBtn color="primary" icon @click="reload" size="small" variant="plain">
+          <Iconx icon="$loading" size="1.122rem" />
+        </VBtn>
+      </template>
+    </VToolbarSecondary>
 
     <!-- attachments:list -->
     <VDataIteratorListData

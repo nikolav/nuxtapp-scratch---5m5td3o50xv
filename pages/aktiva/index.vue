@@ -81,6 +81,19 @@ const CARDS_items = [
     to: { name: "veza" },
     props: { class: "bg-top" },
   },
+  {
+    title: "Kontakti",
+    image: "/kontakti.5ij49SIlMz.png",
+    icon: {
+      icon: "user",
+      size: "1.55rem",
+      class: "opacity-20",
+    },
+    to: { name: "kontakti" },
+    props: {
+      class: "CLASS--SUW5rCN6V9",
+    },
+  },
 ];
 // ##watch
 // ##hooks ##lifecycle
@@ -144,6 +157,12 @@ useHead({ title: "Aktiva" });
 .CLASS--paxXfBzGu {
   img {
     object-position: 0 78% !important;
+  }
+}
+.CLASS--SUW5rCN6V9 {
+  img {
+    object-position: 0 32% !important;
+    transform: scale(102%) rotate(-2deg);
   }
 }
 </style>

@@ -1,11 +1,6 @@
 <script setup lang="ts">
 // ##imports
-import {
-  VEmptyStateNoData,
-  VBtnSave,
-  VBadgeSelectedOfTotal,
-  VSnackbarMain,
-} from "@/components/app";
+import { VEmptyStateNoData, VSnackbarMain } from "@/components/app";
 
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
@@ -129,7 +124,7 @@ useHead({ title: "✨ Katalog" });
         rounded="0"
         elevation="0"
       >
-        <VToolbar density="comfortable" color="surface" class="pa-0">
+        <VToolbar density="comfortable" color="surface" class="pa-0 px-1">
           <VSheet
             class="grow p-0 !ps-[2px] justify-between d-flex mx-auto"
             max-width="512"
@@ -145,6 +140,18 @@ useHead({ title: "✨ Katalog" });
               class="!text-[122%]"
               >{{ node.emoji }}</VBtn
             >
+            <VDivider vertical class="border-opacity-75 mx-1" inset />
+            <VBtn
+              :disabled="isEmpty(catalog_) || processing || ps.processing.value"
+              @click="onSubmit"
+              variant="tonal"
+              color="primary"
+              icon
+              elevation="1"
+              size="small"
+            >
+              <Iconx size="1.5rem" icon="save" />
+            </VBtn>
           </VSheet>
         </VToolbar>
         <VEmptyStateNoData v-if="isEmpty(products)" class="opacity-40" />
@@ -179,28 +186,6 @@ useHead({ title: "✨ Katalog" });
             </tbody>
           </VTable>
         </VCardText>
-        <VCardActions class="justify-center">
-          <Teleport to="body">
-            <VFab
-              @click="onSubmit"
-              :disabled="isEmpty(catalog_) || processing || ps.processing.value"
-              size="x-large"
-              rounded="pill"
-              location="bottom end"
-              prepend-icon="$complete"
-              class="pe-0"
-              app
-            >
-              <span>Pošalji</span>
-              <VBadgeSelectedOfTotal
-                v-if="0 < len(catalog_)"
-                :model-value="len(catalog_)"
-                :length="summedValues(catalog_)"
-                :props-container="{ class: 'ms-4' }"
-              />
-            </VFab>
-          </Teleport>
-        </VCardActions>
       </VCard>
     </VForm>
   </section>

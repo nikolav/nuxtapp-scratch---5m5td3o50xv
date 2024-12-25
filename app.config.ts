@@ -336,6 +336,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      notebook: "lineicons:notebook-1",
       "list-outline": "material-symbols:list-alt-outline",
       "google-drive": "mdi:google-drive",
       "folder-wrench": "mdi:folder-wrench",
