@@ -6,6 +6,7 @@ import {
   VFabMain,
   VBtnDotsMenuList,
   VDataIteratorListData,
+  VSnackbarMain,
 } from "@/components/app";
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
@@ -25,8 +26,10 @@ const {
 } = useAppConfig();
 // ##schemas
 // ##utils
+const ps = useProcessMonitor();
 // ##icons
 // ##refs ##flags ##models
+const toggleContactsRemovedSuccess = useToggleFlag();
 
 // {
 //   strategy: "post_qstring",
@@ -50,7 +53,10 @@ const contactsSearchStrategy = computed(() =>
     : undefined
 );
 // ##data ##auth ##state
-const { contacts, reload } = useDocsContacts(contactsSearchStrategy);
+const { contacts, reload, remove } = useDocsContacts(
+  undefined,
+  contactsSearchStrategy
+);
 // ##computed
 const someSelected = computed(() => !isEmpty(mContactsSelected.value));
 const size_ = computed(() => len(contacts.value) || 0);
@@ -63,9 +69,28 @@ watch(
     searchQ.value = q;
   }, SEARCH_DEBOUNCE_DELAY_longer)
 );
-watchEffect(() => {
-  console.log("searchQ", searchQ.value);
-});
+const onDeleteContacts = async () => {
+  try {
+    ps.begin(toggleContactsRemovedSuccess.off);
+    await Promise.all(
+      map(
+        mContactsSelected.value,
+        async (contact: any) => await remove(toIds(contact))
+      )
+    );
+  } catch (error) {
+    ps.setError(error);
+  } finally {
+    ps.done();
+  }
+  if (!ps.error.value)
+    ps.successful(() => {
+      // @success:rm
+      contactsSetSelectionNone();
+      toggleContactsRemovedSuccess.on();
+    });
+  console.log("@debug:contacts-rm", ps.error.value);
+};
 // ##hooks ##lifecycle
 // ##head ##meta
 useHead({ title: "📔 Kontakti" });
@@ -76,6 +101,12 @@ useHead({ title: "📔 Kontakti" });
 </script>
 <template>
   <section class="page--kontakti">
+    <VSnackbarMain
+      color="success-darken-1"
+      v-model="toggleContactsRemovedSuccess.isActive.value"
+    >
+      <p>Kontakti su uspešno izbrisani.</p>
+    </VSnackbarMain>
     <VToolbarPrimary
       text="Kontakti"
       :props-title="{ class: 'text-body-1 text-start font-italic ms-0 ps-2' }"
@@ -88,7 +119,7 @@ useHead({ title: "📔 Kontakti" });
           :props-icon="{ size: '1.5rem' }"
         >
           <template #list-items>
-            <VListItem link>
+            <VListItem link @click="onDeleteContacts">
               <template #prepend>
                 <Iconx
                   icon="trash"
@@ -145,7 +176,7 @@ useHead({ title: "📔 Kontakti" });
         item-value="key"
         :item-title="(c) => startCase(get(c, 'data.name', ''))"
         :item-to="
-          (c) => ({ name: 'kontakti-azuriraj-cid', params: { cid: toIds(c) } })
+          (c) => ({ name: 'kontakti-azuriraj-ckey', params: { ckey: c.key } })
         "
         :props-list-item="{ class: 'ms-0 ps-1' }"
         :props-list-item-title="{ class: 'ps-2 text-body-1' }"

@@ -8,5 +8,6 @@ export { default as VFormRenderAssetsFormFields } from "./VFormRenderAssetsFormF
 export { default as NuxtLinkAssetsFormExternal } from "./NuxtLinkAssetsFormExternal.vue";
 export { default as VCardAssetsFormReportResponse } from "./VCardAssetsFormReportResponse.vue";
 export { default as VTextFieldPromptBasic } from "./VTextFieldPromptBasic.vue";
+export { default as VTextFieldsList } from "./VTextFieldsList.vue";
 
 // export { default as VSheetQuillTextEditor } from "./VSheetQuillTextEditor.vue";
