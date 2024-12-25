@@ -25,7 +25,7 @@ const props = defineProps<{
   <VToolbarPrimary
     color="transparent"
     :divider-start="false"
-    :props-title="{ class: 'text-body-1 text-start ms-2' }"
+    :props-title="{ class: 'text-body-1 text-start ms-0 ps-2' }"
     hide-default-close
   >
     <template #title="propsTitle_">

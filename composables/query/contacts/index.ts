@@ -1,0 +1,1 @@
+export { useDocsContacts } from "./useDocsContacts";

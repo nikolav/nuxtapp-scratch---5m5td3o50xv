@@ -27,6 +27,7 @@ const {
 } = useCategoryAssets();
 // ##icons
 // ##refs ##flags ##models
+const lastCatalogCreated = ref();
 const toggleCatalogAddSuccess = useToggleFlag();
 const catalogIndex = useStateCatalogAdd();
 const categoryKeyPicked = useGlobalVariable(
@@ -70,16 +71,13 @@ const onAmount = (pid: any, amount: any) => {
   catalogIndex.value[pid] = Math.max(0, amount);
 };
 const onSubmit = async () => {
+  let res: any;
   try {
     ps.begin(toggleCatalogAddSuccess.off);
     if (some([sid.value, catalog_.value], isEmpty))
       throw "@error:catalog-add:yYALXo4ycaVq6e7ZUY";
-    if (
-      !get(
-        await catalogAdd(sid.value, catalog_.value),
-        "data.catalogOrderAdd.status.id"
-      )
-    )
+    res = await catalogAdd(sid.value, catalog_.value);
+    if (!get(res, "data.catalogOrderAdd.status.id"))
       throw "@error:catalog-add:WLRg1tAdmblfxMu";
   } catch (error) {
     ps.setError(error);
@@ -88,6 +86,7 @@ const onSubmit = async () => {
   }
   if (!ps.error.value)
     ps.successful(() => {
+      lastCatalogCreated.value = get(res, "data.catalogOrderAdd.status.order");
       catalogClear();
       toggleCatalogAddSuccess.on();
     });
@@ -107,6 +106,13 @@ useHead({ title: "✨ Katalog" });
 // ##provide
 // ##io
 
+const itemTo = (catalog: any) => ({
+  name: "deli-katalog",
+  query: {
+    q: toIds(catalog),
+  },
+});
+
 // @@eos
 </script>
 <template>
@@ -115,7 +121,11 @@ useHead({ title: "✨ Katalog" });
       v-model="toggleCatalogAddSuccess.isActive.value"
       color="success-darken-1"
     >
-      <p>Katalog proizvoda je uspešno dodat.</p>
+      <NuxtLink :to="itemTo(lastCatalogCreated)">
+        <a class="link--prominent">
+          <p>📃 Katalog je uspešno sačuvan.</p>
+        </a>
+      </NuxtLink>
     </VSnackbarMain>
     <VForm @submit.prevent>
       <VCard

@@ -100,7 +100,7 @@ useHead({ title: "Obrasci" });
 <template>
   <section class="page--aktiva-obrasci-gid-obrasci-dodaj">
     <VSnackbarMain
-      class="success-darken-1"
+      color="success-darken-1"
       v-model="toggleFGConfigSuccess.isActive.value"
     >
       <p>Grupa je uspešno ažurirana.</p>

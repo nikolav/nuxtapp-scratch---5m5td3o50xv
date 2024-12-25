@@ -34,9 +34,10 @@ export const Q_storageListAll = gql`
   }
 `;
 
+// docsByTopic(topic: String!, order: Int, search: JsonData): [JsonData!]!
 export const Q_docsByTopic = gql`
-  query q_docsByTopic($topic: String!, $order: Int) {
-    docsByTopic(topic: $topic, order: $order)
+  query q_docsByTopic($topic: String!, $order: Int, $search: JsonData) {
+    docsByTopic(topic: $topic, order: $order, search: $search)
   }
 `;
 

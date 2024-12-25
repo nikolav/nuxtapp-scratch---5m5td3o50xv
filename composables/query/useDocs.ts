@@ -1,11 +1,12 @@
 import { M_docsRm, M_docsUpsert, Q_docsByTopic, M_docsTags } from "@/graphql";
-import type { OrNull, IDoc, TDocData, OrNoValue } from "@/types";
+import type { OrNull, IDoc, TDocData, OrNoValue, RecordJson } from "@/types";
 
 // .useDocs
 export const useDocs = <TData = TDocData>(
-  initialTopic: any = "",
+  INITIAL_TOPIC: any = "",
   initialEnabled = true,
-  order?: number
+  order?: OrNoValue<number>,
+  SEARCH?: OrNoValue<RecordJson>
 ) => {
   const {
     graphql: { STORAGE_QUERY_POLL_INTERVAL },
@@ -13,11 +14,16 @@ export const useDocs = <TData = TDocData>(
   } = useAppConfig();
   const topic$ = ref();
   watchEffect(() => {
-    topic$.value = toValue(initialTopic);
+    topic$.value = toValue(INITIAL_TOPIC);
+  });
+  const search = ref();
+  watchEffect(() => {
+    search.value = toValue(SEARCH);
   });
   const toggleEnabled = useToggleFlag(initialEnabled);
+  const auth = useStoreApiAuth();
   const enabled$ = computed(
-    () => !!(toggleEnabled.isActive.value && topic$.value)
+    () => !!(toggleEnabled.isActive.value && auth.isAuth$ && topic$.value)
   );
   const token_ = inject(key_TOKEN);
 
@@ -34,6 +40,7 @@ export const useDocs = <TData = TDocData>(
     {
       topic: topic$,
       order,
+      search,
     },
     {
       enabled: enabled$,
@@ -81,8 +88,7 @@ export const useDocs = <TData = TDocData>(
       ? undefined
       : await mutateDocTags({ id, tags: argsTags }));
 
-  const { watchProcessing } = useStoreAppProcessing();
-  watchProcessing(
+  const processing = computed(
     () =>
       loading.value ||
       upsertLoading.value ||
@@ -94,8 +100,9 @@ export const useDocs = <TData = TDocData>(
   watchEffect(() => useIOEvent(ioEvent$.value, reload));
 
   return {
-    // # data by topic
+    // # data params: topic, search
     topic$,
+    search,
 
     // # data
     data: data$,
@@ -105,21 +112,21 @@ export const useDocs = <TData = TDocData>(
     upsert,
     remove,
     reload,
-
-    // # alias
-    commit: upsert,
-
     // # manage doc tags
     tags,
 
     // # flags
+    processing,
     error,
-    loading,
-    IOEVENT: ioEvent$,
     IO: ioEvent$,
     enabled: enabled$,
 
     // on/off
     toggleEnabled,
+
+    // # alias
+    commit: upsert,
+    loading: processing,
+    IOEVENT: ioEvent$,
   };
 };

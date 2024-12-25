@@ -7,6 +7,7 @@ export * from "./assets";
 export * from "./tags";
 export * from "./reports";
 export * from "./orders";
+export * from "./contacts";
 //
 export { useQueryApolloStatus } from "./useQueryApolloStatus";
 

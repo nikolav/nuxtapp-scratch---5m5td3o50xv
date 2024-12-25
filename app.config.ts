@@ -496,6 +496,7 @@ export default defineAppConfig({
     Docs: {
       DocsTags: {
         SHAREABLE: "DocsTags:SHAREABLE:muSvm4x5",
+        TAGGED_CONTACTS: "CONTACTS:6249cd68-f04f-5960-a454-7d5a66ecfbaa",
       },
     },
     Assets: {

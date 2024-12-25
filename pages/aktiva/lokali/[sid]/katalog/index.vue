@@ -119,7 +119,7 @@ useHead({ title: "📄 Katalog, liste" });
     >
       <p>Katalog je uspešno obrisan.</p>
     </VSnackbarMain>
-    <VToolbarSecondary text="📄 Katalog">
+    <VToolbarSecondary text="📃 Katalog">
       <template #title="{ text }">
         <span>{{ text }}</span>
       </template>

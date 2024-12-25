@@ -246,7 +246,7 @@ export interface IOrders {
 
   author_id?: OrNoValue<number>;
   site_id?: OrNoValue<number>;
-  
+
   author?: OrNoValue<IUser>;
   site?: OrNoValue<IAsset>;
   tags?: OrNoValue<string[]>;
@@ -256,3 +256,7 @@ export interface IOrders {
   updated_at?: OrNoValue<string>;
 }
 
+export type TDocsContacts = IDoc<{
+  name: string;
+  contacts?: RecordJson;
+}>;
