@@ -91,7 +91,7 @@ onMounted(() => {
 
 // ##hooks ##lifecycle
 // ##head ##meta
-useHead({ title: "👷🏻‍♂️ Frikom teren ", titleTemplate: "" });
+useHead({ title: "👷🏻‍♂️ Tereni Frikom", titleTemplate: "" });
 // ##provide
 // ##io
 // listen query-cache-update events to update display list

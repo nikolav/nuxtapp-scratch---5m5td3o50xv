@@ -6,7 +6,7 @@ const auth = useStoreApiAuth();
 const route = useRoute();
 const { smAndUp } = useDisplay();
 const {
-  app: { MODE_DEBUG, DEFAULT_TRANSITION },
+  app: { MODE_DEBUG, DEFAULT_TRANSITION, ROUTE_NAME_REDIRECT_AUTHENTICATED },
   links: {
     external: { DRIVE_ATTACHMENTS_MAIN },
   },
@@ -27,7 +27,7 @@ const openDriveAttachmentsMain = async () =>
       <!-- icon="$iconFrikomLogo" -->
       <!-- icon="icons-local:logo-nikolavrs" -->
       <template #prepend>
-        <NuxtLink :to="{ name: 'index' }">
+        <NuxtLink :to="{ name: ROUTE_NAME_REDIRECT_AUTHENTICATED }">
           <Iconx
             icon="$iconFrikomLogo"
             class="ms-2 -rotate-3 *text-error-darken-1"
