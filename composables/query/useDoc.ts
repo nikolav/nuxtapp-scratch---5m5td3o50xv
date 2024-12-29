@@ -44,13 +44,13 @@ export const useDoc = <TDoc = Record<string, any>>(
     merge = true,
     shallow = false
   ) => {
-    if (!enabled$.value) return;
-    await mutateDocUpsert({
-      doc_id: doc_id$.value,
-      data: merge && !shallow ? batchSet(undefined, putData) : putData,
-      merge,
-      shallow,
-    });
+    if (enabled$.value)
+      await mutateDocUpsert({
+        doc_id: doc_id$.value,
+        data: merge && !shallow ? batchSet(undefined, putData) : putData,
+        merge,
+        shallow,
+      });
   };
 
   const clear = async () => {

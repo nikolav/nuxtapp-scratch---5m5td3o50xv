@@ -79,15 +79,15 @@ watch(
 
 // ##head ##meta
 useHead({
-  titleTemplate: (ttl: any) => `${ttl ? ttl + " | " : ""} frikom:teren`,
+  titleTemplate: (ttl: any) => `${ttl ? ttl + " | " : ""} @frikom.nikolav.rs`,
   bodyAttrs,
   htmlAttrs,
 });
 useSeoMeta({
-  title: "NuxtApp",
-  ogTitle: "nuxtapp",
-  description: "nuxtapp",
-  ogDescription: "nuxtapp",
+  title: "app",
+  ogTitle: "app",
+  description: "app",
+  ogDescription: "app",
   ogImage: "https://example.com/image.png",
   twitterCard: "summary_large_image",
 });

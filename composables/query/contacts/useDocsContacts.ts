@@ -1,6 +1,6 @@
 import type { TDocsContacts } from "@/types";
 
-export const useDocsContacts = (SEARCH?: any) => {
+export const useDocsContacts = (enabled?: any, SEARCH?: any) => {
   const {
     db: {
       Docs: {
@@ -9,7 +9,7 @@ export const useDocsContacts = (SEARCH?: any) => {
     },
   } = useAppConfig();
 
-  const d = useDocs<TDocsContacts>(TAGGED_CONTACTS, undefined, 1, SEARCH);
+  const d = useDocs<TDocsContacts>(TAGGED_CONTACTS, enabled, 1, SEARCH);
 
   return {
     ...d,

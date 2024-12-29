@@ -4,5 +4,5 @@ navigateTo(props.to);
 // @@eos
 </script>
 <template>
-  <h1>🚧</h1>
+  <small>⏳</small>
 </template>

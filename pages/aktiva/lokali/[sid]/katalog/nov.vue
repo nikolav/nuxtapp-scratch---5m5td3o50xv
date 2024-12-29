@@ -150,7 +150,7 @@ const itemTo = (catalog: any) => ({
               class="!text-[122%]"
               >{{ node.emoji }}</VBtn
             >
-            <VDivider vertical class="border-opacity-75 mx-1" inset />
+            <VDivider vertical class="border-opacity-75 ms-1 me-2" inset />
             <VBtn
               :disabled="isEmpty(catalog_) || processing || ps.processing.value"
               @click="onSubmit"

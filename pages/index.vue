@@ -21,8 +21,8 @@ const auth = useStoreApiAuth();
     <template v-else>
       <VToolbarWelcome />
       <VResponsive
-        max-width="598"
-        class="mx-auto -translate-y-[50%]"
+        max-width="512"
+        class="mx-auto -translate-y-[50%] px-1"
         :style="`margin-top: ${WH / 2}px;`"
       >
         <AuthLogin />
