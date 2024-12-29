@@ -336,6 +336,7 @@ export default defineAppConfig({
     // },
 
     aliases: {
+      "task-alt": "material-symbols:task-alt",
       notebook: "lineicons:notebook-1",
       "list-outline": "material-symbols:list-alt-outline",
       "google-drive": "mdi:google-drive",
@@ -535,6 +536,7 @@ export default defineAppConfig({
         PHYSICAL_PRODUCT: "PHYSICAL_PRODUCT:u1zDoNxQnYLnHHbp",
         PHYSICAL_STORE: "PHYSICAL_STORE:5btoy9I8IKgT0RJO",
         DIGITAL_CHANNEL: "DIGITAL_CHANNEL:YqmefT",
+        DIGITAL_TASKS: "DIGITAL_TASKS:5373aab3-2b75-5b19-abcb-419fbf2ffd6f",
       },
     },
   },

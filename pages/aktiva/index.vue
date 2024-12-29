@@ -71,15 +71,17 @@ const CARDS_items = [
     props: { class: "CLASS-X3PZhHeI4n" },
   },
   {
-    title: "Veza",
-    image: "/veza.zm0JgOtXYA.png",
+    title: "Zadaci",
+    image: "/zadaci.XhXD2gvSvy.png",
     icon: {
-      icon: "headset",
+      icon: "task-alt",
       size: "1.55rem",
-      class: "opacity-20 me-1",
+      class: "opacity-20",
     },
-    to: { name: "veza" },
-    props: { class: "bg-top" },
+    to: { name: "zadaci" },
+    props: {
+      class: "CLASS--SG0adFum",
+    },
   },
   {
     title: "Kontakti",
@@ -93,6 +95,17 @@ const CARDS_items = [
     props: {
       class: "CLASS--SUW5rCN6V9",
     },
+  },
+  {
+    title: "Veza",
+    image: "/veza.zm0JgOtXYA.png",
+    icon: {
+      icon: "headset",
+      size: "1.55rem",
+      class: "opacity-20 me-1",
+    },
+    to: { name: "veza" },
+    props: { class: "bg-top" },
   },
 ];
 // ##watch
@@ -163,6 +176,12 @@ useHead({ title: "Aktiva" });
   img {
     object-position: 0 32% !important;
     transform: scale(102%) rotate(-2deg);
+  }
+}
+.CLASS--SG0adFum {
+  img {
+    object-position: 0 22% !important;
+    transform: scale(111%) rotate(1deg);
   }
 }
 </style>
