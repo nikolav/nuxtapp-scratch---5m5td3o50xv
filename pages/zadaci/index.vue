@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // ##imports
 import { useDisplay } from "vuetify";
-import { Dump } from "@/components/dev";
 import {
   VToolbarPrimary,
   VToolbarSecondary,
@@ -50,10 +49,13 @@ const {
   tags,
   commit,
   remove,
-} = useQueryManageAssets(DIGITAL_TASKS, undefined, undefined, {
-  enabled: true,
+} = useQueryManageAssets(DIGITAL_TASKS, undefined, undefined, undefined, {
+  ordered: "date_desc",
 });
 // ##computed
+const sizeTasksCompleted = computed(() =>
+  len(filter(tasks.value, isStatusDone))
+);
 const someSelected = computed(() => !isEmpty(mTasksSelection.value));
 const sizeZadaci = computed(() => len(tasks.value) || 0);
 // ##forms ##handlers ##helpers ##small-utils
@@ -61,7 +63,7 @@ const itemTo = (task: any) => ({
   name: "deli-zadaci",
   query: { q: task?.key },
 });
-const itemTitle = (order: any) => $dd.utc(order?.created_at).format("D/M/YY.");
+const itemTitle = (t: any) => t?.name;
 const onManageTaskFields = async (fields: any) => {
   if (isEmpty(mTasksSelection.value)) return;
   if (isEmpty(fields)) return;
@@ -145,6 +147,11 @@ const onDeleteTasks = async () => {
   console.log("@debug:tasks-rm", ps.error.value);
 };
 // ##watch
+watch(tasks, (tasks) => {
+  if (isEmpty(tasks)) {
+    mTasksSelection.value = undefined;
+  }
+});
 // ##hooks ##lifecycle
 // ##head ##meta
 useHead({ title: "✅ Zadaci" });
@@ -164,8 +171,9 @@ useHead({ title: "✅ Zadaci" });
         <span class="d-inline-flex items-center justify-start gap-3">
           <span>{{ text }}</span>
           <VBadgeSelectedOfTotal
+            v-if="0 < sizeZadaci"
             inline
-            :model-value="len(filter(tasks, isStatusDone))"
+            :model-value="sizeTasksCompleted"
             :length="sizeZadaci"
             color="primary-darken-3"
           />
@@ -283,7 +291,6 @@ useHead({ title: "✅ Zadaci" });
         />
       </template>
     </VDataIteratorListData>
-    <Dump :data="{ tasks }" />
   </section>
 </template>
 <style lang="scss" scoped>

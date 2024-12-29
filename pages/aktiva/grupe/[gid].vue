@@ -90,6 +90,16 @@ const MENU = [
     props: {},
   },
   {
+    value: "tasks",
+    to: { name: "aktiva-grupe-gid-zadaci", params: { gid: gid.value } },
+    icon: {
+      icon: "task-alt",
+      size: "1.42rem",
+      class: "",
+    },
+    props: {},
+  },
+  {
     value: "cal",
     to: { name: "aktiva-grupe-gid-kalendar", params: { gid: gid.value } },
     icon: {

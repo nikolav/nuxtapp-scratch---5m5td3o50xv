@@ -58,19 +58,6 @@ const CARDS_items = [
     props: { class: "CLASS-mPGeyycY7qSc0WvQ" },
   },
   {
-    title: "Asortiman",
-    image:
-      "/asortiman.watercolor-illustration-wooden-shelf-with-boxes_1282444-230916.jpg",
-    icon: {
-      icon: "box",
-      size: "1.88rem",
-      class: "opacity-20 me-1",
-    },
-    to: { name: "aktiva-proizvodi" },
-    count: products_tot,
-    props: { class: "CLASS-X3PZhHeI4n" },
-  },
-  {
     title: "Zadaci",
     image: "/zadaci.XhXD2gvSvy.png",
     icon: {
@@ -82,6 +69,19 @@ const CARDS_items = [
     props: {
       class: "CLASS--SG0adFum",
     },
+  },
+  {
+    title: "Asortiman",
+    image:
+      "/asortiman.watercolor-illustration-wooden-shelf-with-boxes_1282444-230916.jpg",
+    icon: {
+      icon: "box",
+      size: "1.88rem",
+      class: "opacity-20 me-1",
+    },
+    to: { name: "aktiva-proizvodi" },
+    count: products_tot,
+    props: { class: "CLASS-X3PZhHeI4n" },
   },
   {
     title: "Kontakti",

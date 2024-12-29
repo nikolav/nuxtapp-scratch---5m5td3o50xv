@@ -3,7 +3,12 @@
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
 const mItems = defineModel<{ key: string; contact: any }[]>();
-const props = defineProps<{ propsTextField?: any }>();
+const props = withDefaults(
+  defineProps<{ propsTextField?: any; label?: any }>(),
+  {
+    label: "Kontakti",
+  }
+);
 // ##schemas
 // ##utils
 // ##icons
@@ -35,7 +40,7 @@ const onModelValue = (item: any, v: any) => {
   <div class="component--VTextFieldsList">
     <div v-if="mItems && hasItems" class="__spacer">
       <slot name="label">
-        <small class="opacity-50 ps-2">Kontakti</small>
+        <small class="opacity-50 ps-2">{{ label }}</small>
       </slot>
 
       <VTextField
