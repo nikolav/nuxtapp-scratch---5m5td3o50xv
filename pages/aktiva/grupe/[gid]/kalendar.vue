@@ -17,8 +17,8 @@ definePageMeta({
 });
 
 const attrs = useAttrs();
-const gReload = get(attrs, "route-data.gReload");
 const g = computed(() => get(attrs, "route-data.g", <any>{}));
+const gReload = get(attrs, "route-data.gReload");
 const gid = computed(() => g.value?.id);
 const enabled = computed(() => !!gid.value);
 

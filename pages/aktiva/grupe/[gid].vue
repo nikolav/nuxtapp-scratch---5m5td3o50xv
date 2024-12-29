@@ -150,7 +150,7 @@ const MENU = [
         </VSheet>
       </template>
     </VToolbarPrimary>
-    <NuxtPage :route-data="{ g }" />
+    <NuxtPage :route-data="{ g, gReload }" />
   </section>
 </template>
 <style lang="scss" scoped></style>
