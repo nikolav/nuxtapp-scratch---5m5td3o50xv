@@ -31,6 +31,7 @@ const { smAndUp } = useDisplay();
 const { $dd } = useNuxtApp();
 // ##icons
 // ##refs ##flags ##models ##globals
+const catalogIndex = useStateCatalogAdd();
 const signalIdDeselect = useUniqueId();
 const toggleCatalogRmSuccess = useToggleFlag();
 const ps = useProcessMonitor();
@@ -39,9 +40,15 @@ const mOrdersSelection = ref();
 const { catalogRemove, catalogConfigTags } = useMutationCatalog();
 const { orders, reload } = useQuerySiteOrders(sid);
 // ##computed
+const isEmptyCatalog = computed(
+  () => null == findKey(catalogIndex.value, (x: number) => 0 < x)
+);
 const someSelected = computed(() => !isEmpty(mOrdersSelection.value));
 const productsCount = (order: any) => len(order?.products) || 0;
 // ##forms ##handlers ##helpers ##small-utils
+const catalogClear = () => {
+  catalogIndex.value = <any>{};
+};
 const mSetSelectionNone = signalIdDeselect;
 const itemTo = (order: any) => ({
   name: "deli-katalog",
@@ -145,6 +152,14 @@ useHead({ title: "📄 Katalog, liste" });
           icon
         >
           <span>⛔</span>
+        </VBtn>
+        <VBtn
+          icon
+          @click="catalogClear"
+          :disabled="isEmptyCatalog"
+          color="error-darken-1"
+        >
+          <Iconx icon="rubber" size="1.22rem" />
         </VBtn>
         <VBtn
           @click="onDeleteCatalog"

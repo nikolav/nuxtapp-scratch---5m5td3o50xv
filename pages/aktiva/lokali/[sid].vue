@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { VBtnTopicChatToggle, VToolbarPrimary } from "@/components/app";
+import {
+  VBtnTopicChatToggle,
+  VToolbarPrimary,
+  VBadgeSelectedOfTotal,
+} from "@/components/app";
 definePageMeta({
   layout: "app-default",
   middleware: "authorized",
@@ -34,6 +38,21 @@ const topicChatAssetSite = computed(
   () => `${chatAssets(skey.value)} --title ${kebabCase(sname.value)}`
 );
 
+const catalogIndex = useStateCatalogAdd();
+const sizeCatalog = computed(() =>
+  reduce(
+    catalogIndex.value,
+    (s: number, x: number) => {
+      if (0 < x) {
+        s += 1;
+      }
+      return s;
+    },
+    0
+  )
+);
+const summedCatalog = computed(() => summedValues(catalogIndex.value));
+
 // @@eos
 </script>
 <template>
@@ -41,10 +60,19 @@ const topicChatAssetSite = computed(
     <VToolbarPrimary
       :text="sname"
       route-back-name="aktiva-lokali"
-      :props-title="{ class: 'text-body-1 text-start' }"
+      :props-title="{ class: 'text-body-1 text-start ms-2' }"
       :props-actions="{ class: 'pe-1' }"
       class="ma-0 pa-0"
     >
+      <template v-if="0 < sizeCatalog" #title="{ text }">
+        <span class="d-inline-flex gap-0">
+          <VBadgeSelectedOfTotal
+            :model-value="sizeCatalog"
+            :length="summedCatalog"
+          />
+          <span class="ps-1">{{ text }}</span>
+        </span>
+      </template>
       <template #actions>
         <VBtnTopicChatToggle
           density="comfortable"

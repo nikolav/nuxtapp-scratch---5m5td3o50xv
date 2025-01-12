@@ -92,8 +92,6 @@ const onSubmit = async () => {
     });
   console.log("@debug:catalog-add", ps.error.value);
 };
-const summedValues = (node: any) =>
-  reduce(node, (sum: number, x: number) => sum + x, 0);
 // ##watch
 // ##hooks ##lifecycle
 useOnceMountedOn(true, () => {
