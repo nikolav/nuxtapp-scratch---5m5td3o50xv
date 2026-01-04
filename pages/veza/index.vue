@@ -255,9 +255,9 @@ useHead({ title: "Veza" });
                 <Iconx v-bind="d.icon" />
               </template>
               <template #title>
-                <VListItemTitle class="ms-3">{{
-                  startCase(d.title)
-                }}</VListItemTitle>
+                <VListItemTitle class="ms-3">
+                  {{ startCase(d.title) }}
+                </VListItemTitle>
               </template>
             </VListItem>
           </template>
